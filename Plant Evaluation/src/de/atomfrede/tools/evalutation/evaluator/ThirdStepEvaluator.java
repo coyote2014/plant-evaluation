@@ -1,5 +1,5 @@
 /**
- * 	Main.java is part of Plant Evaluation.
+ * 	ThirdStepEvaluator.java is part of Plant Evaluation.
  *
  *  Plant Evaluation is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,17 +15,13 @@
  *  along with Plant Evaluation.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.atomfrede.tools.evalutation.main;
+package de.atomfrede.tools.evalutation.evaluator;
 
-import de.atomfrede.tools.evalutation.evaluator.FirstStepEvaluator;
+public class ThirdStepEvaluator extends AbstractEvaluator {
 
-public class Main {
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		FirstStepEvaluator evaluator = new FirstStepEvaluator();
+	@Override
+	public void evaluate() {
+		// TODO Auto-generated method stub
 
 	}
 
