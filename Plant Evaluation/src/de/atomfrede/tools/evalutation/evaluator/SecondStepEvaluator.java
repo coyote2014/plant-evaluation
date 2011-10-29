@@ -19,7 +19,9 @@ package de.atomfrede.tools.evalutation.evaluator;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVWriter;
@@ -28,6 +30,7 @@ import de.atomfrede.tools.evalutation.WriteUtils;
 public class SecondStepEvaluator extends AbstractEvaluator {
 
 	public static int SOLENOID_VALUE = 6;
+	public static int CO2_ABS_VALUE = 7;
 	public static int TIME_VALUE = 8;
 
 	public SecondStepEvaluator() {
@@ -52,21 +55,59 @@ public class SecondStepEvaluator extends AbstractEvaluator {
 
 			List<String[]> lines = readAllLinesInFile(inputFile);
 
-			List<Integer> referenceChamberLines = findAllReferenceChambers(lines);
+			List<Integer> referenceLines = findAllReferenceChambers(lines);
+
+			for (int i = 1; i < lines.size(); i++) {
+				String[] currentLine = lines.get(i);
+				double co2Diff = parseDoubleValue(currentLine, CO2_ABS_VALUE)
+						- getCO2DiffForLine(currentLine, lines, referenceLines);
+				System.out.println("CO2 Diff = " + co2Diff);
+			}
 
 			writer.close();
 		} catch (IOException ioe) {
+
+		} catch (ParseException pe) {
 
 		}
 		System.out.println("2nd Step done");
 	}
 
-	double getCO2DiffForLine(String[] line, List<String[]> allLines) {
+	double getCO2DiffForLine(String[] line, List<String[]> allLines,
+			List<Integer> referenceLines) throws ParseException {
 		if (parseDoubleValue(line, SOLENOID_VALUE) != referenceChamberValue) {
+			Date date = dateFormat.parse(line[TIME_VALUE]);
+			long shortestedDistance = Long.MAX_VALUE;
+			int refIndex2Use = -1;
+			for (Integer refLineIndex : referenceLines) {
+				Date refDate = dateFormat
+						.parse(allLines.get(refLineIndex)[TIME_VALUE]);
+				long difference = date.getTime() - refDate.getTime();
+				if (difference >= 0L && shortestedDistance >= difference) {
+					shortestedDistance = difference;
+					refIndex2Use = refLineIndex;
+				}
+			}
+			if (refIndex2Use == -1) {
+				for (Integer refLineIndex : referenceLines) {
+					Date refDate = dateFormat
+							.parse(allLines.get(refLineIndex)[TIME_VALUE]);
+					long difference = date.getTime() - refDate.getTime();
+					if (shortestedDistance >= difference) {
+						shortestedDistance = difference;
+						refIndex2Use = refLineIndex;
+					}
+				}
+			}
+			return parseDoubleValue(allLines.get(refIndex2Use), CO2_ABS_VALUE);
 
 		}
 		return -1.0;
 	}
+
+	// double getNearestReferenceChamberValue(Date date, List<>) {
+	// return 0.0;
+	// }
 
 	List<Integer> findAllReferenceChambers(List<String[]> lines) {
 		List<Integer> referenceChamberLines = new ArrayList<Integer>();
