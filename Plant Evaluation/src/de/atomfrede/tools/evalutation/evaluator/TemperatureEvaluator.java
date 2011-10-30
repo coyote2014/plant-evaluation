@@ -71,7 +71,6 @@ public class TemperatureEvaluator extends AbstractEvaluator {
 			for (int i = 1; i < allDataLines.size(); i++) {
 				String[] currentLine = allDataLines.get(i);
 				double temperature = findTemperatureForLine(currentLine);
-				System.out.println("Temperature = " + temperature);
 				writeTemperature(writer, currentLine, temperature);
 
 			}
