@@ -38,22 +38,23 @@ public class CO2DiffEvaluator extends AbstractEvaluator {
 	public CO2DiffEvaluator(File inputFile) {
 		super("co2diff");
 		this.inputFile = inputFile;
-		evaluate();
-		new Delta13Evaluator(outputFile);
+		boolean done = evaluate();
+		if (done)
+			new Delta13Evaluator(outputFile);
 	}
 
 	@Override
-	public void evaluate() {
+	public boolean evaluate() {
 		CSVWriter writer = null;
 		try {
 			if (!inputFile.exists())
-				return;
+				return false;
 
 			outputFile = new File(outputFolder, "laser-001-co2diff.csv");
 
 			outputFile.createNewFile();
 			if (!outputFile.exists())
-				return;
+				return false;
 
 			writer = getCsvWriter(outputFile);
 			WriteUtils.writeHeader(writer);
@@ -71,9 +72,11 @@ public class CO2DiffEvaluator extends AbstractEvaluator {
 			}
 
 		} catch (IOException ioe) {
-
+			System.out.println("IOException " + ioe.getMessage());
+			return false;
 		} catch (ParseException pe) {
-
+			System.out.println("ParseException " + pe.getMessage());
+			return false;
 		} finally {
 			if (writer != null)
 				try {
@@ -84,6 +87,7 @@ public class CO2DiffEvaluator extends AbstractEvaluator {
 				}
 		}
 		System.out.println("CO2Diff done");
+		return true;
 	}
 
 	void writeCO2Diff(CSVWriter writer, String[] currentLine, double co2Diff) {

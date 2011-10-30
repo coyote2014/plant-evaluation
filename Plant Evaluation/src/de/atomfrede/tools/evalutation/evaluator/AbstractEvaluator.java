@@ -61,10 +61,10 @@ public abstract class AbstractEvaluator {
 			"yyyy-MM-dd HH:mm:ss,SS");
 
 	// 22.07.11 10:59:38
-	public SimpleDateFormat temperatureDateFormat = new SimpleDateFormat(
+	public SimpleDateFormat temperatureAndPlantDateFormat = new SimpleDateFormat(
 			"dd.MM.yy HH:mm:ss");
 
-	public abstract void evaluate();
+	public abstract boolean evaluate();
 
 	public double parseDoubleValue(String[] line, int type) {
 		return Double.parseDouble(line[type].replace(",", "."));

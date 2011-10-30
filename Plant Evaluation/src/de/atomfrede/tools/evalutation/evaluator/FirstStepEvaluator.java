@@ -40,38 +40,38 @@ public class FirstStepEvaluator extends AbstractEvaluator {
 	public FirstStepEvaluator() {
 		super("second");
 		linesNeedForStandardDerivation = new ArrayList<Integer>();
-		evaluate();
-		new CO2DiffEvaluator(outputFile);
+		boolean done = evaluate();
+		if (done)
+			new CO2DiffEvaluator(outputFile);
 	}
 
 	@Override
-	public void evaluate() {
+	public boolean evaluate() {
 		CSVWriter writer = null;
 		try {
 			// TODO read all files in input directory
 			outputFile = new File(outputFolder, "laser-001-second.csv");
 			outputFile.createNewFile();
 			if (!outputFile.exists())
-				return;
+				return false;
 
 			writer = getCsvWriter(outputFile);
 			WriteUtils.writeHeader(writer);
 
 			File[] allInputFiles = inputRootFolder.listFiles();
-
+			System.out.println("#Files " + allInputFiles.length);
 			for (int i = 0; i < allInputFiles.length; i++) {
-				if (allInputFiles[i].isFile()) {
-					File inputFile = allInputFiles[i];
+				File inputFile = allInputFiles[i];
 
-					if (!inputFile.exists())
-						return;
-
+				if (inputFile.isFile()) {
 					List<String[]> lines = readAllLinesInFile(inputFile);
 					int startIndex = 1;
-					while (startIndex < lines.size() && startIndex >= 0) {
+					while (startIndex < lines.size() && startIndex > 0) {
 						startIndex = findEndOfChamber(lines, startIndex);
 						if (startIndex >= 0 && startIndex < lines.size()) {
 							String[] currentLine = lines.get(startIndex - 1);
+							if (startIndex == 1)
+								currentLine = lines.get(startIndex);
 							Date date2Write = dateFormat
 									.parse(currentLine[Constants.DATE] + " "
 											+ currentLine[Constants.TIME]);
@@ -89,9 +89,11 @@ public class FirstStepEvaluator extends AbstractEvaluator {
 			}
 
 		} catch (IOException ioe) {
-
+			System.out.println("IOException " + ioe.getMessage());
+			return false;
 		} catch (ParseException pe) {
-
+			System.out.println("ParseException " + pe.getMessage());
+			return false;
 		} finally {
 			if (writer != null)
 				try {
@@ -102,6 +104,7 @@ public class FirstStepEvaluator extends AbstractEvaluator {
 				}
 		}
 		System.out.println("Done 1st step");
+		return true;
 	}
 
 	Map<Integer, Double> computeMeanValues(Map<Integer, double[]> type2RawValues) {
@@ -118,12 +121,17 @@ public class FirstStepEvaluator extends AbstractEvaluator {
 	}
 
 	int findEndOfChamber(List<String[]> lines, int startIndex) {
-		String lastSolenoid = lines.get(startIndex)[Constants.solenoidValue];
+		String[] currentLine = lines.get(startIndex);
+		if (currentLine.length < Constants.solenoidValue)
+			return -1;
+
+		String lastSolenoid = currentLine[Constants.solenoidValue];
 		for (int i = startIndex; i < lines.size(); i++) {
 			String actualSolenoid = lines.get(i)[Constants.solenoidValue];
 			if (!actualSolenoid.equals(lastSolenoid))
 				return i;
 		}
+
 		return -1;
 	}
 
@@ -154,7 +162,8 @@ public class FirstStepEvaluator extends AbstractEvaluator {
 		_H20_Values.add(parseDoubleValue(startLine, Constants.H2O));
 
 		int currentIndex = startIndex - 1;
-		while (Math.abs(startDate.getTime() - currentDate.getTime()) <= Constants.fiveMinutes) {
+		while (Math.abs(startDate.getTime() - currentDate.getTime()) <= Constants.fiveMinutes
+				&& currentIndex >= 1) {
 			linesNeedForStandardDerivation.add(currentIndex);
 
 			String[] currentLine = lines.get(currentIndex);

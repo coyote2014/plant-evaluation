@@ -38,22 +38,23 @@ public class Delta13Evaluator extends AbstractEvaluator {
 	public Delta13Evaluator(File inputFile) {
 		super("delta13");
 		this.inputFile = inputFile;
-		evaluate();
-		new TemperatureEvaluator(outputFile);
+		boolean done = evaluate();
+		if (done)
+			new TemperatureEvaluator(outputFile);
 	}
 
 	@Override
-	public void evaluate() {
+	public boolean evaluate() {
 		CSVWriter writer = null;
 		try {
 			if (!inputFile.exists())
-				return;
+				return false;
 
 			outputFile = new File(outputFolder, "laser-001-delta13.csv");
 
 			outputFile.createNewFile();
 			if (!outputFile.exists())
-				return;
+				return false;
 
 			writer = getCsvWriter(outputFile);
 			WriteUtils.writeHeader(writer);
@@ -78,9 +79,11 @@ public class Delta13Evaluator extends AbstractEvaluator {
 			}
 
 		} catch (IOException ioe) {
-
+			System.out.println("IOException " + ioe.getMessage());
+			return false;
 		} catch (ParseException pe) {
-
+			System.out.println("ParseException " + pe.getMessage());
+			return false;
 		} finally {
 			if (writer != null) {
 				try {
@@ -93,6 +96,7 @@ public class Delta13Evaluator extends AbstractEvaluator {
 		}
 
 		System.out.println("Delta13 done.");
+		return true;
 	}
 
 	void writeDelta13Values(CSVWriter writer, String[] currentLine,

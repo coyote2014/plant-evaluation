@@ -43,22 +43,24 @@ public class TemperatureEvaluator extends AbstractEvaluator {
 	public TemperatureEvaluator(File dataInputFile) {
 		super("temperature");
 		this.dataInputFile = dataInputFile;
-		evaluate();
+		boolean done = evaluate();
+		if (done)
+			new PlantDivider(outputFile);
 	}
 
 	@Override
-	public void evaluate() {
+	public boolean evaluate() {
 		CSVWriter writer = null;
 		try {
 			temperatureInputFile = new File(inputRootFolder, "/temp/temp.csv");
 			if (!temperatureInputFile.exists())
-				return;
+				return false;
 
 			outputFile = new File(outputFolder, "laser-001-temperature.csv");
 
 			outputFile.createNewFile();
 			if (!outputFile.exists())
-				return;
+				return false;
 
 			writer = getCsvWriter(outputFile);
 			WriteUtils.writeHeader(writer);
@@ -75,9 +77,11 @@ public class TemperatureEvaluator extends AbstractEvaluator {
 			}
 
 		} catch (IOException ioe) {
-
+			System.out.println("IOException " + ioe.getMessage());
+			return false;
 		} catch (ParseException pe) {
-
+			System.out.println("ParseException " + pe.getMessage());
+			return false;
 		} finally {
 			if (writer != null) {
 				try {
@@ -90,6 +94,7 @@ public class TemperatureEvaluator extends AbstractEvaluator {
 		}
 
 		System.out.println("Temperature done.");
+		return true;
 	}
 
 	void writeTemperature(CSVWriter writer, String[] currentLine,
@@ -111,7 +116,7 @@ public class TemperatureEvaluator extends AbstractEvaluator {
 		long shortestedDistance = Long.MAX_VALUE;
 		for (int i = 2; i < temperatureDataLines.size(); i++) {
 			String[] currentTemperatureLine = temperatureDataLines.get(i);
-			Date temperatureDate = temperatureDateFormat
+			Date temperatureDate = temperatureAndPlantDateFormat
 					.parse(currentTemperatureLine[DATE_TIME]);
 			long difference = Math.abs(dateOfLaser.getTime()
 					- temperatureDate.getTime());
