@@ -25,7 +25,7 @@ import java.util.List;
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.WriteUtils;
 
-public class ThirdStepEvaluator extends AbstractEvaluator {
+public class Delta13Evaluator extends AbstractEvaluator {
 
 	public static int DELTA_FIVE_MINUTES = 4;
 	public static int SOLENOID_VALUE = 6;
@@ -35,8 +35,8 @@ public class ThirdStepEvaluator extends AbstractEvaluator {
 	File inputFile;
 	File outputFile;
 
-	public ThirdStepEvaluator(File inputFile) {
-		super("fourth");
+	public Delta13Evaluator(File inputFile) {
+		super("delta13");
 		this.inputFile = inputFile;
 		evaluate();
 		new TemperatureEvaluator(outputFile);
@@ -49,7 +49,7 @@ public class ThirdStepEvaluator extends AbstractEvaluator {
 			if (!inputFile.exists())
 				return;
 
-			outputFile = new File(outputFolder, "laser-001-fourth.csv");
+			outputFile = new File(outputFolder, "laser-001-delta13.csv");
 
 			outputFile.createNewFile();
 			if (!outputFile.exists())
@@ -92,7 +92,7 @@ public class ThirdStepEvaluator extends AbstractEvaluator {
 			}
 		}
 
-		System.out.println("Third step done.");
+		System.out.println("Delta13 done.");
 	}
 
 	void writeDelta13Values(CSVWriter writer, String[] currentLine,

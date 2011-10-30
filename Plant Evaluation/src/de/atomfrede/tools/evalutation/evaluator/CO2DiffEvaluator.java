@@ -26,7 +26,7 @@ import java.util.List;
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.WriteUtils;
 
-public class SecondStepEvaluator extends AbstractEvaluator {
+public class CO2DiffEvaluator extends AbstractEvaluator {
 
 	public static int SOLENOID_VALUE = 6;
 	public static int CO2_ABS_VALUE = 7;
@@ -35,11 +35,11 @@ public class SecondStepEvaluator extends AbstractEvaluator {
 	File inputFile;
 	File outputFile;
 
-	public SecondStepEvaluator(File inputFile) {
-		super("third");
+	public CO2DiffEvaluator(File inputFile) {
+		super("co2diff");
 		this.inputFile = inputFile;
 		evaluate();
-		new ThirdStepEvaluator(outputFile);
+		new Delta13Evaluator(outputFile);
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class SecondStepEvaluator extends AbstractEvaluator {
 			if (!inputFile.exists())
 				return;
 
-			outputFile = new File(outputFolder, "laser-001-third.csv");
+			outputFile = new File(outputFolder, "laser-001-co2diff.csv");
 
 			outputFile.createNewFile();
 			if (!outputFile.exists())
@@ -83,7 +83,7 @@ public class SecondStepEvaluator extends AbstractEvaluator {
 					e.printStackTrace();
 				}
 		}
-		System.out.println("2nd Step done");
+		System.out.println("CO2Diff done");
 	}
 
 	void writeCO2Diff(CSVWriter writer, String[] currentLine, double co2Diff) {

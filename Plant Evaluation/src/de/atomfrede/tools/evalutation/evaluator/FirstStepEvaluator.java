@@ -41,7 +41,7 @@ public class FirstStepEvaluator extends AbstractEvaluator {
 		super("second");
 		linesNeedForStandardDerivation = new ArrayList<Integer>();
 		evaluate();
-		new SecondStepEvaluator(outputFile);
+		new CO2DiffEvaluator(outputFile);
 	}
 
 	@Override

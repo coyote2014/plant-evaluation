@@ -43,7 +43,6 @@ public class TemperatureEvaluator extends AbstractEvaluator {
 	public TemperatureEvaluator(File dataInputFile) {
 		super("temperature");
 		this.dataInputFile = dataInputFile;
-
 		evaluate();
 	}
 
@@ -89,6 +88,8 @@ public class TemperatureEvaluator extends AbstractEvaluator {
 				}
 			}
 		}
+
+		System.out.println("Temperature done.");
 	}
 
 	void writeTemperature(CSVWriter writer, String[] currentLine,
