@@ -71,6 +71,7 @@ public class TemperatureEvaluator extends AbstractEvaluator {
 			for (int i = 1; i < allDataLines.size(); i++) {
 				String[] currentLine = allDataLines.get(i);
 				double temperature = findTemperatureForLine(currentLine);
+				System.out.println("Temperature = " + temperature);
 				writeTemperature(writer, currentLine, temperature);
 
 			}
@@ -105,13 +106,15 @@ public class TemperatureEvaluator extends AbstractEvaluator {
 	double findTemperatureForLine(String[] currentLine) throws ParseException {
 		// first parse the date from the laser data input file
 		Date dateOfLaser = dateFormat.parse(currentLine[TIME_VALUE]);
+
 		double temperature = 0.0;
 		long shortestedDistance = Long.MAX_VALUE;
 		for (int i = 2; i < temperatureDataLines.size(); i++) {
 			String[] currentTemperatureLine = temperatureDataLines.get(i);
 			Date temperatureDate = temperatureDateFormat
 					.parse(currentTemperatureLine[DATE_TIME]);
-			long difference = dateOfLaser.getTime() - temperatureDate.getTime();
+			long difference = Math.abs(dateOfLaser.getTime()
+					- temperatureDate.getTime());
 
 			if (shortestedDistance > difference) {
 				shortestedDistance = difference;

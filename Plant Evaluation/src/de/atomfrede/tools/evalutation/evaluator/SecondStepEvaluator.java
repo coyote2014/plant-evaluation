@@ -106,7 +106,7 @@ public class SecondStepEvaluator extends AbstractEvaluator {
 			for (Integer refLineIndex : referenceLines) {
 				Date refDate = dateFormat
 						.parse(allLines.get(refLineIndex)[TIME_VALUE]);
-				long difference = date.getTime() - refDate.getTime();
+				long difference = Math.abs(date.getTime() - refDate.getTime());
 				if (shortestedDistance > difference) {
 					shortestedDistance = difference;
 					refIndex2Use = refLineIndex;
