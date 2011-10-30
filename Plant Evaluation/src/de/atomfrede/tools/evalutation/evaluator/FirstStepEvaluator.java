@@ -34,7 +34,10 @@ import de.atomfrede.tools.evalutation.WriteUtils;
 
 public class FirstStepEvaluator extends AbstractEvaluator {
 
+	List<Integer> linesNeedForStandardDerivation;
+
 	public FirstStepEvaluator() {
+		linesNeedForStandardDerivation = new ArrayList<Integer>();
 		evaluate();
 		new SecondStepEvaluator().evaluate();
 	}
@@ -114,6 +117,8 @@ public class FirstStepEvaluator extends AbstractEvaluator {
 		List<Double> _13CO2_dry_Values = new ArrayList<Double>();
 		List<Double> _H20_Values = new ArrayList<Double>();
 
+		linesNeedForStandardDerivation.add(startIndex);
+
 		String[] startLine = lines.get(startIndex);
 
 		StringBuilder dateBuilder = new StringBuilder();
@@ -125,26 +130,32 @@ public class FirstStepEvaluator extends AbstractEvaluator {
 
 		fiveMinutesDeltaValues.add(parseDoubleValue(startLine,
 				Constants.delta5minutes));
-		_12CO2_dry_Values.add(parseDoubleValue(startLine, Constants._12CO2_dry));
-		_13CO2_dry_Values.add(parseDoubleValue(startLine, Constants._13CO2_dry));
+		_12CO2_dry_Values
+				.add(parseDoubleValue(startLine, Constants._12CO2_dry));
+		_13CO2_dry_Values
+				.add(parseDoubleValue(startLine, Constants._13CO2_dry));
 		_H20_Values.add(parseDoubleValue(startLine, Constants.H2O));
 
 		int currentIndex = startIndex - 1;
 		while (Math.abs(startDate.getTime() - currentDate.getTime()) <= Constants.fiveMinutes) {
+			linesNeedForStandardDerivation.add(currentIndex);
+
 			String[] currentLine = lines.get(currentIndex);
 			currentDate = dateFormat.parse(currentLine[Constants.DATE] + " "
 					+ currentLine[Constants.TIME]);
 			fiveMinutesDeltaValues.add(parseDoubleValue(currentLine,
 					Constants.delta5minutes));
-			_12CO2_dry_Values
-					.add(parseDoubleValue(currentLine, Constants._12CO2_dry));
-			_13CO2_dry_Values
-					.add(parseDoubleValue(currentLine, Constants._13CO2_dry));
+			_12CO2_dry_Values.add(parseDoubleValue(currentLine,
+					Constants._12CO2_dry));
+			_13CO2_dry_Values.add(parseDoubleValue(currentLine,
+					Constants._13CO2_dry));
 			_H20_Values.add(parseDoubleValue(currentLine, Constants.H2O));
+
 			currentIndex -= 1;
 		}
 		Map<Integer, double[]> mapping = new HashMap<Integer, double[]>();
-		mapping.put(Constants.delta5minutes, list2DoubleArray(fiveMinutesDeltaValues));
+		mapping.put(Constants.delta5minutes,
+				list2DoubleArray(fiveMinutesDeltaValues));
 		mapping.put(Constants._12CO2_dry, list2DoubleArray(_12CO2_dry_Values));
 		mapping.put(Constants._13CO2_dry, list2DoubleArray(_13CO2_dry_Values));
 		mapping.put(Constants.H2O, list2DoubleArray(_H20_Values));

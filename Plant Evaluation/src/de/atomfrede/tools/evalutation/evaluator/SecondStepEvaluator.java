@@ -83,31 +83,18 @@ public class SecondStepEvaluator extends AbstractEvaluator {
 				Date refDate = dateFormat
 						.parse(allLines.get(refLineIndex)[TIME_VALUE]);
 				long difference = date.getTime() - refDate.getTime();
-				if (difference >= 0L && shortestedDistance >= difference) {
+				if (shortestedDistance > difference) {
 					shortestedDistance = difference;
 					refIndex2Use = refLineIndex;
 				}
 			}
-			if (refIndex2Use == -1) {
-				for (Integer refLineIndex : referenceLines) {
-					Date refDate = dateFormat
-							.parse(allLines.get(refLineIndex)[TIME_VALUE]);
-					long difference = date.getTime() - refDate.getTime();
-					if (shortestedDistance >= difference) {
-						shortestedDistance = difference;
-						refIndex2Use = refLineIndex;
-					}
-				}
-			}
+
 			return parseDoubleValue(allLines.get(refIndex2Use), CO2_ABS_VALUE);
 
 		}
+		// TODO return the value of that reference chamber
 		return -1.0;
 	}
-
-	// double getNearestReferenceChamberValue(Date date, List<>) {
-	// return 0.0;
-	// }
 
 	List<Integer> findAllReferenceChambers(List<String[]> lines) {
 		List<Integer> referenceChamberLines = new ArrayList<Integer>();
