@@ -35,28 +35,31 @@ import de.atomfrede.tools.evalutation.WriteUtils;
 public class FirstStepEvaluator extends AbstractEvaluator {
 
 	List<Integer> linesNeedForStandardDerivation;
+	File outputFile;
 
 	public FirstStepEvaluator() {
+		super("second");
 		linesNeedForStandardDerivation = new ArrayList<Integer>();
 		evaluate();
-		new SecondStepEvaluator().evaluate();
+		new SecondStepEvaluator(outputFile);
 	}
 
 	@Override
 	public void evaluate() {
+		CSVWriter writer = null;
 		try {
 			// TODO read all files in input directory
-			File inputFile = new File("input/laser-001.csv");
+			File inputFile = new File(inputRootFolder, "laser-001.csv");
 
 			if (!inputFile.exists())
 				return;
 
-			File outputFile = new File("second/laser-001-second.csv");
+			outputFile = new File(outputFolder, "laser-001-second.csv");
 			outputFile.createNewFile();
 			if (!outputFile.exists())
 				return;
 
-			CSVWriter writer = getCsvWriter(outputFile);
+			writer = getCsvWriter(outputFile);
 			WriteUtils.writeHeader(writer);
 
 			List<String[]> lines = readAllLinesInFile(inputFile);
@@ -78,11 +81,18 @@ public class FirstStepEvaluator extends AbstractEvaluator {
 							solenoid2Write, type2MeanValue, writer);
 				}
 			}
-			writer.close();
 		} catch (IOException ioe) {
 
 		} catch (ParseException pe) {
 
+		} finally {
+			if (writer != null)
+				try {
+					writer.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		}
 		System.out.println("Done 1st step");
 	}

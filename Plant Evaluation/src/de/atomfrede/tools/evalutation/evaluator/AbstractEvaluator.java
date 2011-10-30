@@ -21,7 +21,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -32,6 +35,26 @@ import au.com.bytecode.opencsv.CSVWriter;
 public abstract class AbstractEvaluator {
 
 	public double referenceChamberValue = 1.0;
+
+	public File outputRootFolder = new File("output");
+	public File inputRootFolder = new File("input");
+	public File outputFolder;
+
+	public AbstractEvaluator(String outputFolderName) {
+		try {
+			if (!outputRootFolder.exists()) {
+				outputFolder.mkdir();
+			}
+			if (!inputRootFolder.exists())
+				throw new RuntimeException("No input folder avaliable!");
+
+			outputFolder = new File(outputRootFolder, outputFolderName);
+			if (!outputFolder.exists())
+				outputFolder.mkdir();
+		} catch (Exception ioe) {
+			throw new RuntimeException("Outputfolder could not be created!");
+		}
+	}
 
 	// the date format: "2011-08-01 00:30:23,54"
 	public SimpleDateFormat dateFormat = new SimpleDateFormat(
@@ -60,5 +83,34 @@ public abstract class AbstractEvaluator {
 	public List<String[]> readAllLinesInFile(File input) throws IOException {
 		CSVReader reader = new CSVReader(new FileReader(input));
 		return reader.readAll();
+	}
+
+	public List<Integer> findAllReferenceChambers(List<String[]> lines,
+			int SOLENOID_VALUE) {
+		List<Integer> referenceChamberLines = new ArrayList<Integer>();
+		for (int i = 1; i < lines.size(); i++) {
+			if (parseDoubleValue(lines.get(i), SOLENOID_VALUE) == referenceChamberValue)
+				referenceChamberLines.add(i);
+		}
+		return referenceChamberLines;
+	}
+
+	public int getReferenceLineToUse(String[] line, List<String[]> allLines,
+			List<Integer> referenceLines, int TIME_VALUE) throws ParseException {
+
+		Date date = dateFormat.parse(line[TIME_VALUE]);
+		long shortestedDistance = Long.MAX_VALUE;
+		int refIndex2Use = -1;
+		for (Integer refLineIndex : referenceLines) {
+			Date refDate = dateFormat
+					.parse(allLines.get(refLineIndex)[TIME_VALUE]);
+			long difference = date.getTime() - refDate.getTime();
+			if (shortestedDistance > difference) {
+				shortestedDistance = difference;
+				refIndex2Use = refLineIndex;
+			}
+		}
+
+		return refIndex2Use;
 	}
 }

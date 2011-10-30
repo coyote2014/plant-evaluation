@@ -17,12 +17,102 @@
 
 package de.atomfrede.tools.evalutation.evaluator;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.List;
+
+import au.com.bytecode.opencsv.CSVWriter;
+import de.atomfrede.tools.evalutation.WriteUtils;
+
 public class ThirdStepEvaluator extends AbstractEvaluator {
+
+	public static int DELTA_FIVE_MINUTES = 4;
+	public static int SOLENOID_VALUE = 6;
+	public static int CO2_ABS_VALUE = 7;
+	public static int TIME_VALUE = 8;
+
+	File inputFile;
+	File outputFile;
+
+	public ThirdStepEvaluator(File inputFile) {
+		super("fourth");
+		this.inputFile = inputFile;
+		evaluate();
+	}
 
 	@Override
 	public void evaluate() {
-		// TODO Auto-generated method stub
+		CSVWriter writer = null;
+		try {
+			if (!inputFile.exists())
+				return;
 
+			outputFile = new File(outputFolder, "laser-001-fourth.csv");
+
+			outputFile.createNewFile();
+			if (!outputFile.exists())
+				return;
+
+			writer = getCsvWriter(outputFile);
+			WriteUtils.writeHeader(writer);
+
+			List<String[]> allLines = readAllLinesInFile(inputFile);
+
+			List<Integer> referenceLines = findAllReferenceChambers(allLines,
+					SOLENOID_VALUE);
+
+			for (int i = 1; i < allLines.size(); i++) {
+				String[] currentLine = allLines.get(i);
+				if (!referenceLines.contains(Integer.valueOf(i))) {
+					// only for non reference lines compute the values
+					int refLine2Use = getReferenceLineToUse(currentLine,
+							allLines, referenceLines, TIME_VALUE);
+					String[] refLine = allLines.get(refLine2Use);
+					double delta13 = computeDelta13(currentLine, refLine);
+					writeDelta13Values(writer, currentLine, delta13);
+				} else {
+					writeDelta13Values(writer, currentLine, 0.0);
+				}
+			}
+
+		} catch (IOException ioe) {
+
+		} catch (ParseException pe) {
+
+		} finally {
+			if (writer != null) {
+				try {
+					writer.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+
+		System.out.println("Third step done.");
 	}
 
+	void writeDelta13Values(CSVWriter writer, String[] currentLine,
+			double delta13) {
+		String[] newLine = new String[currentLine.length + 1];
+		int i = 0;
+		for (i = 0; i < currentLine.length; i++) {
+			newLine[i] = currentLine[i];
+		}
+		newLine[i] = delta13 + "";
+		writer.writeNext(newLine);
+	}
+
+	double computeDelta13(String[] currentLine, String[] refLine) {
+		double co2abs = parseDoubleValue(currentLine, CO2_ABS_VALUE);
+		double co2absRef = parseDoubleValue(refLine, CO2_ABS_VALUE);
+		double delta5Minutes = parseDoubleValue(currentLine, DELTA_FIVE_MINUTES);
+		double delta5MinutesRef = parseDoubleValue(refLine, DELTA_FIVE_MINUTES);
+
+		double delta13 = ((co2abs * delta5Minutes) - (co2absRef * delta5MinutesRef))
+				/ (co2abs - co2absRef);
+		return delta13;
+	}
 }

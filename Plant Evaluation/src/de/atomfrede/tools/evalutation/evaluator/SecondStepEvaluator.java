@@ -20,7 +20,6 @@ package de.atomfrede.tools.evalutation.evaluator;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,44 +32,69 @@ public class SecondStepEvaluator extends AbstractEvaluator {
 	public static int CO2_ABS_VALUE = 7;
 	public static int TIME_VALUE = 8;
 
-	public SecondStepEvaluator() {
+	File inputFile;
+	File outputFile;
 
+	public SecondStepEvaluator(File inputFile) {
+		super("third");
+		this.inputFile = inputFile;
+		evaluate();
+		new ThirdStepEvaluator(outputFile);
 	}
 
 	@Override
 	public void evaluate() {
+		CSVWriter writer = null;
 		try {
-			File inputFile = new File("second/laser-001-second.csv");
 			if (!inputFile.exists())
 				return;
 
-			File outputFile = new File("third/laser-001-third.csv");
+			outputFile = new File(outputFolder, "laser-001-third.csv");
 
 			outputFile.createNewFile();
 			if (!outputFile.exists())
 				return;
 
-			CSVWriter writer = getCsvWriter(outputFile);
+			writer = getCsvWriter(outputFile);
 			WriteUtils.writeHeader(writer);
 
 			List<String[]> lines = readAllLinesInFile(inputFile);
 
-			List<Integer> referenceLines = findAllReferenceChambers(lines);
+			List<Integer> referenceLines = findAllReferenceChambers(lines,
+					SOLENOID_VALUE);
 
 			for (int i = 1; i < lines.size(); i++) {
 				String[] currentLine = lines.get(i);
 				double co2Diff = parseDoubleValue(currentLine, CO2_ABS_VALUE)
 						- getCO2DiffForLine(currentLine, lines, referenceLines);
-				System.out.println("CO2 Diff = " + co2Diff);
+				writeCO2Diff(writer, currentLine, co2Diff);
 			}
 
-			writer.close();
 		} catch (IOException ioe) {
 
 		} catch (ParseException pe) {
 
+		} finally {
+			if (writer != null)
+				try {
+					writer.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		}
 		System.out.println("2nd Step done");
+	}
+
+	void writeCO2Diff(CSVWriter writer, String[] currentLine, double co2Diff) {
+		// first reuse the old values
+		String[] newLine = new String[currentLine.length + 1];
+		int i = 0;
+		for (i = 0; i < currentLine.length; i++) {
+			newLine[i] = currentLine[i];
+		}
+		newLine[i] = co2Diff + "";
+		writer.writeNext(newLine);
 	}
 
 	double getCO2DiffForLine(String[] line, List<String[]> allLines,
@@ -93,16 +117,6 @@ public class SecondStepEvaluator extends AbstractEvaluator {
 
 		}
 		// TODO return the value of that reference chamber
-		return -1.0;
+		return parseDoubleValue(line, CO2_ABS_VALUE);
 	}
-
-	List<Integer> findAllReferenceChambers(List<String[]> lines) {
-		List<Integer> referenceChamberLines = new ArrayList<Integer>();
-		for (int i = 1; i < lines.size(); i++) {
-			if (parseDoubleValue(lines.get(i), SOLENOID_VALUE) == referenceChamberValue)
-				referenceChamberLines.add(i);
-		}
-		return referenceChamberLines;
-	}
-
 }
