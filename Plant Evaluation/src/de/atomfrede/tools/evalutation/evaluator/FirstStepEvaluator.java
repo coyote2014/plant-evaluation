@@ -49,11 +49,6 @@ public class FirstStepEvaluator extends AbstractEvaluator {
 		CSVWriter writer = null;
 		try {
 			// TODO read all files in input directory
-			File inputFile = new File(inputRootFolder, "laser-001.csv");
-
-			if (!inputFile.exists())
-				return;
-
 			outputFile = new File(outputFolder, "laser-001-second.csv");
 			outputFile.createNewFile();
 			if (!outputFile.exists())
@@ -62,25 +57,37 @@ public class FirstStepEvaluator extends AbstractEvaluator {
 			writer = getCsvWriter(outputFile);
 			WriteUtils.writeHeader(writer);
 
-			List<String[]> lines = readAllLinesInFile(inputFile);
-			int startIndex = 1;
-			while (startIndex < lines.size() && startIndex >= 0) {
-				startIndex = findEndOfChamber(lines, startIndex);
-				if (startIndex >= 0 && startIndex < lines.size()) {
-					String[] currentLine = lines.get(startIndex - 1);
-					Date date2Write = dateFormat
-							.parse(currentLine[Constants.DATE] + " "
-									+ currentLine[Constants.TIME]);
-					date2Write = new Date(date2Write.getTime()
-							+ Constants.oneHour);
-					String solenoid2Write = currentLine[Constants.solenoidValue];
-					Map<Integer, double[]> type2RawValues = collectValuesOfLastFiveMinutes(
-							lines, startIndex);
-					Map<Integer, Double> type2MeanValue = computeMeanValues(type2RawValues);
-					WriteUtils.appendValuesInFirstStep(date2Write,
-							solenoid2Write, type2MeanValue, writer);
+			File[] allInputFiles = inputRootFolder.listFiles();
+
+			for (int i = 0; i < allInputFiles.length; i++) {
+				if (allInputFiles[i].isFile()) {
+					File inputFile = allInputFiles[i];
+
+					if (!inputFile.exists())
+						return;
+
+					List<String[]> lines = readAllLinesInFile(inputFile);
+					int startIndex = 1;
+					while (startIndex < lines.size() && startIndex >= 0) {
+						startIndex = findEndOfChamber(lines, startIndex);
+						if (startIndex >= 0 && startIndex < lines.size()) {
+							String[] currentLine = lines.get(startIndex - 1);
+							Date date2Write = dateFormat
+									.parse(currentLine[Constants.DATE] + " "
+											+ currentLine[Constants.TIME]);
+							date2Write = new Date(date2Write.getTime()
+									+ Constants.oneHour);
+							String solenoid2Write = currentLine[Constants.solenoidValue];
+							Map<Integer, double[]> type2RawValues = collectValuesOfLastFiveMinutes(
+									lines, startIndex);
+							Map<Integer, Double> type2MeanValue = computeMeanValues(type2RawValues);
+							WriteUtils.appendValuesInFirstStep(date2Write,
+									solenoid2Write, type2MeanValue, writer);
+						}
+					}
 				}
 			}
+
 		} catch (IOException ioe) {
 
 		} catch (ParseException pe) {

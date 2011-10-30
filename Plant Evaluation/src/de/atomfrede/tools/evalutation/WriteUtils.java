@@ -34,7 +34,7 @@ public class WriteUtils {
 				Constants.delta5minutes_HEADER, Constants.H2O_HEADER,
 				Constants.solenoid_HEADER, Constants.CO2_ABS_HEADER,
 				Constants.COMPLETE_TIME_HEADER, Constants.CO2_DIFF_HEADER,
-				Constants.DELTA_13_HEADER };
+				Constants.DELTA_13_HEADER, Constants.TEMPERATURE_HEADER };
 		writer.writeNext(header);
 	}
 

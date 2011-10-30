@@ -39,6 +39,7 @@ public class ThirdStepEvaluator extends AbstractEvaluator {
 		super("fourth");
 		this.inputFile = inputFile;
 		evaluate();
+		new TemperatureEvaluator(outputFile);
 	}
 
 	@Override

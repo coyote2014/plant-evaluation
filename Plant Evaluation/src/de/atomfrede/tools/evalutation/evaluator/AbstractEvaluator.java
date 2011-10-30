@@ -60,6 +60,10 @@ public abstract class AbstractEvaluator {
 	public SimpleDateFormat dateFormat = new SimpleDateFormat(
 			"yyyy-MM-dd HH:mm:ss,SS");
 
+	// 22.07.11 10:59:38
+	public SimpleDateFormat temperatureDateFormat = new SimpleDateFormat(
+			"dd.MM.yy HH:mm:ss");
+
 	public abstract void evaluate();
 
 	public double parseDoubleValue(String[] line, int type) {
