@@ -35,10 +35,14 @@ import de.atomfrede.tools.evalutation.WriteUtils;
 public class FirstStepEvaluator extends AbstractEvaluator {
 
 	List<Integer> linesNeedForStandardDerivation;
+	File dataFileForStandardDerivation;
 	File outputFile;
+	File inputFile;
+	CSVWriter standardDerivationWriter = null;;
 
-	public FirstStepEvaluator() {
+	public FirstStepEvaluator(File inputFile) {
 		super("second");
+		this.inputFile = inputFile;
 		linesNeedForStandardDerivation = new ArrayList<Integer>();
 		boolean done = evaluate();
 		if (done)
@@ -49,8 +53,7 @@ public class FirstStepEvaluator extends AbstractEvaluator {
 	public boolean evaluate() {
 		CSVWriter writer = null;
 		try {
-			// TODO read all files in input directory
-			outputFile = new File(outputFolder, "laser-001-second.csv");
+			outputFile = new File(outputFolder, "laser-mean-values.csv");
 			outputFile.createNewFile();
 			if (!outputFile.exists())
 				return false;
@@ -58,41 +61,39 @@ public class FirstStepEvaluator extends AbstractEvaluator {
 			writer = getCsvWriter(outputFile);
 			WriteUtils.writeHeader(writer);
 
-			File[] allInputFiles = inputRootFolder.listFiles();
-			System.out.println("#Files " + allInputFiles.length);
-			for (int i = 0; i < allInputFiles.length; i++) {
-				File inputFile = allInputFiles[i];
+			dataFileForStandardDerivation = new File(outputFolder,
+					"sd-file.csv");
+			dataFileForStandardDerivation.createNewFile();
+			if (!dataFileForStandardDerivation.exists())
+				return false;
 
-				if (inputFile.isFile()) {
-					List<String[]> lines = readAllLinesInFile(inputFile);
-					int startIndex = 1;
-					while (startIndex < lines.size() && startIndex > 0) {
-						startIndex = findEndOfChamber(lines, startIndex);
-						if (startIndex >= 0 && startIndex < lines.size()) {
-							String[] currentLine = lines.get(startIndex - 1);
-							if (startIndex == 1)
-								currentLine = lines.get(startIndex);
-							Date date2Write = dateFormat
-									.parse(currentLine[Constants.DATE] + " "
-											+ currentLine[Constants.TIME]);
-							date2Write = new Date(date2Write.getTime()
-									+ Constants.oneHour);
-							String solenoid2Write = currentLine[Constants.solenoidValue];
-							Map<Integer, double[]> type2RawValues = collectValuesOfLastFiveMinutes(
-									lines, startIndex);
-							Map<Integer, Double> type2MeanValue = computeMeanValues(type2RawValues);
-							WriteUtils.appendValuesInFirstStep(date2Write,
-									solenoid2Write, type2MeanValue, writer);
-						}
-					}
+			List<String[]> lines = readAllLinesInFile(inputFile);
+			int startIndex = 1;
+			while (startIndex < lines.size() && startIndex > 0) {
+				startIndex = findEndOfChamber(lines, startIndex);
+				if (startIndex >= 0 && startIndex < lines.size()) {
+					String[] currentLine = lines.get(startIndex - 1);
+					if (startIndex == 1)
+						currentLine = lines.get(startIndex);
+					Date date2Write = dateFormat
+							.parse(currentLine[Constants.DATE] + " "
+									+ currentLine[Constants.TIME]);
+					date2Write = new Date(date2Write.getTime()
+							+ Constants.oneHour);
+					String solenoid2Write = currentLine[Constants.solenoidValue];
+					Map<Integer, double[]> type2RawValues = collectValuesOfLastFiveMinutes(
+							lines, startIndex);
+					Map<Integer, Double> type2MeanValue = computeMeanValues(type2RawValues);
+					WriteUtils.appendValuesInFirstStep(date2Write,
+							solenoid2Write, type2MeanValue, writer);
 				}
 			}
-
 		} catch (IOException ioe) {
 			System.out.println("IOException " + ioe.getMessage());
 			return false;
 		} catch (ParseException pe) {
-			System.out.println("ParseException " + pe.getMessage());
+			System.out.println("ParseException " + pe.toString() + "  "
+					+ pe.getMessage());
 			return false;
 		} finally {
 			if (writer != null)
@@ -127,9 +128,17 @@ public class FirstStepEvaluator extends AbstractEvaluator {
 
 		String lastSolenoid = currentLine[Constants.solenoidValue];
 		for (int i = startIndex; i < lines.size(); i++) {
-			String actualSolenoid = lines.get(i)[Constants.solenoidValue];
-			if (!actualSolenoid.equals(lastSolenoid))
-				return i;
+			if (lines.get(i).length < Constants.solenoidValue) {
+				String[] errorLine = lines.get(i);
+				System.out.println("No Solenoid " + lines.get(i));
+				for (int j = 0; j < errorLine.length; j++) {
+					System.out.println(j + "-th value " + errorLine[j]);
+				}
+			} else {
+				String actualSolenoid = lines.get(i)[Constants.solenoidValue];
+				if (!actualSolenoid.equals(lastSolenoid))
+					return i;
+			}
 		}
 
 		return -1;
@@ -143,7 +152,7 @@ public class FirstStepEvaluator extends AbstractEvaluator {
 		List<Double> _H20_Values = new ArrayList<Double>();
 
 		linesNeedForStandardDerivation.add(startIndex);
-
+		// TODO write this lines into a second file
 		String[] startLine = lines.get(startIndex);
 
 		StringBuilder dateBuilder = new StringBuilder();

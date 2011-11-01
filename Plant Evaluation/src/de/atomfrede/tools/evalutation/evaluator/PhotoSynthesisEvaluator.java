@@ -36,13 +36,25 @@ public class PhotoSynthesisEvaluator extends AbstractEvaluator {
 	public static int TEMP_VALUE = 11;
 
 	static double MILLION = 1000000.0;
-	// leaf area in m²
-	static double LEAF_AREA_PLANT_ONE = 0.105823;
-	static double LEAF_AREA_PLANT_TWO = 0.1224748;
-	static double LEAF_AREA_PLANT_THREE = 0.1277336;
-	static double LEAF_AREA_PLANT_FOUR = 0.1532759;
-	static double LEAF_AREA_PLANT_FIVE = 0.1115781;
-	static double LEAF_AREA_PLANT_SIX = 0.1099036;
+
+	// upper leaf area in m²
+	static double UPPER_LEAF_AREA_PLANT_ONE = 0.105823;
+	static double UPPER_LEAF_AREA_PLANT_TWO = 0.1224748;
+	static double UPPER_LEAF_AREA_PLANT_THREE = 0.1277336;
+	static double UPPER_LEAF_AREA_PLANT_FOUR = 0.1532759;
+	static double UPPER_LEAF_AREA_PLANT_FIVE = 0.1115781;
+	static double UPPER_LEAF_AREA_PLANT_SIX = 0.1099036;
+
+	// lower leaf area in m²
+	static double LOWER_LEAF_AREA_PLANT_ONE = 0.002912956;
+	static double LOWER_LEAF_AREA_PLANT_TWO = 0.002663034;
+	static double LOWER_LEAF_AREA_PLANT_THREE = 0.002163335;
+	static double LOWER_LEAF_AREA_PLANT_FOUR = 0.0020615199;
+	static double LOWER_LEAF_AREA_PLANT_FIVE = 0.0024611709;
+	static double LOWER_LEAF_AREA_PLANT_SIX = 0.0032749886;
+
+	static double UPPER_CHAMBER = 2.0;
+	static double LOWER_CHAMBER = 4.0;
 
 	static double flowRateLowerChamber = 500.0;
 	static double flowRateUpperChamber = 3000.0;
@@ -78,7 +90,6 @@ public class PhotoSynthesisEvaluator extends AbstractEvaluator {
 			currentPlant = -1;
 			for (File currentDataFile : inputFiles) {
 				currentPlant++;
-				System.out.println("Reading File " + currentDataFile.getName());
 				// assume it is ordered alphabetically
 				allLinesInCurrentFile = readAllLinesInFile(currentDataFile);
 				File outputFile = new File(outputFolder, "psr-0"
@@ -108,6 +119,7 @@ public class PhotoSynthesisEvaluator extends AbstractEvaluator {
 		} catch (ParseException pe) {
 			System.out.println("ParseException " + pe.getMessage());
 		}
+		System.out.println("PSR Evaluator Done.");
 		return true;
 
 	}
@@ -149,7 +161,7 @@ public class PhotoSynthesisEvaluator extends AbstractEvaluator {
 
 			}
 			double chamberVolume = getChamberVolume(height, diameter);
-			double leafArea = getLeafArea(currentPlant);
+			double leafArea = getLeafArea(currentPlant, solenoid);
 			return getPhotoSynthesisRate(getCO2Abs(line), getCO2Abs(refLine),
 					getCO2Diff(line), getH2O(line), getH2O(refLine),
 					getH2ODiff(line, refLine), getTemperature(line), PRESSURE,
@@ -165,20 +177,6 @@ public class PhotoSynthesisEvaluator extends AbstractEvaluator {
 			double pressure, double chamberVolume, double flowRate,
 			double leafArea) {
 
-		// System.out.println("co2Abs " + co2Abs);
-		// System.out.println("co3ref " + co2Ref);
-		// System.out.println("co2Diff " + co2Diff);
-		// System.out.println("h2o " + h2o);
-		// System.out.println("h2oref " + h2ORef);
-		// System.out.println("h2odiff " + h2oDiff);
-		// System.out.println("Temp " + temperature);
-		// System.out.println("Pressure " + pressure);
-		// System.out.println("Flow rate " + flowRate);
-		// System.out.println("leaf area " + leafArea);
-		// double vm = ((VM * temperature) / pressure);
-		//
-		// double v = chamberVolume / vm;
-		//
 		double ui = flowRate / MILLION / 60 * (pressure / (VM * temperature));
 
 		double w0 = h2o;
@@ -199,20 +197,48 @@ public class PhotoSynthesisEvaluator extends AbstractEvaluator {
 		return psr;
 	}
 
-	double getLeafArea(int currentPlant) {
+	double getLeafArea(int currentPlant, double solenoidValue) {
+		// 2 is upper chamber
+		// 4 is lower chamber
+		// 8 doesn't matter
 		switch (currentPlant) {
 		case 0:
-			return LEAF_AREA_PLANT_ONE;
+			if (solenoidValue == LOWER_CHAMBER)
+				return LOWER_LEAF_AREA_PLANT_ONE;
+			else if (solenoidValue == UPPER_CHAMBER)
+				return UPPER_LEAF_AREA_PLANT_ONE;
+			else
+				return 0.0;
 		case 1:
-			return LEAF_AREA_PLANT_TWO;
+			if (solenoidValue == LOWER_CHAMBER)
+				return LOWER_LEAF_AREA_PLANT_TWO;
+			else if (solenoidValue == UPPER_CHAMBER)
+				return UPPER_LEAF_AREA_PLANT_TWO;
+			return 0.0;
 		case 2:
-			return LEAF_AREA_PLANT_THREE;
+			if (solenoidValue == LOWER_CHAMBER)
+				return LOWER_LEAF_AREA_PLANT_THREE;
+			else if (solenoidValue == UPPER_CHAMBER)
+				return UPPER_LEAF_AREA_PLANT_THREE;
+			return 0.0;
 		case 3:
-			return LEAF_AREA_PLANT_FOUR;
+			if (solenoidValue == LOWER_CHAMBER)
+				return LOWER_LEAF_AREA_PLANT_FOUR;
+			else if (solenoidValue == UPPER_CHAMBER)
+				return UPPER_LEAF_AREA_PLANT_FOUR;
+			return 0.0;
 		case 4:
-			return LEAF_AREA_PLANT_FIVE;
+			if (solenoidValue == LOWER_CHAMBER)
+				return LOWER_LEAF_AREA_PLANT_FIVE;
+			else if (solenoidValue == UPPER_CHAMBER)
+				return UPPER_LEAF_AREA_PLANT_FIVE;
+			return 0.0;
 		case 5:
-			return LEAF_AREA_PLANT_SIX;
+			if (solenoidValue == LOWER_CHAMBER)
+				return LOWER_LEAF_AREA_PLANT_SIX;
+			else if (solenoidValue == UPPER_CHAMBER)
+				return UPPER_LEAF_AREA_PLANT_SIX;
+			return 0.0;
 		default:
 			return 0.0;
 		}

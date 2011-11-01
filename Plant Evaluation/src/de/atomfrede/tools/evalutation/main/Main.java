@@ -17,7 +17,7 @@
 
 package de.atomfrede.tools.evalutation.main;
 
-import de.atomfrede.tools.evalutation.evaluator.FirstStepEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.CopyEvaluator;
 
 public class Main {
 
@@ -25,7 +25,7 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		FirstStepEvaluator evaluator = new FirstStepEvaluator();
+		CopyEvaluator evaluator = new CopyEvaluator();
 
 	}
 
