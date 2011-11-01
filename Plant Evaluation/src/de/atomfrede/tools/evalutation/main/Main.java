@@ -17,16 +17,32 @@
 
 package de.atomfrede.tools.evalutation.main;
 
+import java.io.File;
+
 import de.atomfrede.tools.evalutation.evaluator.CopyEvaluator;
 
 public class Main {
+
+	static File outputFolder = new File("output");
+	static File photosynthesisFolder = new File(outputFolder, "photosythesis/");
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		CopyEvaluator evaluator = new CopyEvaluator();
-
+		/*
+		 * List<File> inputFiles = new ArrayList<File>(); List<File> sdFiles =
+		 * new ArrayList<File>();
+		 * 
+		 * File[] allFiles = photosynthesisFolder.listFiles(); for (File file :
+		 * allFiles) { if (file.isFile()) { if
+		 * (file.getName().startsWith("psr")) inputFiles.add(file); else
+		 * sdFiles.add(file); } }
+		 * 
+		 * StandardDerivationEvaluator sdEvaluator = new
+		 * StandardDerivationEvaluator( inputFiles, sdFiles);
+		 */
 	}
 
 }

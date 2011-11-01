@@ -99,6 +99,7 @@ public class PhotoSynthesisEvaluator extends AbstractEvaluator {
 			{
 				currentPlant = -1;
 				for (File currentDataFile : inputFiles) {
+
 					currentPlant++;
 					// assume it is ordered alphabetically
 					allLinesInCurrentFile = readAllLinesInFile(currentDataFile);
