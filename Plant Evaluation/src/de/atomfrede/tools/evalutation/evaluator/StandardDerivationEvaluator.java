@@ -95,11 +95,6 @@ public class StandardDerivationEvaluator extends AbstractEvaluator {
 					double delta13StandardDerivation = getStandardDerivation(
 							delta13Values, delta13Mean);
 
-					// double[] psrValues = getAllPSRValues(currentLine);
-					// double psrStandardDerivation = Math.sqrt(StatUtils
-					// .variance(psrValues,
-					// parseDoubleValue(currentLine, PSR)));
-
 					writeLineWithStandardDerivation(writer, currentLine,
 							psrStandardDerivation, delta13StandardDerivation);
 
@@ -168,24 +163,6 @@ public class StandardDerivationEvaluator extends AbstractEvaluator {
 		dataMapping.put(delta13, list2DoubleArray(allDelta13Values));
 
 		return dataMapping;
-	}
-
-	@Deprecated
-	double[] getAllPSRValues(String[] meanDataLine) throws ParseException {
-		Date meanDate = dateFormat.parse(meanDataLine[TIME]);
-		List<Integer> allLinesForCurrentMeanDate = getAllLinesToComputeStandardDerivation(meanDate);
-		// now we have all lines needed for computation of the standard
-		// derivation
-		List<Double> allPSRValues = new ArrayList<Double>();
-		for (Integer lineIndex : allLinesForCurrentMeanDate) {
-			if (lineIndex >= 1) {
-				String[] currentLine = currentStandardDerivationLines
-						.get(lineIndex);
-				double psrValue = parseDoubleValue(currentLine, PSR);
-				allPSRValues.add(psrValue);
-			}
-		}
-		return list2DoubleArray(allPSRValues);
 	}
 
 	List<Integer> getAllLinesToComputeStandardDerivation(Date meanDate)
