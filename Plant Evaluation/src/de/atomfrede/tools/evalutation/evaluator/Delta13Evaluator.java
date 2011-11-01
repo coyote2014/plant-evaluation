@@ -106,7 +106,8 @@ public class Delta13Evaluator extends AbstractEvaluator {
 
 				List<Integer> referenceLines = findAllReferenceChambers(
 						allLines, SOLENOID_VALUE);
-
+				System.out.println("Delta 13: Reference Lines "
+						+ referenceLines.size());
 				for (int i = 1; i < allLines.size(); i++) {
 					String[] currentLine = allLines.get(i);
 					if (!referenceLines.contains(Integer.valueOf(i))) {
@@ -115,9 +116,11 @@ public class Delta13Evaluator extends AbstractEvaluator {
 								allLines, referenceLines, TIME_VALUE);
 						String[] refLine = allLines.get(refLine2Use);
 						double delta13 = computeDelta13(currentLine, refLine);
-						writeDelta13Values(writer, currentLine, delta13);
+						writeDelta13Values(standardDerivationWriter,
+								currentLine, delta13);
 					} else {
-						writeDelta13Values(writer, currentLine, 0.0);
+						writeDelta13Values(standardDerivationWriter,
+								currentLine, 0.0);
 					}
 				}
 			}

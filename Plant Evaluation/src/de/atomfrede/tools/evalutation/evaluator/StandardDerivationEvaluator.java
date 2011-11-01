@@ -52,6 +52,7 @@ public class StandardDerivationEvaluator extends AbstractEvaluator {
 		this.inputFiles = inputFiles;
 		this.standardDerivationInputFiles = standardDerivationInputFiles;
 		outputFiles = new ArrayList<File>();
+		evaluate();
 
 	}
 
@@ -102,6 +103,13 @@ public class StandardDerivationEvaluator extends AbstractEvaluator {
 
 	void writeLineWithStandardDerivation(CSVWriter writer, String[] line,
 			double psrStandardDerivation) {
+		String[] newLine = new String[line.length + 1];
+		int i = 0;
+		for (i = 0; i < line.length; i++) {
+			newLine[i] = line[i];
+		}
+		newLine[i] = psrStandardDerivation + "";
+		writer.writeNext(newLine);
 
 	}
 
