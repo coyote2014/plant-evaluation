@@ -34,48 +34,77 @@ public class TemperatureEvaluator extends AbstractEvaluator {
 	static final int DATE_TIME = 1;
 	static final int TEMPERATURE = 2;
 
+	File standardDerivationInputFile;
+	File standardDerivationOutputFile;
 	File dataInputFile;
 	File temperatureInputFile;
 	File outputFile;
 
 	List<String[]> temperatureDataLines;
 
-	public TemperatureEvaluator(File dataInputFile) {
+	public TemperatureEvaluator(File dataInputFile,
+			File standardDerivationInputFile) {
 		super("temperature");
 		this.dataInputFile = dataInputFile;
+		this.standardDerivationInputFile = standardDerivationInputFile;
 		boolean done = evaluate();
 		if (done)
-			new PlantDivider(outputFile);
+			new PlantDivider(outputFile, standardDerivationOutputFile);
 	}
 
 	@Override
 	public boolean evaluate() {
 		CSVWriter writer = null;
+		CSVWriter standardDerivationWriter = null;
 		try {
 			temperatureInputFile = new File(inputRootFolder, "/temp/temp.csv");
 			if (!temperatureInputFile.exists())
 				return false;
 
-			outputFile = new File(outputFolder, "laser-001-temperature.csv");
-
-			outputFile.createNewFile();
-			if (!outputFile.exists())
-				return false;
-
-			writer = getCsvWriter(outputFile);
-			WriteUtils.writeHeader(writer);
-
-			List<String[]> allDataLines = readAllLinesInFile(dataInputFile);
-
 			temperatureDataLines = readAllLinesInFile(temperatureInputFile);
 
-			for (int i = 1; i < allDataLines.size(); i++) {
-				String[] currentLine = allDataLines.get(i);
-				double temperature = findTemperatureForLine(currentLine);
-				writeTemperature(writer, currentLine, temperature);
+			{
+				outputFile = new File(outputFolder, "mean-temperature.csv");
 
+				outputFile.createNewFile();
+				if (!outputFile.exists())
+					return false;
+
+				writer = getCsvWriter(outputFile);
+				WriteUtils.writeHeader(writer);
+
+				List<String[]> allDataLines = readAllLinesInFile(dataInputFile);
+
+				for (int i = 1; i < allDataLines.size(); i++) {
+					String[] currentLine = allDataLines.get(i);
+					double temperature = findTemperatureForLine(currentLine);
+					writeTemperature(writer, currentLine, temperature);
+
+				}
 			}
+			writer.close();
+			System.out.println("Writing Temperature for mean data done.");
+			{
+				standardDerivationOutputFile = new File(outputFolder,
+						"standard-derivation-temperature.csv");
 
+				standardDerivationOutputFile.createNewFile();
+				if (!standardDerivationOutputFile.exists())
+					return false;
+
+				standardDerivationWriter = getCsvWriter(standardDerivationOutputFile);
+				WriteUtils.writeHeader(standardDerivationWriter);
+
+				List<String[]> allDataLines = readAllLinesInFile(standardDerivationInputFile);
+
+				for (int i = 1; i < allDataLines.size(); i++) {
+					String[] currentLine = allDataLines.get(i);
+					double temperature = findTemperatureForLine(currentLine);
+					writeTemperature(standardDerivationWriter, currentLine,
+							temperature);
+
+				}
+			}
 		} catch (IOException ioe) {
 			System.out.println("IOException " + ioe.getMessage());
 			return false;
@@ -83,13 +112,13 @@ public class TemperatureEvaluator extends AbstractEvaluator {
 			System.out.println("ParseException " + pe.getMessage());
 			return false;
 		} finally {
-			if (writer != null) {
-				try {
+			try {
+				if (writer != null)
 					writer.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				if (standardDerivationWriter != null)
+					standardDerivationWriter.close();
+			} catch (IOException ioe) {
+				System.out.println("IOException when trying to close writers.");
 			}
 		}
 

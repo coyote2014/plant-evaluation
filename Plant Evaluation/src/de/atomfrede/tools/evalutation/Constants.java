@@ -32,6 +32,7 @@ public final class Constants {
 	public static String DELTA_13_HEADER = "δ13Pflanze";
 	public static String TEMPERATURE_HEADER = "Temperature in °C";
 	public static String PHOTO_SYNTHESIS_RATE_HEADER = "PSR";
+	public static String PHOTO_SYNTHESIS_RATE_STANDARD_DERIVATION_HEADER = "Standard Derivation of PSR";
 
 	public static int DATE = 0;
 	public static int TIME = 1;

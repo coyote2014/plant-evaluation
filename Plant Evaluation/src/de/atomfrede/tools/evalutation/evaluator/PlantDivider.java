@@ -56,19 +56,25 @@ public class PlantDivider extends AbstractEvaluator {
 			plantThreeStart, plantThreeEnd, plantFourStart, plantFourEnd,
 			plantFiveStart, plantFiveEnd, plantSixStart, plantSixEnd;
 
+	File standardDerivationInputFile;
+	List<File> standardDerivationOutpufiles;
+
 	File inputFile;
 	List<File> outputFiles;
 
 	List<String[]> allInputLines;
 
-	public PlantDivider(File inputFile) {
+	public PlantDivider(File inputFile, File standardDerivationInputFile) {
 		super("plant");
 		this.inputFile = inputFile;
+		this.standardDerivationInputFile = standardDerivationInputFile;
 		outputFiles = new ArrayList<File>();
+		standardDerivationOutpufiles = new ArrayList<File>();
 		parseAllDates();
 		boolean done = evaluate();
 		if (done)
-			new PhotoSynthesisEvaluator(outputFiles);
+			new PhotoSynthesisEvaluator(outputFiles,
+					standardDerivationOutpufiles);
 	}
 
 	void parseAllDates() {
@@ -106,68 +112,144 @@ public class PlantDivider extends AbstractEvaluator {
 	@Override
 	public boolean evaluate() {
 		try {
-			allInputLines = readAllLinesInFile(inputFile);
-			for (int i = 0; i < numberOfPlants; i++) {
-				File outputFile = new File(outputFolder, "plant-0" + i + ".csv");
+			{
+				// first read all mean value data
+				allInputLines = readAllLinesInFile(inputFile);
+				for (int i = 0; i < numberOfPlants; i++) {
+					File outputFile = new File(outputFolder, "plant-0" + i
+							+ ".csv");
 
-				CSVWriter writer = getCsvWriter(outputFile);
-				List<String[]> values;
-				switch (i) {
-				case 0:
-					// first plant
-					values = getAllDateLinesBetween(plantOneStart, plantOneEnd);
-					WriteUtils.writeHeader(writer);
-					writer.writeAll(values);
-					writer.close();
-					outputFiles.add(outputFile);
-					break;
-				case 1:
-					// second plant
-					values = getAllDateLinesBetween(plantTwoStart, plantTwoEnd);
-					WriteUtils.writeHeader(writer);
-					writer.writeAll(values);
-					writer.close();
-					outputFiles.add(outputFile);
-					break;
-				case 2:
-					// third plant
-					values = getAllDateLinesBetween(plantThreeStart,
-							plantThreeEnd);
-					WriteUtils.writeHeader(writer);
-					writer.writeAll(values);
-					writer.close();
-					outputFiles.add(outputFile);
-					break;
-				case 3:
-					// fourth plant
-					values = getAllDateLinesBetween(plantFourStart,
-							plantFourEnd);
-					WriteUtils.writeHeader(writer);
-					writer.writeAll(values);
-					writer.close();
-					outputFiles.add(outputFile);
-					break;
-				case 4:
-					// fifth plant
-					values = getAllDateLinesBetween(plantFiveStart,
-							plantFiveEnd);
-					WriteUtils.writeHeader(writer);
-					writer.writeAll(values);
-					writer.close();
-					outputFiles.add(outputFile);
-					break;
-				case 5:
-					// last plant
-					values = getAllDateLinesBetween(plantSixStart, plantSixEnd);
-					WriteUtils.writeHeader(writer);
-					writer.writeAll(values);
-					writer.close();
-					outputFiles.add(outputFile);
-					break;
-				default:
-					break;
+					CSVWriter writer = getCsvWriter(outputFile);
+					List<String[]> values;
+					switch (i) {
+					case 0:
+						// first plant
+						values = getAllDateLinesBetween(plantOneStart,
+								plantOneEnd);
+						WriteUtils.writeHeader(writer);
+						writer.writeAll(values);
+						writer.close();
+						outputFiles.add(outputFile);
+						break;
+					case 1:
+						// second plant
+						values = getAllDateLinesBetween(plantTwoStart,
+								plantTwoEnd);
+						WriteUtils.writeHeader(writer);
+						writer.writeAll(values);
+						writer.close();
+						outputFiles.add(outputFile);
+						break;
+					case 2:
+						// third plant
+						values = getAllDateLinesBetween(plantThreeStart,
+								plantThreeEnd);
+						WriteUtils.writeHeader(writer);
+						writer.writeAll(values);
+						writer.close();
+						outputFiles.add(outputFile);
+						break;
+					case 3:
+						// fourth plant
+						values = getAllDateLinesBetween(plantFourStart,
+								plantFourEnd);
+						WriteUtils.writeHeader(writer);
+						writer.writeAll(values);
+						writer.close();
+						outputFiles.add(outputFile);
+						break;
+					case 4:
+						// fifth plant
+						values = getAllDateLinesBetween(plantFiveStart,
+								plantFiveEnd);
+						WriteUtils.writeHeader(writer);
+						writer.writeAll(values);
+						writer.close();
+						outputFiles.add(outputFile);
+						break;
+					case 5:
+						// last plant
+						values = getAllDateLinesBetween(plantSixStart,
+								plantSixEnd);
+						WriteUtils.writeHeader(writer);
+						writer.writeAll(values);
+						writer.close();
+						outputFiles.add(outputFile);
+						break;
+					default:
+						break;
+					}
+
 				}
+			}
+			System.out.println("Dividing mean values done.");
+			{
+				allInputLines = readAllLinesInFile(standardDerivationInputFile);
+				for (int i = 0; i < numberOfPlants; i++) {
+					File outputFile = new File(outputFolder,
+							"standard-derivation-0" + i + ".csv");
 
+					CSVWriter writer = getCsvWriter(outputFile);
+					List<String[]> values;
+					switch (i) {
+					case 0:
+						// first plant
+						values = getAllDateLinesBetween(plantOneStart,
+								plantOneEnd);
+						WriteUtils.writeHeader(writer);
+						writer.writeAll(values);
+						writer.close();
+						standardDerivationOutpufiles.add(outputFile);
+						break;
+					case 1:
+						// second plant
+						values = getAllDateLinesBetween(plantTwoStart,
+								plantTwoEnd);
+						WriteUtils.writeHeader(writer);
+						writer.writeAll(values);
+						writer.close();
+						standardDerivationOutpufiles.add(outputFile);
+						break;
+					case 2:
+						// third plant
+						values = getAllDateLinesBetween(plantThreeStart,
+								plantThreeEnd);
+						WriteUtils.writeHeader(writer);
+						writer.writeAll(values);
+						writer.close();
+						standardDerivationOutpufiles.add(outputFile);
+						break;
+					case 3:
+						// fourth plant
+						values = getAllDateLinesBetween(plantFourStart,
+								plantFourEnd);
+						WriteUtils.writeHeader(writer);
+						writer.writeAll(values);
+						writer.close();
+						standardDerivationOutpufiles.add(outputFile);
+						break;
+					case 4:
+						// fifth plant
+						values = getAllDateLinesBetween(plantFiveStart,
+								plantFiveEnd);
+						WriteUtils.writeHeader(writer);
+						writer.writeAll(values);
+						writer.close();
+						standardDerivationOutpufiles.add(outputFile);
+						break;
+					case 5:
+						// last plant
+						values = getAllDateLinesBetween(plantSixStart,
+								plantSixEnd);
+						WriteUtils.writeHeader(writer);
+						writer.writeAll(values);
+						writer.close();
+						standardDerivationOutpufiles.add(outputFile);
+						break;
+					default:
+						break;
+					}
+				}
 			}
 		} catch (IOException ioe) {
 			System.out.println("IOException " + ioe.getMessage());

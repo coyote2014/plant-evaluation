@@ -35,49 +35,92 @@ public class Delta13Evaluator extends AbstractEvaluator {
 	File inputFile;
 	File outputFile;
 
-	public Delta13Evaluator(File inputFile) {
+	File standardDerivationInputFile;
+	File standardDerivationOutputFile;
+
+	public Delta13Evaluator(File inputFile, File standardDerivationInputFile) {
 		super("delta13");
 		this.inputFile = inputFile;
+		this.standardDerivationInputFile = standardDerivationInputFile;
 		boolean done = evaluate();
 		if (done)
-			new TemperatureEvaluator(outputFile);
+			new TemperatureEvaluator(outputFile, standardDerivationOutputFile);
 	}
 
 	@Override
 	public boolean evaluate() {
 		CSVWriter writer = null;
+		CSVWriter standardDerivationWriter = null;
 		try {
-			if (!inputFile.exists())
-				return false;
+			{
+				// first the mean values
+				if (!inputFile.exists())
+					return false;
 
-			outputFile = new File(outputFolder, "laser-001-delta13.csv");
+				outputFile = new File(outputFolder, "delta13.csv");
 
-			outputFile.createNewFile();
-			if (!outputFile.exists())
-				return false;
+				outputFile.createNewFile();
+				if (!outputFile.exists())
+					return false;
 
-			writer = getCsvWriter(outputFile);
-			WriteUtils.writeHeader(writer);
+				writer = getCsvWriter(outputFile);
+				WriteUtils.writeHeader(writer);
 
-			List<String[]> allLines = readAllLinesInFile(inputFile);
+				List<String[]> allLines = readAllLinesInFile(inputFile);
 
-			List<Integer> referenceLines = findAllReferenceChambers(allLines,
-					SOLENOID_VALUE);
+				List<Integer> referenceLines = findAllReferenceChambers(
+						allLines, SOLENOID_VALUE);
 
-			for (int i = 1; i < allLines.size(); i++) {
-				String[] currentLine = allLines.get(i);
-				if (!referenceLines.contains(Integer.valueOf(i))) {
-					// only for non reference lines compute the values
-					int refLine2Use = getReferenceLineToUse(currentLine,
-							allLines, referenceLines, TIME_VALUE);
-					String[] refLine = allLines.get(refLine2Use);
-					double delta13 = computeDelta13(currentLine, refLine);
-					writeDelta13Values(writer, currentLine, delta13);
-				} else {
-					writeDelta13Values(writer, currentLine, 0.0);
+				for (int i = 1; i < allLines.size(); i++) {
+					String[] currentLine = allLines.get(i);
+					if (!referenceLines.contains(Integer.valueOf(i))) {
+						// only for non reference lines compute the values
+						int refLine2Use = getReferenceLineToUse(currentLine,
+								allLines, referenceLines, TIME_VALUE);
+						String[] refLine = allLines.get(refLine2Use);
+						double delta13 = computeDelta13(currentLine, refLine);
+						writeDelta13Values(writer, currentLine, delta13);
+					} else {
+						writeDelta13Values(writer, currentLine, 0.0);
+					}
 				}
 			}
+			writer.close();
+			System.out.println("Delta13 for mean values done.");
+			{
+				// first the mean values
+				if (!standardDerivationInputFile.exists())
+					return false;
 
+				standardDerivationOutputFile = new File(outputFolder,
+						"standard-derivation-delta13.csv");
+
+				standardDerivationOutputFile.createNewFile();
+				if (!standardDerivationOutputFile.exists())
+					return false;
+
+				standardDerivationWriter = getCsvWriter(standardDerivationOutputFile);
+				WriteUtils.writeHeader(standardDerivationWriter);
+
+				List<String[]> allLines = readAllLinesInFile(standardDerivationInputFile);
+
+				List<Integer> referenceLines = findAllReferenceChambers(
+						allLines, SOLENOID_VALUE);
+
+				for (int i = 1; i < allLines.size(); i++) {
+					String[] currentLine = allLines.get(i);
+					if (!referenceLines.contains(Integer.valueOf(i))) {
+						// only for non reference lines compute the values
+						int refLine2Use = getReferenceLineToUse(currentLine,
+								allLines, referenceLines, TIME_VALUE);
+						String[] refLine = allLines.get(refLine2Use);
+						double delta13 = computeDelta13(currentLine, refLine);
+						writeDelta13Values(writer, currentLine, delta13);
+					} else {
+						writeDelta13Values(writer, currentLine, 0.0);
+					}
+				}
+			}
 		} catch (IOException ioe) {
 			System.out.println("IOException " + ioe.getMessage());
 			return false;
@@ -85,13 +128,13 @@ public class Delta13Evaluator extends AbstractEvaluator {
 			System.out.println("ParseException " + pe.getMessage());
 			return false;
 		} finally {
-			if (writer != null) {
-				try {
+			try {
+				if (writer != null)
 					writer.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				if (standardDerivationWriter != null)
+					standardDerivationWriter.close();
+			} catch (IOException ioe) {
+				System.out.println("IOException when trying to close writers.");
 			}
 		}
 

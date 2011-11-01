@@ -72,47 +72,88 @@ public class PhotoSynthesisEvaluator extends AbstractEvaluator {
 
 	List<File> outputFiles;
 	List<File> inputFiles;
+	List<File> standardDerivationInputFiles;
+	List<File> standardDerivationOutputFiles;
+
 	List<String[]> allLinesInCurrentFile;
 	List<Integer> referenceLines;
 
 	int currentPlant;
 
-	public PhotoSynthesisEvaluator(List<File> inputFiles) {
+	public PhotoSynthesisEvaluator(List<File> inputFiles,
+			List<File> standardDerivationInputFiles) {
 		super("photosythesis");
 		this.inputFiles = inputFiles;
+		this.standardDerivationInputFiles = standardDerivationInputFiles;
 		outputFiles = new ArrayList<File>();
-		evaluate();
+		standardDerivationOutputFiles = new ArrayList<File>();
+		boolean done = evaluate();
+		if (done)
+			new StandardDerivationEvaluator(outputFiles,
+					standardDerivationOutputFiles);
 	}
 
 	@Override
 	public boolean evaluate() {
 		try {
-			currentPlant = -1;
-			for (File currentDataFile : inputFiles) {
-				currentPlant++;
-				// assume it is ordered alphabetically
-				allLinesInCurrentFile = readAllLinesInFile(currentDataFile);
-				File outputFile = new File(outputFolder, "psr-0"
-						+ (currentPlant) + ".csv");
+			{
+				currentPlant = -1;
+				for (File currentDataFile : inputFiles) {
+					currentPlant++;
+					// assume it is ordered alphabetically
+					allLinesInCurrentFile = readAllLinesInFile(currentDataFile);
+					File outputFile = new File(outputFolder, "psr-0"
+							+ (currentPlant) + ".csv");
 
-				CSVWriter writer = getCsvWriter(outputFile);
-				WriteUtils.writeHeader(writer);
+					CSVWriter writer = getCsvWriter(outputFile);
+					WriteUtils.writeHeader(writer);
 
-				for (int i = 1; i < allLinesInCurrentFile.size(); i++) {
+					for (int i = 1; i < allLinesInCurrentFile.size(); i++) {
 
-					String[] currentLine = allLinesInCurrentFile.get(i);
+						String[] currentLine = allLinesInCurrentFile.get(i);
 
-					referenceLines = findAllReferenceChambers(
-							allLinesInCurrentFile, SOLENOID_VALUE);
+						referenceLines = findAllReferenceChambers(
+								allLinesInCurrentFile, SOLENOID_VALUE);
 
-					double psrForCurrentLine = computePhotoSynthesisRate(currentLine);
-					writePsr(writer, currentLine, psrForCurrentLine);
+						double psrForCurrentLine = computePhotoSynthesisRate(currentLine);
+						writePsr(writer, currentLine, psrForCurrentLine);
 
+					}
+
+					writer.close();
+					outputFiles.add(outputFile);
 				}
+			}
+			System.out.println("PSR for mean values done.");
 
-				writer.close();
-				outputFiles.add(outputFile);
+			{
+				currentPlant = -1;
+				for (File currentDataFile : standardDerivationInputFiles) {
+					currentPlant++;
+					// assume it is ordered alphabetically
+					allLinesInCurrentFile = readAllLinesInFile(currentDataFile);
+					File outputFile = new File(outputFolder,
+							"standard-derivation-psr-0" + (currentPlant)
+									+ ".csv");
 
+					CSVWriter writer = getCsvWriter(outputFile);
+					WriteUtils.writeHeader(writer);
+
+					for (int i = 1; i < allLinesInCurrentFile.size(); i++) {
+
+						String[] currentLine = allLinesInCurrentFile.get(i);
+
+						referenceLines = findAllReferenceChambers(
+								allLinesInCurrentFile, SOLENOID_VALUE);
+
+						double psrForCurrentLine = computePhotoSynthesisRate(currentLine);
+						writePsr(writer, currentLine, psrForCurrentLine);
+
+					}
+
+					writer.close();
+					standardDerivationOutputFiles.add(outputFile);
+				}
 			}
 		} catch (IOException ioe) {
 			System.out.println("IOException " + ioe.getMessage());

@@ -34,43 +34,89 @@ public class CO2DiffEvaluator extends AbstractEvaluator {
 
 	File inputFile;
 	File outputFile;
+	File standardDerivationInputFile;
+	File standardDerivationOutputFile;
 
-	public CO2DiffEvaluator(File inputFile) {
+	public CO2DiffEvaluator(File inputFile, File standardDerivationInputFile) {
 		super("co2diff");
 		this.inputFile = inputFile;
+		this.standardDerivationInputFile = standardDerivationInputFile;
 		boolean done = evaluate();
 		if (done)
-			new Delta13Evaluator(outputFile);
+			new Delta13Evaluator(outputFile, standardDerivationOutputFile);
 	}
 
 	@Override
 	public boolean evaluate() {
 		CSVWriter writer = null;
+		CSVWriter standardDerivationWriter = null;
 		try {
-			if (!inputFile.exists())
-				return false;
+			{
+				if (!inputFile.exists())
+					return false;
 
-			outputFile = new File(outputFolder, "laser-001-co2diff.csv");
+				outputFile = new File(outputFolder, "co2diff.csv");
 
-			outputFile.createNewFile();
-			if (!outputFile.exists())
-				return false;
+				outputFile.createNewFile();
+				if (!outputFile.exists())
+					return false;
 
-			writer = getCsvWriter(outputFile);
-			WriteUtils.writeHeader(writer);
+				writer = getCsvWriter(outputFile);
+				WriteUtils.writeHeader(writer);
 
-			List<String[]> lines = readAllLinesInFile(inputFile);
+				List<String[]> lines = readAllLinesInFile(inputFile);
 
-			List<Integer> referenceLines = findAllReferenceChambers(lines,
-					SOLENOID_VALUE);
+				List<Integer> referenceLines = findAllReferenceChambers(lines,
+						SOLENOID_VALUE);
 
-			for (int i = 1; i < lines.size(); i++) {
-				String[] currentLine = lines.get(i);
-				double co2Diff = parseDoubleValue(currentLine, CO2_ABS_VALUE)
-						- getCO2DiffForLine(currentLine, lines, referenceLines);
-				writeCO2Diff(writer, currentLine, co2Diff);
+				for (int i = 1; i < lines.size(); i++) {
+					String[] currentLine = lines.get(i);
+					double co2Diff = parseDoubleValue(currentLine,
+							CO2_ABS_VALUE)
+							- getCO2DiffForLine(currentLine, lines,
+									referenceLines);
+					writeCO2Diff(writer, currentLine, co2Diff);
+				}
 			}
+			System.out.println("CO2 Diff for Data Values done.");
+			writer.close();
+			{
+				// now compute needed valus for standard derivation file
+				if (!standardDerivationInputFile.exists())
+					return false;
 
+				standardDerivationOutputFile = new File(outputFolder,
+						"standard-derivation-co2diff.csv");
+
+				standardDerivationOutputFile.createNewFile();
+				if (!standardDerivationOutputFile.exists())
+					return false;
+
+				standardDerivationWriter = getCsvWriter(standardDerivationOutputFile);
+				WriteUtils.writeHeader(standardDerivationWriter);
+
+				List<String[]> lines = readAllLinesInFile(standardDerivationInputFile);
+
+				List<Integer> referenceLines = findAllReferenceChambers(lines,
+						SOLENOID_VALUE);
+
+				System.out
+						.println("Reference Chambers for Standard Derivation found. Size "
+								+ referenceLines.size());
+
+				for (int i = 1; i < lines.size(); i++) {
+					if (i % 1000 == 0)
+						System.out.println("Writing Standard Derivation Line "
+								+ i);
+					String[] currentLine = lines.get(i);
+					double co2Diff = parseDoubleValue(currentLine,
+							CO2_ABS_VALUE)
+							- getCO2DiffForLine(currentLine, lines,
+									referenceLines);
+					writeCO2Diff(standardDerivationWriter, currentLine, co2Diff);
+				}
+			}
+			System.out.println("CO2 Diff for StandardDerivation Values done.");
 		} catch (IOException ioe) {
 			System.out.println("IOException " + ioe.getMessage());
 			return false;
@@ -78,13 +124,15 @@ public class CO2DiffEvaluator extends AbstractEvaluator {
 			System.out.println("ParseException " + pe.getMessage());
 			return false;
 		} finally {
-			if (writer != null)
-				try {
+			try {
+				if (writer != null)
 					writer.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				if (standardDerivationWriter != null)
+					standardDerivationWriter.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		System.out.println("CO2Diff done");
 		return true;

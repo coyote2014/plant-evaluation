@@ -31,7 +31,7 @@ public class CopyEvaluator extends AbstractEvaluator {
 		super("copy");
 		boolean done = evaluate();
 		if (done)
-			new FirstStepEvaluator(outputFile);
+			new MeanValueEvaluator(outputFile);
 	}
 
 	@Override

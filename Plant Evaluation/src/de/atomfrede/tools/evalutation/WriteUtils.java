@@ -35,7 +35,8 @@ public class WriteUtils {
 				Constants.solenoid_HEADER, Constants.CO2_ABS_HEADER,
 				Constants.COMPLETE_TIME_HEADER, Constants.CO2_DIFF_HEADER,
 				Constants.DELTA_13_HEADER, Constants.TEMPERATURE_HEADER,
-				Constants.PHOTO_SYNTHESIS_RATE_HEADER };
+				Constants.PHOTO_SYNTHESIS_RATE_HEADER,
+				Constants.PHOTO_SYNTHESIS_RATE_STANDARD_DERIVATION_HEADER };
 		writer.writeNext(header);
 	}
 

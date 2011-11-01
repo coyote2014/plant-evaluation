@@ -32,21 +32,21 @@ import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.WriteUtils;
 
-public class FirstStepEvaluator extends AbstractEvaluator {
+public class MeanValueEvaluator extends AbstractEvaluator {
 
 	List<Integer> linesNeedForStandardDerivation;
-	File dataFileForStandardDerivation;
+	File standardDerivationOutputFile;
 	File outputFile;
 	File inputFile;
 	CSVWriter standardDerivationWriter = null;;
 
-	public FirstStepEvaluator(File inputFile) {
-		super("second");
+	public MeanValueEvaluator(File inputFile) {
+		super("mean-values");
 		this.inputFile = inputFile;
 		linesNeedForStandardDerivation = new ArrayList<Integer>();
 		boolean done = evaluate();
 		if (done)
-			new CO2DiffEvaluator(outputFile);
+			new CO2DiffEvaluator(outputFile, standardDerivationOutputFile);
 	}
 
 	@Override
@@ -61,11 +61,15 @@ public class FirstStepEvaluator extends AbstractEvaluator {
 			writer = getCsvWriter(outputFile);
 			WriteUtils.writeHeader(writer);
 
-			dataFileForStandardDerivation = new File(outputFolder,
-					"sd-file.csv");
-			dataFileForStandardDerivation.createNewFile();
-			if (!dataFileForStandardDerivation.exists())
+			standardDerivationOutputFile = new File(outputFolder,
+					"standard-derivation-file.csv");
+			standardDerivationOutputFile.createNewFile();
+
+			if (!standardDerivationOutputFile.exists())
 				return false;
+
+			standardDerivationWriter = getCsvWriter(standardDerivationOutputFile);
+			WriteUtils.writeHeader(standardDerivationWriter);
 
 			List<String[]> lines = readAllLinesInFile(inputFile);
 			int startIndex = 1;
@@ -96,15 +100,17 @@ public class FirstStepEvaluator extends AbstractEvaluator {
 					+ pe.getMessage());
 			return false;
 		} finally {
-			if (writer != null)
-				try {
+			try {
+				if (writer != null)
 					writer.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				if (standardDerivationWriter != null)
+					standardDerivationWriter.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		System.out.println("Done 1st step");
+		System.out.println("Mean Values computed.");
 		return true;
 	}
 
@@ -144,6 +150,29 @@ public class FirstStepEvaluator extends AbstractEvaluator {
 		return -1;
 	}
 
+	void writeLinesForStandardDerivation(String[] lineToWrite) {
+		// First collect all values
+		String date = lineToWrite[Constants.DATE];
+		String time = lineToWrite[Constants.TIME];
+		double _12CO2_dry_value = parseDoubleValue(lineToWrite,
+				Constants._12CO2_dry);
+		double _13CO2_dry_value = parseDoubleValue(lineToWrite,
+				Constants._13CO2_dry);
+		double _solenoidValue = parseDoubleValue(lineToWrite,
+				Constants.solenoidValue);
+		double h2O = parseDoubleValue(lineToWrite, Constants.H2O);
+		double delta5Minutes = parseDoubleValue(lineToWrite,
+				Constants.delta5minutes);
+		double co2Abs = Math.abs(_12CO2_dry_value + _13CO2_dry_value);
+		String date_time = date + " " + time;
+		// then write a new line in standardderivation file
+		String[] newLine = { date, time, _12CO2_dry_value + "",
+				_13CO2_dry_value + "", delta5Minutes + "", h2O + "",
+				_solenoidValue + "", co2Abs + "", date_time };
+		standardDerivationWriter.writeNext(newLine);
+
+	}
+
 	Map<Integer, double[]> collectValuesOfLastFiveMinutes(List<String[]> lines,
 			int startIndex) throws ParseException {
 		List<Double> fiveMinutesDeltaValues = new ArrayList<Double>();
@@ -151,9 +180,9 @@ public class FirstStepEvaluator extends AbstractEvaluator {
 		List<Double> _13CO2_dry_Values = new ArrayList<Double>();
 		List<Double> _H20_Values = new ArrayList<Double>();
 
-		linesNeedForStandardDerivation.add(startIndex);
-		// TODO write this lines into a second file
 		String[] startLine = lines.get(startIndex);
+		// save line for later computation for standard derivation
+		writeLinesForStandardDerivation(startLine);
 
 		StringBuilder dateBuilder = new StringBuilder();
 		dateBuilder.append(startLine[Constants.DATE]);
@@ -173,9 +202,13 @@ public class FirstStepEvaluator extends AbstractEvaluator {
 		int currentIndex = startIndex - 1;
 		while (Math.abs(startDate.getTime() - currentDate.getTime()) <= Constants.fiveMinutes
 				&& currentIndex >= 1) {
-			linesNeedForStandardDerivation.add(currentIndex);
 
 			String[] currentLine = lines.get(currentIndex);
+
+			// save line for later computation of standard derivation
+			if (currentIndex % 10 == 0)
+				writeLinesForStandardDerivation(currentLine);
+
 			currentDate = dateFormat.parse(currentLine[Constants.DATE] + " "
 					+ currentLine[Constants.TIME]);
 			fiveMinutesDeltaValues.add(parseDoubleValue(currentLine,
