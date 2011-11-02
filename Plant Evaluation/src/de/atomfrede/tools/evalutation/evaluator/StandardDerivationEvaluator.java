@@ -122,7 +122,8 @@ public class StandardDerivationEvaluator extends AbstractEvaluator {
 	}
 
 	double getStandardDerivation(double[] values) {
-		return Math.sqrt(StatUtils.variance(values));
+		// return Math.sqrt(StatUtils.variance(values));
+		return ((1.0 / values.length) * StatUtils.sum(values));
 	}
 
 	File getCorrespondingStandardDerivationFile(int currentDataFile) {

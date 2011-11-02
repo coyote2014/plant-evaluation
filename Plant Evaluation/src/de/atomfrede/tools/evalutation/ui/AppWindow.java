@@ -17,6 +17,7 @@
 
 package de.atomfrede.tools.evalutation.ui;
 
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -95,6 +96,20 @@ public class AppWindow {
 
 		JMenuItem mntmOptions = new JMenuItem("Options");
 		mnEdit.add(mntmOptions);
+
+		JMenu mnHelp = new JMenu("Help");
+		menuBar.add(mnHelp);
+
+		JMenuItem mntmAbout = new JMenuItem("About");
+		mnHelp.add(mntmAbout);
+
+		test();
+
+	}
+
+	private void test() {
+		frame.setLayout(new BorderLayout());
+		frame.add(new DateAndTimePicker(), BorderLayout.CENTER);
 	}
 
 }
