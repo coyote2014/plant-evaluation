@@ -11,6 +11,5 @@
 	<classpathentry kind="lib" path="libs/jgoodies-common-1.2.1.jar"/>
 	<classpathentry kind="lib" path="libs/jgoodies-forms-1.4.2.jar"/>
 	<classpathentry kind="lib" path="libs/swingx-core-1.6.2.jar"/>
-	<classpathentry kind="lib" path="libs/zeus-jscl-1.70.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
