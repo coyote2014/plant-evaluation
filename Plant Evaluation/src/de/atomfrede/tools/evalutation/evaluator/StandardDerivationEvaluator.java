@@ -90,10 +90,13 @@ public class StandardDerivationEvaluator extends AbstractEvaluator {
 					double psrMean = parseDoubleValue(currentLine, PSR);
 					double delta13Mean = parseDoubleValue(currentLine, delta13);
 
-					double psrStandardDerivation = getStandardDerivation(
-							psrValues, psrMean);
-					double delta13StandardDerivation = getStandardDerivation(
-							delta13Values, delta13Mean);
+					// double psrStandardDerivation = getStandardDerivation(
+					// psrValues, psrMean);
+					// double delta13StandardDerivation = getStandardDerivation(
+					// delta13Values, delta13Mean);
+
+					double psrStandardDerivation = getStandardDerivation(psrValues);
+					double delta13StandardDerivation = getStandardDerivation(delta13Values);
 
 					writeLineWithStandardDerivation(writer, currentLine,
 							psrStandardDerivation, delta13StandardDerivation);
@@ -116,6 +119,10 @@ public class StandardDerivationEvaluator extends AbstractEvaluator {
 
 	double getStandardDerivation(double[] values, double mean) {
 		return Math.sqrt(StatUtils.variance(values, mean));
+	}
+
+	double getStandardDerivation(double[] values) {
+		return Math.sqrt(StatUtils.variance(values));
 	}
 
 	File getCorrespondingStandardDerivationFile(int currentDataFile) {
