@@ -123,7 +123,14 @@ public class StandardDerivationEvaluator extends AbstractEvaluator {
 
 	double getStandardDerivation(double[] values) {
 		// return Math.sqrt(StatUtils.variance(values));
-		return ((1.0 / values.length) * StatUtils.sum(values));
+		// return ((1.0 / values.length) * StatUtils.sum(values));
+		double sum = 0;
+		for (int i = 0; i < values.length; i++) {
+			System.out.println("PSR Value " + values[i]);
+			sum += values[i];
+		}
+		double v = 1.0 / values.length;
+		return v * sum;
 	}
 
 	File getCorrespondingStandardDerivationFile(int currentDataFile) {
