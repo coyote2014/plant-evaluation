@@ -27,22 +27,26 @@ import javax.swing.JPanel;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
+import de.atomfrede.tools.evalutation.Plant;
+
 public class PlantDatesInputPanel extends JPanel {
 
 	static final ImageIcon IC_DELETE = new ImageIcon(
 			PlantDatesInputPanel.class.getResource("res/list-remove.png"));
 
+	Plant plant;
+
 	DateAndTimePicker startDatePicker, endDatePicker;
 	JButton deleteButton;
-	int plantNumber;
 
 	public PlantDatesInputPanel() {
-		this(1);
+		this(new Plant());
 	}
 
-	public PlantDatesInputPanel(int plantNumber) {
-		this.plantNumber = plantNumber;
+	public PlantDatesInputPanel(Plant plant) {
 		initialize();
+		getStartPicker().setDate(plant.getStartDate());
+		getEndPicker().setDate(plant.getEndDate());
 	}
 
 	private void initialize() {
@@ -55,7 +59,6 @@ public class PlantDatesInputPanel extends JPanel {
 				"pref, 4dlu, pref, 4dlu, pref, 4dlu, pref, 4dlu, pref");
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 
-		builder.appendSeparator("Plant No " + nf.format(plantNumber));
 		builder.append("Start ", getStartPicker());
 		builder.append("End ", getEndPicker());
 		builder.append(getDeleteButton());
@@ -83,5 +86,13 @@ public class PlantDatesInputPanel extends JPanel {
 			endDatePicker = new DateAndTimePicker();
 		}
 		return endDatePicker;
+	}
+
+	public Plant getPlant() {
+		return plant;
+	}
+
+	public void setPlant(Plant plant) {
+		this.plant = plant;
 	}
 }

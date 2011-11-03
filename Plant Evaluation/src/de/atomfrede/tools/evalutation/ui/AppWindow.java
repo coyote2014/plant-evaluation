@@ -19,13 +19,22 @@ package de.atomfrede.tools.evalutation.ui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
+import com.jgoodies.forms.builder.DefaultFormBuilder;
+import com.jgoodies.forms.layout.FormLayout;
+
+import de.atomfrede.tools.evalutation.Plant;
 
 public class AppWindow {
 
@@ -76,9 +85,10 @@ public class AppWindow {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		// frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		frame.setLocationRelativeTo(null);
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 
@@ -109,8 +119,29 @@ public class AppWindow {
 
 	private void test() {
 		frame.setLayout(new BorderLayout());
-		// frame.add(new DateAndTimePicker(), BorderLayout.CENTER);
-		frame.add(new PlantDatesInputPanel(1));
-	}
 
+		FormLayout layout = new FormLayout("fill:pref:grow");
+		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+		builder.setDefaultDialogBorder();
+
+		// frame.add(new DateAndTimePicker(), BorderLayout.CENTER);
+		// frame.add(new PlantDatesInputPanel());
+		Plant p1 = new Plant();
+		Plant p2 = new Plant();
+		List<Plant> plantList = new ArrayList<Plant>();
+		plantList.add(p1);
+		plantList.add(p2);
+		builder.append(new PlantListPanel(plantList));
+
+		// frame.setBounds(x, y, width, height)
+		frame.add(new JScrollPane(builder.getPanel()), BorderLayout.CENTER);
+
+		Rectangle bounds = new Rectangle(builder.getPanel().getPreferredSize());
+		bounds.grow(10, 250);
+		frame.setResizable(false);
+
+		frame.setBounds(bounds);
+		frame.setLocationRelativeTo(null);
+
+	}
 }
