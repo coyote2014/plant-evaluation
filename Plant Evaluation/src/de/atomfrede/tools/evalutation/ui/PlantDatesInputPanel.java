@@ -20,6 +20,7 @@ package de.atomfrede.tools.evalutation.ui;
 import java.awt.BorderLayout;
 import java.text.NumberFormat;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -27,6 +28,9 @@ import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
 public class PlantDatesInputPanel extends JPanel {
+
+	static final ImageIcon IC_DELETE = new ImageIcon(
+			PlantDatesInputPanel.class.getResource("res/list-remove.png"));
 
 	DateAndTimePicker startDatePicker, endDatePicker;
 	JButton deleteButton;
@@ -61,7 +65,8 @@ public class PlantDatesInputPanel extends JPanel {
 
 	private JButton getDeleteButton() {
 		if (deleteButton == null) {
-			deleteButton = new JButton("-");
+			deleteButton = new JButton();
+			deleteButton.setIcon(IC_DELETE);
 		}
 		return deleteButton;
 	}
