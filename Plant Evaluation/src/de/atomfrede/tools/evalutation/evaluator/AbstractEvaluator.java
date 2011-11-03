@@ -89,6 +89,16 @@ public abstract class AbstractEvaluator {
 		return reader.readAll();
 	}
 
+	public List<String[]> findAllReferenceLines(List<String[]> lines,
+			int SOLENOID_VALUE) {
+		List<String[]> referenceLines = new ArrayList<String[]>();
+		for (int i = 1; i < lines.size(); i++) {
+			if (parseDoubleValue(lines.get(i), SOLENOID_VALUE) == referenceChamberValue)
+				referenceLines.add(lines.get(i));
+		}
+		return referenceLines;
+	}
+
 	public List<Integer> findAllReferenceChambers(List<String[]> lines,
 			int SOLENOID_VALUE) {
 		List<Integer> referenceChamberLines = new ArrayList<Integer>();

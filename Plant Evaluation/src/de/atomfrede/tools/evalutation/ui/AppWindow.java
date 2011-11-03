@@ -109,7 +109,8 @@ public class AppWindow {
 
 	private void test() {
 		frame.setLayout(new BorderLayout());
-		frame.add(new DateAndTimePicker(), BorderLayout.CENTER);
+		// frame.add(new DateAndTimePicker(), BorderLayout.CENTER);
+		frame.add(new PlantDatesInputPanel(1));
 	}
 
 }

@@ -100,6 +100,8 @@ public class CO2DiffEvaluator extends AbstractEvaluator {
 				List<Integer> referenceLines = findAllReferenceChambers(lines,
 						SOLENOID_VALUE);
 
+				// List<String[]> referenceLines
+
 				System.out
 						.println("Reference Chambers for Standard Derivation found. Size "
 								+ referenceLines.size());
@@ -158,10 +160,18 @@ public class CO2DiffEvaluator extends AbstractEvaluator {
 			for (Integer refLineIndex : referenceLines) {
 				Date refDate = dateFormat
 						.parse(allLines.get(refLineIndex)[TIME_VALUE]);
-				long difference = Math.abs(date.getTime() - refDate.getTime());
-				if (shortestedDistance > difference) {
-					shortestedDistance = difference;
-					refIndex2Use = refLineIndex;
+				long rawDifference = date.getTime() - refDate.getTime();
+				if (rawDifference < 0) {
+					// the next bigger was found so we can stop here maybe
+					if (shortestedDistance > Math.abs(rawDifference)) {
+						refIndex2Use = refLineIndex;
+						return refIndex2Use;
+					}
+				} else {
+					if (shortestedDistance > Math.abs(rawDifference)) {
+						shortestedDistance = Math.abs(rawDifference);
+						refIndex2Use = refLineIndex;
+					}
 				}
 			}
 
