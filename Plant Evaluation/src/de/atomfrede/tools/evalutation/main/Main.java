@@ -18,10 +18,8 @@
 package de.atomfrede.tools.evalutation.main;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
-import de.atomfrede.tools.evalutation.evaluator.StandardDerivationEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.CopyEvaluator;
 
 public class Main {
 
@@ -32,23 +30,24 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// CopyEvaluator evaluator = new CopyEvaluator();
+		CopyEvaluator evaluator = new CopyEvaluator();
 
-		List<File> inputFiles = new ArrayList<File>();
-		List<File> sdFiles = new ArrayList<File>();
-
-		File[] allFiles = photosynthesisFolder.listFiles();
-		for (File file : allFiles) {
-			if (file.isFile()) {
-				if (file.getName().startsWith("psr"))
-					inputFiles.add(file);
-				else
-					sdFiles.add(file);
-			}
-		}
-
-		StandardDerivationEvaluator sdEvaluator = new StandardDerivationEvaluator(
-				inputFiles, sdFiles);
+		// List<File> inputFiles = new ArrayList<File>();
+		// List<File> sdFiles = new ArrayList<File>();
+		//
+		// File[] allFiles = photosynthesisFolder.listFiles();
+		// for (File file : allFiles) {
+		// if (file.isFile()) {
+		// if (file.getName().startsWith("psr"))
+		// inputFiles.add(file);
+		// else
+		// sdFiles.add(file);
+		// }
+		// }
+		//
+		// StandardDerivationEvaluator sdEvaluator = new
+		// StandardDerivationEvaluator(
+		// inputFiles, sdFiles);
 
 	}
 }

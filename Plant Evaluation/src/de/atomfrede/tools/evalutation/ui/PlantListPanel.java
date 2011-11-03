@@ -28,12 +28,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.SwingWorker;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.factories.ButtonBarFactory;
 import com.jgoodies.forms.layout.FormLayout;
 
 import de.atomfrede.tools.evalutation.Plant;
+import de.atomfrede.tools.evalutation.evaluator.CopyEvaluator;
 
 public class PlantListPanel extends JPanel {
 
@@ -76,6 +78,25 @@ public class PlantListPanel extends JPanel {
 
 		add(getEvaluationProgressBar(), BorderLayout.SOUTH);
 
+	}
+
+	private void evaluate() {
+		new SwingWorker<Void, Void>() {
+
+			@Override
+			protected Void doInBackground() throws Exception {
+				// TODO Auto-generated method stub
+				new CopyEvaluator();
+				return null;
+			}
+
+			@Override
+			protected void done() {
+				invalidate();
+				getEvaluationProgressBar().setVisible(false);
+				revalidate();
+			}
+		};
 	}
 
 	private PlantDatesInputPanel getPlantInputPanel(Plant plant, final int index) {
@@ -125,7 +146,7 @@ public class PlantListPanel extends JPanel {
 					invalidate();
 					getEvaluationProgressBar().setVisible(true);
 					revalidate();
-
+					evaluate();
 				}
 			});
 		}
