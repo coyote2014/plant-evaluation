@@ -28,7 +28,7 @@ import com.jgoodies.forms.layout.FormLayout;
 
 public class PlantDatesInputPanel extends JPanel {
 
-	DateAndTimePicker startDatePicker, fromDatePicker;
+	DateAndTimePicker startDatePicker, endDatePicker;
 	JButton deleteButton;
 	int plantNumber;
 
@@ -52,8 +52,31 @@ public class PlantDatesInputPanel extends JPanel {
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 
 		builder.appendSeparator("Plant No " + nf.format(plantNumber));
-
+		builder.append("Start ", getStartPicker());
+		builder.append("End ", getEndPicker());
+		builder.append(getDeleteButton());
 		add(builder.getPanel(), BorderLayout.CENTER);
 
+	}
+
+	private JButton getDeleteButton() {
+		if (deleteButton == null) {
+			deleteButton = new JButton("-");
+		}
+		return deleteButton;
+	}
+
+	private DateAndTimePicker getStartPicker() {
+		if (startDatePicker == null) {
+			startDatePicker = new DateAndTimePicker();
+		}
+		return startDatePicker;
+	}
+
+	private DateAndTimePicker getEndPicker() {
+		if (endDatePicker == null) {
+			endDatePicker = new DateAndTimePicker();
+		}
+		return endDatePicker;
 	}
 }
