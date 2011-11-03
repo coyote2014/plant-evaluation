@@ -92,6 +92,8 @@ public class MeanValueEvaluator extends AbstractEvaluator {
 							solenoid2Write, type2MeanValue, writer);
 				}
 			}
+
+			writeAllLinesForStandardDerivation(lines);
 		} catch (IOException ioe) {
 			System.out.println("IOException " + ioe.getMessage());
 			return false;
@@ -150,6 +152,13 @@ public class MeanValueEvaluator extends AbstractEvaluator {
 		return -1;
 	}
 
+	void writeAllLinesForStandardDerivation(List<String[]> allLines) {
+		for (Integer index : linesNeedForStandardDerivation) {
+			String[] currentLine = allLines.get(index);
+			writeLinesForStandardDerivation(currentLine);
+		}
+	}
+
 	void writeLinesForStandardDerivation(String[] lineToWrite) {
 		// First collect all values
 		String date = lineToWrite[Constants.DATE];
@@ -182,7 +191,8 @@ public class MeanValueEvaluator extends AbstractEvaluator {
 
 		String[] startLine = lines.get(startIndex);
 		// save line for later computation for standard derivation
-		writeLinesForStandardDerivation(startLine);
+		linesNeedForStandardDerivation.add(Integer.valueOf(startIndex));
+		// writeLinesForStandardDerivation(startLine);
 
 		StringBuilder dateBuilder = new StringBuilder();
 		dateBuilder.append(startLine[Constants.DATE]);
@@ -207,7 +217,9 @@ public class MeanValueEvaluator extends AbstractEvaluator {
 
 			// save line for later computation of standard derivation
 			if (currentIndex % 10 == 0)
-				writeLinesForStandardDerivation(currentLine);
+				// writeLinesForStandardDerivation(currentLine);
+				linesNeedForStandardDerivation.add(Integer
+						.valueOf(currentIndex));
 
 			currentDate = dateFormat.parse(currentLine[Constants.DATE] + " "
 					+ currentLine[Constants.TIME]);
