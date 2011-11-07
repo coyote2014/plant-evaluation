@@ -59,12 +59,41 @@ public class Plant {
 		this.endDate = endDate;
 	}
 
+	public double getUpperLeafArea() {
+		return upperLeafArea;
+	}
+
+	public void setUpperLeafArea(double upperLeafArea) {
+		this.upperLeafArea = upperLeafArea;
+	}
+
+	public double getLowerLeafArea() {
+		return lowerLeafArea;
+	}
+
+	public void setLowerLeafArea(double lowerLeafArea) {
+		this.lowerLeafArea = lowerLeafArea;
+	}
+
 	public int getNumber() {
 		return number;
 	}
 
 	public void setNumber(int number) {
 		this.number = number;
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+
+		sb.append("Plant: \n");
+		sb.append("\t" + getStartDate() + "- \t " + getEndDate() + "\n");
+		sb.append("\t upper " + getUpperLeafArea() + "\t lower "
+				+ getLowerLeafArea());
+
+		return sb.toString();
+
 	}
 
 }

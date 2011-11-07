@@ -18,12 +18,17 @@
 package de.atomfrede.tools.evalutation.ui;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.jdesktop.swingx.JXDatePicker;
 
@@ -37,6 +42,7 @@ public class DateAndTimePicker extends JPanel {
 
 	private JXDatePicker datePicker = null;
 	private JSpinner timeSpinner = null;
+	private Calendar calendar = Calendar.getInstance();
 
 	public DateAndTimePicker() {
 		initialize();
@@ -45,6 +51,8 @@ public class DateAndTimePicker extends JPanel {
 	public void setDate(Date date) {
 		getTimeSpinner().setValue(date);
 		getDatePicker().setDate(date);
+
+		calendar.setTime(date);
 	}
 
 	private void initialize() {
@@ -59,20 +67,70 @@ public class DateAndTimePicker extends JPanel {
 
 	}
 
-	private JSpinner getTimeSpinner() {
+	public JSpinner getTimeSpinner() {
 		if (timeSpinner == null) {
 			timeSpinner = new JSpinner(new SpinnerDateModel());
 			JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(
 					timeSpinner, "HH:mm:ss");
 			timeSpinner.setEditor(timeEditor);
+
+			timeSpinner.addChangeListener(new ChangeListener() {
+
+				@Override
+				public void stateChanged(ChangeEvent e) {
+					SpinnerDateModel model = (SpinnerDateModel) timeSpinner
+							.getModel();
+
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(model.getDate());
+
+					int hourOfDay = cal.get(Calendar.HOUR_OF_DAY);
+					int minute = cal.get(Calendar.MINUTE);
+					int second = cal.get(Calendar.SECOND);
+					int millisecond = cal.get(Calendar.MILLISECOND);
+
+					getCalendar().set(Calendar.HOUR_OF_DAY, hourOfDay);
+					getCalendar().set(Calendar.MINUTE, minute);
+					getCalendar().set(Calendar.SECOND, second);
+					getCalendar().set(Calendar.MILLISECOND, millisecond);
+
+				}
+			});
 		}
 		return timeSpinner;
 	}
 
-	private JXDatePicker getDatePicker() {
+	public JXDatePicker getDatePicker() {
 		if (datePicker == null) {
 			datePicker = new JXDatePicker();
+
+			datePicker.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					Date date = datePicker.getDate();
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(date);
+					int year = cal.get(Calendar.YEAR);
+					int month = cal.get(Calendar.MONTH);
+					int day = cal.get(Calendar.DATE);
+					getCalendar().set(year, month, day);
+
+				}
+			});
 		}
 		return datePicker;
+	}
+
+	public Date getDate() {
+		return getCalendar().getTime();
+	}
+
+	public Calendar getCalendar() {
+		return calendar;
+	}
+
+	public void setCalendar(Calendar calendar) {
+		this.calendar = calendar;
 	}
 }

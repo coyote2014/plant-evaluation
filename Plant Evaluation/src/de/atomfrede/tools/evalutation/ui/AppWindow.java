@@ -20,8 +20,6 @@ package de.atomfrede.tools.evalutation.ui;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -34,7 +32,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
-import de.atomfrede.tools.evalutation.Plant;
+import de.atomfrede.tools.evalutation.main.PlantHelper;
 
 public class AppWindow {
 
@@ -127,19 +125,14 @@ public class AppWindow {
 
 		// frame.add(new DateAndTimePicker(), BorderLayout.CENTER);
 		// frame.add(new PlantDatesInputPanel());
-		Plant p1 = new Plant();
-		Plant p2 = new Plant();
-		List<Plant> plantList = new ArrayList<Plant>();
-		plantList.add(p1);
-		plantList.add(p2);
-		builder.append(new PlantListPanel(plantList));
+		builder.append(new PlantListPanel(PlantHelper.getDefaultPlantList()));
 
 		// frame.setBounds(x, y, width, height)
 		frame.add(new JScrollPane(builder.getPanel()), BorderLayout.CENTER);
 
 		Rectangle bounds = new Rectangle(builder.getPanel().getPreferredSize());
-		bounds.grow(10, 250);
-		frame.setResizable(false);
+		bounds.grow(10, 25);
+		frame.setResizable(true);
 
 		frame.setBounds(bounds);
 		frame.setLocationRelativeTo(null);

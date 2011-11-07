@@ -28,6 +28,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JSpinner;
 import javax.swing.SwingWorker;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -35,16 +36,18 @@ import com.jgoodies.forms.factories.ButtonBarFactory;
 import com.jgoodies.forms.layout.FormLayout;
 
 import de.atomfrede.tools.evalutation.Plant;
-import de.atomfrede.tools.evalutation.evaluator.CopyEvaluator;
+import de.atomfrede.tools.evalutation.main.PlantHelper;
 
 public class PlantListPanel extends JPanel {
 
 	static final ImageIcon IC_ADD = new ImageIcon(
-			PlantDatesInputPanel.class.getResource("res/list-add.png"));
+			PlantDataInputPanel.class.getResource("res/list-add.png"));
 
 	List<Plant> plantList;
+	List<PlantDataInputPanel> plantDataInputPanelList;
 	JButton addButton, evaluateButton;
 	JProgressBar evaluationProgressBar;
+	JSpinner lowerLeafAreaSpinner, upperLeadAreaSpinner;
 
 	public PlantListPanel() {
 		this(new ArrayList<Plant>());
@@ -52,6 +55,7 @@ public class PlantListPanel extends JPanel {
 
 	public PlantListPanel(List<Plant> plantList) {
 		this.plantList = plantList;
+		this.plantDataInputPanelList = new ArrayList<PlantDataInputPanel>();
 		initialize();
 	}
 
@@ -86,7 +90,8 @@ public class PlantListPanel extends JPanel {
 			@Override
 			protected Void doInBackground() throws Exception {
 				// TODO Auto-generated method stub
-				new CopyEvaluator();
+				// new CopyEvaluator();
+				setUpEvaluation();
 				return null;
 			}
 
@@ -96,14 +101,16 @@ public class PlantListPanel extends JPanel {
 				getEvaluationProgressBar().setVisible(false);
 				revalidate();
 			}
-		};
+		}.execute();
 	}
 
-	private PlantDatesInputPanel getPlantInputPanel(Plant plant, final int index) {
-		PlantDatesInputPanel inputPanel = new PlantDatesInputPanel(plant);
+	private PlantDataInputPanel getPlantInputPanel(Plant plant, final int index) {
+		PlantDataInputPanel inputPanel = new PlantDataInputPanel(plant);
 
 		if (plantList.size() == 1)
 			inputPanel.deleteButton.setEnabled(false);
+
+		plantDataInputPanelList.add(index, inputPanel);
 
 		inputPanel.deleteButton.addActionListener(new ActionListener() {
 
@@ -197,6 +204,18 @@ public class PlantListPanel extends JPanel {
 
 	public void setPlantList(List<Plant> plantList) {
 		this.plantList = plantList;
+	}
+
+	private void setUpEvaluation() {
+		// check
+		System.out.println("Setting up Evaluation");
+		int i = -1;
+		for (Plant p : PlantHelper.getDefaultPlantList()) {
+			i++;
+			p.setStartDate(plantDataInputPanelList.get(i).getStartDate());
+			p.setEndDate(plantDataInputPanelList.get(i).getEndDate());
+			System.out.println(p);
+		}
 	}
 
 }

@@ -24,7 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import de.atomfrede.tools.evalutation.Plant;
 import de.atomfrede.tools.evalutation.WriteUtils;
+import de.atomfrede.tools.evalutation.main.PlantHelper;
 
 public class PhotoSynthesisEvaluator extends AbstractEvaluator {
 
@@ -38,20 +40,20 @@ public class PhotoSynthesisEvaluator extends AbstractEvaluator {
 	static double MILLION = 1000000.0;
 
 	// upper leaf area in m²
-	static double UPPER_LEAF_AREA_PLANT_ONE = 0.105823;
-	static double UPPER_LEAF_AREA_PLANT_TWO = 0.1224748;
-	static double UPPER_LEAF_AREA_PLANT_THREE = 0.1277336;
-	static double UPPER_LEAF_AREA_PLANT_FOUR = 0.1532759;
-	static double UPPER_LEAF_AREA_PLANT_FIVE = 0.1115781;
-	static double UPPER_LEAF_AREA_PLANT_SIX = 0.1099036;
+	// static double UPPER_LEAF_AREA_PLANT_ONE = 0.105823;
+	// static double UPPER_LEAF_AREA_PLANT_TWO = 0.1224748;
+	// static double UPPER_LEAF_AREA_PLANT_THREE = 0.1277336;
+	// static double UPPER_LEAF_AREA_PLANT_FOUR = 0.1532759;
+	// static double UPPER_LEAF_AREA_PLANT_FIVE = 0.1115781;
+	// static double UPPER_LEAF_AREA_PLANT_SIX = 0.1099036;
 
 	// lower leaf area in m²
-	static double LOWER_LEAF_AREA_PLANT_ONE = 0.002912956;
-	static double LOWER_LEAF_AREA_PLANT_TWO = 0.002663034;
-	static double LOWER_LEAF_AREA_PLANT_THREE = 0.002163335;
-	static double LOWER_LEAF_AREA_PLANT_FOUR = 0.0020615199;
-	static double LOWER_LEAF_AREA_PLANT_FIVE = 0.0024611709;
-	static double LOWER_LEAF_AREA_PLANT_SIX = 0.0032749886;
+	// static double LOWER_LEAF_AREA_PLANT_ONE = 0.002912956;
+	// static double LOWER_LEAF_AREA_PLANT_TWO = 0.002663034;
+	// static double LOWER_LEAF_AREA_PLANT_THREE = 0.002163335;
+	// static double LOWER_LEAF_AREA_PLANT_FOUR = 0.0020615199;
+	// static double LOWER_LEAF_AREA_PLANT_FIVE = 0.0024611709;
+	// static double LOWER_LEAF_AREA_PLANT_SIX = 0.0032749886;
 
 	static double UPPER_CHAMBER = 2.0;
 	static double LOWER_CHAMBER = 4.0;
@@ -243,47 +245,54 @@ public class PhotoSynthesisEvaluator extends AbstractEvaluator {
 		// 2 is upper chamber
 		// 4 is lower chamber
 		// 8 doesn't matter
-		switch (currentPlant) {
-		case 0:
-			if (solenoidValue == LOWER_CHAMBER)
-				return LOWER_LEAF_AREA_PLANT_ONE;
-			else if (solenoidValue == UPPER_CHAMBER)
-				return UPPER_LEAF_AREA_PLANT_ONE;
-			else
-				return 0.0;
-		case 1:
-			if (solenoidValue == LOWER_CHAMBER)
-				return LOWER_LEAF_AREA_PLANT_TWO;
-			else if (solenoidValue == UPPER_CHAMBER)
-				return UPPER_LEAF_AREA_PLANT_TWO;
-			return 0.0;
-		case 2:
-			if (solenoidValue == LOWER_CHAMBER)
-				return LOWER_LEAF_AREA_PLANT_THREE;
-			else if (solenoidValue == UPPER_CHAMBER)
-				return UPPER_LEAF_AREA_PLANT_THREE;
-			return 0.0;
-		case 3:
-			if (solenoidValue == LOWER_CHAMBER)
-				return LOWER_LEAF_AREA_PLANT_FOUR;
-			else if (solenoidValue == UPPER_CHAMBER)
-				return UPPER_LEAF_AREA_PLANT_FOUR;
-			return 0.0;
-		case 4:
-			if (solenoidValue == LOWER_CHAMBER)
-				return LOWER_LEAF_AREA_PLANT_FIVE;
-			else if (solenoidValue == UPPER_CHAMBER)
-				return UPPER_LEAF_AREA_PLANT_FIVE;
-			return 0.0;
-		case 5:
-			if (solenoidValue == LOWER_CHAMBER)
-				return LOWER_LEAF_AREA_PLANT_SIX;
-			else if (solenoidValue == UPPER_CHAMBER)
-				return UPPER_LEAF_AREA_PLANT_SIX;
-			return 0.0;
-		default:
-			return 0.0;
-		}
+		Plant plant = PlantHelper.getDefaultPlantList().get(currentPlant);
+		if (solenoidValue == LOWER_CHAMBER)
+			return plant.getLowerLeafArea();
+		else if (solenoidValue == UPPER_CHAMBER)
+			return plant.getUpperLeafArea();
+		return 1.0;
+
+		// switch (currentPlant) {
+		// case 0:
+		// if (solenoidValue == LOWER_CHAMBER)
+		// return LOWER_LEAF_AREA_PLANT_ONE;
+		// else if (solenoidValue == UPPER_CHAMBER)
+		// return UPPER_LEAF_AREA_PLANT_ONE;
+		// else
+		// return 0.0;
+		// case 1:
+		// if (solenoidValue == LOWER_CHAMBER)
+		// return LOWER_LEAF_AREA_PLANT_TWO;
+		// else if (solenoidValue == UPPER_CHAMBER)
+		// return UPPER_LEAF_AREA_PLANT_TWO;
+		// return 0.0;
+		// case 2:
+		// if (solenoidValue == LOWER_CHAMBER)
+		// return LOWER_LEAF_AREA_PLANT_THREE;
+		// else if (solenoidValue == UPPER_CHAMBER)
+		// return UPPER_LEAF_AREA_PLANT_THREE;
+		// return 0.0;
+		// case 3:
+		// if (solenoidValue == LOWER_CHAMBER)
+		// return LOWER_LEAF_AREA_PLANT_FOUR;
+		// else if (solenoidValue == UPPER_CHAMBER)
+		// return UPPER_LEAF_AREA_PLANT_FOUR;
+		// return 0.0;
+		// case 4:
+		// if (solenoidValue == LOWER_CHAMBER)
+		// return LOWER_LEAF_AREA_PLANT_FIVE;
+		// else if (solenoidValue == UPPER_CHAMBER)
+		// return UPPER_LEAF_AREA_PLANT_FIVE;
+		// return 0.0;
+		// case 5:
+		// if (solenoidValue == LOWER_CHAMBER)
+		// return LOWER_LEAF_AREA_PLANT_SIX;
+		// else if (solenoidValue == UPPER_CHAMBER)
+		// return UPPER_LEAF_AREA_PLANT_SIX;
+		// return 0.0;
+		// default:
+		// return 0.0;
+		// }
 	}
 
 	double getH2ODiff(String[] line, String[] refLine) {
