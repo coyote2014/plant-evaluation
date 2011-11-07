@@ -22,6 +22,7 @@ import java.util.Date;
 public class Plant {
 
 	Date startDate, endDate;
+	double upperLeafArea, lowerLeafArea;
 	int number;
 
 	public Plant() {
