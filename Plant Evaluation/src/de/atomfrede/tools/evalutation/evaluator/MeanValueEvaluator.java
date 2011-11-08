@@ -76,14 +76,16 @@ public class MeanValueEvaluator extends AbstractEvaluator {
 			while (startIndex < lines.size() && startIndex > 0) {
 				startIndex = findEndOfChamber(lines, startIndex);
 				if (startIndex >= 0 && startIndex < lines.size()) {
-					String[] currentLine = lines.get(startIndex - 1);
+					String[] currentLine = lines.get(startIndex);
 					if (startIndex == 1)
 						currentLine = lines.get(startIndex);
 					Date date2Write = dateFormat
 							.parse(currentLine[Constants.DATE] + " "
 									+ currentLine[Constants.TIME]);
+
 					date2Write = new Date(date2Write.getTime()
 							+ Constants.oneHour);
+
 					String solenoid2Write = currentLine[Constants.solenoidValue];
 					Map<Integer, double[]> type2RawValues = collectValuesOfLastFiveMinutes(
 							lines, startIndex);
@@ -144,8 +146,11 @@ public class MeanValueEvaluator extends AbstractEvaluator {
 				}
 			} else {
 				String actualSolenoid = lines.get(i)[Constants.solenoidValue];
-				if (!actualSolenoid.equals(lastSolenoid))
+				if (!actualSolenoid.equals(lastSolenoid)) {
+					// System.out.println("Change!");
 					return i;
+				}
+
 			}
 		}
 

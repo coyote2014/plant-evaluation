@@ -108,7 +108,6 @@ public class PlantListPanel extends JPanel {
 	}
 
 	private PlantDataInputPanel getPlantInputPanel(Plant plant, final int index) {
-		System.out.println(plant);
 		PlantDataInputPanel inputPanel = new PlantDataInputPanel(plant);
 
 		if (plantList.size() == 1)
@@ -225,7 +224,7 @@ public class PlantListPanel extends JPanel {
 			i++;
 			p.setStartDate(plantDataInputPanelList.get(i).getStartDate());
 			p.setEndDate(plantDataInputPanelList.get(i).getEndDate());
-			// System.out.println(p);
+			System.out.println(p);
 		}
 	}
 
