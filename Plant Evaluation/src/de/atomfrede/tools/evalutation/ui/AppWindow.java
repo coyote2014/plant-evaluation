@@ -131,7 +131,7 @@ public class AppWindow {
 		frame.add(new JScrollPane(builder.getPanel()), BorderLayout.CENTER);
 
 		Rectangle bounds = new Rectangle(builder.getPanel().getPreferredSize());
-		bounds.grow(10, 25);
+		bounds.grow(20, 35);
 		frame.setResizable(true);
 
 		frame.setBounds(bounds);

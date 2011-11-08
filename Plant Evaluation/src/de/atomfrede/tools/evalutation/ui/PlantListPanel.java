@@ -66,12 +66,14 @@ public class PlantListPanel extends JPanel {
 		FormLayout layout = new FormLayout("pref");
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 
-		builder.appendSeparator("Plants");
+		// builder.appendSeparator("Plants");
 
 		int index = -1;
 		for (Plant plant : plantList) {
 			index++;
+			builder.appendSeparator("Plant " + (index + 1));
 			builder.append(getPlantInputPanel(plant, index));
+
 		}
 
 		builder.append(ButtonBarFactory.buildOKCancelBar(getEvaluateButton(),
@@ -105,6 +107,7 @@ public class PlantListPanel extends JPanel {
 	}
 
 	private PlantDataInputPanel getPlantInputPanel(Plant plant, final int index) {
+		System.out.println(plant);
 		PlantDataInputPanel inputPanel = new PlantDataInputPanel(plant);
 
 		if (plantList.size() == 1)
