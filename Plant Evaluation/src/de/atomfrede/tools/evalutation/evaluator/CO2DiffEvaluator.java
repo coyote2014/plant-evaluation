@@ -160,19 +160,23 @@ public class CO2DiffEvaluator extends AbstractEvaluator {
 			for (Integer refLineIndex : referenceLines) {
 				Date refDate = dateFormat
 						.parse(allLines.get(refLineIndex)[TIME_VALUE]);
-				long rawDifference = date.getTime() - refDate.getTime();
-				if (rawDifference < 0) {
-					// the next bigger was found so we can stop here maybe
-					if (shortestedDistance > Math.abs(rawDifference)) {
-						refIndex2Use = refLineIndex;
-						return refIndex2Use;
-					}
-				} else {
-					if (shortestedDistance > Math.abs(rawDifference)) {
-						shortestedDistance = Math.abs(rawDifference);
-						refIndex2Use = refLineIndex;
-					}
+				long rawDifference = Math.abs(date.getTime()
+						- refDate.getTime());
+				if (rawDifference < shortestedDistance) {
+					refIndex2Use = refLineIndex;
 				}
+				// if (rawDifference < 0) {
+				// // the next bigger was found so we can stop here maybe
+				// if (shortestedDistance > Math.abs(rawDifference)) {
+				// refIndex2Use = refLineIndex;
+				// return refIndex2Use;
+				// }
+				// } else {
+				// if (shortestedDistance > Math.abs(rawDifference)) {
+				// shortestedDistance = Math.abs(rawDifference);
+				// refIndex2Use = refLineIndex;
+				// }
+				// }
 			}
 
 			return parseDoubleValue(allLines.get(refIndex2Use), CO2_ABS_VALUE);

@@ -122,7 +122,7 @@ public class Delta13Evaluator extends AbstractEvaluator {
 								currentLine, delta13);
 					} else {
 						writeDelta13Values(standardDerivationWriter,
-								currentLine, 1.0);
+								currentLine, 0.0);
 					}
 				}
 			}
