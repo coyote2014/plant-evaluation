@@ -73,6 +73,8 @@ public class Delta13Evaluator extends AbstractEvaluator {
 
 				for (int i = 1; i < allLines.size(); i++) {
 					String[] currentLine = allLines.get(i);
+					if (i == 33)
+						System.out.println("Before value");
 					if (!referenceLines.contains(Integer.valueOf(i))) {
 						// only for non reference lines compute the values
 						int refLine2Use = getReferenceLineToUse(currentLine,
