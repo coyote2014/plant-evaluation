@@ -61,16 +61,6 @@ public class MeanValueEvaluator extends AbstractEvaluator {
 			writer = getCsvWriter(outputFile);
 			WriteUtils.writeHeader(writer);
 
-			standardDerivationOutputFile = new File(outputFolder,
-					"standard-derivation-file.csv");
-			standardDerivationOutputFile.createNewFile();
-
-			if (!standardDerivationOutputFile.exists())
-				return false;
-
-			standardDerivationWriter = getCsvWriter(standardDerivationOutputFile);
-			WriteUtils.writeHeader(standardDerivationWriter);
-
 			List<String[]> lines = readAllLinesInFile(inputFile);
 			int startIndex = 1;
 			while (startIndex < lines.size() && startIndex > 0) {
@@ -94,6 +84,16 @@ public class MeanValueEvaluator extends AbstractEvaluator {
 							solenoid2Write, type2MeanValue, writer);
 				}
 			}
+
+			standardDerivationOutputFile = new File(outputFolder,
+					"standard-derivation-file.csv");
+			standardDerivationOutputFile.createNewFile();
+
+			if (!standardDerivationOutputFile.exists())
+				return false;
+
+			standardDerivationWriter = getCsvWriter(standardDerivationOutputFile);
+			WriteUtils.writeHeader(standardDerivationWriter);
 
 			writeAllLinesForStandardDerivation(lines);
 		} catch (IOException ioe) {
