@@ -18,8 +18,6 @@
 package de.atomfrede.tools.evalutation.ui;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 import java.util.Date;
 
@@ -94,28 +92,6 @@ public class PlantDataInputPanel extends JPanel {
 	private DateAndTimePicker getStartPicker() {
 		if (startDatePicker == null) {
 			startDatePicker = new DateAndTimePicker();
-
-			startDatePicker.getTimeSpinner().addChangeListener(
-					new ChangeListener() {
-
-						@Override
-						public void stateChanged(ChangeEvent e) {
-							plant.setStartDate(startDatePicker.getDate());
-
-						}
-					});
-
-			startDatePicker.getDatePicker().addActionListener(
-					new ActionListener() {
-
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							System.out.println("Start Date "
-									+ startDatePicker.getDate());
-							plant.setStartDate(startDatePicker.getDate());
-
-						}
-					});
 		}
 		return startDatePicker;
 	}
@@ -123,27 +99,6 @@ public class PlantDataInputPanel extends JPanel {
 	private DateAndTimePicker getEndPicker() {
 		if (endDatePicker == null) {
 			endDatePicker = new DateAndTimePicker();
-
-			endDatePicker.getTimeSpinner().addChangeListener(
-					new ChangeListener() {
-
-						@Override
-						public void stateChanged(ChangeEvent e) {
-							plant.setEndDate(endDatePicker.getDate());
-
-						}
-					});
-
-			endDatePicker.getDatePicker().addActionListener(
-					new ActionListener() {
-
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							plant.setEndDate(endDatePicker.getDate());
-
-						}
-					});
-
 		}
 		return endDatePicker;
 	}

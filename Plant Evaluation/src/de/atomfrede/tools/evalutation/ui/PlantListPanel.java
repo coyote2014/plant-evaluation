@@ -36,6 +36,7 @@ import com.jgoodies.forms.factories.ButtonBarFactory;
 import com.jgoodies.forms.layout.FormLayout;
 
 import de.atomfrede.tools.evalutation.Plant;
+import de.atomfrede.tools.evalutation.evaluator.CopyEvaluator;
 import de.atomfrede.tools.evalutation.main.PlantHelper;
 
 public class PlantListPanel extends JPanel {
@@ -217,8 +218,10 @@ public class PlantListPanel extends JPanel {
 			i++;
 			p.setStartDate(plantDataInputPanelList.get(i).getStartDate());
 			p.setEndDate(plantDataInputPanelList.get(i).getEndDate());
-			System.out.println(p);
+			// System.out.println(p);
 		}
+
+		new CopyEvaluator();
 	}
 
 }

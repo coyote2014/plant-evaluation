@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import de.atomfrede.tools.evalutation.Constants;
 
 public class CopyEvaluator extends AbstractEvaluator {
 
@@ -54,10 +55,22 @@ public class CopyEvaluator extends AbstractEvaluator {
 				if (inputFile.isFile()) {
 					// read all lines and write them to the new file
 					List<String[]> allLines = readAllLinesInFile(inputFile);
+					if (i == 0) {
+						writer.writeNext(allLines.get(i));
+						allLines.remove(0);
+					}
 					if (i != 0)
 						// remove the header
 						allLines.remove(0);
-					writer.writeAll(allLines);
+					for (String[] line : allLines) {
+						double solenoidValue = parseDoubleValue(line,
+								Constants.solenoidValue);
+						if (solenoidValue == 1.0 || solenoidValue == 4.0
+								|| solenoidValue == 2.0)
+							writer.writeNext(line);
+
+					}
+					// writer.writeAll(allLines);
 				}
 			}
 
