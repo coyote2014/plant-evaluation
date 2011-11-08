@@ -225,7 +225,7 @@ public class PlantDivider extends AbstractEvaluator {
 					WriteUtils.writeHeader(writer);
 					writer.writeAll(values);
 					writer.close();
-					outputFiles.add(outputFile);
+					standardDerivationOutpufiles.add(outputFile);
 				}
 				// for (int i = 0; i < numberOfPlants; i++) {
 				// File outputFile = new File(outputFolder,
