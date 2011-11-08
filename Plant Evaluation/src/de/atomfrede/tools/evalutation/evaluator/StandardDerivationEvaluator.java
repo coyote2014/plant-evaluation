@@ -38,6 +38,7 @@ public class StandardDerivationEvaluator extends AbstractEvaluator {
 	static int TIME = 8;
 	static int PSR = 12;
 	static int delta13 = 10;
+	static int SOLENOID = 6;
 
 	List<File> outputFiles;
 
@@ -97,7 +98,10 @@ public class StandardDerivationEvaluator extends AbstractEvaluator {
 
 					double psrStandardDerivation = getStandardDerivation(psrValues);
 					double delta13StandardDerivation = getStandardDerivation(delta13Values);
-
+					if (psrMean == 0.0) {
+						psrStandardDerivation = 0.0;
+						delta13StandardDerivation = 0.0;
+					}
 					writeLineWithStandardDerivation(writer, currentLine,
 							psrStandardDerivation, delta13StandardDerivation);
 
@@ -122,15 +126,17 @@ public class StandardDerivationEvaluator extends AbstractEvaluator {
 	}
 
 	double getStandardDerivation(double[] values) {
-		// return Math.sqrt(StatUtils.variance(values));
+		if (values != null && values.length >= 1) {
+			return Math.sqrt(StatUtils.variance(values));
+		} else
+			return 0.0;
 		// return ((1.0 / values.length) * StatUtils.sum(values));
-		double sum = 0;
-		for (int i = 0; i < values.length; i++) {
-			System.out.println("PSR Value " + values[i]);
-			sum += values[i];
-		}
-		double v = 1.0 / values.length;
-		return v * sum;
+		// double sum = 0;
+		// for (int i = 0; i < values.length; i++) {
+		// sum += values[i];
+		// }
+		// double v = 1.0 / values.length;
+		// return v * sum;
 	}
 
 	File getCorrespondingStandardDerivationFile(int currentDataFile) {
@@ -160,9 +166,10 @@ public class StandardDerivationEvaluator extends AbstractEvaluator {
 		Map<Integer, double[]> dataMapping = new HashMap<Integer, double[]>();
 		List<Double> allPSRValues = new ArrayList<Double>();
 		List<Double> allDelta13Values = new ArrayList<Double>();
-
+		double solenoid = parseDoubleValue(meanDataLine, SOLENOID);
 		Date meanDate = dateFormat.parse(meanDataLine[TIME]);
-		List<Integer> allLinesForCurrentMeanDate = getAllLinesToComputeStandardDerivation(meanDate);
+		List<Integer> allLinesForCurrentMeanDate = getAllLinesToComputeStandardDerivation(
+				meanDate, solenoid);
 
 		for (Integer lineIndex : allLinesForCurrentMeanDate) {
 			if (lineIndex >= 1) {
@@ -180,8 +187,8 @@ public class StandardDerivationEvaluator extends AbstractEvaluator {
 		return dataMapping;
 	}
 
-	List<Integer> getAllLinesToComputeStandardDerivation(Date meanDate)
-			throws ParseException {
+	List<Integer> getAllLinesToComputeStandardDerivation(Date meanDate,
+			double solenoidToEvaluate) throws ParseException {
 		List<Integer> standardDerivationLines = new ArrayList<Integer>();
 		int startIndex = getStartIndex(meanDate);
 		if (startIndex == -1)
@@ -189,13 +196,17 @@ public class StandardDerivationEvaluator extends AbstractEvaluator {
 					+ startIndex);
 		Date currentDate = meanDate;
 		int currentIndex = startIndex;
-		standardDerivationLines.add(startIndex);
+		// standardDerivationLines.add(startIndex);
 		while (Math.abs(meanDate.getTime() - currentDate.getTime()) <= Constants.fiveMinutes
 				&& currentIndex >= 1
 				&& currentIndex < currentStandardDerivationLines.size()) {
-			standardDerivationLines.add(currentIndex);
-			currentDate = dateFormat.parse(currentStandardDerivationLines
-					.get(currentIndex)[TIME]);
+			String[] possibleLine = currentStandardDerivationLines
+					.get(currentIndex);
+			double solenoid = parseDoubleValue(possibleLine, SOLENOID);
+			if (solenoid == solenoidToEvaluate) {
+				standardDerivationLines.add(currentIndex);
+				currentDate = dateFormat.parse(possibleLine[TIME]);
+			}
 			currentIndex++;
 
 		}

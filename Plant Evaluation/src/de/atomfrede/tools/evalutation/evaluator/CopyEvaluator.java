@@ -19,10 +19,13 @@ package de.atomfrede.tools.evalutation.evaluator;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
+import de.atomfrede.tools.evalutation.EntryComparator;
 
 public class CopyEvaluator extends AbstractEvaluator {
 
@@ -49,30 +52,63 @@ public class CopyEvaluator extends AbstractEvaluator {
 
 			File[] allInputFiles = inputRootFolder.listFiles();
 			System.out.println("#Files " + allInputFiles.length);
+			List<String[]> allLines = new ArrayList<String[]>();
 			for (int i = 0; i < allInputFiles.length; i++) {
 				File inputFile = allInputFiles[i];
 
 				if (inputFile.isFile()) {
 					// read all lines and write them to the new file
-					List<String[]> allLines = readAllLinesInFile(inputFile);
-					if (i == 0) {
-						writer.writeNext(allLines.get(i));
-						allLines.remove(0);
+					List<String[]> currentLines = readAllLinesInFile(inputFile);
+					if (i != 0) {
+						currentLines.remove(0);
+					} else {
+						allLines.add(currentLines.get(0));
 					}
-					if (i != 0)
-						// remove the header
-						allLines.remove(0);
-					for (String[] line : allLines) {
-						double solenoidValue = parseDoubleValue(line,
-								Constants.solenoidValue);
-						if (solenoidValue == 1.0 || solenoidValue == 4.0
-								|| solenoidValue == 2.0)
-							writer.writeNext(line);
 
+					// for(String[] line:currentLines){
+					// double solenoidValue = parseDoubleValue(line,
+					// Constants.solenoidValue);
+					// if (solenoidValue == 1.0 || solenoidValue == 4.0
+					// || solenoidValue == 2.0){
+					// //nothing to do here
+					// }
+					// }
+					for (int j = 1; j < currentLines.size(); j++) {
+						String[] currentLine = currentLines.get(j);
+						double solenoidValue = parseDoubleValue(currentLine,
+								Constants.solenoidValue);
+
+						if (solenoidValue == 1.0 || solenoidValue == 4.0
+								|| solenoidValue == 2.0) {
+							allLines.add(currentLine);
+						}
 					}
+
+					// allLines.addAll(currentLines);
+
+					// if (i == 0) {
+					// writer.writeNext(allLines.get(i));
+					// allLines.remove(0);
+					// }
+					// if (i != 0)
+					// // remove the header
+					// allLines.remove(0);
+					// for (String[] line : allLines) {
+					// double solenoidValue = parseDoubleValue(line,
+					// Constants.solenoidValue);
+					// if (solenoidValue == 1.0 || solenoidValue == 4.0
+					// || solenoidValue == 2.0)
+					// writer.writeNext(line);
+					//
+					// }
 					// writer.writeAll(allLines);
 				}
 			}
+			String[] header = allLines.get(0);
+			allLines.remove(0);
+			Collections.sort(allLines, new EntryComparator());
+			allLines.add(0, header);
+			writer.writeAll(allLines);
 
 		} catch (IOException ioe) {
 			System.out.println("IOException " + ioe.getMessage());

@@ -68,19 +68,25 @@ public class Delta13Evaluator extends AbstractEvaluator {
 
 				List<String[]> allLines = readAllLinesInFile(inputFile);
 
-				List<Integer> referenceLines = findAllReferenceChambers(
-						allLines, SOLENOID_VALUE);
+				// List<Integer> referenceLines = findAllReferenceChambers(
+				// allLines, SOLENOID_VALUE);
+				allReferenceLines = findAllReferenceLines(allLines,
+						SOLENOID_VALUE);
 
 				for (int i = 1; i < allLines.size(); i++) {
 					String[] currentLine = allLines.get(i);
-					if (i == 33)
-						System.out.println("Before value");
-					if (!referenceLines.contains(Integer.valueOf(i))) {
+					double solenoid = parseDoubleValue(currentLine,
+							SOLENOID_VALUE);
+					if (solenoid != 1.0) {
 						// only for non reference lines compute the values
-						int refLine2Use = getReferenceLineToUse(currentLine,
-								allLines, referenceLines, TIME_VALUE);
-						String[] refLine = allLines.get(refLine2Use);
-						double delta13 = computeDelta13(currentLine, refLine);
+						String[] refLine2Use = getReferenceLineToUse(
+								currentLine, allLines, allReferenceLines,
+								TIME_VALUE);
+						// System.out.println("Current Line " + i);
+						// System.out.println("RefLine " + refLine2Use);
+						// String[] refLine = allLines.get(refLine2Use);
+						double delta13 = computeDelta13(currentLine,
+								refLine2Use);
 						writeDelta13Values(writer, currentLine, delta13);
 					} else {
 						writeDelta13Values(writer, currentLine, 0.0);
@@ -106,18 +112,23 @@ public class Delta13Evaluator extends AbstractEvaluator {
 
 				List<String[]> allLines = readAllLinesInFile(standardDerivationInputFile);
 
-				List<Integer> referenceLines = findAllReferenceChambers(
-						allLines, SOLENOID_VALUE);
-				System.out.println("Delta 13: Reference Lines "
-						+ referenceLines.size());
+				// List<Integer> referenceLines = findAllReferenceChambers(
+				// allLines, SOLENOID_VALUE);
+
 				for (int i = 1; i < allLines.size(); i++) {
 					String[] currentLine = allLines.get(i);
-					if (!referenceLines.contains(Integer.valueOf(i))) {
+					double solenoid = parseDoubleValue(currentLine,
+							SOLENOID_VALUE);
+					if (solenoid != 1.0) {
 						// only for non reference lines compute the values
-						int refLine2Use = getReferenceLineToUse(currentLine,
-								allLines, referenceLines, TIME_VALUE);
-						String[] refLine = allLines.get(refLine2Use);
-						double delta13 = computeDelta13(currentLine, refLine);
+						String[] refLine2Use = getReferenceLineToUse(
+								currentLine, allLines, allReferenceLines,
+								TIME_VALUE);
+						// String[] refLine = allLines.get(refLine2Use);
+						// System.out.println("CurrentLine " + i);
+						// System.out.println("RefLine2Use " + refLine2Use);
+						double delta13 = computeDelta13(currentLine,
+								refLine2Use);
 						writeDelta13Values(standardDerivationWriter,
 								currentLine, delta13);
 					} else {
@@ -164,8 +175,14 @@ public class Delta13Evaluator extends AbstractEvaluator {
 		double delta5Minutes = parseDoubleValue(currentLine, DELTA_FIVE_MINUTES);
 		double delta5MinutesRef = parseDoubleValue(refLine, DELTA_FIVE_MINUTES);
 
-		double delta13 = ((co2abs * delta5Minutes) - (co2absRef * delta5MinutesRef))
-				/ (co2abs - co2absRef);
+		double a = co2abs * delta5Minutes;
+		double b = co2absRef * delta5MinutesRef;
+		double c = a - b;
+		double d = co2abs - co2absRef;
+		double delta13 = c / d;
+		// double delta13 = ((co2abs * delta5Minutes) - (co2absRef *
+		// delta5MinutesRef))
+		// / (co2abs - co2absRef);
 		return delta13;
 	}
 }

@@ -213,7 +213,6 @@ public class PlantListPanel extends JPanel {
 
 	private void setUpEvaluation() {
 		// check
-		System.out.println("Setting up Evaluation");
 		updatePlants();
 		new CopyEvaluator();
 	}
@@ -224,7 +223,6 @@ public class PlantListPanel extends JPanel {
 			i++;
 			p.setStartDate(plantDataInputPanelList.get(i).getStartDate());
 			p.setEndDate(plantDataInputPanelList.get(i).getEndDate());
-			System.out.println(p);
 		}
 	}
 

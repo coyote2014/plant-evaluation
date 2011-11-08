@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +31,7 @@ import org.apache.commons.math.stat.StatUtils;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
+import de.atomfrede.tools.evalutation.EntryComparator;
 import de.atomfrede.tools.evalutation.WriteUtils;
 
 public class MeanValueEvaluator extends AbstractEvaluator {
@@ -38,7 +40,7 @@ public class MeanValueEvaluator extends AbstractEvaluator {
 	File standardDerivationOutputFile;
 	File outputFile;
 	File inputFile;
-	CSVWriter standardDerivationWriter = null;;
+	CSVWriter standardDerivationWriter = null;
 
 	public MeanValueEvaluator(File inputFile) {
 		super("mean-values");
@@ -65,10 +67,9 @@ public class MeanValueEvaluator extends AbstractEvaluator {
 			int startIndex = 1;
 			while (startIndex < lines.size() && startIndex > 0) {
 				startIndex = findEndOfChamber(lines, startIndex);
-				if (startIndex >= 0 && startIndex < lines.size()) {
-					String[] currentLine = lines.get(startIndex);
-					if (startIndex == 1)
-						currentLine = lines.get(startIndex);
+				if (startIndex > 1 && startIndex < lines.size()) {
+					String[] currentLine = lines.get(startIndex - 1);
+
 					Date date2Write = dateFormat
 							.parse(currentLine[Constants.DATE] + " "
 									+ currentLine[Constants.TIME]);
@@ -78,13 +79,14 @@ public class MeanValueEvaluator extends AbstractEvaluator {
 
 					String solenoid2Write = currentLine[Constants.solenoidValue];
 					Map<Integer, double[]> type2RawValues = collectValuesOfLastFiveMinutes(
-							lines, startIndex);
+							lines, startIndex - 1);
 					Map<Integer, Double> type2MeanValue = computeMeanValues(type2RawValues);
 					WriteUtils.appendValuesInFirstStep(date2Write,
 							solenoid2Write, type2MeanValue, writer);
 				}
 			}
 
+			// Standard Derivation Stuff
 			standardDerivationOutputFile = new File(outputFolder,
 					"standard-derivation-file.csv");
 			standardDerivationOutputFile.createNewFile();
@@ -157,17 +159,34 @@ public class MeanValueEvaluator extends AbstractEvaluator {
 		return -1;
 	}
 
-	void writeAllLinesForStandardDerivation(List<String[]> allLines) {
+	void writeAllLinesForStandardDerivation(List<String[]> allLines)
+			throws ParseException {
+		List<String[]> standardDerivationLines = new ArrayList<String[]>();
+
 		for (Integer index : linesNeedForStandardDerivation) {
 			String[] currentLine = allLines.get(index);
-			writeLinesForStandardDerivation(currentLine);
+			// writeLinesForStandardDerivation(currentLine);
+			standardDerivationLines.add(currentLine);
+		}
+
+		Collections.sort(standardDerivationLines, new EntryComparator());
+
+		for (String[] lineToWrite : standardDerivationLines) {
+			writeLinesForStandardDerivation(lineToWrite);
 		}
 	}
 
-	void writeLinesForStandardDerivation(String[] lineToWrite) {
+	void writeLinesForStandardDerivation(String[] lineToWrite)
+			throws ParseException {
 		// First collect all values
 		String date = lineToWrite[Constants.DATE];
 		String time = lineToWrite[Constants.TIME];
+		Date date2Write = dateFormat.parse(date + " " + time);
+
+		date2Write = new Date(date2Write.getTime() + Constants.oneHour);
+
+		date = dateFormat.format(date2Write).split(" ")[0];
+		time = dateFormat.format(date2Write).split(" ")[1];
 		double _12CO2_dry_value = parseDoubleValue(lineToWrite,
 				Constants._12CO2_dry);
 		double _13CO2_dry_value = parseDoubleValue(lineToWrite,
@@ -194,9 +213,20 @@ public class MeanValueEvaluator extends AbstractEvaluator {
 		List<Double> _13CO2_dry_Values = new ArrayList<Double>();
 		List<Double> _H20_Values = new ArrayList<Double>();
 
+		Map<Integer, double[]> mapping = new HashMap<Integer, double[]>();
+
+		mapping.put(Constants.delta5minutes,
+				list2DoubleArray(fiveMinutesDeltaValues));
+		mapping.put(Constants._12CO2_dry, list2DoubleArray(_12CO2_dry_Values));
+		mapping.put(Constants._13CO2_dry, list2DoubleArray(_13CO2_dry_Values));
+		mapping.put(Constants.H2O, list2DoubleArray(_H20_Values));
+
 		String[] startLine = lines.get(startIndex);
 		// save line for later computation for standard derivation
-		linesNeedForStandardDerivation.add(Integer.valueOf(startIndex));
+		double startSolenoid = parseDoubleValue(startLine,
+				Constants.solenoidValue);
+		if (startSolenoid != 1.0)
+			linesNeedForStandardDerivation.add(Integer.valueOf(startIndex));
 		// writeLinesForStandardDerivation(startLine);
 
 		StringBuilder dateBuilder = new StringBuilder();
@@ -219,12 +249,16 @@ public class MeanValueEvaluator extends AbstractEvaluator {
 				&& currentIndex >= 1) {
 
 			String[] currentLine = lines.get(currentIndex);
-
+			double currentSolenoid = parseDoubleValue(currentLine,
+					Constants.solenoidValue);
+			if (currentSolenoid != startSolenoid) {
+				System.out.println("Break");
+				break;
+			}
 			// save line for later computation of standard derivation
-			if (currentIndex % 10 == 0)
+			if (currentIndex % 10 == 0 && startSolenoid != 1.0)
 				// writeLinesForStandardDerivation(currentLine);
-				linesNeedForStandardDerivation.add(Integer
-						.valueOf(currentIndex));
+				linesNeedForStandardDerivation.add(currentIndex);
 
 			currentDate = dateFormat.parse(currentLine[Constants.DATE] + " "
 					+ currentLine[Constants.TIME]);
@@ -238,7 +272,7 @@ public class MeanValueEvaluator extends AbstractEvaluator {
 
 			currentIndex -= 1;
 		}
-		Map<Integer, double[]> mapping = new HashMap<Integer, double[]>();
+
 		mapping.put(Constants.delta5minutes,
 				list2DoubleArray(fiveMinutesDeltaValues));
 		mapping.put(Constants._12CO2_dry, list2DoubleArray(_12CO2_dry_Values));
@@ -246,5 +280,4 @@ public class MeanValueEvaluator extends AbstractEvaluator {
 		mapping.put(Constants.H2O, list2DoubleArray(_H20_Values));
 		return mapping;
 	}
-
 }

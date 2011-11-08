@@ -66,15 +66,14 @@ public class CO2DiffEvaluator extends AbstractEvaluator {
 
 				List<String[]> lines = readAllLinesInFile(inputFile);
 
-				List<Integer> referenceLines = findAllReferenceChambers(lines,
-						SOLENOID_VALUE);
+				allReferenceLines = findAllReferenceLines(lines, SOLENOID_VALUE);
 
 				for (int i = 1; i < lines.size(); i++) {
 					String[] currentLine = lines.get(i);
 					double co2Diff = parseDoubleValue(currentLine,
 							CO2_ABS_VALUE)
 							- getCO2DiffForLine(currentLine, lines,
-									referenceLines);
+									allReferenceLines);
 					writeCO2Diff(writer, currentLine, co2Diff);
 				}
 			}
@@ -97,14 +96,15 @@ public class CO2DiffEvaluator extends AbstractEvaluator {
 
 				List<String[]> lines = readAllLinesInFile(standardDerivationInputFile);
 
-				List<Integer> referenceLines = findAllReferenceChambers(lines,
-						SOLENOID_VALUE);
+				// List<Integer> referenceLines =
+				// findAllReferenceChambers(lines,
+				// SOLENOID_VALUE);
 
 				// List<String[]> referenceLines
 
-				System.out
-						.println("Reference Chambers for Standard Derivation found. Size "
-								+ referenceLines.size());
+				// System.out
+				// .println("Reference Chambers for Standard Derivation found. Size "
+				// + referenceLines.size());
 
 				for (int i = 1; i < lines.size(); i++) {
 					if (i % 1000 == 0)
@@ -114,7 +114,7 @@ public class CO2DiffEvaluator extends AbstractEvaluator {
 					double co2Diff = parseDoubleValue(currentLine,
 							CO2_ABS_VALUE)
 							- getCO2DiffForLine(currentLine, lines,
-									referenceLines);
+									allReferenceLines);
 					writeCO2Diff(standardDerivationWriter, currentLine, co2Diff);
 				}
 			}
@@ -152,34 +152,22 @@ public class CO2DiffEvaluator extends AbstractEvaluator {
 	}
 
 	double getCO2DiffForLine(String[] line, List<String[]> allLines,
-			List<Integer> referenceLines) throws ParseException {
+			List<String[]> referenceLines) throws ParseException {
+		double co2Diff = 0.0;
 		if (parseDoubleValue(line, SOLENOID_VALUE) != referenceChamberValue) {
 			Date date = dateFormat.parse(line[TIME_VALUE]);
 			long shortestedDistance = Long.MAX_VALUE;
-			int refIndex2Use = -1;
-			for (Integer refLineIndex : referenceLines) {
-				Date refDate = dateFormat
-						.parse(allLines.get(refLineIndex)[TIME_VALUE]);
+			for (String[] refLineIndex : referenceLines) {
+				Date refDate = dateFormat.parse(refLineIndex[TIME_VALUE]);
 				long rawDifference = Math.abs(date.getTime()
 						- refDate.getTime());
 				if (rawDifference < shortestedDistance) {
-					refIndex2Use = refLineIndex;
+					co2Diff = parseDoubleValue(refLineIndex, CO2_ABS_VALUE);
 				}
-				// if (rawDifference < 0) {
-				// // the next bigger was found so we can stop here maybe
-				// if (shortestedDistance > Math.abs(rawDifference)) {
-				// refIndex2Use = refLineIndex;
-				// return refIndex2Use;
-				// }
-				// } else {
-				// if (shortestedDistance > Math.abs(rawDifference)) {
-				// shortestedDistance = Math.abs(rawDifference);
-				// refIndex2Use = refLineIndex;
-				// }
-				// }
+
 			}
 
-			return parseDoubleValue(allLines.get(refIndex2Use), CO2_ABS_VALUE);
+			return co2Diff;
 
 		}
 		// TODO return the value of that reference chamber

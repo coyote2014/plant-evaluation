@@ -78,7 +78,7 @@ public class PhotoSynthesisEvaluator extends AbstractEvaluator {
 	List<File> standardDerivationOutputFiles;
 
 	List<String[]> allLinesInCurrentFile;
-	List<Integer> referenceLines;
+	// List<Integer> referenceLines;
 
 	int currentPlant;
 
@@ -115,7 +115,9 @@ public class PhotoSynthesisEvaluator extends AbstractEvaluator {
 
 						String[] currentLine = allLinesInCurrentFile.get(i);
 
-						referenceLines = findAllReferenceChambers(
+						// referenceLines = findAllReferenceChambers(
+						// allLinesInCurrentFile, SOLENOID_VALUE);
+						allReferenceLines = findAllReferenceLines(
 								allLinesInCurrentFile, SOLENOID_VALUE);
 
 						double psrForCurrentLine = computePhotoSynthesisRate(currentLine);
@@ -146,8 +148,8 @@ public class PhotoSynthesisEvaluator extends AbstractEvaluator {
 
 						String[] currentLine = allLinesInCurrentFile.get(i);
 
-						referenceLines = findAllReferenceChambers(
-								allLinesInCurrentFile, SOLENOID_VALUE);
+						// referenceLines = findAllReferenceChambers(
+						// allLinesInCurrentFile, SOLENOID_VALUE);
 
 						double psrForCurrentLine = computePhotoSynthesisRate(currentLine);
 						writePsr(writer, currentLine, psrForCurrentLine);
@@ -187,9 +189,9 @@ public class PhotoSynthesisEvaluator extends AbstractEvaluator {
 		if (solenoid == 2.0 || solenoid == 4.0 || solenoid == 8.0) {
 			// compute it here
 			// first find the correponsing referenceLine
-			int refIndex = getReferenceLineToUse(line, allLinesInCurrentFile,
-					referenceLines, TIME_VALUE);
-			String[] refLine = allLinesInCurrentFile.get(refIndex);
+			String[] refLine = getReferenceLineToUse(line,
+					allLinesInCurrentFile, allReferenceLines, TIME_VALUE);
+			// String[] refLine = allLinesInCurrentFile.get(refIndex);
 			double height = 0.0;
 			double diameter = 0.0;
 			double flowRate = 0.0;

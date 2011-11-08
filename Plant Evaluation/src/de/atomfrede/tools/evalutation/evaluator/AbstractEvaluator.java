@@ -39,6 +39,7 @@ public abstract class AbstractEvaluator {
 	public File outputRootFolder = new File("output");
 	public File inputRootFolder = new File("input");
 	public File outputFolder;
+	public List<String[]> allReferenceLines;
 
 	public AbstractEvaluator(String outputFolderName) {
 		try {
@@ -109,15 +110,15 @@ public abstract class AbstractEvaluator {
 		return referenceChamberLines;
 	}
 
-	public int getReferenceLineToUse(String[] line, List<String[]> allLines,
-			List<Integer> referenceLines, int TIME_VALUE) throws ParseException {
+	public String[] getReferenceLineToUse(String[] line,
+			List<String[]> allLines, List<String[]> referenceLines,
+			int TIME_VALUE) throws ParseException {
 
 		Date date = dateFormat.parse(line[TIME_VALUE]);
 		long shortestedDistance = Long.MAX_VALUE;
-		int refIndex2Use = -1;
-		for (Integer refLineIndex : referenceLines) {
-			Date refDate = dateFormat
-					.parse(allLines.get(refLineIndex)[TIME_VALUE]);
+		String[] refIndex2Use = null;
+		for (String[] refLineIndex : referenceLines) {
+			Date refDate = dateFormat.parse(refLineIndex[TIME_VALUE]);
 			long difference = Math.abs(date.getTime() - refDate.getTime());
 			if (shortestedDistance > difference) {
 				shortestedDistance = difference;
