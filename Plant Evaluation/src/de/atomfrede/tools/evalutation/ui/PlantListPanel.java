@@ -189,11 +189,13 @@ public class PlantListPanel extends JPanel {
 	}
 
 	public void removePlant(int index) {
+		updatePlants();
 		plantList.remove(index);
 		rebuild();
 	}
 
 	public void addPlant(Plant plant) {
+		updatePlants();
 		plantList.add(plant);
 		rebuild();
 
@@ -213,6 +215,11 @@ public class PlantListPanel extends JPanel {
 	private void setUpEvaluation() {
 		// check
 		System.out.println("Setting up Evaluation");
+		updatePlants();
+		new CopyEvaluator();
+	}
+
+	private void updatePlants() {
 		int i = -1;
 		for (Plant p : PlantHelper.getDefaultPlantList()) {
 			i++;
@@ -220,8 +227,6 @@ public class PlantListPanel extends JPanel {
 			p.setEndDate(plantDataInputPanelList.get(i).getEndDate());
 			// System.out.println(p);
 		}
-
-		new CopyEvaluator();
 	}
 
 }

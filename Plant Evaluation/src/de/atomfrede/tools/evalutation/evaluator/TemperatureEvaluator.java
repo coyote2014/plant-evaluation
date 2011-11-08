@@ -106,10 +106,10 @@ public class TemperatureEvaluator extends AbstractEvaluator {
 				}
 			}
 		} catch (IOException ioe) {
-			System.out.println("IOException " + ioe.getMessage());
+			System.out.println("IOException " + ioe);
 			return false;
 		} catch (ParseException pe) {
-			System.out.println("ParseException " + pe.getMessage());
+			System.out.println("ParseException " + pe);
 			return false;
 		} finally {
 			try {
