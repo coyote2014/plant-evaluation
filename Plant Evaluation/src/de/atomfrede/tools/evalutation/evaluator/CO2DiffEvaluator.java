@@ -163,6 +163,7 @@ public class CO2DiffEvaluator extends AbstractEvaluator {
 						- refDate.getTime());
 				if (rawDifference < shortestedDistance) {
 					co2Diff = parseDoubleValue(refLineIndex, CO2_ABS_VALUE);
+					shortestedDistance = rawDifference;
 				}
 
 			}
