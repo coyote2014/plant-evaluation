@@ -1,4 +1,6 @@
 /**
+ *  Copyright 2011 Frederik Hahne
+ *  
  * 	DateAndTimePicker.java is part of Plant Evaluation.
  *
  *  Plant Evaluation is free software: you can redistribute it and/or modify
@@ -20,7 +22,6 @@ package de.atomfrede.tools.evalutation.ui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -36,9 +37,6 @@ import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
 public class DateAndTimePicker extends JPanel {
-
-	private final SimpleDateFormat dateFormat = new SimpleDateFormat(
-			"dd.MM.yy HH:mm:ss");
 
 	private JXDatePicker datePicker = null;
 	private JSpinner timeSpinner = null;

@@ -1,4 +1,6 @@
 /**
+ *  Copyright 2011 Frederik Hahne
+ *  
  * 	AppWindow.java is part of Plant Evaluation.
  *
  *  Plant Evaluation is free software: you can redistribute it and/or modify
@@ -40,7 +42,6 @@ import de.atomfrede.tools.evalutation.ui.about.AboutDialog;
 public class AppWindow {
 
 	private JFrame frame;
-	private PlantListPanel plantListPanel;
 
 	/**
 	 * Launch the application.
@@ -144,13 +145,8 @@ public class AppWindow {
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 		builder.setDefaultDialogBorder();
 
-		// frame.add(new DateAndTimePicker(), BorderLayout.CENTER);
-		// frame.add(new PlantDatesInputPanel());
-		// plantListPanel = new
-		// PlantListPanel(PlantHelper.getDefaultPlantList());
 		builder.append(new MainPanel(frame));
 
-		// frame.setBounds(x, y, width, height)
 		frame.getContentPane().add(new JScrollPane(builder.getPanel()),
 				BorderLayout.CENTER);
 

@@ -1,4 +1,6 @@
 /**
+ *  Copyright 2011 Frederik Hahne
+ *  
  * 	ThirdStepEvaluator.java is part of Plant Evaluation.
  *
  *  Plant Evaluation is free software: you can redistribute it and/or modify
