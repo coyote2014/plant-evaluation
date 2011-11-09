@@ -17,14 +17,20 @@
 
 package de.atomfrede.tools.evalutation.ui.about;
 
+import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -40,15 +46,23 @@ public class AboutPanel extends JPanel {
 	private JButton btnNewButton;
 
 	private final JDialog parentDialog;
+	private JButton btnSourceCode;
+	URI uri;
 
 	/**
 	 * Create the panel.
+	 * 
+	 * @throws URISyntaxException
 	 */
-	public AboutPanel(JDialog parentDialog) {
+	public AboutPanel(JDialog parentDialog) throws URISyntaxException {
+		uri = new URI(
+				"https://www.assembla.com/code/plant-evaluation-tool/subversion/nodes");
 		this.parentDialog = parentDialog;
 		setLayout(new FormLayout(
 				new ColumnSpec[] { FormFactory.RELATED_GAP_COLSPEC,
 						FormFactory.DEFAULT_COLSPEC, }, new RowSpec[] {
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,
 						FormFactory.RELATED_GAP_ROWSPEC,
 						FormFactory.DEFAULT_ROWSPEC,
 						FormFactory.RELATED_GAP_ROWSPEC,
@@ -70,7 +84,8 @@ public class AboutPanel extends JPanel {
 		add(getLblCopyright(), "2, 8");
 		add(getLblFrederikHahne(), "2, 10");
 		add(getLblLicensedUnderGpl(), "2, 14");
-		add(getBtnNewButton(), "2, 16, center, default");
+		add(getBtnSourceCode(), "2, 16");
+		add(getBtnNewButton(), "2, 18, center, default");
 
 	}
 
@@ -122,4 +137,41 @@ public class AboutPanel extends JPanel {
 		}
 		return btnNewButton;
 	}
+
+	private JButton getBtnSourceCode() {
+		if (btnSourceCode == null) {
+			String link = "<HTML><FONT color=\"#000099\"><U>Source Code</U></FONT></HTML>";
+			btnSourceCode = new JButton(link);
+			btnSourceCode.setHorizontalAlignment(SwingConstants.CENTER);
+			btnSourceCode.setBorderPainted(false);
+			btnSourceCode.setOpaque(false);
+			btnSourceCode.setBackground(Color.WHITE);
+			btnSourceCode.setRolloverEnabled(false);
+			btnSourceCode.setBorder(null);
+			btnSourceCode.setToolTipText(uri.toString());
+			btnSourceCode.setFocusPainted(false);
+
+			btnSourceCode.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					open(uri);
+				}
+			});
+		}
+		return btnSourceCode;
+	}
+
+	private static void open(URI uri) {
+		if (Desktop.isDesktopSupported()) {
+			Desktop desktop = Desktop.getDesktop();
+			try {
+				desktop.browse(uri);
+			} catch (IOException e) {
+				// TODO: error handling
+			}
+		} else {
+			// TODO: error handling
+		}
+	}
+
 }
