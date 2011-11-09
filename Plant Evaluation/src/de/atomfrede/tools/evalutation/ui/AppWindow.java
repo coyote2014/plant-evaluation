@@ -109,6 +109,12 @@ public class AppWindow {
 		menuBar.add(mnEdit);
 
 		JMenuItem mntmOptions = new JMenuItem("Options");
+		mntmOptions.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new OptionsDialog(frame);
+			}
+		});
 		mnEdit.add(mntmOptions);
 
 		JMenu mnHelp = new JMenu("Help");

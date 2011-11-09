@@ -33,6 +33,7 @@ import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.EntryComparator;
 import de.atomfrede.tools.evalutation.WriteUtils;
+import de.atomfrede.tools.evalutation.ui.OptionsDialog.Options;
 
 public class MeanValueEvaluator extends AbstractEvaluator {
 
@@ -74,8 +75,9 @@ public class MeanValueEvaluator extends AbstractEvaluator {
 							.parse(currentLine[Constants.DATE] + " "
 									+ currentLine[Constants.TIME]);
 
-					date2Write = new Date(date2Write.getTime()
-							+ Constants.oneHour);
+					if (Options.isShiftByOneHour())
+						date2Write = new Date(date2Write.getTime()
+								+ Constants.oneHour);
 
 					String solenoid2Write = currentLine[Constants.solenoidValue];
 					Map<Integer, double[]> type2RawValues = collectValuesOfLastFiveMinutes(
@@ -183,7 +185,8 @@ public class MeanValueEvaluator extends AbstractEvaluator {
 		String time = lineToWrite[Constants.TIME];
 		Date date2Write = dateFormat.parse(date + " " + time);
 
-		date2Write = new Date(date2Write.getTime() + Constants.oneHour);
+		if (Options.isShiftByOneHour())
+			date2Write = new Date(date2Write.getTime() + Constants.oneHour);
 
 		date = dateFormat.format(date2Write).split(" ")[0];
 		time = dateFormat.format(date2Write).split(" ")[1];
