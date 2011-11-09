@@ -35,7 +35,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
-import de.atomfrede.tools.evalutation.main.PlantHelper;
 import de.atomfrede.tools.evalutation.ui.about.AboutDialog;
 
 public class AppWindow {
@@ -147,8 +146,9 @@ public class AppWindow {
 
 		// frame.add(new DateAndTimePicker(), BorderLayout.CENTER);
 		// frame.add(new PlantDatesInputPanel());
-		plantListPanel = new PlantListPanel(PlantHelper.getDefaultPlantList());
-		builder.append(plantListPanel);
+		// plantListPanel = new
+		// PlantListPanel(PlantHelper.getDefaultPlantList());
+		builder.append(new MainPanel(frame));
 
 		// frame.setBounds(x, y, width, height)
 		frame.getContentPane().add(new JScrollPane(builder.getPanel()),

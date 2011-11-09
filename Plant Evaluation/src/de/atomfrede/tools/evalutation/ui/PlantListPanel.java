@@ -28,7 +28,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.JSpinner;
 import javax.swing.SwingWorker;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -48,7 +47,6 @@ public class PlantListPanel extends JPanel {
 	List<PlantDataInputPanel> plantDataInputPanelList;
 	JButton addButton, evaluateButton;
 	JProgressBar evaluationProgressBar;
-	JSpinner lowerLeafAreaSpinner, upperLeadAreaSpinner;
 
 	public PlantListPanel() {
 		this(new ArrayList<Plant>());
@@ -67,7 +65,7 @@ public class PlantListPanel extends JPanel {
 		FormLayout layout = new FormLayout("pref");
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 
-		// builder.appendSeparator("Plants");
+		builder.appendSeparator("Plants");
 
 		int index = -1;
 		for (Plant plant : plantList) {

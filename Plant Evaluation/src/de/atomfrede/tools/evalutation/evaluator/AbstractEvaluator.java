@@ -31,13 +31,14 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
+import de.atomfrede.tools.evalutation.ui.OptionsDialog.Options;
 
 public abstract class AbstractEvaluator {
 
 	public double referenceChamberValue = 1.0;
 
-	public File outputRootFolder = new File("output");
-	public File inputRootFolder = new File("input");
+	public File outputRootFolder = Options.getOutputFolder();
+	public File inputRootFolder = Options.getInputFolder();
 	public File outputFolder;
 	public List<String[]> allReferenceLines;
 

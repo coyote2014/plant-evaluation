@@ -21,6 +21,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -110,6 +111,7 @@ public class OptionsDialog extends JDialog {
 		Dimension prefSize = builder.getPanel().getPreferredSize();
 
 		prefSize.height = prefSize.height + 25;
+		prefSize.width = prefSize.width + 15;
 
 		setSize(prefSize);
 		add(builder.getPanel(), BorderLayout.CENTER);
@@ -120,6 +122,9 @@ public class OptionsDialog extends JDialog {
 
 		static boolean shiftByOneHour = false;
 		static int sampleRate = 10;
+		static File inputFolder = new File("input");
+		static File outputFolder = new File("output");
+		static File temperatureInputFolder = new File(inputFolder, "temp");
 
 		public static int getSampleRate() {
 			return sampleRate;
@@ -135,6 +140,30 @@ public class OptionsDialog extends JDialog {
 
 		public static void setShiftByOneHour(boolean shiftByOneHour) {
 			Options.shiftByOneHour = shiftByOneHour;
+		}
+
+		public static File getInputFolder() {
+			return inputFolder;
+		}
+
+		public static void setInputFolder(File inputFolder) {
+			Options.inputFolder = inputFolder;
+		}
+
+		public static File getOutputFolder() {
+			return outputFolder;
+		}
+
+		public static void setOutputFolder(File outputFolder) {
+			Options.outputFolder = outputFolder;
+		}
+
+		public static File getTemperatureInputFolder() {
+			return temperatureInputFolder;
+		}
+
+		public static void setTemperatureInputFolder(File temperatureInputFolder) {
+			Options.temperatureInputFolder = temperatureInputFolder;
 		}
 	}
 
