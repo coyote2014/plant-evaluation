@@ -20,6 +20,8 @@ package de.atomfrede.tools.evalutation.ui;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -33,10 +35,12 @@ import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
 import de.atomfrede.tools.evalutation.main.PlantHelper;
+import de.atomfrede.tools.evalutation.ui.about.AboutDialog;
 
 public class AppWindow {
 
 	private JFrame frame;
+	private PlantListPanel plantListPanel;
 
 	/**
 	 * Launch the application.
@@ -110,6 +114,12 @@ public class AppWindow {
 		menuBar.add(mnHelp);
 
 		JMenuItem mntmAbout = new JMenuItem("About");
+		mntmAbout.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				new AboutDialog(frame);
+			}
+		});
 		mnHelp.add(mntmAbout);
 
 		test();
@@ -117,7 +127,7 @@ public class AppWindow {
 	}
 
 	private void test() {
-		frame.setLayout(new BorderLayout());
+		frame.getContentPane().setLayout(new BorderLayout());
 
 		FormLayout layout = new FormLayout("fill:pref:grow");
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
@@ -125,10 +135,12 @@ public class AppWindow {
 
 		// frame.add(new DateAndTimePicker(), BorderLayout.CENTER);
 		// frame.add(new PlantDatesInputPanel());
-		builder.append(new PlantListPanel(PlantHelper.getDefaultPlantList()));
+		plantListPanel = new PlantListPanel(PlantHelper.getDefaultPlantList());
+		builder.append(plantListPanel);
 
 		// frame.setBounds(x, y, width, height)
-		frame.add(new JScrollPane(builder.getPanel()), BorderLayout.CENTER);
+		frame.getContentPane().add(new JScrollPane(builder.getPanel()),
+				BorderLayout.CENTER);
 
 		Rectangle bounds = new Rectangle(builder.getPanel().getPreferredSize());
 		bounds.grow(20, 35);
