@@ -44,7 +44,8 @@ import de.atomfrede.tools.evalutation.ui.res.Messages;
 public class PlantListPanel extends JPanel {
 
 	static final ImageIcon IC_ADD = new ImageIcon(
-			PlantDataInputPanel.class.getResource("../res/list-add.png")); //$NON-NLS-1$
+			PlantDataInputPanel.class
+					.getResource("../res/icons/small/list-add.png")); //$NON-NLS-1$
 
 	List<Plant> plantList;
 	List<PlantDataInputPanel> plantDataInputPanelList;

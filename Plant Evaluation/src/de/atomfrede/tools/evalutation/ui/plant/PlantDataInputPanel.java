@@ -41,7 +41,8 @@ import de.atomfrede.tools.evalutation.ui.res.Messages;
 public class PlantDataInputPanel extends JPanel {
 
 	static final ImageIcon IC_DELETE = new ImageIcon(
-			PlantDataInputPanel.class.getResource("../res/list-remove.png")); //$NON-NLS-1$
+			PlantDataInputPanel.class
+					.getResource("../res/icons/small/list-remove.png")); //$NON-NLS-1$
 
 	Plant plant;
 

@@ -30,6 +30,7 @@ import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -51,6 +52,10 @@ public class AppWindow {
 
 	public static JFrame _frame;
 	private JFrame frame;
+
+	static final ImageIcon IC_INFORMATION = new ImageIcon(
+			AppWindow.class
+					.getResource("res/icons/large/dialog-information.png")); //$NON-NLS-1$
 
 	/**
 	 * Launch the application.
@@ -110,7 +115,7 @@ public class AppWindow {
 			}
 		});
 
-		frame.setTitle(Messages.getString("AppWindow.0") + " " + Messages.getString("AppWindow.version.code")); //$NON-NLS-1$
+		frame.setTitle(Messages.getString("AppWindow.0") + " " + Messages.getString("AppWindow.version.code")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		frame.setLocationRelativeTo(null);
 		JMenuBar menuBar = new JMenuBar();
@@ -127,7 +132,7 @@ public class AppWindow {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					new BigDecimal("seven");
+					new BigDecimal("seven"); //$NON-NLS-1$
 				} catch (Exception ex) {
 					ExceptionDialog ed = new ExceptionDialog(frame, ex);
 					ed.pack();
@@ -195,12 +200,13 @@ public class AppWindow {
 	 * @return
 	 */
 	private int reallyExit() {
-		Object[] options = { "Exit Application", "Dont't Exit Application" };
+		Object[] options = { Messages.getString("AppWindow.11"), Messages.getString("AppWindow.12") }; //$NON-NLS-1$ //$NON-NLS-2$
 
 		int result = JOptionPane.showOptionDialog(frame,
-				"Exit Application and Discard all Changes?",
-				"Exit Application", JOptionPane.YES_NO_OPTION,
-				JOptionPane.WARNING_MESSAGE, null, options, options[1]);
+				Messages.getString("AppWindow.13"), //$NON-NLS-1$
+				Messages.getString("AppWindow.14"), JOptionPane.YES_NO_OPTION, //$NON-NLS-1$
+				JOptionPane.WARNING_MESSAGE, IC_INFORMATION, options,
+				options[1]);
 
 		return result;
 	}
