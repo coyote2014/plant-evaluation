@@ -35,7 +35,7 @@ import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.EntryComparator;
 import de.atomfrede.tools.evalutation.WriteUtils;
-import de.atomfrede.tools.evalutation.ui.OptionsDialog.Options;
+import de.atomfrede.tools.evalutation.options.Options;
 
 public class MeanValueEvaluator extends AbstractEvaluator {
 

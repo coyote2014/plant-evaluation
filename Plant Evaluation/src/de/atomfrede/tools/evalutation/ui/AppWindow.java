@@ -27,6 +27,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.math.BigDecimal;
 import java.net.URISyntaxException;
 
 import javax.swing.JFrame;
@@ -40,12 +41,15 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
+import com.jidesoft.swing.JideBorderLayout;
 
 import de.atomfrede.tools.evalutation.ui.about.AboutDialog;
+import de.atomfrede.tools.evalutation.ui.options.OptionsDialog;
 import de.atomfrede.tools.evalutation.ui.res.Messages;
 
 public class AppWindow {
 
+	public static JFrame _frame;
 	private JFrame frame;
 
 	/**
@@ -70,6 +74,7 @@ public class AppWindow {
 		try {
 			// Set System L&F
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
 		} catch (UnsupportedLookAndFeelException e) {
 			// handle exception
 		} catch (ClassNotFoundException e) {
@@ -93,6 +98,7 @@ public class AppWindow {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		AppWindow._frame = frame;
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		frame.addWindowListener(new WindowAdapter() {
@@ -115,6 +121,22 @@ public class AppWindow {
 
 		JMenuItem mntmEvaluate = new JMenuItem(
 				Messages.getString("AppWindow.2")); //$NON-NLS-1$
+
+		mntmEvaluate.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					new BigDecimal("seven");
+				} catch (Exception ex) {
+					ExceptionDialog ed = new ExceptionDialog(frame, ex);
+					ed.pack();
+					ed.setLocationRelativeTo(frame);
+					ed.setVisible(true);
+				}
+
+			}
+		});
 		mnFile.add(mntmEvaluate);
 
 		JMenuItem mntmExit = new JMenuItem(Messages.getString("AppWindow.3")); //$NON-NLS-1$
@@ -155,6 +177,7 @@ public class AppWindow {
 					new AboutDialog(frame);
 				} catch (URISyntaxException e) {
 					// TODO Auto-generated catch block
+
 					e.printStackTrace();
 				}
 			}
@@ -186,7 +209,7 @@ public class AppWindow {
 	 * Fill the frame with content
 	 */
 	private void createContent() {
-		frame.getContentPane().setLayout(new BorderLayout());
+		frame.getContentPane().setLayout(new JideBorderLayout());
 
 		FormLayout layout = new FormLayout("fill:pref:grow"); //$NON-NLS-1$
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);

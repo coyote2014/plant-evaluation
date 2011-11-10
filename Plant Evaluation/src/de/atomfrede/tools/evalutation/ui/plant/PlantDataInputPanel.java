@@ -17,7 +17,7 @@ u *  Copyright 2011 Frederik Hahne
  *  along with Plant Evaluation.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.atomfrede.tools.evalutation.ui;
+package de.atomfrede.tools.evalutation.ui.plant;
 
 import java.awt.BorderLayout;
 import java.text.NumberFormat;
@@ -35,12 +35,13 @@ import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
 import de.atomfrede.tools.evalutation.Plant;
+import de.atomfrede.tools.evalutation.ui.dateTime.DateAndTimePicker;
 import de.atomfrede.tools.evalutation.ui.res.Messages;
 
 public class PlantDataInputPanel extends JPanel {
 
 	static final ImageIcon IC_DELETE = new ImageIcon(
-			PlantDataInputPanel.class.getResource("res/list-remove.png")); //$NON-NLS-1$
+			PlantDataInputPanel.class.getResource("../res/list-remove.png")); //$NON-NLS-1$
 
 	Plant plant;
 

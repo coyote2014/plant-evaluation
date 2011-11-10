@@ -33,7 +33,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
-import de.atomfrede.tools.evalutation.ui.OptionsDialog.Options;
+import de.atomfrede.tools.evalutation.options.Options;
 
 public abstract class AbstractEvaluator {
 
@@ -68,7 +68,7 @@ public abstract class AbstractEvaluator {
 	public SimpleDateFormat temperatureAndPlantDateFormat = new SimpleDateFormat(
 			"dd.MM.yy HH:mm:ss");
 
-	public abstract boolean evaluate();
+	public abstract boolean evaluate() throws Exception;
 
 	public double parseDoubleValue(String[] line, int type) {
 		return Double.parseDouble(line[type].replace(",", "."));

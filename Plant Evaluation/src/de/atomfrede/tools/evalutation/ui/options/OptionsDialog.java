@@ -17,13 +17,12 @@
  *  along with Plant Evaluation.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.atomfrede.tools.evalutation.ui;
+package de.atomfrede.tools.evalutation.ui.options;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -36,6 +35,7 @@ import javax.swing.event.ChangeListener;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
+import de.atomfrede.tools.evalutation.options.Options;
 import de.atomfrede.tools.evalutation.ui.res.Messages;
 
 public class OptionsDialog extends JDialog {
@@ -120,55 +120,6 @@ public class OptionsDialog extends JDialog {
 		setSize(prefSize);
 		add(builder.getPanel(), BorderLayout.CENTER);
 
-	}
-
-	public static class Options {
-
-		static boolean shiftByOneHour = false;
-		static int sampleRate = 10;
-		static File inputFolder = new File("input"); //$NON-NLS-1$
-		static File outputFolder = new File("output"); //$NON-NLS-1$
-		static File temperatureInputFolder = new File(inputFolder, "temp"); //$NON-NLS-1$
-
-		public static int getSampleRate() {
-			return sampleRate;
-		}
-
-		public static void setSampleRate(int count) {
-			sampleRate = count;
-		}
-
-		public static boolean isShiftByOneHour() {
-			return shiftByOneHour;
-		}
-
-		public static void setShiftByOneHour(boolean shiftByOneHour) {
-			Options.shiftByOneHour = shiftByOneHour;
-		}
-
-		public static File getInputFolder() {
-			return inputFolder;
-		}
-
-		public static void setInputFolder(File inputFolder) {
-			Options.inputFolder = inputFolder;
-		}
-
-		public static File getOutputFolder() {
-			return outputFolder;
-		}
-
-		public static void setOutputFolder(File outputFolder) {
-			Options.outputFolder = outputFolder;
-		}
-
-		public static File getTemperatureInputFolder() {
-			return temperatureInputFolder;
-		}
-
-		public static void setTemperatureInputFolder(File temperatureInputFolder) {
-			Options.temperatureInputFolder = temperatureInputFolder;
-		}
 	}
 
 }

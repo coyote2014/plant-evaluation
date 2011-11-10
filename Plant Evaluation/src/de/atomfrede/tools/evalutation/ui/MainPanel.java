@@ -19,12 +19,13 @@
 
 package de.atomfrede.tools.evalutation.ui;
 
-import java.awt.BorderLayout;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.jidesoft.swing.JideBorderLayout;
+
 import de.atomfrede.tools.evalutation.main.PlantHelper;
+import de.atomfrede.tools.evalutation.ui.plant.PlantListPanel;
 
 public class MainPanel extends JPanel {
 
@@ -39,10 +40,10 @@ public class MainPanel extends JPanel {
 	}
 
 	private void initialize() {
-		setLayout(new BorderLayout());
+		setLayout(new JideBorderLayout());
 
-		add(getFolderSelectionPanel(), BorderLayout.NORTH);
-		add(getPlantListPanel(), BorderLayout.CENTER);
+		add(getFolderSelectionPanel(), JideBorderLayout.NORTH);
+		add(getPlantListPanel(), JideBorderLayout.CENTER);
 	}
 
 	private PlantListPanel getPlantListPanel() {
