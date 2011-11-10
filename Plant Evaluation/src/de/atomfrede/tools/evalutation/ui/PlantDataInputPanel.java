@@ -1,5 +1,5 @@
 /**
- *  Copyright 2011 Frederik Hahne
+u *  Copyright 2011 Frederik Hahne
  *  
  * 	PlantDatesInputPanel.java is part of Plant Evaluation.
  *
@@ -35,11 +35,12 @@ import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
 import de.atomfrede.tools.evalutation.Plant;
+import de.atomfrede.tools.evalutation.ui.res.Messages;
 
 public class PlantDataInputPanel extends JPanel {
 
 	static final ImageIcon IC_DELETE = new ImageIcon(
-			PlantDataInputPanel.class.getResource("res/list-remove.png"));
+			PlantDataInputPanel.class.getResource("res/list-remove.png")); //$NON-NLS-1$
 
 	Plant plant;
 
@@ -67,17 +68,19 @@ public class PlantDataInputPanel extends JPanel {
 		setLayout(new BorderLayout());
 
 		FormLayout layout = new FormLayout(
-				"pref, 4dlu, pref, 4dlu, pref, 4dlu, pref, 4dlu, pref");
+				"pref, 4dlu, pref, 4dlu, pref, 4dlu, pref, 4dlu, pref"); //$NON-NLS-1$
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 
-		builder.append("Start ", getStartPicker());
-		builder.append("End ", getEndPicker());
+		builder.append(
+				Messages.getString("PlantDataInputPanel.2"), getStartPicker()); //$NON-NLS-1$
+		builder.append(
+				Messages.getString("PlantDataInputPanel.3"), getEndPicker()); //$NON-NLS-1$
 		builder.append(getDeleteButton());
 
-		builder.append("Lower Leaf Area");
+		builder.append(Messages.getString("PlantDataInputPanel.4")); //$NON-NLS-1$
 		builder.append(getLowerLeafAreaSpinner());
 
-		builder.append("Upper Leaf Area");
+		builder.append(Messages.getString("PlantDataInputPanel.5")); //$NON-NLS-1$
 		builder.append(getUpperLeafAreaSpinner());
 		add(builder.getPanel(), BorderLayout.CENTER);
 
@@ -111,7 +114,7 @@ public class PlantDataInputPanel extends JPanel {
 					0.0, 1.0, 0.00000000001));
 
 			JSpinner.NumberEditor leafAreaEditor = new JSpinner.NumberEditor(
-					lowerLeafAreaSpinner, "0.0000000000###");
+					lowerLeafAreaSpinner, "0.0000000000###"); //$NON-NLS-1$
 
 			lowerLeafAreaSpinner.setEditor(leafAreaEditor);
 
@@ -138,7 +141,7 @@ public class PlantDataInputPanel extends JPanel {
 					0.0, 1.0, 0.00000000001));
 
 			JSpinner.NumberEditor leafAreaEditor = new JSpinner.NumberEditor(
-					upperLeafAreaSpinner, "0.0000000000###");
+					upperLeafAreaSpinner, "0.0000000000###"); //$NON-NLS-1$
 
 			upperLeafAreaSpinner.setEditor(leafAreaEditor);
 

@@ -39,11 +39,12 @@ import com.jgoodies.forms.layout.FormLayout;
 import de.atomfrede.tools.evalutation.Plant;
 import de.atomfrede.tools.evalutation.evaluator.CopyEvaluator;
 import de.atomfrede.tools.evalutation.main.PlantHelper;
+import de.atomfrede.tools.evalutation.ui.res.Messages;
 
 public class PlantListPanel extends JPanel {
 
 	static final ImageIcon IC_ADD = new ImageIcon(
-			PlantDataInputPanel.class.getResource("res/list-add.png"));
+			PlantDataInputPanel.class.getResource("res/list-add.png")); //$NON-NLS-1$
 
 	List<Plant> plantList;
 	List<PlantDataInputPanel> plantDataInputPanelList;
@@ -64,22 +65,22 @@ public class PlantListPanel extends JPanel {
 		removeAll();
 		setLayout(new BorderLayout());
 
-		FormLayout layout = new FormLayout("pref");
+		FormLayout layout = new FormLayout("pref"); //$NON-NLS-1$
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 
-		builder.appendSeparator("Plants");
+		builder.appendSeparator(Messages.getString("PlantListPanel.2")); //$NON-NLS-1$
 
 		int index = -1;
 		for (Plant plant : plantList) {
 			index++;
-			builder.appendSeparator("Plant " + (index + 1));
+			builder.appendSeparator(Messages.getString("PlantListPanel.3") + (index + 1)); //$NON-NLS-1$
 			builder.append(getPlantInputPanel(plant, index));
 
 		}
 
 		builder.append(ButtonBarFactory.buildOKCancelBar(getEvaluateButton(),
 				getAddButton()));
-		builder.append("");
+		builder.append(""); //$NON-NLS-1$
 
 		add(builder.getPanel(), BorderLayout.CENTER);
 
@@ -145,7 +146,7 @@ public class PlantListPanel extends JPanel {
 
 	private JButton getEvaluateButton() {
 		if (evaluateButton == null) {
-			evaluateButton = new JButton("Evaluate");
+			evaluateButton = new JButton(Messages.getString("PlantListPanel.5")); //$NON-NLS-1$
 			// evaluateButton.setIcon(IC_ADD);
 
 			evaluateButton.addActionListener(new ActionListener() {

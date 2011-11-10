@@ -38,6 +38,7 @@ import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
 import de.atomfrede.tools.evalutation.ui.about.AboutDialog;
+import de.atomfrede.tools.evalutation.ui.res.Messages;
 
 public class AppWindow {
 
@@ -90,25 +91,26 @@ public class AppWindow {
 		frame = new JFrame();
 		// frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("Plant Evaluation");
+		frame.setTitle(Messages.getString("AppWindow.0") + " " + Messages.getString("AppWindow.version.code")); //$NON-NLS-1$
 
 		frame.setLocationRelativeTo(null);
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 
-		JMenu mnFile = new JMenu("File");
+		JMenu mnFile = new JMenu(Messages.getString("AppWindow.1")); //$NON-NLS-1$
 		menuBar.add(mnFile);
 
-		JMenuItem mntmEvaluate = new JMenuItem("Evaluate");
+		JMenuItem mntmEvaluate = new JMenuItem(
+				Messages.getString("AppWindow.2")); //$NON-NLS-1$
 		mnFile.add(mntmEvaluate);
 
-		JMenuItem mntmExit = new JMenuItem("Exit");
+		JMenuItem mntmExit = new JMenuItem(Messages.getString("AppWindow.3")); //$NON-NLS-1$
 		mnFile.add(mntmExit);
 
-		JMenu mnEdit = new JMenu("Edit");
+		JMenu mnEdit = new JMenu(Messages.getString("AppWindow.4")); //$NON-NLS-1$
 		menuBar.add(mnEdit);
 
-		JMenuItem mntmOptions = new JMenuItem("Options");
+		JMenuItem mntmOptions = new JMenuItem(Messages.getString("AppWindow.5")); //$NON-NLS-1$
 		mntmOptions.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -117,10 +119,10 @@ public class AppWindow {
 		});
 		mnEdit.add(mntmOptions);
 
-		JMenu mnHelp = new JMenu("Help");
+		JMenu mnHelp = new JMenu(Messages.getString("AppWindow.6")); //$NON-NLS-1$
 		menuBar.add(mnHelp);
 
-		JMenuItem mntmAbout = new JMenuItem("About");
+		JMenuItem mntmAbout = new JMenuItem(Messages.getString("AppWindow.7")); //$NON-NLS-1$
 		mntmAbout.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -141,7 +143,7 @@ public class AppWindow {
 	private void test() {
 		frame.getContentPane().setLayout(new BorderLayout());
 
-		FormLayout layout = new FormLayout("fill:pref:grow");
+		FormLayout layout = new FormLayout("fill:pref:grow"); //$NON-NLS-1$
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 		builder.setDefaultDialogBorder();
 

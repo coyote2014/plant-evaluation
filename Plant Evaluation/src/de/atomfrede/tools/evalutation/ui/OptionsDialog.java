@@ -36,6 +36,8 @@ import javax.swing.event.ChangeListener;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
+import de.atomfrede.tools.evalutation.ui.res.Messages;
+
 public class OptionsDialog extends JDialog {
 
 	JCheckBox shiftByOneHour;
@@ -51,7 +53,7 @@ public class OptionsDialog extends JDialog {
 		setLocationRelativeTo(parent);
 		setResizable(false);
 
-		setTitle("Options");
+		setTitle(Messages.getString("OptionsDialog.0")); //$NON-NLS-1$
 		setVisible(true);
 	}
 
@@ -81,7 +83,7 @@ public class OptionsDialog extends JDialog {
 	private JCheckBox getShiftByOneHourCheckBox() {
 		if (shiftByOneHour == null) {
 			shiftByOneHour = new JCheckBox();
-			shiftByOneHour.setText("Shift by one Hour");
+			shiftByOneHour.setText(Messages.getString("OptionsDialog.1")); //$NON-NLS-1$
 			shiftByOneHour.setSelected(Options.isShiftByOneHour());
 
 			shiftByOneHour.addActionListener(new ActionListener() {
@@ -100,12 +102,12 @@ public class OptionsDialog extends JDialog {
 	private void initialize() {
 		setLayout(new BorderLayout());
 
-		FormLayout layout = new FormLayout("pref, 4dlu, fill:pref:grow");
+		FormLayout layout = new FormLayout("pref, 4dlu, fill:pref:grow"); //$NON-NLS-1$
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 		builder.setDefaultDialogBorder();
 
 		builder.append(getShiftByOneHourCheckBox(), 3);
-		builder.append("Sample Rate");
+		builder.append(Messages.getString("OptionsDialog.3")); //$NON-NLS-1$
 		builder.append(getSampleSpinner());
 		// builder.append("Shift by one Hour");
 
@@ -124,9 +126,9 @@ public class OptionsDialog extends JDialog {
 
 		static boolean shiftByOneHour = false;
 		static int sampleRate = 10;
-		static File inputFolder = new File("input");
-		static File outputFolder = new File("output");
-		static File temperatureInputFolder = new File(inputFolder, "temp");
+		static File inputFolder = new File("input"); //$NON-NLS-1$
+		static File outputFolder = new File("output"); //$NON-NLS-1$
+		static File temperatureInputFolder = new File(inputFolder, "temp"); //$NON-NLS-1$
 
 		public static int getSampleRate() {
 			return sampleRate;

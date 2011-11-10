@@ -39,6 +39,8 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
+import de.atomfrede.tools.evalutation.ui.res.Messages;
+
 public class AboutPanel extends JPanel {
 	private JLabel lblPlantEvaluationTool;
 	private JLabel lblVersion;
@@ -58,7 +60,7 @@ public class AboutPanel extends JPanel {
 	 */
 	public AboutPanel(JDialog parentDialog) throws URISyntaxException {
 		uri = new URI(
-				"https://code.google.com/p/plant-evaluation/source/checkout");
+				Messages.getString("AboutPanel.sourceCode")); //$NON-NLS-1$
 		this.parentDialog = parentDialog;
 		setLayout(new FormLayout(
 				new ColumnSpec[] { FormFactory.RELATED_GAP_COLSPEC,
@@ -81,55 +83,55 @@ public class AboutPanel extends JPanel {
 						FormFactory.DEFAULT_ROWSPEC,
 						FormFactory.RELATED_GAP_ROWSPEC,
 						FormFactory.DEFAULT_ROWSPEC, }));
-		add(getLblPlantEvaluationTool(), "2, 2, left, default");
-		add(getLblVersion(), "2, 4");
-		add(getLblCopyright(), "2, 8");
-		add(getLblFrederikHahne(), "2, 10");
-		add(getLblLicensedUnderGpl(), "2, 14");
-		add(getBtnSourceCode(), "2, 16");
-		add(getBtnNewButton(), "2, 18, center, default");
+		add(getLblPlantEvaluationTool(), "2, 2, left, default"); //$NON-NLS-1$
+		add(getLblVersion(), "2, 4"); //$NON-NLS-1$
+		add(getLblCopyright(), "2, 8"); //$NON-NLS-1$
+		add(getLblFrederikHahne(), "2, 10"); //$NON-NLS-1$
+		add(getLblLicensedUnderGpl(), "2, 14"); //$NON-NLS-1$
+		add(getBtnSourceCode(), "2, 16"); //$NON-NLS-1$
+		add(getBtnNewButton(), "2, 18, center, default"); //$NON-NLS-1$
 
 	}
 
 	private JLabel getLblPlantEvaluationTool() {
 		if (lblPlantEvaluationTool == null) {
-			lblPlantEvaluationTool = new JLabel("Plant Evaluation Tool");
-			lblPlantEvaluationTool.setFont(new Font("Dialog", Font.BOLD, 20));
+			lblPlantEvaluationTool = new JLabel(Messages.getString("AboutPanel.8")); //$NON-NLS-1$
+			lblPlantEvaluationTool.setFont(new Font("Dialog", Font.BOLD, 20)); //$NON-NLS-1$
 		}
 		return lblPlantEvaluationTool;
 	}
 
 	private JLabel getLblVersion() {
 		if (lblVersion == null) {
-			lblVersion = new JLabel("Version 1.0");
+			lblVersion = new JLabel(Messages.getString("AboutPanel.version")); //$NON-NLS-1$
 		}
 		return lblVersion;
 	}
 
 	private JLabel getLblCopyright() {
 		if (lblCopyright == null) {
-			lblCopyright = new JLabel("Copyright");
+			lblCopyright = new JLabel(Messages.getString("AboutPanel.11")); //$NON-NLS-1$
 		}
 		return lblCopyright;
 	}
 
 	private JLabel getLblFrederikHahne() {
 		if (lblFrederikHahne == null) {
-			lblFrederikHahne = new JLabel("Frederik Hahne 2011");
+			lblFrederikHahne = new JLabel(Messages.getString("AboutPanel.12")); //$NON-NLS-1$
 		}
 		return lblFrederikHahne;
 	}
 
 	private JLabel getLblLicensedUnderGpl() {
 		if (lblLicensedUnderGpl == null) {
-			lblLicensedUnderGpl = new JLabel("Licensed under GPL v3 or later");
+			lblLicensedUnderGpl = new JLabel(Messages.getString("AboutPanel.13")); //$NON-NLS-1$
 		}
 		return lblLicensedUnderGpl;
 	}
 
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
-			btnNewButton = new JButton("Close");
+			btnNewButton = new JButton(Messages.getString("AboutPanel.14")); //$NON-NLS-1$
 			btnNewButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
@@ -142,7 +144,7 @@ public class AboutPanel extends JPanel {
 
 	private JButton getBtnSourceCode() {
 		if (btnSourceCode == null) {
-			String link = "<HTML><FONT color=\"#000099\"><U>Source Code</U></FONT></HTML>";
+			String link = "<HTML><FONT color=\"#000099\"><U>Source Code</U></FONT></HTML>"; //$NON-NLS-1$
 			btnSourceCode = new JButton(link);
 			btnSourceCode.setHorizontalAlignment(SwingConstants.CENTER);
 			btnSourceCode.setBorderPainted(false);

@@ -37,6 +37,9 @@ public final class Constants {
 	public static String PHOTO_SYNTHESIS_RATE_STANDARD_DERIVATION_HEADER = "Standard Derivation of PSR";
 	public static String DELTA_13_STANDARD_DERIVATION_HEADER = "Standard Derivation of Delta 13";
 
+	/**
+	 * These are the columns for the raw input files
+	 */
 	public static int DATE = 0;
 	public static int TIME = 1;
 	public static int _12CO2 = 2;
@@ -47,6 +50,11 @@ public final class Constants {
 	public static int dataRaw = 7;
 	public static int H2O = 8;
 	public static int solenoidValue = 9;
+
+	/**
+	 * The coloumns as we use them in the evaluated files
+	 */
+
 	// 1 hour are 3 600 000ms
 	public static long oneHour = 3600000L;
 	// 5 minutes are 300000ms
