@@ -58,7 +58,7 @@ public class AboutPanel extends JPanel {
 	 */
 	public AboutPanel(JDialog parentDialog) throws URISyntaxException {
 		uri = new URI(
-				"https://www.assembla.com/code/plant-evaluation-tool/subversion/nodes");
+				"https://code.google.com/p/plant-evaluation/source/checkout");
 		this.parentDialog = parentDialog;
 		setLayout(new FormLayout(
 				new ColumnSpec[] { FormFactory.RELATED_GAP_COLSPEC,
@@ -122,7 +122,7 @@ public class AboutPanel extends JPanel {
 
 	private JLabel getLblLicensedUnderGpl() {
 		if (lblLicensedUnderGpl == null) {
-			lblLicensedUnderGpl = new JLabel("Licensed under GPL V3 or later");
+			lblLicensedUnderGpl = new JLabel("Licensed under GPL v3 or later");
 		}
 		return lblLicensedUnderGpl;
 	}
