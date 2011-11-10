@@ -19,11 +19,13 @@
 
 package de.atomfrede.tools.evalutation.ui.about;
 
-import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -50,7 +52,7 @@ public class AboutPanel extends JPanel {
 	private JButton btnNewButton;
 
 	private final JDialog parentDialog;
-	private JButton btnSourceCode;
+	private JLabel btnSourceCode;
 	URI uri;
 
 	/**
@@ -59,8 +61,7 @@ public class AboutPanel extends JPanel {
 	 * @throws URISyntaxException
 	 */
 	public AboutPanel(JDialog parentDialog) throws URISyntaxException {
-		uri = new URI(
-				Messages.getString("AboutPanel.sourceCode")); //$NON-NLS-1$
+		uri = new URI(Messages.getString("AboutPanel.sourceCode")); //$NON-NLS-1$
 		this.parentDialog = parentDialog;
 		setLayout(new FormLayout(
 				new ColumnSpec[] { FormFactory.RELATED_GAP_COLSPEC,
@@ -95,7 +96,8 @@ public class AboutPanel extends JPanel {
 
 	private JLabel getLblPlantEvaluationTool() {
 		if (lblPlantEvaluationTool == null) {
-			lblPlantEvaluationTool = new JLabel(Messages.getString("AboutPanel.8")); //$NON-NLS-1$
+			lblPlantEvaluationTool = new JLabel(
+					Messages.getString("AboutPanel.8")); //$NON-NLS-1$
 			lblPlantEvaluationTool.setFont(new Font("Dialog", Font.BOLD, 20)); //$NON-NLS-1$
 		}
 		return lblPlantEvaluationTool;
@@ -124,7 +126,8 @@ public class AboutPanel extends JPanel {
 
 	private JLabel getLblLicensedUnderGpl() {
 		if (lblLicensedUnderGpl == null) {
-			lblLicensedUnderGpl = new JLabel(Messages.getString("AboutPanel.13")); //$NON-NLS-1$
+			lblLicensedUnderGpl = new JLabel(
+					Messages.getString("AboutPanel.13")); //$NON-NLS-1$
 		}
 		return lblLicensedUnderGpl;
 	}
@@ -142,25 +145,60 @@ public class AboutPanel extends JPanel {
 		return btnNewButton;
 	}
 
-	private JButton getBtnSourceCode() {
+	private JLabel getBtnSourceCode() {
 		if (btnSourceCode == null) {
 			String link = "<HTML><FONT color=\"#000099\"><U>Source Code</U></FONT></HTML>"; //$NON-NLS-1$
-			btnSourceCode = new JButton(link);
+			btnSourceCode = new JLabel(link);
 			btnSourceCode.setHorizontalAlignment(SwingConstants.CENTER);
-			btnSourceCode.setBorderPainted(false);
-			btnSourceCode.setOpaque(false);
-			btnSourceCode.setBackground(Color.WHITE);
-			btnSourceCode.setRolloverEnabled(false);
-			btnSourceCode.setBorder(null);
+			// btnSourceCode.setBorderPainted(false);
+			// btnSourceCode.setOpaque(false);
+			// btnSourceCode.setBackground(Color.WHITE);
+			// btnSourceCode.setRolloverEnabled(false);
+			// btnSourceCode.setBorder(null);
 			btnSourceCode.setToolTipText(uri.toString());
-			btnSourceCode.setFocusPainted(false);
+			// btnSourceCode.setFocusPainted(false);
 
-			btnSourceCode.addActionListener(new ActionListener() {
+			btnSourceCode.addMouseListener(new MouseListener() {
+
 				@Override
-				public void actionPerformed(ActionEvent arg0) {
+				public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e) {
+					// TODO Auto-generated method stub
+					setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					// TODO Auto-generated method stub
+					setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+				}
+
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					// TODO Auto-generated method stub
 					open(uri);
+
 				}
 			});
+			// btnSourceCode.addActionListener(new ActionListener() {
+			// @Override
+			// public void actionPerformed(ActionEvent arg0) {
+			// open(uri);
+			// }
+			// });
 		}
 		return btnSourceCode;
 	}
