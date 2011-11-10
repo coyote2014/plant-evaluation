@@ -22,14 +22,18 @@ package de.atomfrede.tools.evalutation.ui;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.net.URISyntaxException;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -89,8 +93,17 @@ public class AppWindow {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		// frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				if (reallyExit() == JOptionPane.YES_OPTION) {
+					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				}
+			}
+		});
+
 		frame.setTitle(Messages.getString("AppWindow.0") + " " + Messages.getString("AppWindow.version.code")); //$NON-NLS-1$
 
 		frame.setLocationRelativeTo(null);
@@ -105,6 +118,18 @@ public class AppWindow {
 		mnFile.add(mntmEvaluate);
 
 		JMenuItem mntmExit = new JMenuItem(Messages.getString("AppWindow.3")); //$NON-NLS-1$
+
+		mntmExit.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				WindowEvent wev = new WindowEvent(frame,
+						WindowEvent.WINDOW_CLOSING);
+				Toolkit.getDefaultToolkit().getSystemEventQueue()
+						.postEvent(wev);
+
+			}
+		});
 		mnFile.add(mntmExit);
 
 		JMenu mnEdit = new JMenu(Messages.getString("AppWindow.4")); //$NON-NLS-1$
@@ -136,11 +161,31 @@ public class AppWindow {
 		});
 		mnHelp.add(mntmAbout);
 
-		test();
+		createContent();
 
 	}
 
-	private void test() {
+	/**
+	 * Display a simple dialog, so the user does not close the application by
+	 * accident
+	 * 
+	 * @return
+	 */
+	private int reallyExit() {
+		Object[] options = { "Exit Application", "Dont't Exit Application" };
+
+		int result = JOptionPane.showOptionDialog(frame,
+				"Exit Application and Discard all Changes?",
+				"Exit Application", JOptionPane.YES_NO_OPTION,
+				JOptionPane.WARNING_MESSAGE, null, options, options[1]);
+
+		return result;
+	}
+
+	/**
+	 * Fill the frame with content
+	 */
+	private void createContent() {
 		frame.getContentPane().setLayout(new BorderLayout());
 
 		FormLayout layout = new FormLayout("fill:pref:grow"); //$NON-NLS-1$
