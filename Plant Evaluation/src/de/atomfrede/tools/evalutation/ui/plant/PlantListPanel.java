@@ -26,7 +26,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -40,12 +39,9 @@ import de.atomfrede.tools.evalutation.Plant;
 import de.atomfrede.tools.evalutation.evaluator.CopyEvaluator;
 import de.atomfrede.tools.evalutation.main.PlantHelper;
 import de.atomfrede.tools.evalutation.ui.res.Messages;
+import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
 public class PlantListPanel extends JPanel {
-
-	static final ImageIcon IC_ADD = new ImageIcon(
-			PlantDataInputPanel.class
-					.getResource("../res/icons/small/list-add.png")); //$NON-NLS-1$
 
 	List<Plant> plantList;
 	List<PlantDataInputPanel> plantDataInputPanelList;
@@ -139,7 +135,7 @@ public class PlantListPanel extends JPanel {
 
 				}
 			});
-			addButton.setIcon(IC_ADD);
+			addButton.setIcon(Icons.IC_ADD_SMALL);
 			addButton.setMaximumSize(addButton.getPreferredSize());
 		}
 		return addButton;

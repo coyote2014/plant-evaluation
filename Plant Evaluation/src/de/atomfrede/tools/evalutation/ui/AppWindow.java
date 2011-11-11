@@ -30,7 +30,6 @@ import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -47,15 +46,12 @@ import com.jidesoft.swing.JideBorderLayout;
 import de.atomfrede.tools.evalutation.ui.about.AboutDialog;
 import de.atomfrede.tools.evalutation.ui.options.OptionsDialog;
 import de.atomfrede.tools.evalutation.ui.res.Messages;
+import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
 public class AppWindow {
 
 	public static JFrame _frame;
 	private JFrame frame;
-
-	static final ImageIcon IC_INFORMATION = new ImageIcon(
-			AppWindow.class
-					.getResource("res/icons/large/dialog-information.png")); //$NON-NLS-1$
 
 	/**
 	 * Launch the application.
@@ -200,13 +196,15 @@ public class AppWindow {
 	 * @return
 	 */
 	private int reallyExit() {
-		Object[] options = { Messages.getString("AppWindow.11"), Messages.getString("AppWindow.12") }; //$NON-NLS-1$ //$NON-NLS-2$
+		Object[] options = {
+				Messages.getString("AppWindow.11"), Messages.getString("AppWindow.12") }; //$NON-NLS-1$ //$NON-NLS-2$
 
-		int result = JOptionPane.showOptionDialog(frame,
+		int result = JOptionPane.showOptionDialog(
+				frame,
 				Messages.getString("AppWindow.13"), //$NON-NLS-1$
 				Messages.getString("AppWindow.14"), JOptionPane.YES_NO_OPTION, //$NON-NLS-1$
-				JOptionPane.WARNING_MESSAGE, IC_INFORMATION, options,
-				options[1]);
+				JOptionPane.WARNING_MESSAGE, Icons.IC_INFORMATION_LARGE,
+				options, options[1]);
 
 		return result;
 	}

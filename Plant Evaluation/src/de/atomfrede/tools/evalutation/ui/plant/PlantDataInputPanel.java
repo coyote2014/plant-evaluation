@@ -23,7 +23,6 @@ import java.awt.BorderLayout;
 import java.text.NumberFormat;
 import java.util.Date;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -37,12 +36,9 @@ import com.jgoodies.forms.layout.FormLayout;
 import de.atomfrede.tools.evalutation.Plant;
 import de.atomfrede.tools.evalutation.ui.dateTime.DateAndTimePicker;
 import de.atomfrede.tools.evalutation.ui.res.Messages;
+import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
 public class PlantDataInputPanel extends JPanel {
-
-	static final ImageIcon IC_DELETE = new ImageIcon(
-			PlantDataInputPanel.class
-					.getResource("../res/icons/small/list-remove.png")); //$NON-NLS-1$
 
 	Plant plant;
 
@@ -91,7 +87,7 @@ public class PlantDataInputPanel extends JPanel {
 	private JButton getDeleteButton() {
 		if (deleteButton == null) {
 			deleteButton = new JButton();
-			deleteButton.setIcon(IC_DELETE);
+			deleteButton.setIcon(Icons.IC_DELETE_SMALL);
 		}
 		return deleteButton;
 	}
