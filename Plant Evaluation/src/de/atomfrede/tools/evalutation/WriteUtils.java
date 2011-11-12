@@ -49,13 +49,13 @@ public class WriteUtils {
 		String date = dateFormat.format(date2Write).split(" ")[0];
 		String time = dateFormat.format(date2Write).split(" ")[1];
 		String meanDeltaFiveMinutes = type2MeanValue
-				.get(Constants.delta5minutes) + "";
-		String meanH2O = type2MeanValue.get(Constants.H2O) + "";
-		String mean12CO2 = type2MeanValue.get(Constants._12CO2_dry) + "";
-		String mean13CO2 = type2MeanValue.get(Constants._13CO2_dry) + "";
+				.get(Constants.delta5minutes_RAW) + "";
+		String meanH2O = type2MeanValue.get(Constants.H2O_RAW) + "";
+		String mean12CO2 = type2MeanValue.get(Constants._12CO2_dry_RAW) + "";
+		String mean13CO2 = type2MeanValue.get(Constants._13CO2_dry_RAW) + "";
 		String co2Abs = Math
-				.abs((type2MeanValue.get(Constants._12CO2_dry) + type2MeanValue
-						.get(Constants._13CO2_dry)))
+				.abs((type2MeanValue.get(Constants._12CO2_dry_RAW) + type2MeanValue
+						.get(Constants._13CO2_dry_RAW)))
 				+ "";
 		String[] newLine = { date, time, mean12CO2, mean13CO2,
 				meanDeltaFiveMinutes, meanH2O, solenoid2Write, co2Abs,
