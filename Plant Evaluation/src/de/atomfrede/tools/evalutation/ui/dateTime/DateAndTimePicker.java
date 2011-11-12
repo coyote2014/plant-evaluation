@@ -20,21 +20,28 @@
 package de.atomfrede.tools.evalutation.ui.dateTime;
 
 import java.awt.BorderLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.swing.Icon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
+import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.jdesktop.swingx.JXDatePicker;
+import org.jdesktop.swingx.plaf.basic.BasicDatePickerUI;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
+
+import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
 public class DateAndTimePicker extends JPanel {
 
@@ -101,6 +108,7 @@ public class DateAndTimePicker extends JPanel {
 	public JXDatePicker getDatePicker() {
 		if (datePicker == null) {
 			datePicker = new JXDatePicker();
+			datePicker.setUI(new CustomDatePickerUI());
 
 			datePicker.addActionListener(new ActionListener() {
 
@@ -130,5 +138,26 @@ public class DateAndTimePicker extends JPanel {
 
 	public void setCalendar(Calendar calendar) {
 		this.calendar = calendar;
+	}
+
+	private static class CustomDatePickerUI extends BasicDatePickerUI {
+
+		@Override
+		protected JButton createPopupButton() {
+			JButton b = new JButton();
+			b.setName("popupButton");
+			b.setRolloverEnabled(false);
+			b.setMargin(new Insets(0, 0, 0, 0));
+
+			b.setBackground(null);
+
+			Icon icon = Icons.IC_OFFICE_CALENDAR_SMALL;
+			if (icon == null) {
+				icon = (Icon) UIManager.get("Tree.expandedIcon");
+			}
+			b.setIcon(icon);
+			b.setFocusable(false);
+			return b;
+		}
 	}
 }

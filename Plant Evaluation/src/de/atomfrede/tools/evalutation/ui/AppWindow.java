@@ -203,7 +203,7 @@ public class AppWindow {
 				frame,
 				Messages.getString("AppWindow.13"), //$NON-NLS-1$
 				Messages.getString("AppWindow.14"), JOptionPane.YES_NO_OPTION, //$NON-NLS-1$
-				JOptionPane.WARNING_MESSAGE, Icons.IC_INFORMATION_LARGE,
+				JOptionPane.WARNING_MESSAGE, Icons.IC_DIALOG_WARNING_LARGE,
 				options, options[1]);
 
 		return result;

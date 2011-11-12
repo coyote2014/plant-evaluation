@@ -36,6 +36,7 @@ import com.jidesoft.swing.JideBorderLayout;
 
 import de.atomfrede.tools.evalutation.options.Options;
 import de.atomfrede.tools.evalutation.ui.res.Messages;
+import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
 public class FolderSelectionPanel extends JPanel {
 
@@ -83,7 +84,7 @@ public class FolderSelectionPanel extends JPanel {
 		if (outputFolderButton == null) {
 			outputFolderButton = new JButton(
 					Messages.getString("FolderSelectionPanel.5")); //$NON-NLS-1$
-
+			outputFolderButton.setIcon(Icons.IC_FOLDER_OPEN_SMALL);
 			outputFolderButton.addActionListener(new ActionListener() {
 
 				@Override
@@ -95,6 +96,7 @@ public class FolderSelectionPanel extends JPanel {
 
 					if (returnValue == JFileChooser.APPROVE_OPTION) {
 						outputFolder = fc.getSelectedFile();
+						Options.setOutputFolder(outputFolder);
 					}
 
 				}
@@ -107,6 +109,7 @@ public class FolderSelectionPanel extends JPanel {
 		if (inputFolderButton == null) {
 			inputFolderButton = new JButton(
 					Messages.getString("FolderSelectionPanel.7")); //$NON-NLS-1$
+			inputFolderButton.setIcon(Icons.IC_FOLDER_OPEN_SMALL);
 
 			inputFolderButton.addActionListener(new ActionListener() {
 
@@ -119,6 +122,7 @@ public class FolderSelectionPanel extends JPanel {
 
 					if (returnValue == JFileChooser.APPROVE_OPTION) {
 						inputFolder = fc.getSelectedFile();
+						Options.setInputFolder(inputFolder);
 					}
 
 				}
@@ -131,7 +135,7 @@ public class FolderSelectionPanel extends JPanel {
 		if (temperatureButton == null) {
 			temperatureButton = new JButton(
 					Messages.getString("FolderSelectionPanel.9")); //$NON-NLS-1$
-
+			temperatureButton.setIcon(Icons.IC_FOLDER_OPEN_SMALL);
 			temperatureButton.addActionListener(new ActionListener() {
 
 				@Override
@@ -143,6 +147,7 @@ public class FolderSelectionPanel extends JPanel {
 
 					if (returnValue == JFileChooser.APPROVE_OPTION) {
 						temperatureFolder = fc.getSelectedFile();
+						Options.setTemperatureInputFolder(temperatureFolder);
 					}
 				}
 			});
