@@ -37,10 +37,10 @@ import de.atomfrede.tools.evalutation.WriteUtils;
 
 public class StandardDerivationEvaluator extends AbstractEvaluator {
 
-	static int TIME = 8;
-	static int PSR = 12;
-	static int delta13 = 10;
-	static int SOLENOID = 6;
+	// static int TIME = 8;
+	// static int PSR = 12;
+	// static int delta13 = 10;
+	// static int SOLENOID = 6;
 
 	List<File> outputFiles;
 
@@ -87,11 +87,13 @@ public class StandardDerivationEvaluator extends AbstractEvaluator {
 				for (int j = 1; j < currentMeanDataLines.size(); j++) {
 					String[] currentLine = currentMeanDataLines.get(j);
 					Map<Integer, double[]> mapping = getPSRandDelta13Value(currentLine);
-					double[] psrValues = mapping.get(PSR);
-					double[] delta13Values = mapping.get(delta13);
+					double[] psrValues = mapping.get(Constants.PSR);
+					double[] delta13Values = mapping.get(Constants.DELTA13);
 
-					double psrMean = parseDoubleValue(currentLine, PSR);
-					double delta13Mean = parseDoubleValue(currentLine, delta13);
+					double psrMean = parseDoubleValue(currentLine,
+							Constants.PSR);
+					double delta13Mean = parseDoubleValue(currentLine,
+							Constants.DELTA13);
 
 					// double psrStandardDerivation = getStandardDerivation(
 					// psrValues, psrMean);
@@ -168,8 +170,9 @@ public class StandardDerivationEvaluator extends AbstractEvaluator {
 		Map<Integer, double[]> dataMapping = new HashMap<Integer, double[]>();
 		List<Double> allPSRValues = new ArrayList<Double>();
 		List<Double> allDelta13Values = new ArrayList<Double>();
-		double solenoid = parseDoubleValue(meanDataLine, SOLENOID);
-		Date meanDate = dateFormat.parse(meanDataLine[TIME]);
+		double solenoid = parseDoubleValue(meanDataLine,
+				Constants.SOLENOID_VALVES);
+		Date meanDate = dateFormat.parse(meanDataLine[Constants.DATE_AND_TIME]);
 		List<Integer> allLinesForCurrentMeanDate = getAllLinesToComputeStandardDerivation(
 				meanDate, solenoid);
 
@@ -177,14 +180,15 @@ public class StandardDerivationEvaluator extends AbstractEvaluator {
 			if (lineIndex >= 1) {
 				String[] currentLine = currentStandardDerivationLines
 						.get(lineIndex);
-				double psrValue = parseDoubleValue(currentLine, PSR);
-				double delta13Value = parseDoubleValue(currentLine, delta13);
+				double psrValue = parseDoubleValue(currentLine, Constants.PSR);
+				double delta13Value = parseDoubleValue(currentLine,
+						Constants.DELTA13);
 				allPSRValues.add(psrValue);
 				allDelta13Values.add(delta13Value);
 			}
 		}
-		dataMapping.put(PSR, list2DoubleArray(allPSRValues));
-		dataMapping.put(delta13, list2DoubleArray(allDelta13Values));
+		dataMapping.put(Constants.PSR, list2DoubleArray(allPSRValues));
+		dataMapping.put(Constants.DELTA13, list2DoubleArray(allDelta13Values));
 
 		return dataMapping;
 	}
@@ -204,10 +208,12 @@ public class StandardDerivationEvaluator extends AbstractEvaluator {
 				&& currentIndex < currentStandardDerivationLines.size()) {
 			String[] possibleLine = currentStandardDerivationLines
 					.get(currentIndex);
-			double solenoid = parseDoubleValue(possibleLine, SOLENOID);
+			double solenoid = parseDoubleValue(possibleLine,
+					Constants.SOLENOID_VALVES);
 			if (solenoid == solenoidToEvaluate) {
 				standardDerivationLines.add(currentIndex);
-				currentDate = dateFormat.parse(possibleLine[TIME]);
+				currentDate = dateFormat
+						.parse(possibleLine[Constants.DATE_AND_TIME]);
 			}
 			currentIndex++;
 
@@ -222,7 +228,7 @@ public class StandardDerivationEvaluator extends AbstractEvaluator {
 			String[] currentStandardDerivationLine = currentStandardDerivationLines
 					.get(i);
 			Date standardDerivationDate = dateFormat
-					.parse(currentStandardDerivationLine[TIME]);
+					.parse(currentStandardDerivationLine[Constants.DATE_AND_TIME]);
 
 			long difference = Math.abs(meanDate.getTime()
 					- standardDerivationDate.getTime());

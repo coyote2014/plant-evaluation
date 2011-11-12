@@ -26,13 +26,10 @@ import java.util.Date;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.WriteUtils;
 
 public class CO2DiffEvaluator extends AbstractEvaluator {
-
-	public static int SOLENOID_VALUE = 6;
-	public static int CO2_ABS_VALUE = 7;
-	public static int TIME_VALUE = 8;
 
 	File inputFile;
 	File outputFile;
@@ -68,12 +65,13 @@ public class CO2DiffEvaluator extends AbstractEvaluator {
 
 				List<String[]> lines = readAllLinesInFile(inputFile);
 
-				allReferenceLines = findAllReferenceLines(lines, SOLENOID_VALUE);
+				allReferenceLines = findAllReferenceLines(lines,
+						Constants.SOLENOID_VALVES);
 
 				for (int i = 1; i < lines.size(); i++) {
 					String[] currentLine = lines.get(i);
 					double co2Diff = parseDoubleValue(currentLine,
-							CO2_ABS_VALUE)
+							Constants.CO2_ABS)
 							- getCO2DiffForLine(currentLine, lines,
 									allReferenceLines);
 					writeCO2Diff(writer, currentLine, co2Diff);
@@ -114,7 +112,7 @@ public class CO2DiffEvaluator extends AbstractEvaluator {
 								+ i);
 					String[] currentLine = lines.get(i);
 					double co2Diff = parseDoubleValue(currentLine,
-							CO2_ABS_VALUE)
+							Constants.CO2_ABS)
 							- getCO2DiffForLine(currentLine, lines,
 									allReferenceLines);
 					writeCO2Diff(standardDerivationWriter, currentLine, co2Diff);
@@ -156,15 +154,16 @@ public class CO2DiffEvaluator extends AbstractEvaluator {
 	double getCO2DiffForLine(String[] line, List<String[]> allLines,
 			List<String[]> referenceLines) throws ParseException {
 		double co2Diff = 0.0;
-		if (parseDoubleValue(line, SOLENOID_VALUE) != referenceChamberValue) {
-			Date date = dateFormat.parse(line[TIME_VALUE]);
+		if (parseDoubleValue(line, Constants.SOLENOID_VALVES) != referenceChamberValue) {
+			Date date = dateFormat.parse(line[Constants.DATE_AND_TIME]);
 			long shortestedDistance = Long.MAX_VALUE;
 			for (String[] refLineIndex : referenceLines) {
-				Date refDate = dateFormat.parse(refLineIndex[TIME_VALUE]);
+				Date refDate = dateFormat
+						.parse(refLineIndex[Constants.DATE_AND_TIME]);
 				long rawDifference = Math.abs(date.getTime()
 						- refDate.getTime());
 				if (rawDifference < shortestedDistance) {
-					co2Diff = parseDoubleValue(refLineIndex, CO2_ABS_VALUE);
+					co2Diff = parseDoubleValue(refLineIndex, Constants.CO2_ABS);
 					shortestedDistance = rawDifference;
 				}
 
@@ -174,6 +173,6 @@ public class CO2DiffEvaluator extends AbstractEvaluator {
 
 		}
 		// TODO return the value of that reference chamber
-		return parseDoubleValue(line, CO2_ABS_VALUE);
+		return parseDoubleValue(line, Constants.CO2_ABS);
 	}
 }

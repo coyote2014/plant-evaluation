@@ -26,36 +26,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.Plant;
 import de.atomfrede.tools.evalutation.WriteUtils;
 import de.atomfrede.tools.evalutation.main.PlantHelper;
 
 public class PhotoSynthesisEvaluator extends AbstractEvaluator {
 
-	public static int H2O_VALUE = 5;
-	public static int SOLENOID_VALUE = 6;
-	public static int CO2_ABS_VALUE = 7;
-	public static int TIME_VALUE = 8;
-	public static int CO2_DIFF_VALUE = 9;
-	public static int TEMP_VALUE = 11;
-
 	static double MILLION = 1000000.0;
-
-	// upper leaf area in m²
-	// static double UPPER_LEAF_AREA_PLANT_ONE = 0.105823;
-	// static double UPPER_LEAF_AREA_PLANT_TWO = 0.1224748;
-	// static double UPPER_LEAF_AREA_PLANT_THREE = 0.1277336;
-	// static double UPPER_LEAF_AREA_PLANT_FOUR = 0.1532759;
-	// static double UPPER_LEAF_AREA_PLANT_FIVE = 0.1115781;
-	// static double UPPER_LEAF_AREA_PLANT_SIX = 0.1099036;
-
-	// lower leaf area in m²
-	// static double LOWER_LEAF_AREA_PLANT_ONE = 0.002912956;
-	// static double LOWER_LEAF_AREA_PLANT_TWO = 0.002663034;
-	// static double LOWER_LEAF_AREA_PLANT_THREE = 0.002163335;
-	// static double LOWER_LEAF_AREA_PLANT_FOUR = 0.0020615199;
-	// static double LOWER_LEAF_AREA_PLANT_FIVE = 0.0024611709;
-	// static double LOWER_LEAF_AREA_PLANT_SIX = 0.0032749886;
 
 	static double UPPER_CHAMBER = 2.0;
 	static double LOWER_CHAMBER = 4.0;
@@ -120,7 +98,8 @@ public class PhotoSynthesisEvaluator extends AbstractEvaluator {
 						// referenceLines = findAllReferenceChambers(
 						// allLinesInCurrentFile, SOLENOID_VALUE);
 						allReferenceLines = findAllReferenceLines(
-								allLinesInCurrentFile, SOLENOID_VALUE);
+								allLinesInCurrentFile,
+								Constants.SOLENOID_VALVES);
 
 						double psrForCurrentLine = computePhotoSynthesisRate(currentLine);
 						writePsr(writer, currentLine, psrForCurrentLine);
@@ -184,15 +163,16 @@ public class PhotoSynthesisEvaluator extends AbstractEvaluator {
 	}
 
 	double computePhotoSynthesisRate(String[] line) throws ParseException {
-		if (parseDoubleValue(line, SOLENOID_VALUE) == 1.0)
+		if (parseDoubleValue(line, Constants.SOLENOID_VALVES) == 1.0)
 			return 0.0;
 
-		double solenoid = parseDoubleValue(line, SOLENOID_VALUE);
+		double solenoid = parseDoubleValue(line, Constants.SOLENOID_VALVES);
 		if (solenoid == 2.0 || solenoid == 4.0 || solenoid == 8.0) {
 			// compute it here
 			// first find the correponsing referenceLine
 			String[] refLine = getReferenceLineToUse(line,
-					allLinesInCurrentFile, allReferenceLines, TIME_VALUE);
+					allLinesInCurrentFile, allReferenceLines,
+					Constants.DATE_AND_TIME);
 			// String[] refLine = allLinesInCurrentFile.get(refIndex);
 			double height = 0.0;
 			double diameter = 0.0;
@@ -306,19 +286,19 @@ public class PhotoSynthesisEvaluator extends AbstractEvaluator {
 	}
 
 	double getH2O(String[] line) {
-		return (parseDoubleValue(line, H2O_VALUE) * 10000) / MILLION;
+		return (parseDoubleValue(line, Constants.MEAN_H2O) * 10000) / MILLION;
 	}
 
 	double getCO2Diff(String[] line) {
-		return parseDoubleValue(line, CO2_DIFF_VALUE) / MILLION;
+		return parseDoubleValue(line, Constants.CO2_DIFF) / MILLION;
 	}
 
 	double getCO2Abs(String[] line) {
-		return parseDoubleValue(line, CO2_ABS_VALUE) / MILLION;
+		return parseDoubleValue(line, Constants.CO2_ABS) / MILLION;
 	}
 
 	double getTemperature(String[] line) {
-		return convertToCelvin(parseDoubleValue(line, TEMP_VALUE));
+		return convertToCelvin(parseDoubleValue(line, Constants.TEMPERATURE));
 	}
 
 	double convertToCelvin(double celsius) {

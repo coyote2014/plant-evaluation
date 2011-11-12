@@ -26,14 +26,15 @@ import java.util.Date;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.WriteUtils;
 
 public class TemperatureEvaluator extends AbstractEvaluator {
 
 	// laser data input file
-	static final int TIME_VALUE = 8;
+	// static final int TIME_VALUE = 8;
 	// temperature input file
-	static final int DATE_TIME = 1;
+	static final int DATE_TIME_TEMPERATURE = 1;
 	static final int TEMPERATURE = 2;
 
 	File standardDerivationInputFile;
@@ -141,14 +142,15 @@ public class TemperatureEvaluator extends AbstractEvaluator {
 
 	double findTemperatureForLine(String[] currentLine) throws ParseException {
 		// first parse the date from the laser data input file
-		Date dateOfLaser = dateFormat.parse(currentLine[TIME_VALUE]);
+		Date dateOfLaser = dateFormat
+				.parse(currentLine[Constants.DATE_AND_TIME]);
 
 		double temperature = 0.0;
 		long shortestedDistance = Long.MAX_VALUE;
 		for (int i = 2; i < temperatureDataLines.size(); i++) {
 			String[] currentTemperatureLine = temperatureDataLines.get(i);
 			Date temperatureDate = temperatureAndPlantDateFormat
-					.parse(currentTemperatureLine[DATE_TIME]);
+					.parse(currentTemperatureLine[DATE_TIME_TEMPERATURE]);
 			long difference = Math.abs(dateOfLaser.getTime()
 					- temperatureDate.getTime());
 

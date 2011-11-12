@@ -40,6 +40,7 @@ public final class Constants {
 	/**
 	 * These are the columns for the raw input files
 	 */
+	// TODO Change the values according to the new input format
 	public static int DATE_RAW = 0;
 	public static int TIME_RAW = 1;
 	public static int _12CO2_RAW = 2;
@@ -54,6 +55,21 @@ public final class Constants {
 	/**
 	 * The coloumns as we use them in the evaluated files
 	 */
+	public static int DATE = 0;
+	public static int TIME = 1;
+	public static int MEAN_12CO2_DRY = 2;
+	public static int MEAN_13CO2_DRY = 3;
+	public static int MEAN_DELTA_5_MINUTES = 4;
+	public static int MEAN_H2O = 5;
+	public static int SOLENOID_VALVES = 6;
+	public static int CO2_ABS = 7;
+	public static int DATE_AND_TIME = 8;
+	public static int CO2_DIFF = 9;
+	public static int DELTA13 = 10;
+	public static int TEMPERATURE = 11;
+	public static int PSR = 12;
+	public static int SD_PSR = 13;
+	public static int SD_DELTA13 = 14;
 
 	/**
 	 * Time Constants used during evaluation

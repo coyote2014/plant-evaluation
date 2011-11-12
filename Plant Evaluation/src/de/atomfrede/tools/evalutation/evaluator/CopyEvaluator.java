@@ -67,14 +67,6 @@ public class CopyEvaluator extends AbstractEvaluator {
 						allLines.add(currentLines.get(0));
 					}
 
-					// for(String[] line:currentLines){
-					// double solenoidValue = parseDoubleValue(line,
-					// Constants.solenoidValue);
-					// if (solenoidValue == 1.0 || solenoidValue == 4.0
-					// || solenoidValue == 2.0){
-					// //nothing to do here
-					// }
-					// }
 					for (int j = 1; j < currentLines.size(); j++) {
 						String[] currentLine = currentLines.get(j);
 						double solenoidValue = parseDoubleValue(currentLine,
@@ -86,24 +78,6 @@ public class CopyEvaluator extends AbstractEvaluator {
 						}
 					}
 
-					// allLines.addAll(currentLines);
-
-					// if (i == 0) {
-					// writer.writeNext(allLines.get(i));
-					// allLines.remove(0);
-					// }
-					// if (i != 0)
-					// // remove the header
-					// allLines.remove(0);
-					// for (String[] line : allLines) {
-					// double solenoidValue = parseDoubleValue(line,
-					// Constants.solenoidValue);
-					// if (solenoidValue == 1.0 || solenoidValue == 4.0
-					// || solenoidValue == 2.0)
-					// writer.writeNext(line);
-					//
-					// }
-					// writer.writeAll(allLines);
 				}
 			}
 			String[] header = allLines.get(0);
