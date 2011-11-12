@@ -72,37 +72,37 @@ public class PlantHelper {
 			plantOne.setLowerLeafArea(LOWER_LEAF_AREA_PLANT_ONE);
 			plantOne.setUpperLeafArea(UPPER_LEAF_AREA_PLANT_ONE);
 
-			Plant plantTwo = new Plant(dateFormat.parse(PLANT_TWO_START),
-					dateFormat.parse(PLANT_TWO_END));
-			plantTwo.setLowerLeafArea(LOWER_LEAF_AREA_PLANT_TWO);
-			plantTwo.setUpperLeafArea(UPPER_LEAF_AREA_PLANT_TWO);
-
-			Plant plantThree = new Plant(dateFormat.parse(PLANT_THREE_START),
-					dateFormat.parse(PLANT_THREE_END));
-			plantThree.setLowerLeafArea(LOWER_LEAF_AREA_PLANT_THREE);
-			plantThree.setUpperLeafArea(UPPER_LEAF_AREA_PLANT_THREE);
-
-			Plant plantFour = new Plant(dateFormat.parse(PLANT_FOUR_START),
-					dateFormat.parse(PLANT_FOUR_END));
-			plantFour.setLowerLeafArea(LOWER_LEAF_AREA_PLANT_FOUR);
-			plantFour.setUpperLeafArea(UPPER_LEAF_AREA_PLANT_FOUR);
-
-			Plant plantFive = new Plant(dateFormat.parse(PLANT_FIVE_START),
-					dateFormat.parse(PLANT_FIVE_END));
-			plantFive.setLowerLeafArea(LOWER_LEAF_AREA_PLANT_FIVE);
-			plantFive.setUpperLeafArea(UPPER_LEAF_AREA_PLANT_FIVE);
-
-			Plant plantSix = new Plant(dateFormat.parse(PLANT_SIX_START),
-					dateFormat.parse(PLANT_SIX_END));
-			plantSix.setLowerLeafArea(LOWER_LEAF_AREA_PLANT_SIX);
-			plantSix.setUpperLeafArea(UPPER_LEAF_AREA_PLANT_SIX);
+			// Plant plantTwo = new Plant(dateFormat.parse(PLANT_TWO_START),
+			// dateFormat.parse(PLANT_TWO_END));
+			// plantTwo.setLowerLeafArea(LOWER_LEAF_AREA_PLANT_TWO);
+			// plantTwo.setUpperLeafArea(UPPER_LEAF_AREA_PLANT_TWO);
+			//
+			// Plant plantThree = new Plant(dateFormat.parse(PLANT_THREE_START),
+			// dateFormat.parse(PLANT_THREE_END));
+			// plantThree.setLowerLeafArea(LOWER_LEAF_AREA_PLANT_THREE);
+			// plantThree.setUpperLeafArea(UPPER_LEAF_AREA_PLANT_THREE);
+			//
+			// Plant plantFour = new Plant(dateFormat.parse(PLANT_FOUR_START),
+			// dateFormat.parse(PLANT_FOUR_END));
+			// plantFour.setLowerLeafArea(LOWER_LEAF_AREA_PLANT_FOUR);
+			// plantFour.setUpperLeafArea(UPPER_LEAF_AREA_PLANT_FOUR);
+			//
+			// Plant plantFive = new Plant(dateFormat.parse(PLANT_FIVE_START),
+			// dateFormat.parse(PLANT_FIVE_END));
+			// plantFive.setLowerLeafArea(LOWER_LEAF_AREA_PLANT_FIVE);
+			// plantFive.setUpperLeafArea(UPPER_LEAF_AREA_PLANT_FIVE);
+			//
+			// Plant plantSix = new Plant(dateFormat.parse(PLANT_SIX_START),
+			// dateFormat.parse(PLANT_SIX_END));
+			// plantSix.setLowerLeafArea(LOWER_LEAF_AREA_PLANT_SIX);
+			// plantSix.setUpperLeafArea(UPPER_LEAF_AREA_PLANT_SIX);
 
 			defaultPlants.add(plantOne);
-			defaultPlants.add(plantTwo);
-			defaultPlants.add(plantThree);
-			defaultPlants.add(plantFour);
-			defaultPlants.add(plantFive);
-			defaultPlants.add(plantSix);
+			// defaultPlants.add(plantTwo);
+			// defaultPlants.add(plantThree);
+			// defaultPlants.add(plantFour);
+			// defaultPlants.add(plantFive);
+			// defaultPlants.add(plantSix);
 
 		} catch (Exception e) {
 			System.out.println("Error during parsing default plants");

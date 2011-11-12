@@ -55,6 +55,9 @@ public final class Constants {
 	 * The coloumns as we use them in the evaluated files
 	 */
 
+	/**
+	 * Time Constants used during evaluation
+	 */
 	// 1 hour are 3 600 000ms
 	public static long oneHour = 3600000L;
 	// 5 minutes are 300000ms
