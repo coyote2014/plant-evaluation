@@ -24,8 +24,8 @@ import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -53,7 +53,9 @@ public class AboutPanel extends JPanel {
 
 	private final JDialog parentDialog;
 	private JLabel btnSourceCode;
-	URI uri;
+	URI sourceCodeUri, tangoIconThemeUri, webSiteUri;
+	private JLabel lblTangoIconTheme;
+	private JLabel lblWebsite;
 
 	/**
 	 * Create the panel.
@@ -61,11 +63,18 @@ public class AboutPanel extends JPanel {
 	 * @throws URISyntaxException
 	 */
 	public AboutPanel(JDialog parentDialog) throws URISyntaxException {
-		uri = new URI(Messages.getString("AboutPanel.sourceCode")); //$NON-NLS-1$
+		sourceCodeUri = new URI(Messages.getString("AboutPanel.sourceCode")); //$NON-NLS-1$
+		tangoIconThemeUri = new URI(
+				"http://tango.freedesktop.org/Tango_Icon_Library");
+		webSiteUri = new URI("https://code.google.com/p/plant-evaluation/");
 		this.parentDialog = parentDialog;
 		setLayout(new FormLayout(
 				new ColumnSpec[] { FormFactory.RELATED_GAP_COLSPEC,
 						FormFactory.DEFAULT_COLSPEC, }, new RowSpec[] {
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,
 						FormFactory.RELATED_GAP_ROWSPEC,
 						FormFactory.DEFAULT_ROWSPEC,
 						FormFactory.RELATED_GAP_ROWSPEC,
@@ -89,8 +98,10 @@ public class AboutPanel extends JPanel {
 		add(getLblCopyright(), "2, 8"); //$NON-NLS-1$
 		add(getLblFrederikHahne(), "2, 10"); //$NON-NLS-1$
 		add(getLblLicensedUnderGpl(), "2, 14"); //$NON-NLS-1$
-		add(getBtnSourceCode(), "2, 16"); //$NON-NLS-1$
-		add(getBtnNewButton(), "2, 18, center, default"); //$NON-NLS-1$
+		add(getLblTangoIconTheme(), "2, 16");
+		add(getLblWebsite(), "2, 18");
+		add(getBtnSourceCode(), "2, 20"); //$NON-NLS-1$
+		add(getBtnNewButton(), "2, 22, center, default"); //$NON-NLS-1$
 
 	}
 
@@ -155,22 +166,10 @@ public class AboutPanel extends JPanel {
 			// btnSourceCode.setBackground(Color.WHITE);
 			// btnSourceCode.setRolloverEnabled(false);
 			// btnSourceCode.setBorder(null);
-			btnSourceCode.setToolTipText(uri.toString());
+			btnSourceCode.setToolTipText(sourceCodeUri.toString());
 			// btnSourceCode.setFocusPainted(false);
 
-			btnSourceCode.addMouseListener(new MouseListener() {
-
-				@Override
-				public void mouseReleased(MouseEvent e) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void mousePressed(MouseEvent e) {
-					// TODO Auto-generated method stub
-
-				}
+			btnSourceCode.addMouseListener(new MouseAdapter() {
 
 				@Override
 				public void mouseExited(MouseEvent e) {
@@ -189,16 +188,11 @@ public class AboutPanel extends JPanel {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					// TODO Auto-generated method stub
-					open(uri);
+					open(sourceCodeUri);
 
 				}
 			});
-			// btnSourceCode.addActionListener(new ActionListener() {
-			// @Override
-			// public void actionPerformed(ActionEvent arg0) {
-			// open(uri);
-			// }
-			// });
+
 		}
 		return btnSourceCode;
 	}
@@ -216,4 +210,69 @@ public class AboutPanel extends JPanel {
 		}
 	}
 
+	private JLabel getLblTangoIconTheme() {
+		if (lblTangoIconTheme == null) {
+			String link = "<HTML><FONT color=\"#000099\"><U>" + Messages.getString("AboutPanel.lblTangoIconTheme.text_1") + "</U></FONT></HTML>"; //$NON-NLS-1$
+			lblTangoIconTheme = new JLabel(link); //$NON-NLS-1$
+			lblTangoIconTheme.setHorizontalAlignment(SwingConstants.CENTER);
+			lblTangoIconTheme.setToolTipText(tangoIconThemeUri.toString());
+
+			lblTangoIconTheme.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseExited(MouseEvent e) {
+					// TODO Auto-generated method stub
+					setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					// TODO Auto-generated method stub
+					setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+				}
+
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					// TODO Auto-generated method stub
+					open(tangoIconThemeUri);
+
+				}
+			});
+		}
+		return lblTangoIconTheme;
+	}
+
+	private JLabel getLblWebsite() {
+		if (lblWebsite == null) {
+			String link = "<HTML><FONT color=\"#000099\"><U>" + Messages.getString("AboutPanel.lblWebsite.text") + "</U></FONT></HTML>"; //$NON-NLS-1$
+			lblWebsite = new JLabel(link); //$NON-NLS-1$
+			lblWebsite.setHorizontalAlignment(SwingConstants.CENTER);
+			lblWebsite.setToolTipText(webSiteUri.toASCIIString());
+
+			lblWebsite.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseExited(MouseEvent e) {
+					// TODO Auto-generated method stub
+					setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					// TODO Auto-generated method stub
+					setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+				}
+
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					// TODO Auto-generated method stub
+					open(webSiteUri);
+
+				}
+			});
+		}
+		return lblWebsite;
+	}
 }

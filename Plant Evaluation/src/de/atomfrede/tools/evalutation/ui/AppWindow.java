@@ -122,6 +122,7 @@ public class AppWindow {
 
 		JMenuItem mntmEvaluate = new JMenuItem(
 				Messages.getString("AppWindow.2")); //$NON-NLS-1$
+		mntmEvaluate.setIcon(Icons.IC_PLAY_SMALL);
 
 		mntmEvaluate.addActionListener(new ActionListener() {
 
@@ -141,7 +142,7 @@ public class AppWindow {
 		mnFile.add(mntmEvaluate);
 
 		JMenuItem mntmExit = new JMenuItem(Messages.getString("AppWindow.3")); //$NON-NLS-1$
-
+		mntmExit.setIcon(Icons.IC_LOGOUT_SMALL);
 		mntmExit.addActionListener(new ActionListener() {
 
 			@Override
@@ -159,6 +160,7 @@ public class AppWindow {
 		menuBar.add(mnEdit);
 
 		JMenuItem mntmOptions = new JMenuItem(Messages.getString("AppWindow.5")); //$NON-NLS-1$
+		mntmOptions.setIcon(Icons.IC_PREFERENCES_SYSTEM_SMALL);
 		mntmOptions.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
