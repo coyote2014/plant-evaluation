@@ -62,7 +62,7 @@ public class PlantListPanel extends JPanel {
 		removeAll();
 		setLayout(new BorderLayout());
 
-		FormLayout layout = new FormLayout("pref"); //$NON-NLS-1$
+		FormLayout layout = new FormLayout("fill:pref:grow"); //$NON-NLS-1$
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 
 		builder.appendSeparator(Messages.getString("PlantListPanel.2")); //$NON-NLS-1$
