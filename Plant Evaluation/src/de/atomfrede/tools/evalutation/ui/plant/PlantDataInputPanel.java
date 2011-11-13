@@ -31,6 +31,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
+import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
 import de.atomfrede.tools.evalutation.Plant;
@@ -44,7 +45,8 @@ public class PlantDataInputPanel extends JPanel {
 
 	DateAndTimePicker startDatePicker, endDatePicker;
 	JButton deleteButton;
-	JSpinner lowerLeafAreaSpinner, upperLeafAreaSpinner;
+	JSpinner lowerLeafAreaSpinner, upperLeafAreaSpinner,
+			startDayPressureSpinner, endDayPressureSpinner;
 
 	public PlantDataInputPanel() {
 		this(new Plant());
@@ -69,17 +71,29 @@ public class PlantDataInputPanel extends JPanel {
 				"pref, 4dlu, pref, 4dlu, pref, 4dlu, pref, 4dlu, pref"); //$NON-NLS-1$
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 
+		CellConstraints cc = new CellConstraints();
+
 		builder.append(
 				Messages.getString("PlantDataInputPanel.2"), getStartPicker()); //$NON-NLS-1$
 		builder.append(
 				Messages.getString("PlantDataInputPanel.3"), getEndPicker()); //$NON-NLS-1$
-		builder.append(getDeleteButton());
+		// builder.append(getDeleteButton());
+		builder.nextLine();
+
+		builder.append("Start Pressure");
+		builder.append(getStartDayPressureSpinner());
+
+		builder.append("End Pressure");
+		builder.append(getEndDayPressureSpinner());
+		builder.nextLine();
 
 		builder.append(Messages.getString("PlantDataInputPanel.4")); //$NON-NLS-1$
 		builder.append(getLowerLeafAreaSpinner());
 
 		builder.append(Messages.getString("PlantDataInputPanel.5")); //$NON-NLS-1$
 		builder.append(getUpperLeafAreaSpinner());
+
+		builder.add(getDeleteButton(), cc.xywh(9, 1, 1, 5));
 		add(builder.getPanel(), BorderLayout.CENTER);
 
 	}
@@ -158,6 +172,54 @@ public class PlantDataInputPanel extends JPanel {
 			});
 		}
 		return upperLeafAreaSpinner;
+	}
+
+	private JSpinner getStartDayPressureSpinner() {
+		if (startDayPressureSpinner == null) {
+			startDayPressureSpinner = new JSpinner(new SpinnerNumberModel(
+					1000.0, 800.0, 1500.0, 1.0));
+
+			JSpinner.NumberEditor pressureNumberEditor = new JSpinner.NumberEditor(
+					startDayPressureSpinner, "#000.0"); //$NON-NLS-1$
+
+			startDayPressureSpinner.addChangeListener(new ChangeListener() {
+
+				@Override
+				public void stateChanged(ChangeEvent e) {
+					if (startDayPressureSpinner != null) {
+						SpinnerNumberModel model = (SpinnerNumberModel) startDayPressureSpinner
+								.getModel();
+						getPlant().setPressureAtStartDay(
+								model.getNumber().doubleValue());
+					}
+				}
+			});
+		}
+		return startDayPressureSpinner;
+	}
+
+	private JSpinner getEndDayPressureSpinner() {
+		if (endDayPressureSpinner == null) {
+			endDayPressureSpinner = new JSpinner(new SpinnerNumberModel(1000.0,
+					800.0, 1500.0, 1.0));
+
+			JSpinner.NumberEditor pressureNumberEditor = new JSpinner.NumberEditor(
+					endDayPressureSpinner, "#000.0"); //$NON-NLS-1$
+
+			endDayPressureSpinner.addChangeListener(new ChangeListener() {
+
+				@Override
+				public void stateChanged(ChangeEvent e) {
+					if (endDayPressureSpinner != null) {
+						SpinnerNumberModel model = (SpinnerNumberModel) endDayPressureSpinner
+								.getModel();
+						getPlant().setPressureAtEndDay(
+								model.getNumber().doubleValue());
+					}
+				}
+			});
+		}
+		return endDayPressureSpinner;
 	}
 
 	public Plant getPlant() {

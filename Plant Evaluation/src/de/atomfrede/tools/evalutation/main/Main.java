@@ -21,8 +21,6 @@ package de.atomfrede.tools.evalutation.main;
 
 import java.io.File;
 
-import de.atomfrede.tools.evalutation.evaluator.CopyEvaluator;
-
 public class Main {
 
 	static File outputFolder = new File("output");
@@ -32,7 +30,12 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		CopyEvaluator evaluator = new CopyEvaluator();
+		// CopyEvaluator evaluator = new CopyEvaluator();
+
+		String s = "DATE                      TIME                      FRAC_DAYS_SINCE_JAN1      FRAC_HRS_SINCE_JAN1       EPOCH_TIME                ALARM_STATUS              CavityPressure            CavityTemp                DasTemp                   EtalonTemp                WarmBoxTemp               species                   MPVPosition               InletValve                OutletValve               solenoid_valves           12CO2                     12CO2_dry                 13CO2                     13CO2_dry                 H2O                       CH4                       Delta_Raw                 Delta_30s                 Delta_2min                Delta_5min                Ratio_Raw                 Ratio_30s                 Ratio_2min                Ratio_5min                CH4_High_Precision        peak_75                   ch4_splinemax_for_correct peak87_baseave_spec       peak88_baseave            ";
+		System.out.println(s);
+		s = s.replaceAll("\\s+", ",");
+		System.out.println(s);
 
 		// List<File> inputFiles = new ArrayList<File>();
 		// List<File> sdFiles = new ArrayList<File>();

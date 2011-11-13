@@ -89,7 +89,12 @@ public abstract class AbstractEvaluator {
 	}
 
 	public List<String[]> readAllLinesInFile(File input) throws IOException {
-		CSVReader reader = new CSVReader(new FileReader(input));
+		return readAllLinesInFile(input, ',');
+	}
+
+	public List<String[]> readAllLinesInFile(File input, char sperator)
+			throws IOException {
+		CSVReader reader = new CSVReader(new FileReader(input), sperator);
 		return reader.readAll();
 	}
 

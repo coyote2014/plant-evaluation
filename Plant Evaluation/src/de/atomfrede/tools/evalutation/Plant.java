@@ -25,6 +25,15 @@ public class Plant {
 
 	Date startDate, endDate;
 	double upperLeafArea, lowerLeafArea, pressureAtStartDay, pressureAtEndDay;
+
+	public double getPressureAtStartDay() {
+		return pressureAtStartDay;
+	}
+
+	public void setPressureAtStartDay(double pressureAtStartDay) {
+		this.pressureAtStartDay = pressureAtStartDay;
+	}
+
 	int number;
 
 	public Plant() {

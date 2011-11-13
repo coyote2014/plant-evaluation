@@ -28,6 +28,7 @@ import java.util.List;
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.EntryComparator;
+import de.atomfrede.tools.evalutation.helper.PreProcessor;
 
 public class CopyEvaluator extends AbstractEvaluator {
 
@@ -61,6 +62,11 @@ public class CopyEvaluator extends AbstractEvaluator {
 				if (inputFile.isFile()) {
 					// read all lines and write them to the new file
 					List<String[]> currentLines = readAllLinesInFile(inputFile);
+					if (currentLines.get(0).length == 1) {
+						PreProcessor.replaceWhiteSpacesWithComma(inputFile);
+						currentLines = readAllLinesInFile(inputFile);
+					}
+
 					if (i != 0) {
 						currentLines.remove(0);
 					} else {
@@ -102,5 +108,4 @@ public class CopyEvaluator extends AbstractEvaluator {
 		System.out.println("Copy Evaluator Done.");
 		return true;
 	}
-
 }
