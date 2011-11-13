@@ -70,7 +70,7 @@ public class CopyEvaluator extends AbstractEvaluator {
 					for (int j = 1; j < currentLines.size(); j++) {
 						String[] currentLine = currentLines.get(j);
 						double solenoidValue = parseDoubleValue(currentLine,
-								Constants.solenoidValve_RAW);
+								Constants.SOLENOID_VALVE_INPUT);
 
 						if (solenoidValue == 1.0 || solenoidValue == 4.0
 								|| solenoidValue == 2.0) {

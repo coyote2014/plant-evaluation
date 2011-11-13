@@ -32,10 +32,10 @@ public class EntryComparator implements Comparator<String[]> {
 	@Override
 	public int compare(String[] line, String[] lineToCompare) {
 		try {
-			Date lineDate = dateFormat.parse(line[Constants.DATE_RAW] + " "
-					+ line[Constants.TIME_RAW]);
-			Date compareDate = dateFormat.parse(lineToCompare[Constants.DATE_RAW]
-					+ " " + lineToCompare[Constants.TIME_RAW]);
+			Date lineDate = dateFormat.parse(line[Constants.DATE] + " "
+					+ line[Constants.TIME]);
+			Date compareDate = dateFormat.parse(lineToCompare[Constants.DATE]
+					+ " " + lineToCompare[Constants.TIME]);
 			return lineDate.compareTo(compareDate);
 		} catch (ParseException pe) {
 			System.out.println("Parse Exception in comparator..." + pe);
