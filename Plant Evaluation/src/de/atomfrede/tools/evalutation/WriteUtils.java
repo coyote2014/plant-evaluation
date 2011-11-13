@@ -28,7 +28,7 @@ import au.com.bytecode.opencsv.CSVWriter;
 public class WriteUtils {
 
 	static SimpleDateFormat dateFormat = new SimpleDateFormat(
-			"yyyy-MM-dd HH:mm:ss,SS");
+			"yyyy-MM-dd HH:mm:ss.SS");
 
 	public static void writeHeader(CSVWriter writer) {
 		String[] header = { Constants.DATE_HEADER, Constants.TIME_HEADER,
@@ -43,9 +43,8 @@ public class WriteUtils {
 		writer.writeNext(header);
 	}
 
-	public static void appendMeanValues(Date date2Write,
-			String solenoid2Write, Map<Integer, Double> type2MeanValue,
-			CSVWriter writer) {
+	public static void appendMeanValues(Date date2Write, String solenoid2Write,
+			Map<Integer, Double> type2MeanValue, CSVWriter writer) {
 		String date = dateFormat.format(date2Write).split(" ")[0];
 		String time = dateFormat.format(date2Write).split(" ")[1];
 		String meanDeltaFiveMinutes = type2MeanValue

@@ -27,7 +27,7 @@ import java.util.Date;
 public class EntryComparator implements Comparator<String[]> {
 
 	public SimpleDateFormat dateFormat = new SimpleDateFormat(
-			"yyyy-MM-dd HH:mm:ss,SS");
+			"yyyy-MM-dd HH:mm:ss.SS");
 
 	@Override
 	public int compare(String[] line, String[] lineToCompare) {

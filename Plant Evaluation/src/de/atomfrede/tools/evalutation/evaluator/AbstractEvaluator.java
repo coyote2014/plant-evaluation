@@ -62,7 +62,7 @@ public abstract class AbstractEvaluator {
 
 	// the date format: "2011-08-01 00:30:23,54"
 	public SimpleDateFormat dateFormat = new SimpleDateFormat(
-			"yyyy-MM-dd HH:mm:ss,SS");
+			"yyyy-MM-dd HH:mm:ss.SS");
 
 	// 22.07.11 10:59:38
 	public SimpleDateFormat temperatureAndPlantDateFormat = new SimpleDateFormat(
