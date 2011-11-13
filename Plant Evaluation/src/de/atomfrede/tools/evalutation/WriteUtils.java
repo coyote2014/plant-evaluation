@@ -43,7 +43,7 @@ public class WriteUtils {
 		writer.writeNext(header);
 	}
 
-	public static void appendValuesInFirstStep(Date date2Write,
+	public static void appendMeanValues(Date date2Write,
 			String solenoid2Write, Map<Integer, Double> type2MeanValue,
 			CSVWriter writer) {
 		String date = dateFormat.format(date2Write).split(" ")[0];
@@ -60,6 +60,17 @@ public class WriteUtils {
 		String[] newLine = { date, time, mean12CO2, mean13CO2,
 				meanDeltaFiveMinutes, meanH2O, solenoid2Write, co2Abs,
 				dateFormat.format(date2Write) };
+		writer.writeNext(newLine);
+	}
+
+	public static void appendColumn(String[] line, String valueToAppend,
+			CSVWriter writer) {
+		String[] newLine = new String[line.length + 1];
+		int i = 0;
+		for (i = 0; i < line.length; i++) {
+			newLine[i] = line[i];
+		}
+		newLine[i] = valueToAppend;
 		writer.writeNext(newLine);
 	}
 }

@@ -85,7 +85,7 @@ public class MeanValueEvaluator extends AbstractEvaluator {
 					Map<Integer, double[]> type2RawValues = collectValuesOfLastFiveMinutes(
 							lines, startIndex - 1);
 					Map<Integer, Double> type2MeanValue = computeMeanValues(type2RawValues);
-					WriteUtils.appendValuesInFirstStep(date2Write,
+					WriteUtils.appendMeanValues(date2Write,
 							solenoid2Write, type2MeanValue, writer);
 				}
 			}
