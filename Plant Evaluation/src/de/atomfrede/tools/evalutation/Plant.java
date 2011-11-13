@@ -24,7 +24,7 @@ import java.util.Date;
 public class Plant {
 
 	Date startDate, endDate;
-	double upperLeafArea, lowerLeafArea;
+	double upperLeafArea, lowerLeafArea, pressureAtStartDay, pressureAtEndDay;
 	int number;
 
 	public Plant() {
@@ -75,6 +75,14 @@ public class Plant {
 
 	public void setLowerLeafArea(double lowerLeafArea) {
 		this.lowerLeafArea = lowerLeafArea;
+	}
+
+	public double getPressureAtEndDay() {
+		return pressureAtEndDay;
+	}
+
+	public void setPressureAtEndDay(double pressureAtEndDay) {
+		this.pressureAtEndDay = pressureAtEndDay;
 	}
 
 	public int getNumber() {
