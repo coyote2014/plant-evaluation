@@ -24,6 +24,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -33,6 +34,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
+import com.jgoodies.forms.factories.ButtonBarFactory;
 import com.jgoodies.forms.layout.FormLayout;
 
 import de.atomfrede.tools.evalutation.options.Options;
@@ -40,8 +42,11 @@ import de.atomfrede.tools.evalutation.ui.res.Messages;
 
 public class OptionsDialog extends JDialog {
 
-	JCheckBox shiftByOneHour, recordReferenceChambers;
+	JCheckBox shiftByOneHourCheckBox, recordReferenceChambersCheckbox;
 	JSpinner sampleSpinner;
+	JButton okButton;
+
+	double sampleRate = Options.getSampleRate();
 
 	public OptionsDialog(JFrame parent) {
 		super();
@@ -61,7 +66,7 @@ public class OptionsDialog extends JDialog {
 		if (sampleSpinner == null) {
 			sampleSpinner = new JSpinner();
 			SpinnerNumberModel numberModel = new SpinnerNumberModel(
-					Options.getSampleRate(), 2.0, 10.0, 1.0);
+					Options.getSampleRate(), 1.0, 10.0, 1.0);
 			sampleSpinner.setModel(numberModel);
 
 			sampleSpinner.addChangeListener(new ChangeListener() {
@@ -72,7 +77,7 @@ public class OptionsDialog extends JDialog {
 					SpinnerNumberModel model = (SpinnerNumberModel) sampleSpinner
 							.getModel();
 					double selectedValue = model.getNumber().doubleValue();
-					Options.setSampleRate((int) selectedValue);
+					sampleRate = selectedValue;
 
 				}
 			});
@@ -81,43 +86,77 @@ public class OptionsDialog extends JDialog {
 	}
 
 	private JCheckBox getRecordReferenceChambersCheckbox() {
-		if (recordReferenceChambers == null) {
-			recordReferenceChambers = new JCheckBox();
-			recordReferenceChambers.setText("Record Reference Chambers");
-			recordReferenceChambers.setSelected(Options
+		if (recordReferenceChambersCheckbox == null) {
+			recordReferenceChambersCheckbox = new JCheckBox();
+			recordReferenceChambersCheckbox
+					.setText("Record Reference Chambers");
+			recordReferenceChambersCheckbox.setSelected(Options
 					.isRecordReferenceChambers());
 
-			recordReferenceChambers.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					Options.setRecordReferenceChambers(recordReferenceChambers
-							.isSelected());
-
-				}
-			});
+			// recordReferenceChambersCheckbox
+			// .addActionListener(new ActionListener() {
+			//
+			// @Override
+			// public void actionPerformed(ActionEvent e) {
+			// Options.setRecordReferenceChambers(recordReferenceChambersCheckbox
+			// .isSelected());
+			// }
+			// });
 		}
-		return recordReferenceChambers;
+		return recordReferenceChambersCheckbox;
 	}
 
 	private JCheckBox getShiftByOneHourCheckBox() {
-		if (shiftByOneHour == null) {
-			shiftByOneHour = new JCheckBox();
-			shiftByOneHour.setText(Messages.getString("OptionsDialog.1")); //$NON-NLS-1$
-			shiftByOneHour.setSelected(Options.isShiftByOneHour());
+		if (shiftByOneHourCheckBox == null) {
+			shiftByOneHourCheckBox = new JCheckBox();
+			shiftByOneHourCheckBox.setText(Messages
+					.getString("OptionsDialog.1")); //$NON-NLS-1$
+			shiftByOneHourCheckBox.setSelected(Options.isShiftByOneHour());
 
-			shiftByOneHour.addActionListener(new ActionListener() {
+			// shiftByOneHourCheckBox.addActionListener(new ActionListener() {
+			//
+			// @Override
+			// public void actionPerformed(ActionEvent e) {
+			// // TODO Auto-generated method stub
+			// Options.setShiftByOneHour(shiftByOneHourCheckBox
+			// .isSelected());
+			//
+			// }
+			// });
+		}
+		return shiftByOneHourCheckBox;
+	}
+
+	private JButton getOkButton() {
+		if (okButton == null) {
+			okButton = new JButton("OK");
+
+			okButton.addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					Options.setShiftByOneHour(shiftByOneHour.isSelected());
+					saveOptionsAndCloseDialog();
 
 				}
 			});
 		}
-		return shiftByOneHour;
+		return okButton;
+	}
+
+	private void saveOptionsAndCloseDialog() {
+		Options.setShiftByOneHour(shiftByOneHourCheckBox.isSelected());
+
+		Options.setRecordReferenceChambers(recordReferenceChambersCheckbox
+				.isSelected());
+
+		Options.setRecordReferenceChambers(recordReferenceChambersCheckbox
+				.isSelected());
+
+		Options.setSampleRate(sampleRate);
+
+		this.dispose();
+
 	}
 
 	private void initialize() {
@@ -131,13 +170,14 @@ public class OptionsDialog extends JDialog {
 		builder.append(getRecordReferenceChambersCheckbox(), 3);
 		builder.append(Messages.getString("OptionsDialog.3")); //$NON-NLS-1$
 		builder.append(getSampleSpinner());
-		// builder.append("Shift by one Hour");
+
+		builder.append(ButtonBarFactory.buildOKBar(getOkButton()), 3);
 
 		setPreferredSize(builder.getPanel().getPreferredSize());
 		Dimension prefSize = builder.getPanel().getPreferredSize();
 
 		prefSize.height = prefSize.height + 25;
-		prefSize.width = prefSize.width + 15;
+		prefSize.width = prefSize.width + 25;
 
 		setSize(prefSize);
 		add(builder.getPanel(), BorderLayout.CENTER);

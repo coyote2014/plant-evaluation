@@ -62,7 +62,8 @@ public class DateAndTimePicker extends JPanel {
 
 	private void initialize() {
 		setLayout(new BorderLayout());
-		FormLayout layout = new FormLayout("pref, 4dlu, pref");
+		FormLayout layout = new FormLayout(
+				"fill:pref:grow, 4dlu, fill:pref:grow");
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 
 		builder.append(getDatePicker());

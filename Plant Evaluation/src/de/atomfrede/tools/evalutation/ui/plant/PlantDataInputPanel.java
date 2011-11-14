@@ -68,7 +68,7 @@ public class PlantDataInputPanel extends JPanel {
 		setLayout(new BorderLayout());
 
 		FormLayout layout = new FormLayout(
-				"pref, 4dlu, pref, 4dlu, pref, 4dlu, pref, 4dlu, pref"); //$NON-NLS-1$
+				"pref, 4dlu, fill:pref:grow, 4dlu, pref, 4dlu, fill:pref:grow, 4dlu, pref"); //$NON-NLS-1$
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 
 		CellConstraints cc = new CellConstraints();

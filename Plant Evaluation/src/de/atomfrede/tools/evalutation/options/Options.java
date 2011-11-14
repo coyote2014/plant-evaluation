@@ -25,16 +25,16 @@ public class Options {
 
 	static boolean shiftByOneHour = false;
 	static boolean recordReferenceChambers = false;
-	static int sampleRate = 10;
+	static double sampleRate = 10.0;
 	static File inputFolder = new File("input"); //$NON-NLS-1$
 	static File outputFolder = new File("output"); //$NON-NLS-1$
 	static File temperatureInputFolder = new File(inputFolder, "temp"); //$NON-NLS-1$
 
-	public static int getSampleRate() {
+	public static double getSampleRate() {
 		return sampleRate;
 	}
 
-	public static void setSampleRate(int count) {
+	public static void setSampleRate(double count) {
 		sampleRate = count;
 	}
 

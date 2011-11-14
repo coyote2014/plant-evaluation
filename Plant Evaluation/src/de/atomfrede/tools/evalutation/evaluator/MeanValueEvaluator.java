@@ -262,7 +262,8 @@ public class MeanValueEvaluator extends AbstractEvaluator {
 				break;
 			}
 			// save line for later computation of standard derivation
-			if (currentIndex % 10 == 0 && startSolenoid != 1.0) {
+			if (currentIndex % Options.getSampleRate() == 0
+					&& startSolenoid != 1.0) {
 				if (startSolenoid != 1.0)
 					linesNeedForStandardDerivation.add(currentIndex);
 				else if (startSolenoid == 1.0
