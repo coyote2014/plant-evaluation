@@ -40,7 +40,7 @@ import de.atomfrede.tools.evalutation.ui.res.Messages;
 
 public class OptionsDialog extends JDialog {
 
-	JCheckBox shiftByOneHour;
+	JCheckBox shiftByOneHour, recordReferenceChambers;
 	JSpinner sampleSpinner;
 
 	public OptionsDialog(JFrame parent) {
@@ -80,6 +80,27 @@ public class OptionsDialog extends JDialog {
 		return sampleSpinner;
 	}
 
+	private JCheckBox getRecordReferenceChambersCheckbox() {
+		if (recordReferenceChambers == null) {
+			recordReferenceChambers = new JCheckBox();
+			recordReferenceChambers.setText("Record Reference Chambers");
+			recordReferenceChambers.setSelected(Options
+					.isRecordReferenceChambers());
+
+			recordReferenceChambers.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					Options.setRecordReferenceChambers(recordReferenceChambers
+							.isSelected());
+
+				}
+			});
+		}
+		return recordReferenceChambers;
+	}
+
 	private JCheckBox getShiftByOneHourCheckBox() {
 		if (shiftByOneHour == null) {
 			shiftByOneHour = new JCheckBox();
@@ -107,6 +128,7 @@ public class OptionsDialog extends JDialog {
 		builder.setDefaultDialogBorder();
 
 		builder.append(getShiftByOneHourCheckBox(), 3);
+		builder.append(getRecordReferenceChambersCheckbox(), 3);
 		builder.append(Messages.getString("OptionsDialog.3")); //$NON-NLS-1$
 		builder.append(getSampleSpinner());
 		// builder.append("Shift by one Hour");

@@ -85,8 +85,8 @@ public class MeanValueEvaluator extends AbstractEvaluator {
 					Map<Integer, double[]> type2RawValues = collectValuesOfLastFiveMinutes(
 							lines, startIndex - 1);
 					Map<Integer, Double> type2MeanValue = computeMeanValues(type2RawValues);
-					WriteUtils.appendMeanValues(date2Write,
-							solenoid2Write, type2MeanValue, writer);
+					WriteUtils.appendMeanValues(date2Write, solenoid2Write,
+							type2MeanValue, writer);
 				}
 			}
 
@@ -232,7 +232,8 @@ public class MeanValueEvaluator extends AbstractEvaluator {
 				Constants.SOLENOID_VALVE_INPUT);
 		if (startSolenoid != 1.0)
 			linesNeedForStandardDerivation.add(Integer.valueOf(startIndex));
-		// writeLinesForStandardDerivation(startLine);
+		else if (startSolenoid == 1.0 && Options.isRecordReferenceChambers())
+			linesNeedForStandardDerivation.add(Integer.valueOf(startIndex));
 
 		StringBuilder dateBuilder = new StringBuilder();
 		dateBuilder.append(startLine[Constants.DATE]);
@@ -261,9 +262,13 @@ public class MeanValueEvaluator extends AbstractEvaluator {
 				break;
 			}
 			// save line for later computation of standard derivation
-			if (currentIndex % 10 == 0 && startSolenoid != 1.0)
-				// writeLinesForStandardDerivation(currentLine);
-				linesNeedForStandardDerivation.add(currentIndex);
+			if (currentIndex % 10 == 0 && startSolenoid != 1.0) {
+				if (startSolenoid != 1.0)
+					linesNeedForStandardDerivation.add(currentIndex);
+				else if (startSolenoid == 1.0
+						&& Options.isRecordReferenceChambers())
+					linesNeedForStandardDerivation.add(currentIndex);
+			}
 
 			currentDate = dateFormat.parse(currentLine[Constants.DATE] + " "
 					+ currentLine[Constants.TIME]);

@@ -24,6 +24,7 @@ import java.io.File;
 public class Options {
 
 	static boolean shiftByOneHour = false;
+	static boolean recordReferenceChambers = false;
 	static int sampleRate = 10;
 	static File inputFolder = new File("input"); //$NON-NLS-1$
 	static File outputFolder = new File("output"); //$NON-NLS-1$
@@ -67,6 +68,15 @@ public class Options {
 
 	public static void setTemperatureInputFolder(File temperatureInputFolder) {
 		Options.temperatureInputFolder = temperatureInputFolder;
+	}
+
+	public static boolean isRecordReferenceChambers() {
+		return recordReferenceChambers;
+	}
+
+	public static void setRecordReferenceChambers(
+			boolean recordReferenceChambers) {
+		Options.recordReferenceChambers = recordReferenceChambers;
 	}
 
 }
