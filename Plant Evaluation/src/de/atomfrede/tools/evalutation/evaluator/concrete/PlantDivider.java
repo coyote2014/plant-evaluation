@@ -30,30 +30,19 @@ import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.Plant;
 import de.atomfrede.tools.evalutation.WriteUtils;
-import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.common.SingleInputMultipleOutputFileEvaluator;
 import de.atomfrede.tools.evalutation.main.PlantHelper;
 
-public class PlantDivider extends AbstractEvaluator {
-
-	File standardDerivationInputFile;
-	List<File> standardDerivationOutpufiles;
-
-	File inputFile;
-	List<File> outputFiles;
+public class PlantDivider extends SingleInputMultipleOutputFileEvaluator {
 
 	List<String[]> allInputLines;
 
 	public PlantDivider(File inputFile, File standardDerivationInputFile) {
-		super("plant");
-		this.inputFile = inputFile;
-		this.standardDerivationInputFile = standardDerivationInputFile;
-		outputFiles = new ArrayList<File>();
-		standardDerivationOutpufiles = new ArrayList<File>();
-		// parseAllDates();
+		super("plant", inputFile, standardDerivationInputFile);
 		boolean done = evaluate();
 		if (done)
 			new PhotoSynthesisEvaluator(outputFiles,
-					standardDerivationOutpufiles);
+					standardDerivationOutputFiles);
 	}
 
 	@Override
@@ -103,7 +92,7 @@ public class PlantDivider extends AbstractEvaluator {
 					WriteUtils.writeHeader(writer);
 					writer.writeAll(values);
 					writer.close();
-					standardDerivationOutpufiles.add(outputFile);
+					standardDerivationOutputFiles.add(outputFile);
 				}
 			}
 		} catch (IOException ioe) {

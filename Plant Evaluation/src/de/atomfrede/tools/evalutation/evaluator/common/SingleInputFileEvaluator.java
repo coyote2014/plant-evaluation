@@ -21,13 +21,13 @@ package de.atomfrede.tools.evalutation.evaluator.common;
 
 import java.io.File;
 
-public abstract class AbstractSingleInputFileEvaluator extends
+public abstract class SingleInputFileEvaluator extends
 		AbstractEvaluator {
 
 	protected File inputFile, standardDerivationInputFile, outputFile,
 			standardDerivationOutputFile;
 
-	public AbstractSingleInputFileEvaluator(String outputFolderName,
+	public SingleInputFileEvaluator(String outputFolderName,
 			File inputFile, File standardDerivationInputFile) {
 		super(outputFolderName);
 		this.inputFile = inputFile;

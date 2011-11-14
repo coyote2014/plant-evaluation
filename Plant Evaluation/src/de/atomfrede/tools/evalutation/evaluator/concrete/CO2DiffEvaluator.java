@@ -28,19 +28,12 @@ import java.util.List;
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.WriteUtils;
-import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.common.SingleInputFileEvaluator;
 
-public class CO2DiffEvaluator extends AbstractEvaluator {
-
-	File inputFile;
-	File outputFile;
-	File standardDerivationInputFile;
-	File standardDerivationOutputFile;
+public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 
 	public CO2DiffEvaluator(File inputFile, File standardDerivationInputFile) {
-		super("co2diff");
-		this.inputFile = inputFile;
-		this.standardDerivationInputFile = standardDerivationInputFile;
+		super("co2diff", inputFile, standardDerivationInputFile);
 		boolean done = evaluate();
 		if (done)
 			new Delta13Evaluator(outputFile, standardDerivationOutputFile);
@@ -96,16 +89,6 @@ public class CO2DiffEvaluator extends AbstractEvaluator {
 				WriteUtils.writeHeader(standardDerivationWriter);
 
 				List<String[]> lines = readAllLinesInFile(standardDerivationInputFile);
-
-				// List<Integer> referenceLines =
-				// findAllReferenceChambers(lines,
-				// SOLENOID_VALUE);
-
-				// List<String[]> referenceLines
-
-				// System.out
-				// .println("Reference Chambers for Standard Derivation found. Size "
-				// + referenceLines.size());
 
 				for (int i = 1; i < lines.size(); i++) {
 					if (i % 1000 == 0)

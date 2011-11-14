@@ -22,17 +22,16 @@ package de.atomfrede.tools.evalutation.evaluator.concrete;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.Plant;
 import de.atomfrede.tools.evalutation.WriteUtils;
-import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.common.MultipleInputFileEvaluator;
 import de.atomfrede.tools.evalutation.main.PlantHelper;
 
-public class PhotoSynthesisEvaluator extends AbstractEvaluator {
+public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 
 	static double MILLION = 1000000.0;
 
@@ -53,11 +52,6 @@ public class PhotoSynthesisEvaluator extends AbstractEvaluator {
 	static double upperDiameter = 25.0;
 	static double lowerDiameter = 7.0;
 
-	List<File> outputFiles;
-	List<File> inputFiles;
-	List<File> standardDerivationInputFiles;
-	List<File> standardDerivationOutputFiles;
-
 	List<String[]> allLinesInCurrentFile;
 	// List<Integer> referenceLines;
 
@@ -65,11 +59,7 @@ public class PhotoSynthesisEvaluator extends AbstractEvaluator {
 
 	public PhotoSynthesisEvaluator(List<File> inputFiles,
 			List<File> standardDerivationInputFiles) {
-		super("photosythesis");
-		this.inputFiles = inputFiles;
-		this.standardDerivationInputFiles = standardDerivationInputFiles;
-		outputFiles = new ArrayList<File>();
-		standardDerivationOutputFiles = new ArrayList<File>();
+		super("photosythesis", inputFiles, standardDerivationInputFiles);
 		boolean done = evaluate();
 		if (done)
 			new StandardDerivationEvaluator(outputFiles,

@@ -27,20 +27,12 @@ import java.util.List;
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.WriteUtils;
-import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.common.SingleInputFileEvaluator;
 
-public class Delta13Evaluator extends AbstractEvaluator {
-
-	File inputFile;
-	File outputFile;
-
-	File standardDerivationInputFile;
-	File standardDerivationOutputFile;
+public class Delta13Evaluator extends SingleInputFileEvaluator {
 
 	public Delta13Evaluator(File inputFile, File standardDerivationInputFile) {
-		super("delta13");
-		this.inputFile = inputFile;
-		this.standardDerivationInputFile = standardDerivationInputFile;
+		super("delta13", inputFile, standardDerivationInputFile);
 		boolean done = evaluate();
 		if (done)
 			new TemperatureEvaluator(outputFile, standardDerivationOutputFile);

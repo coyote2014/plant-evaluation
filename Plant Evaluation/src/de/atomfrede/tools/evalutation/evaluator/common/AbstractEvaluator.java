@@ -66,7 +66,7 @@ public abstract class AbstractEvaluator {
 
 	// 22.07.11 10:59:38
 	public SimpleDateFormat temperatureAndPlantDateFormat = new SimpleDateFormat(
-			"dd.MM.yy HH:mm:ss");
+			"dd.MM.yy,HH:mm:ss");
 
 	public abstract boolean evaluate() throws Exception;
 

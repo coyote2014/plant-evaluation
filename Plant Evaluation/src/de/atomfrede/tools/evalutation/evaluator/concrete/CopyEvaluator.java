@@ -42,6 +42,14 @@ public class CopyEvaluator extends AbstractEvaluator {
 			new MeanValueEvaluator(outputFile);
 	}
 
+	public File getOutputFile() {
+		return outputFile;
+	}
+
+	public void setOutputFile(File outputFile) {
+		this.outputFile = outputFile;
+	}
+
 	@Override
 	public boolean evaluate() {
 		CSVWriter writer = null;

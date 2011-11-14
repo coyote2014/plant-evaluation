@@ -35,20 +35,16 @@ import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.EntryComparator;
 import de.atomfrede.tools.evalutation.WriteUtils;
-import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.common.SingleInputFileEvaluator;
 import de.atomfrede.tools.evalutation.options.Options;
 
-public class MeanValueEvaluator extends AbstractEvaluator {
+public class MeanValueEvaluator extends SingleInputFileEvaluator {
 
 	List<Integer> linesNeedForStandardDerivation;
-	File standardDerivationOutputFile;
-	File outputFile;
-	File inputFile;
 	CSVWriter standardDerivationWriter = null;
 
 	public MeanValueEvaluator(File inputFile) {
-		super("mean-values");
-		this.inputFile = inputFile;
+		super("mean-values", inputFile, null);
 		linesNeedForStandardDerivation = new ArrayList<Integer>();
 		boolean done = evaluate();
 		if (done)

@@ -28,29 +28,20 @@ import java.util.List;
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.WriteUtils;
-import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.common.SingleInputFileEvaluator;
 
-public class TemperatureEvaluator extends AbstractEvaluator {
+public class TemperatureEvaluator extends SingleInputFileEvaluator {
 
-	// laser data input file
-	// static final int TIME_VALUE = 8;
-	// temperature input file
 	static final int DATE_TIME_TEMPERATURE = 1;
 	static final int TEMPERATURE = 2;
 
-	File standardDerivationInputFile;
-	File standardDerivationOutputFile;
-	File dataInputFile;
 	File temperatureInputFile;
-	File outputFile;
 
 	List<String[]> temperatureDataLines;
 
 	public TemperatureEvaluator(File dataInputFile,
 			File standardDerivationInputFile) {
-		super("temperature");
-		this.dataInputFile = dataInputFile;
-		this.standardDerivationInputFile = standardDerivationInputFile;
+		super("temperature", dataInputFile, standardDerivationInputFile);
 		boolean done = evaluate();
 		if (done)
 			new PlantDivider(outputFile, standardDerivationOutputFile);
@@ -65,7 +56,7 @@ public class TemperatureEvaluator extends AbstractEvaluator {
 			if (!temperatureInputFile.exists())
 				return false;
 
-			temperatureDataLines = readAllLinesInFile(temperatureInputFile);
+			temperatureDataLines = readAllLinesInFile(temperatureInputFile, ';');
 
 			{
 				outputFile = new File(outputFolder, "mean-temperature.csv");
@@ -77,7 +68,7 @@ public class TemperatureEvaluator extends AbstractEvaluator {
 				writer = getCsvWriter(outputFile);
 				WriteUtils.writeHeader(writer);
 
-				List<String[]> allDataLines = readAllLinesInFile(dataInputFile);
+				List<String[]> allDataLines = readAllLinesInFile(inputFile);
 
 				for (int i = 1; i < allDataLines.size(); i++) {
 					String[] currentLine = allDataLines.get(i);

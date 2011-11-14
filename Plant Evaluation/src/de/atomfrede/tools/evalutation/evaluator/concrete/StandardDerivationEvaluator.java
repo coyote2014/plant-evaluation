@@ -34,19 +34,9 @@ import org.apache.commons.math.stat.StatUtils;
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.WriteUtils;
-import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.common.MultipleInputFileEvaluator;
 
-public class StandardDerivationEvaluator extends AbstractEvaluator {
-
-	// static int TIME = 8;
-	// static int PSR = 12;
-	// static int delta13 = 10;
-	// static int SOLENOID = 6;
-
-	List<File> outputFiles;
-
-	List<File> inputFiles;
-	List<File> standardDerivationInputFiles;
+public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
 
 	int currentPlant;
 
@@ -55,10 +45,7 @@ public class StandardDerivationEvaluator extends AbstractEvaluator {
 
 	public StandardDerivationEvaluator(List<File> inputFiles,
 			List<File> standardDerivationInputFiles) {
-		super("standard-derivation");
-		this.inputFiles = inputFiles;
-		this.standardDerivationInputFiles = standardDerivationInputFiles;
-		outputFiles = new ArrayList<File>();
+		super("standard-derivation", inputFiles, standardDerivationInputFiles);
 		Collections.sort(inputFiles);
 		Collections.sort(standardDerivationInputFiles);
 		evaluate();
