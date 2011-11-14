@@ -45,10 +45,11 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 
 	public MeanValueEvaluator(File inputFile) {
 		super("mean-values", inputFile, null);
+		this.name = "Mean Values";
 		linesNeedForStandardDerivation = new ArrayList<Integer>();
-		boolean done = evaluate();
-		if (done)
-			new CO2DiffEvaluator(outputFile, standardDerivationOutputFile);
+		// boolean done = evaluate();
+		// if (done)
+		// new CO2DiffEvaluator(outputFile, standardDerivationOutputFile);
 	}
 
 	@Override
@@ -84,8 +85,12 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 					Map<Integer, Double> type2MeanValue = computeMeanValues(type2RawValues);
 					WriteUtils.appendMeanValues(date2Write, solenoid2Write,
 							type2MeanValue, writer);
+					progressBar.setValue((int) (((startIndex * 1.0 / lines
+							.size()) * 100) * 0.5));
 				}
 			}
+
+			progressBar.setValue(50);
 
 			// Standard Derivation Stuff
 			standardDerivationOutputFile = new File(outputFolder,
@@ -118,6 +123,7 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 			}
 		}
 		System.out.println("Mean Values computed.");
+		progressBar.setValue(100);
 		return true;
 	}
 
@@ -171,9 +177,9 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 		}
 
 		Collections.sort(standardDerivationLines, new EntryComparator());
-
 		for (String[] lineToWrite : standardDerivationLines) {
 			writeLinesForStandardDerivation(lineToWrite);
+
 		}
 	}
 

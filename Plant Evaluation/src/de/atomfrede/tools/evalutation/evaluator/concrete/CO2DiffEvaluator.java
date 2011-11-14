@@ -34,9 +34,9 @@ public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 
 	public CO2DiffEvaluator(File inputFile, File standardDerivationInputFile) {
 		super("co2diff", inputFile, standardDerivationInputFile);
-		boolean done = evaluate();
-		if (done)
-			new Delta13Evaluator(outputFile, standardDerivationOutputFile);
+		// boolean done = evaluate();
+		// if (done)
+		// new Delta13Evaluator(outputFile, standardDerivationOutputFile);
 	}
 
 	@Override
@@ -72,6 +72,7 @@ public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 				}
 			}
 			System.out.println("CO2 Diff for Data Values done.");
+			progressBar.setValue(50);
 			writer.close();
 			{
 				// now compute needed valus for standard derivation file
@@ -121,6 +122,7 @@ public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 			}
 		}
 		System.out.println("CO2Diff done");
+		progressBar.setValue(100);
 		return true;
 	}
 

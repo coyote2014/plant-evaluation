@@ -46,9 +46,10 @@ public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
 	public StandardDerivationEvaluator(List<File> inputFiles,
 			List<File> standardDerivationInputFiles) {
 		super("standard-derivation", inputFiles, standardDerivationInputFiles);
+		this.name = "Standard Derivation";
 		Collections.sort(inputFiles);
 		Collections.sort(standardDerivationInputFiles);
-		evaluate();
+		// evaluate();
 
 	}
 
@@ -100,6 +101,7 @@ public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
 				}
 				writer.close();
 				outputFiles.add(outputFile);
+				progressBar.setValue(100);
 
 			}
 		} catch (IOException ioe) {

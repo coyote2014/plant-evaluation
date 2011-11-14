@@ -42,9 +42,10 @@ public class TemperatureEvaluator extends SingleInputFileEvaluator {
 	public TemperatureEvaluator(File dataInputFile,
 			File standardDerivationInputFile) {
 		super("temperature", dataInputFile, standardDerivationInputFile);
-		boolean done = evaluate();
-		if (done)
-			new PlantDivider(outputFile, standardDerivationOutputFile);
+		this.name = "Temperature";
+		// boolean done = evaluate();
+		// if (done)
+		// new PlantDivider(outputFile, standardDerivationOutputFile);
 	}
 
 	@Override
@@ -78,6 +79,7 @@ public class TemperatureEvaluator extends SingleInputFileEvaluator {
 				}
 			}
 			writer.close();
+			progressBar.setValue(50);
 			System.out.println("Writing Temperature for mean data done.");
 			{
 				standardDerivationOutputFile = new File(outputFolder,
@@ -118,6 +120,7 @@ public class TemperatureEvaluator extends SingleInputFileEvaluator {
 		}
 
 		System.out.println("Temperature done.");
+		progressBar.setValue(100);
 		return true;
 	}
 

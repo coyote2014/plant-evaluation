@@ -37,9 +37,10 @@ public class CopyEvaluator extends AbstractEvaluator {
 
 	public CopyEvaluator() {
 		super("copy");
-		boolean done = evaluate();
-		if (done)
-			new MeanValueEvaluator(outputFile);
+		this.name = "Copy Files";
+		// boolean done = evaluate();
+		// if (done)
+		// new MeanValueEvaluator(outputFile);
 	}
 
 	public File getOutputFile() {
@@ -64,10 +65,12 @@ public class CopyEvaluator extends AbstractEvaluator {
 
 			File[] allInputFiles = inputRootFolder.listFiles();
 			System.out.println("#Files " + allInputFiles.length);
+
 			List<String[]> allLines = new ArrayList<String[]>();
 			for (int i = 0; i < allInputFiles.length; i++) {
 				File inputFile = allInputFiles[i];
-
+				progressBar
+						.setValue((int) ((i * 1.0 / allInputFiles.length) * 100.0));
 				if (inputFile.isFile()) {
 					// read all lines and write them to the new file
 					List<String[]> currentLines = readAllLinesInFile(inputFile);
@@ -100,6 +103,7 @@ public class CopyEvaluator extends AbstractEvaluator {
 			Collections.sort(allLines, new EntryComparator());
 			allLines.add(0, header);
 			writer.writeAll(allLines);
+			progressBar.setValue(100);
 
 		} catch (IOException ioe) {
 			System.out.println("IOException " + ioe.getMessage());

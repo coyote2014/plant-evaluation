@@ -36,7 +36,8 @@ import com.jgoodies.forms.factories.ButtonBarFactory;
 import com.jgoodies.forms.layout.FormLayout;
 
 import de.atomfrede.tools.evalutation.Plant;
-import de.atomfrede.tools.evalutation.evaluator.concrete.CopyEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.Evaluation;
+import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
 import de.atomfrede.tools.evalutation.main.PlantHelper;
 import de.atomfrede.tools.evalutation.ui.res.Messages;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
@@ -81,7 +82,7 @@ public class PlantListPanel extends JPanel {
 
 		add(builder.getPanel(), BorderLayout.CENTER);
 
-		add(getEvaluationProgressBar(), BorderLayout.SOUTH);
+		// add(getEvaluationProgressBar(), BorderLayout.SOUTH);
 
 	}
 
@@ -91,7 +92,7 @@ public class PlantListPanel extends JPanel {
 			@Override
 			protected Void doInBackground() throws Exception {
 				// TODO Auto-generated method stub
-				// new CopyEvaluator();
+				getEvaluateButton().setEnabled(false);
 				setUpEvaluation();
 				return null;
 			}
@@ -99,7 +100,8 @@ public class PlantListPanel extends JPanel {
 			@Override
 			protected void done() {
 				invalidate();
-				getEvaluationProgressBar().setVisible(false);
+				getEvaluateButton().setEnabled(true);
+				rebuild();
 				revalidate();
 			}
 		}.execute();
@@ -152,7 +154,7 @@ public class PlantListPanel extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					invalidate();
-					getEvaluationProgressBar().setVisible(true);
+					// getEvaluationProgressBar().setVisible(true);
 					revalidate();
 					evaluate();
 				}
@@ -210,9 +212,28 @@ public class PlantListPanel extends JPanel {
 	}
 
 	private void setUpEvaluation() {
-		// check
+		// // check
 		updatePlants();
-		new CopyEvaluator();
+		Evaluation evaluation = new Evaluation();
+
+		invalidate();
+		FormLayout layout = new FormLayout("pref, 4dlu,fill:pref:grow");
+		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+
+		for (AbstractEvaluator eval : evaluation.getEvaluators()) {
+			builder.append(eval.getName());
+			builder.append(eval.getProgressBar());
+		}
+
+		add(builder.getPanel(), BorderLayout.SOUTH);
+		revalidate();
+		// TODO nicer Error handling
+		try {
+			evaluation.evaluate();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
 	}
 
 	private void updatePlants() {

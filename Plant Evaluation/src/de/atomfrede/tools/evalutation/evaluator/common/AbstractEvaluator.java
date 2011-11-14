@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.JProgressBar;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -36,6 +38,9 @@ import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.options.Options;
 
 public abstract class AbstractEvaluator {
+
+	protected JProgressBar progressBar;
+	protected String name = "AbstractEvaluator";
 
 	public double referenceChamberValue = 1.0;
 
@@ -45,6 +50,9 @@ public abstract class AbstractEvaluator {
 	public List<String[]> allReferenceLines;
 
 	public AbstractEvaluator(String outputFolderName) {
+		progressBar = new JProgressBar();
+		progressBar.setStringPainted(true);
+
 		try {
 			if (!outputRootFolder.exists()) {
 				outputFolder.mkdir();
@@ -69,6 +77,14 @@ public abstract class AbstractEvaluator {
 			"dd.MM.yy,HH:mm:ss");
 
 	public abstract boolean evaluate() throws Exception;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public double parseDoubleValue(String[] line, int type) {
 		return Double.parseDouble(line[type].replace(",", "."));
@@ -135,5 +151,13 @@ public abstract class AbstractEvaluator {
 		}
 
 		return refIndex2Use;
+	}
+
+	public JProgressBar getProgressBar() {
+		return progressBar;
+	}
+
+	public void setProgressBar(JProgressBar progressBar) {
+		this.progressBar = progressBar;
 	}
 }

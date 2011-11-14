@@ -60,10 +60,11 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 	public PhotoSynthesisEvaluator(List<File> inputFiles,
 			List<File> standardDerivationInputFiles) {
 		super("photosythesis", inputFiles, standardDerivationInputFiles);
-		boolean done = evaluate();
-		if (done)
-			new StandardDerivationEvaluator(outputFiles,
-					standardDerivationOutputFiles);
+		this.name = "PSR";
+		// boolean done = evaluate();
+		// if (done)
+		// new StandardDerivationEvaluator(outputFiles,
+		// standardDerivationOutputFiles);
 	}
 
 	@Override
@@ -101,6 +102,7 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 					outputFiles.add(outputFile);
 				}
 			}
+			progressBar.setValue(50);
 			System.out.println("PSR for mean values done.");
 
 			{
@@ -138,6 +140,7 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 			System.out.println("ParseException " + pe.getMessage());
 		}
 		System.out.println("PSR Evaluator Done.");
+		progressBar.setValue(100);
 		return true;
 
 	}

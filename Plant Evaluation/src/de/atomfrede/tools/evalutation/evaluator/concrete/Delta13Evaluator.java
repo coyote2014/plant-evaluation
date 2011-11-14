@@ -33,9 +33,10 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 
 	public Delta13Evaluator(File inputFile, File standardDerivationInputFile) {
 		super("delta13", inputFile, standardDerivationInputFile);
-		boolean done = evaluate();
-		if (done)
-			new TemperatureEvaluator(outputFile, standardDerivationOutputFile);
+		this.name = "Delta 13";
+		// boolean done = evaluate();
+		// if (done)
+		// new TemperatureEvaluator(outputFile, standardDerivationOutputFile);
 	}
 
 	@Override
@@ -86,6 +87,7 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 			}
 			writer.close();
 			System.out.println("Delta13 for mean values done.");
+			progressBar.setValue(50);
 			{
 				// first the mean values
 				if (!standardDerivationInputFile.exists())
@@ -146,6 +148,7 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 		}
 
 		System.out.println("Delta13 done.");
+		progressBar.setValue(100);
 		return true;
 	}
 

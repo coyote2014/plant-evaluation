@@ -39,10 +39,11 @@ public class PlantDivider extends SingleInputMultipleOutputFileEvaluator {
 
 	public PlantDivider(File inputFile, File standardDerivationInputFile) {
 		super("plant", inputFile, standardDerivationInputFile);
-		boolean done = evaluate();
-		if (done)
-			new PhotoSynthesisEvaluator(outputFiles,
-					standardDerivationOutputFiles);
+		this.name = "Plant Divider";
+		// boolean done = evaluate();
+		// if (done)
+		// new PhotoSynthesisEvaluator(outputFiles,
+		// standardDerivationOutputFiles);
 	}
 
 	@Override
@@ -72,6 +73,7 @@ public class PlantDivider extends SingleInputMultipleOutputFileEvaluator {
 				}
 
 			}
+			progressBar.setValue(50);
 			System.out.println("Dividing mean values done.");
 			{
 				allInputLines = readAllLinesInFile(standardDerivationInputFile);
@@ -103,6 +105,7 @@ public class PlantDivider extends SingleInputMultipleOutputFileEvaluator {
 			return false;
 		}
 		System.out.println("Plant Divider Done");
+		progressBar.setValue(100);
 		return true;
 	}
 
