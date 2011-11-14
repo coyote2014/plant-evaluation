@@ -17,7 +17,7 @@
  *  along with Plant Evaluation.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.atomfrede.tools.evalutation.evaluator;
+package de.atomfrede.tools.evalutation.evaluator.concrete;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,6 +28,7 @@ import java.util.List;
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.WriteUtils;
+import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
 
 public class TemperatureEvaluator extends AbstractEvaluator {
 
