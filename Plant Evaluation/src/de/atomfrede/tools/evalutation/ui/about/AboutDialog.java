@@ -32,6 +32,11 @@ import com.jgoodies.forms.layout.FormLayout;
 
 public class AboutDialog extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6018585275963384277L;
+
 	public AboutDialog(JFrame parent) throws URISyntaxException {
 		super();
 

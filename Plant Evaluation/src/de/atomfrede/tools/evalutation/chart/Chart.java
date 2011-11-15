@@ -19,20 +19,18 @@
 
 package de.atomfrede.tools.evalutation.chart;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
 
 public class Chart {
 
 	public Chart() {
-		DefaultStatisticalCategoryDataset dataSet = new DefaultStatisticalCategoryDataset();
-		dataSet.add(25, 30, "Test", "Test");
-		dataSet.add(20, 25, "Test1", "Test1");
-		dataSet.add(15, 20, "Test2", "Test2");
-		JFreeChart chart = ChartFactory.createLineChart("Test", "Test", "Test",
-				dataSet, PlotOrientation.HORIZONTAL, false, false, false);
+		// DefaultStatisticalCategoryDataset dataSet = new
+		// DefaultStatisticalCategoryDataset();
+		// dataSet.add(25, 30, "Test", "Test");
+		// dataSet.add(20, 25, "Test1", "Test1");
+		// dataSet.add(15, 20, "Test2", "Test2");
+		// JFreeChart chart = ChartFactory.createLineChart("Test", "Test",
+		// "Test",
+		// dataSet, PlotOrientation.HORIZONTAL, false, false, false);
 		// ChartFactory.createXY
 		// ChartFactory.createXYLineChart("test", "test", "test", dataSet,
 		// PlotOrientation.HORIZONTAL, null, null, null);

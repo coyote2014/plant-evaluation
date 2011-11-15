@@ -42,6 +42,10 @@ import de.atomfrede.tools.evalutation.ui.res.Messages;
 
 public class OptionsDialog extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2017237494464526876L;
 	JCheckBox shiftByOneHourCheckBox, recordReferenceChambersCheckbox;
 	JSpinner sampleSpinner;
 	JButton okButton;

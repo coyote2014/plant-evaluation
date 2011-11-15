@@ -45,6 +45,10 @@ import de.atomfrede.tools.evalutation.ui.res.Messages;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
 public class AboutPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5008363638498585313L;
 	private JLabel lblPlantEvaluationTool;
 	private JLabel lblVersion;
 	private JLabel lblCopyright;
@@ -271,7 +275,7 @@ public class AboutPanel extends JPanel {
 
 	private JLabel getLabel() {
 		if (label == null) {
-			label = new JLabel(Icons.IC_APPLICATION_X_LARGE); //$NON-NLS-1$
+			label = new JLabel(Icons.IC_APPLICATION_LARGE); //$NON-NLS-1$
 		}
 		return label;
 	}

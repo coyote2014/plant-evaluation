@@ -29,6 +29,9 @@ public class Icons {
 	public static final ImageIcon IC_APPLICATION_X_LARGE = new ImageIcon(
 			Icons.class.getResource("xlarge/application.png"));
 
+	public static final ImageIcon IC_APPLICATION_LARGE = new ImageIcon(
+			Icons.class.getResource("large/application.png"));
+
 	public static final ImageIcon IC_ADD_SMALL = new ImageIcon(
 			Icons.class.getResource("small/list-add.png")); //$NON-NLS-1$
 

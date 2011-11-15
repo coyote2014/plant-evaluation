@@ -40,6 +40,10 @@ import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
 public class FolderSelectionPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6734919047205211900L;
 	JTextField inputFolderTextField, outputFolderTextField,
 			temperatureTextField;
 	JFileChooser inputFolderFileChooser, outputFolderFileChooser,
@@ -187,6 +191,7 @@ public class FolderSelectionPanel extends JPanel {
 		return fc;
 	}
 
+	@SuppressWarnings("unused")
 	private FolderChooser getFolderChooser() {
 		FolderChooser fc = new FolderChooser();
 		fc.setFileHidingEnabled(true);

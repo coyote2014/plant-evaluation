@@ -48,6 +48,10 @@ import com.jidesoft.swing.JideBoxLayout;
 
 public class ExceptionDialog extends StandardDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -562443043328805520L;
 	public JComponent _detailsPanel;
 	Exception exception;
 
@@ -80,6 +84,7 @@ public class ExceptionDialog extends StandardDialog {
 		return panel;
 	}
 
+	@SuppressWarnings("serial")
 	@Override
 	protected StandardDialogPane createStandardDialogPane() {
 		DefaultStandardDialogPane dialogPane = new DefaultStandardDialogPane() {
@@ -115,6 +120,7 @@ public class ExceptionDialog extends StandardDialog {
 		return panel;
 	}
 
+	@SuppressWarnings("serial")
 	@Override
 	public ButtonPanel createButtonPanel() {
 		ButtonPanel buttonPanel = new ButtonPanel();

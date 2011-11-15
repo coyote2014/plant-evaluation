@@ -29,6 +29,10 @@ import de.atomfrede.tools.evalutation.ui.plant.PlantListPanel;
 
 public class MainPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6119526095319839746L;
 	PlantListPanel plantListPanel;
 	FolderSelectionPanel folderSelectionPanel;
 	JFrame parent;

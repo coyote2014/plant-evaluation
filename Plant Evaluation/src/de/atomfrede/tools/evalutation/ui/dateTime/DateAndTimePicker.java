@@ -45,6 +45,10 @@ import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
 public class DateAndTimePicker extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7832437980182475053L;
 	private JXDatePicker datePicker = null;
 	private JSpinner timeSpinner = null;
 	private Calendar calendar = Calendar.getInstance();

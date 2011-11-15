@@ -84,8 +84,8 @@ public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
 
 					double psrMean = parseDoubleValue(currentLine,
 							Constants.PSR);
-					double delta13Mean = parseDoubleValue(currentLine,
-							Constants.DELTA13);
+					// double delta13Mean = parseDoubleValue(currentLine,
+					// Constants.DELTA13);
 
 					double psrStandardDerivation = getStandardDerivation(psrValues);
 					double delta13StandardDerivation = getStandardDerivation(delta13Values);

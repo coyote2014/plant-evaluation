@@ -41,6 +41,11 @@ import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
 public class PlantDataInputPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 787351681022498879L;
+
 	Plant plant;
 
 	DateAndTimePicker startDatePicker, endDatePicker;
@@ -182,6 +187,8 @@ public class PlantDataInputPanel extends JPanel {
 			JSpinner.NumberEditor pressureNumberEditor = new JSpinner.NumberEditor(
 					startDayPressureSpinner, "#000.0"); //$NON-NLS-1$
 
+			startDayPressureSpinner.setEditor(pressureNumberEditor);
+
 			startDayPressureSpinner.addChangeListener(new ChangeListener() {
 
 				@Override
@@ -205,6 +212,8 @@ public class PlantDataInputPanel extends JPanel {
 
 			JSpinner.NumberEditor pressureNumberEditor = new JSpinner.NumberEditor(
 					endDayPressureSpinner, "#000.0"); //$NON-NLS-1$
+
+			endDayPressureSpinner.setEditor(pressureNumberEditor);
 
 			endDayPressureSpinner.addChangeListener(new ChangeListener() {
 

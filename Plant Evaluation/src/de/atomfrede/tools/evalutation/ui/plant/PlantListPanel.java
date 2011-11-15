@@ -43,6 +43,10 @@ import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
 public class PlantListPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2045646288488329282L;
 	List<Plant> plantList;
 	List<PlantDataInputPanel> plantDataInputPanelList;
 	JButton addButton, evaluateButton;
