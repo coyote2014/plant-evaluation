@@ -29,6 +29,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math.stat.StatUtils;
 
 import au.com.bytecode.opencsv.CSVWriter;
@@ -40,6 +42,8 @@ import de.atomfrede.tools.evalutation.options.Options;
 
 public class MeanValueEvaluator extends SingleInputFileEvaluator {
 
+	private final Log log = LogFactory.getLog(MeanValueEvaluator.class);
+
 	List<Integer> linesNeedForStandardDerivation;
 	CSVWriter standardDerivationWriter = null;
 
@@ -47,9 +51,6 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 		super("mean-values", inputFile, null);
 		this.name = "Mean Values";
 		linesNeedForStandardDerivation = new ArrayList<Integer>();
-		// boolean done = evaluate();
-		// if (done)
-		// new CO2DiffEvaluator(outputFile, standardDerivationOutputFile);
 	}
 
 	@Override
@@ -105,7 +106,7 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 
 			writeAllLinesForStandardDerivation(lines);
 		} catch (IOException ioe) {
-			System.out.println("IOException " + ioe.getMessage());
+			log.error("IOException " + ioe.getMessage());
 			return false;
 		} catch (ParseException pe) {
 			System.out.println("ParseException " + pe.toString() + "  "
@@ -122,7 +123,7 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("Mean Values computed.");
+		log.info("Mean Values computed.");
 		progressBar.setValue(100);
 		return true;
 	}
@@ -149,9 +150,9 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 		for (int i = startIndex; i < lines.size(); i++) {
 			if (lines.get(i).length < Constants.SOLENOID_VALVE_INPUT) {
 				String[] errorLine = lines.get(i);
-				System.out.println("No Solenoid " + lines.get(i));
+				log.trace("No Solenoid " + lines.get(i));
 				for (int j = 0; j < errorLine.length; j++) {
-					System.out.println(j + "-th value " + errorLine[j]);
+					log.trace(j + "-th value " + errorLine[j]);
 				}
 			} else {
 				String actualSolenoid = lines.get(i)[Constants.SOLENOID_VALVE_INPUT];
@@ -264,7 +265,7 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 			double currentSolenoid = parseDoubleValue(currentLine,
 					Constants.SOLENOID_VALVE_INPUT);
 			if (currentSolenoid != startSolenoid) {
-				System.out.println("Break");
+				log.trace("Break");
 				break;
 			}
 			// save line for later computation of standard derivation

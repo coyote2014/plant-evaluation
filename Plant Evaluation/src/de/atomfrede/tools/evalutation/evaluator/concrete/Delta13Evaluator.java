@@ -24,6 +24,9 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.WriteUtils;
@@ -31,12 +34,11 @@ import de.atomfrede.tools.evalutation.evaluator.common.SingleInputFileEvaluator;
 
 public class Delta13Evaluator extends SingleInputFileEvaluator {
 
+	private final Log log = LogFactory.getLog(Delta13Evaluator.class);
+
 	public Delta13Evaluator(File inputFile, File standardDerivationInputFile) {
 		super("delta13", inputFile, standardDerivationInputFile);
 		this.name = "Delta 13";
-		// boolean done = evaluate();
-		// if (done)
-		// new TemperatureEvaluator(outputFile, standardDerivationOutputFile);
 	}
 
 	@Override
@@ -88,7 +90,7 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 				}
 			}
 			writer.close();
-			System.out.println("Delta13 for mean values done.");
+			log.info("Delta13 for mean values done.");
 			progressBar.setValue(50);
 			{
 				// first the mean values
@@ -135,10 +137,10 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 				}
 			}
 		} catch (IOException ioe) {
-			System.out.println("IOException " + ioe.getMessage());
+			log.error("IOException " + ioe.getMessage());
 			return false;
 		} catch (ParseException pe) {
-			System.out.println("ParseException " + pe.getMessage());
+			log.error("ParseException " + pe.getMessage());
 			return false;
 		} finally {
 			try {
@@ -151,7 +153,7 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 			}
 		}
 
-		System.out.println("Delta13 done.");
+		log.info("Delta13 done.");
 		progressBar.setValue(100);
 		return true;
 	}

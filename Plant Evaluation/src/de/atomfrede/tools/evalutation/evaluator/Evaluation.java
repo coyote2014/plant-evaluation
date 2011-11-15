@@ -22,6 +22,9 @@ package de.atomfrede.tools.evalutation.evaluator;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.common.MultipleInputFileEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.common.SingleInputFileEvaluator;
@@ -36,6 +39,8 @@ import de.atomfrede.tools.evalutation.evaluator.concrete.StandardDerivationEvalu
 import de.atomfrede.tools.evalutation.evaluator.concrete.TemperatureEvaluator;
 
 public class Evaluation {
+
+	private final Log log = LogFactory.getLog(Evaluation.class);
 
 	List<AbstractEvaluator> evaluators = new ArrayList<AbstractEvaluator>();
 
@@ -78,6 +83,7 @@ public class Evaluation {
 	}
 
 	public void evaluate() throws Exception {
+		log.trace("Evaluation started");
 		int i = 0;
 		boolean done = true;
 		while (i < evaluators.size()) {

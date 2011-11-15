@@ -25,12 +25,17 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.WriteUtils;
 import de.atomfrede.tools.evalutation.evaluator.common.SingleInputFileEvaluator;
 
 public class TemperatureEvaluator extends SingleInputFileEvaluator {
+
+	private final Log log = LogFactory.getLog(TemperatureEvaluator.class);
 
 	static final int DATE_TIME_TEMPERATURE = 1;
 	static final int TEMPERATURE = 2;
@@ -43,9 +48,6 @@ public class TemperatureEvaluator extends SingleInputFileEvaluator {
 			File standardDerivationInputFile) {
 		super("temperature", dataInputFile, standardDerivationInputFile);
 		this.name = "Temperature";
-		// boolean done = evaluate();
-		// if (done)
-		// new PlantDivider(outputFile, standardDerivationOutputFile);
 	}
 
 	@Override
@@ -82,7 +84,7 @@ public class TemperatureEvaluator extends SingleInputFileEvaluator {
 			}
 			writer.close();
 			progressBar.setValue(50);
-			System.out.println("Writing Temperature for mean data done.");
+			log.info("Writing Temperature for mean data done.");
 			{
 				standardDerivationOutputFile = new File(outputFolder,
 						"standard-derivation-temperature.csv");
@@ -107,10 +109,10 @@ public class TemperatureEvaluator extends SingleInputFileEvaluator {
 				}
 			}
 		} catch (IOException ioe) {
-			System.out.println("IOException " + ioe);
+			log.error(ioe);
 			return false;
 		} catch (ParseException pe) {
-			System.out.println("ParseException " + pe);
+			log.error(pe);
 			return false;
 		} finally {
 			try {
@@ -123,7 +125,7 @@ public class TemperatureEvaluator extends SingleInputFileEvaluator {
 			}
 		}
 
-		System.out.println("Temperature done.");
+		log.info("Temperature done.");
 		progressBar.setValue(100);
 		return true;
 	}

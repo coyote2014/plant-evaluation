@@ -39,6 +39,9 @@ import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jidesoft.swing.JideBorderLayout;
@@ -52,6 +55,8 @@ public class AppWindow {
 
 	public static JFrame _frame;
 	private JFrame frame;
+
+	private final Log log = LogFactory.getLog(AppWindow.class);
 
 	/**
 	 * Launch the application.
@@ -98,9 +103,10 @@ public class AppWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		log.trace("Plant Evaluator started");
 		frame = new JFrame();
 
-		frame.setIconImage(Icons.IC_APPLICATION_SMALL.getImage());
+		frame.setIconImage(Icons.IC_APPLICATION_X_LARGE.getImage());
 
 		AppWindow._frame = frame;
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

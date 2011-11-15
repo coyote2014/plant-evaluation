@@ -24,6 +24,9 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.Plant;
@@ -32,6 +35,8 @@ import de.atomfrede.tools.evalutation.evaluator.common.MultipleInputFileEvaluato
 import de.atomfrede.tools.evalutation.main.PlantHelper;
 
 public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
+
+	private final Log log = LogFactory.getLog(PhotoSynthesisEvaluator.class);
 
 	static double MILLION = 1000000.0;
 
@@ -61,10 +66,6 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 			List<File> standardDerivationInputFiles) {
 		super("photosythesis", inputFiles, standardDerivationInputFiles);
 		this.name = "PSR";
-		// boolean done = evaluate();
-		// if (done)
-		// new StandardDerivationEvaluator(outputFiles,
-		// standardDerivationOutputFiles);
 	}
 
 	@Override
@@ -107,7 +108,7 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 				}
 			}
 			progressBar.setValue(50);
-			System.out.println("PSR for mean values done.");
+			log.info("PSR for mean values done.");
 
 			{
 				currentPlant = -1;
@@ -145,11 +146,13 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 				}
 			}
 		} catch (IOException ioe) {
-			System.out.println("IOException " + ioe.getMessage());
+			log.error(ioe);
+			return false;
 		} catch (ParseException pe) {
-			System.out.println("ParseException " + pe.getMessage());
+			log.error(pe);
+			return false;
 		}
-		System.out.println("PSR Evaluator Done.");
+		log.info("PSR Evaluator Done.");
 		progressBar.setValue(100);
 		return true;
 
@@ -239,48 +242,6 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 		else if (solenoidValue == UPPER_CHAMBER)
 			return plant.getUpperLeafArea();
 		return 1.0;
-
-		// switch (currentPlant) {
-		// case 0:
-		// if (solenoidValue == LOWER_CHAMBER)
-		// return LOWER_LEAF_AREA_PLANT_ONE;
-		// else if (solenoidValue == UPPER_CHAMBER)
-		// return UPPER_LEAF_AREA_PLANT_ONE;
-		// else
-		// return 0.0;
-		// case 1:
-		// if (solenoidValue == LOWER_CHAMBER)
-		// return LOWER_LEAF_AREA_PLANT_TWO;
-		// else if (solenoidValue == UPPER_CHAMBER)
-		// return UPPER_LEAF_AREA_PLANT_TWO;
-		// return 0.0;
-		// case 2:
-		// if (solenoidValue == LOWER_CHAMBER)
-		// return LOWER_LEAF_AREA_PLANT_THREE;
-		// else if (solenoidValue == UPPER_CHAMBER)
-		// return UPPER_LEAF_AREA_PLANT_THREE;
-		// return 0.0;
-		// case 3:
-		// if (solenoidValue == LOWER_CHAMBER)
-		// return LOWER_LEAF_AREA_PLANT_FOUR;
-		// else if (solenoidValue == UPPER_CHAMBER)
-		// return UPPER_LEAF_AREA_PLANT_FOUR;
-		// return 0.0;
-		// case 4:
-		// if (solenoidValue == LOWER_CHAMBER)
-		// return LOWER_LEAF_AREA_PLANT_FIVE;
-		// else if (solenoidValue == UPPER_CHAMBER)
-		// return UPPER_LEAF_AREA_PLANT_FIVE;
-		// return 0.0;
-		// case 5:
-		// if (solenoidValue == LOWER_CHAMBER)
-		// return LOWER_LEAF_AREA_PLANT_SIX;
-		// else if (solenoidValue == UPPER_CHAMBER)
-		// return UPPER_LEAF_AREA_PLANT_SIX;
-		// return 0.0;
-		// default:
-		// return 0.0;
-		// }
 	}
 
 	double getH2ODiff(String[] line, String[] refLine) {

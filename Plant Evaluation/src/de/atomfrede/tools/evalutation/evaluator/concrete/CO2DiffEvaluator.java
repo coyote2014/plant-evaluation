@@ -25,6 +25,9 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.WriteUtils;
@@ -32,12 +35,11 @@ import de.atomfrede.tools.evalutation.evaluator.common.SingleInputFileEvaluator;
 
 public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 
+	private final Log log = LogFactory.getLog(CO2DiffEvaluator.class);
+
 	public CO2DiffEvaluator(File inputFile, File standardDerivationInputFile) {
 		super("co2diff", inputFile, standardDerivationInputFile);
 		this.name = "CO2 Diff";
-		// boolean done = evaluate();
-		// if (done)
-		// new Delta13Evaluator(outputFile, standardDerivationOutputFile);
 	}
 
 	@Override
@@ -75,7 +77,7 @@ public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 							.setValue((int) (i * 1.0 / lines.size() * 100.0 * 0.5));
 				}
 			}
-			System.out.println("CO2 Diff for Data Values done.");
+			log.info("CO2 Diff for Data Values done.");
 			progressBar.setValue(50);
 			writer.close();
 			{
@@ -109,12 +111,12 @@ public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 							.setValue((int) ((i * 1.0 / lines.size() * 100.0 * 0.5) + 50.0));
 				}
 			}
-			System.out.println("CO2 Diff for StandardDerivation Values done.");
+			log.info("CO2 Diff for StandardDerivation Values done.");
 		} catch (IOException ioe) {
-			System.out.println("IOException " + ioe.getMessage());
+			log.error("IOException " + ioe.getMessage());
 			return false;
 		} catch (ParseException pe) {
-			System.out.println("ParseException " + pe.getMessage());
+			log.error("ParseException " + pe.getMessage());
 			return false;
 		} finally {
 			try {
@@ -127,7 +129,7 @@ public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("CO2Diff done");
+		log.info("CO2Diff done");
 		progressBar.setValue(100);
 		return true;
 	}
@@ -158,11 +160,8 @@ public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 					co2Diff = parseDoubleValue(refLineIndex, Constants.CO2_ABS);
 					shortestedDistance = rawDifference;
 				}
-
 			}
-
 			return co2Diff;
-
 		}
 		// TODO return the value of that reference chamber
 		return parseDoubleValue(line, Constants.CO2_ABS);

@@ -26,6 +26,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.Plant;
@@ -35,15 +38,13 @@ import de.atomfrede.tools.evalutation.main.PlantHelper;
 
 public class PlantDivider extends SingleInputMultipleOutputFileEvaluator {
 
+	private final Log log = LogFactory.getLog(PlantDivider.class);
+
 	List<String[]> allInputLines;
 
 	public PlantDivider(File inputFile, File standardDerivationInputFile) {
 		super("plant", inputFile, standardDerivationInputFile);
 		this.name = "Plant Divider";
-		// boolean done = evaluate();
-		// if (done)
-		// new PhotoSynthesisEvaluator(outputFiles,
-		// standardDerivationOutputFiles);
 	}
 
 	@Override
@@ -79,7 +80,7 @@ public class PlantDivider extends SingleInputMultipleOutputFileEvaluator {
 
 			}
 			progressBar.setValue(50);
-			System.out.println("Dividing mean values done.");
+			log.info("Dividing mean values done.");
 			{
 				allInputLines = readAllLinesInFile(standardDerivationInputFile);
 
@@ -108,13 +109,13 @@ public class PlantDivider extends SingleInputMultipleOutputFileEvaluator {
 				}
 			}
 		} catch (IOException ioe) {
-			System.out.println("IOException " + ioe.getMessage());
+			log.error(ioe);
 			return false;
 		} catch (ParseException pe) {
-			System.out.println("Parexception " + pe.getMessage());
+			log.error(pe);
 			return false;
 		}
-		System.out.println("Plant Divider Done");
+		log.info("Plant Divider Done");
 		progressBar.setValue(100);
 		return true;
 	}

@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.EntryComparator;
@@ -33,14 +36,13 @@ import de.atomfrede.tools.evalutation.helper.PreProcessor;
 
 public class CopyEvaluator extends AbstractEvaluator {
 
+	private final Log log = LogFactory.getLog(CopyEvaluator.class);
+
 	File outputFile;
 
 	public CopyEvaluator() {
 		super("copy");
 		this.name = "Copy Files";
-		// boolean done = evaluate();
-		// if (done)
-		// new MeanValueEvaluator(outputFile);
 	}
 
 	public File getOutputFile() {
@@ -53,6 +55,7 @@ public class CopyEvaluator extends AbstractEvaluator {
 
 	@Override
 	public boolean evaluate() {
+		log.info("Copy Evaluator started");
 		CSVWriter writer = null;
 		try {
 			outputFile = new File(outputFolder, "allLaserData.csv");
@@ -64,7 +67,7 @@ public class CopyEvaluator extends AbstractEvaluator {
 			// WriteUtils.writeHeader(writer);
 
 			File[] allInputFiles = inputRootFolder.listFiles();
-			System.out.println("#Files " + allInputFiles.length);
+			log.debug("#Files " + allInputFiles.length);
 
 			List<String[]> allLines = new ArrayList<String[]>();
 			for (int i = 0; i < allInputFiles.length; i++) {
@@ -106,19 +109,18 @@ public class CopyEvaluator extends AbstractEvaluator {
 			progressBar.setValue(100);
 
 		} catch (IOException ioe) {
-			System.out.println("IOException " + ioe.getMessage());
+			log.error(ioe);
 			return false;
 		} finally {
 			if (writer != null)
 				try {
 					writer.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					log.error(e);
 				}
 		}
 
-		System.out.println("Copy Evaluator Done.");
+		log.info("Copy Evaluator Done.");
 		return true;
 	}
 }

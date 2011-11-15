@@ -29,6 +29,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math.stat.StatUtils;
 
 import au.com.bytecode.opencsv.CSVWriter;
@@ -37,6 +39,9 @@ import de.atomfrede.tools.evalutation.WriteUtils;
 import de.atomfrede.tools.evalutation.evaluator.common.MultipleInputFileEvaluator;
 
 public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
+
+	private final Log log = LogFactory
+			.getLog(StandardDerivationEvaluator.class);
 
 	int currentPlant;
 
@@ -49,8 +54,6 @@ public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
 		this.name = "Standard Derivation";
 		Collections.sort(inputFiles);
 		Collections.sort(standardDerivationInputFiles);
-		// evaluate();
-
 	}
 
 	@Override
@@ -58,7 +61,7 @@ public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
 		currentPlant = -1;
 		try {
 			for (int i = 0; i < inputFiles.size(); i++) {
-				System.out.println("Input File " + inputFiles.get(i));
+				log.debug("Input File " + inputFiles.get(i));
 				currentPlant = i;
 
 				currentMeanDataLines = readAllLinesInFile(inputFiles.get(i));
@@ -96,7 +99,6 @@ public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
 					progressBar.setValue((int) (j * 1.0
 							/ currentMeanDataLines.size() * 100.0 * 1.0
 							/ inputFiles.size() * 1.0));
-					System.out.println("Progress: " + progressBar.getValue());
 
 				}
 				writer.close();
@@ -105,13 +107,13 @@ public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
 
 			}
 		} catch (IOException ioe) {
-			System.out.println("IOException " + ioe);
+			log.error(ioe);
 			return false;
 		} catch (ParseException pe) {
-			System.out.println("Parse Exception " + pe);
+			log.error(pe);
 			return false;
 		}
-		System.out.println("StandarDerivation Evaluator done.");
+		log.info("StandarDerivation Evaluator done.");
 		return true;
 	}
 
