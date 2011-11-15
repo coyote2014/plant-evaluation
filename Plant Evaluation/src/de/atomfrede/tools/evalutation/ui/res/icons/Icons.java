@@ -23,8 +23,11 @@ import javax.swing.ImageIcon;
 
 public class Icons {
 
-	public static final ImageIcon IC_APP_WINDOW = new ImageIcon(
-			Icons.class.getResource("small/application-window.png"));
+	public static final ImageIcon IC_APPLICATION_SMALL = new ImageIcon(
+			Icons.class.getResource("small/application.png"));
+
+	public static final ImageIcon IC_APPLICATION_X_LARGE = new ImageIcon(
+			Icons.class.getResource("xlarge/application.png"));
 
 	public static final ImageIcon IC_ADD_SMALL = new ImageIcon(
 			Icons.class.getResource("small/list-add.png")); //$NON-NLS-1$

@@ -42,6 +42,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
 import de.atomfrede.tools.evalutation.ui.res.Messages;
+import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
 public class AboutPanel extends JPanel {
 	private JLabel lblPlantEvaluationTool;
@@ -56,6 +57,7 @@ public class AboutPanel extends JPanel {
 	URI sourceCodeUri, tangoIconThemeUri, webSiteUri;
 	private JLabel lblTangoIconTheme;
 	private JLabel lblWebsite;
+	private JLabel label;
 
 	/**
 	 * Create the panel.
@@ -68,40 +70,31 @@ public class AboutPanel extends JPanel {
 				"http://tango.freedesktop.org/Tango_Icon_Library");
 		webSiteUri = new URI("https://code.google.com/p/plant-evaluation/");
 		this.parentDialog = parentDialog;
-		setLayout(new FormLayout(
-				new ColumnSpec[] { FormFactory.RELATED_GAP_COLSPEC,
-						FormFactory.DEFAULT_COLSPEC, }, new RowSpec[] {
-						FormFactory.RELATED_GAP_ROWSPEC,
-						FormFactory.DEFAULT_ROWSPEC,
-						FormFactory.RELATED_GAP_ROWSPEC,
-						FormFactory.DEFAULT_ROWSPEC,
-						FormFactory.RELATED_GAP_ROWSPEC,
-						FormFactory.DEFAULT_ROWSPEC,
-						FormFactory.RELATED_GAP_ROWSPEC,
-						FormFactory.DEFAULT_ROWSPEC,
-						FormFactory.RELATED_GAP_ROWSPEC,
-						FormFactory.DEFAULT_ROWSPEC,
-						FormFactory.RELATED_GAP_ROWSPEC,
-						FormFactory.DEFAULT_ROWSPEC,
-						FormFactory.RELATED_GAP_ROWSPEC,
-						FormFactory.DEFAULT_ROWSPEC,
-						FormFactory.RELATED_GAP_ROWSPEC,
-						FormFactory.DEFAULT_ROWSPEC,
-						FormFactory.RELATED_GAP_ROWSPEC,
-						FormFactory.DEFAULT_ROWSPEC,
-						FormFactory.RELATED_GAP_ROWSPEC,
-						FormFactory.DEFAULT_ROWSPEC,
-						FormFactory.RELATED_GAP_ROWSPEC,
-						FormFactory.DEFAULT_ROWSPEC, }));
+		setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC, FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(51dlu;default)"), }, new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC, }));
 		add(getLblPlantEvaluationTool(), "2, 2, left, default"); //$NON-NLS-1$
+		add(getLabel(), "4, 2, 1, 12");
 		add(getLblVersion(), "2, 4"); //$NON-NLS-1$
 		add(getLblCopyright(), "2, 8"); //$NON-NLS-1$
 		add(getLblFrederikHahne(), "2, 10"); //$NON-NLS-1$
-		add(getLblLicensedUnderGpl(), "2, 14"); //$NON-NLS-1$
-		add(getLblTangoIconTheme(), "2, 16");
-		add(getLblWebsite(), "2, 18");
-		add(getBtnSourceCode(), "2, 20"); //$NON-NLS-1$
-		add(getBtnNewButton(), "2, 22, center, default"); //$NON-NLS-1$
+		add(getLblLicensedUnderGpl(), "2, 14, 3, 1"); //$NON-NLS-1$
+		add(getLblTangoIconTheme(), "2, 16, 3, 1");
+		add(getLblWebsite(), "2, 18, 3, 1");
+		add(getBtnSourceCode(), "2, 20, 3, 1"); //$NON-NLS-1$
+		add(getBtnNewButton(), "2, 22, 3, 1, center, default"); //$NON-NLS-1$
 
 	}
 
@@ -274,5 +267,12 @@ public class AboutPanel extends JPanel {
 			});
 		}
 		return lblWebsite;
+	}
+
+	private JLabel getLabel() {
+		if (label == null) {
+			label = new JLabel(Icons.IC_APPLICATION_X_LARGE); //$NON-NLS-1$
+		}
+		return label;
 	}
 }

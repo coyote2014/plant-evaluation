@@ -100,7 +100,7 @@ public class AppWindow {
 	private void initialize() {
 		frame = new JFrame();
 
-		frame.setIconImage(Icons.IC_APP_WINDOW.getImage());
+		frame.setIconImage(Icons.IC_APPLICATION_SMALL.getImage());
 
 		AppWindow._frame = frame;
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
