@@ -28,7 +28,6 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.SwingWorker;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -47,7 +46,6 @@ public class PlantListPanel extends JPanel {
 	List<Plant> plantList;
 	List<PlantDataInputPanel> plantDataInputPanelList;
 	JButton addButton, evaluateButton;
-	JProgressBar evaluationProgressBar;
 
 	public PlantListPanel() {
 		this(new ArrayList<Plant>());
@@ -66,6 +64,7 @@ public class PlantListPanel extends JPanel {
 		FormLayout layout = new FormLayout("fill:pref:grow"); //$NON-NLS-1$
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 
+		builder.append("");
 		builder.appendSeparator(Messages.getString("PlantListPanel.2")); //$NON-NLS-1$
 
 		int index = -1;
@@ -82,8 +81,6 @@ public class PlantListPanel extends JPanel {
 
 		add(builder.getPanel(), BorderLayout.CENTER);
 
-		// add(getEvaluationProgressBar(), BorderLayout.SOUTH);
-
 	}
 
 	private void evaluate() {
@@ -91,7 +88,6 @@ public class PlantListPanel extends JPanel {
 
 			@Override
 			protected Void doInBackground() throws Exception {
-				// TODO Auto-generated method stub
 				getEvaluateButton().setEnabled(false);
 				setUpEvaluation();
 				return null;
@@ -119,9 +115,7 @@ public class PlantListPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				removePlant(index);
-
 			}
 		});
 		return inputPanel;
@@ -161,15 +155,6 @@ public class PlantListPanel extends JPanel {
 			});
 		}
 		return evaluateButton;
-	}
-
-	private JProgressBar getEvaluationProgressBar() {
-		if (evaluationProgressBar == null) {
-			evaluationProgressBar = new JProgressBar();
-			evaluationProgressBar.setIndeterminate(true);
-			evaluationProgressBar.setVisible(false);
-		}
-		return evaluationProgressBar;
 	}
 
 	private void rebuild() {
@@ -219,13 +204,14 @@ public class PlantListPanel extends JPanel {
 		invalidate();
 		FormLayout layout = new FormLayout("pref, 4dlu,fill:pref:grow");
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+		builder.setDefaultDialogBorder();
 
 		for (AbstractEvaluator eval : evaluation.getEvaluators()) {
 			builder.append(eval.getName());
 			builder.append(eval.getProgressBar());
 		}
 
-		add(builder.getPanel(), BorderLayout.SOUTH);
+		add(builder.getPanel(), BorderLayout.NORTH);
 		revalidate();
 		// TODO nicer Error handling
 		try {

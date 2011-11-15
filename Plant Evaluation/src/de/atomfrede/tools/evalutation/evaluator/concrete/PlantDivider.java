@@ -70,6 +70,11 @@ public class PlantDivider extends SingleInputMultipleOutputFileEvaluator {
 					writer.writeAll(values);
 					writer.close();
 					outputFiles.add(outputFile);
+
+					progressBar
+							.setValue((int) (i * 1.0
+									/ PlantHelper.getDefaultPlantList().size()
+									* 100.0 * 0.5));
 				}
 
 			}
@@ -95,6 +100,11 @@ public class PlantDivider extends SingleInputMultipleOutputFileEvaluator {
 					writer.writeAll(values);
 					writer.close();
 					standardDerivationOutputFiles.add(outputFile);
+
+					progressBar
+							.setValue((int) ((i * 1.0
+									/ PlantHelper.getDefaultPlantList().size()
+									* 100.0 * 0.5) + 50.0));
 				}
 			}
 		} catch (IOException ioe) {

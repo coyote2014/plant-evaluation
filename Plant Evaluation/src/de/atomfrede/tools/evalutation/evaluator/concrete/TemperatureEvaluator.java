@@ -75,6 +75,8 @@ public class TemperatureEvaluator extends SingleInputFileEvaluator {
 					String[] currentLine = allDataLines.get(i);
 					double temperature = findTemperatureForLine(currentLine);
 					writeTemperature(writer, currentLine, temperature);
+					progressBar.setValue((int) (i * 1.0 / allDataLines.size()
+							* 100.0 * 0.5));
 
 				}
 			}
@@ -99,6 +101,8 @@ public class TemperatureEvaluator extends SingleInputFileEvaluator {
 					double temperature = findTemperatureForLine(currentLine);
 					writeTemperature(standardDerivationWriter, currentLine,
 							temperature);
+					progressBar.setValue((int) ((i * 1.0 / allDataLines.size()
+							* 100.0 * 0.5) + 50.0));
 
 				}
 			}

@@ -169,17 +169,20 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 	void writeAllLinesForStandardDerivation(List<String[]> allLines)
 			throws ParseException {
 		List<String[]> standardDerivationLines = new ArrayList<String[]>();
-
 		for (Integer index : linesNeedForStandardDerivation) {
 			String[] currentLine = allLines.get(index);
 			// writeLinesForStandardDerivation(currentLine);
 			standardDerivationLines.add(currentLine);
-		}
 
+		}
+		int count = 0;
 		Collections.sort(standardDerivationLines, new EntryComparator());
 		for (String[] lineToWrite : standardDerivationLines) {
 			writeLinesForStandardDerivation(lineToWrite);
-
+			progressBar
+					.setValue((int) (50.0 + (count * 1.0 / standardDerivationLines
+							.size()) * 100.0 * 0.5));
+			count++;
 		}
 	}
 

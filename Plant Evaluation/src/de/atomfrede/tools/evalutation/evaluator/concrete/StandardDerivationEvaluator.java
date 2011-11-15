@@ -84,11 +84,6 @@ public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
 					double delta13Mean = parseDoubleValue(currentLine,
 							Constants.DELTA13);
 
-					// double psrStandardDerivation = getStandardDerivation(
-					// psrValues, psrMean);
-					// double delta13StandardDerivation = getStandardDerivation(
-					// delta13Values, delta13Mean);
-
 					double psrStandardDerivation = getStandardDerivation(psrValues);
 					double delta13StandardDerivation = getStandardDerivation(delta13Values);
 					if (psrMean == 0.0) {
@@ -97,6 +92,11 @@ public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
 					}
 					writeLineWithStandardDerivation(writer, currentLine,
 							psrStandardDerivation, delta13StandardDerivation);
+
+					progressBar.setValue((int) (j * 1.0
+							/ currentMeanDataLines.size() * 100.0 * 1.0
+							/ inputFiles.size() * 1.0));
+					System.out.println("Progress: " + progressBar.getValue());
 
 				}
 				writer.close();

@@ -83,6 +83,8 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 					} else {
 						writeDelta13Values(writer, currentLine, 0.0);
 					}
+					progressBar.setValue((int) (i * 1.0 / allLines.size()
+							* 100.0 * 0.5));
 				}
 			}
 			writer.close();
@@ -128,6 +130,8 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 						writeDelta13Values(standardDerivationWriter,
 								currentLine, 0.0);
 					}
+					progressBar.setValue((int) ((i * 1.0 / allLines.size()
+							* 100.0 * 0.5) + 50.0));
 				}
 			}
 		} catch (IOException ioe) {

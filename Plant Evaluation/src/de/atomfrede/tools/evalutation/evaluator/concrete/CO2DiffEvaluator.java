@@ -34,6 +34,7 @@ public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 
 	public CO2DiffEvaluator(File inputFile, File standardDerivationInputFile) {
 		super("co2diff", inputFile, standardDerivationInputFile);
+		this.name = "CO2 Diff";
 		// boolean done = evaluate();
 		// if (done)
 		// new Delta13Evaluator(outputFile, standardDerivationOutputFile);
@@ -69,6 +70,9 @@ public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 							- getCO2DiffForLine(currentLine, lines,
 									allReferenceLines);
 					writeCO2Diff(writer, currentLine, co2Diff);
+
+					progressBar
+							.setValue((int) (i * 1.0 / lines.size() * 100.0 * 0.5));
 				}
 			}
 			System.out.println("CO2 Diff for Data Values done.");
@@ -92,15 +96,17 @@ public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 				List<String[]> lines = readAllLinesInFile(standardDerivationInputFile);
 
 				for (int i = 1; i < lines.size(); i++) {
-					if (i % 1000 == 0)
-						System.out.println("Writing Standard Derivation Line "
-								+ i);
+					// if (i % 1000 == 0)
+					// System.out.println("Writing Standard Derivation Line "
+					// + i);
 					String[] currentLine = lines.get(i);
 					double co2Diff = parseDoubleValue(currentLine,
 							Constants.CO2_ABS)
 							- getCO2DiffForLine(currentLine, lines,
 									allReferenceLines);
 					writeCO2Diff(standardDerivationWriter, currentLine, co2Diff);
+					progressBar
+							.setValue((int) ((i * 1.0 / lines.size() * 100.0 * 0.5) + 50.0));
 				}
 			}
 			System.out.println("CO2 Diff for StandardDerivation Values done.");

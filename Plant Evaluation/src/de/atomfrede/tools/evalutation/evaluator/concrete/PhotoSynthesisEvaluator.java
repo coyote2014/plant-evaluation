@@ -96,6 +96,10 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 						double psrForCurrentLine = computePhotoSynthesisRate(currentLine);
 						writePsr(writer, currentLine, psrForCurrentLine);
 
+						progressBar.setValue((int) (i * 1.0
+								/ allLinesInCurrentFile.size() * 100.0 * 0.5
+								* 1.0 / inputFiles.size() * 1.0));
+
 					}
 
 					writer.close();
@@ -127,6 +131,12 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 
 						double psrForCurrentLine = computePhotoSynthesisRate(currentLine);
 						writePsr(writer, currentLine, psrForCurrentLine);
+
+						progressBar
+								.setValue((int) ((i * 1.0
+										/ allLinesInCurrentFile.size() * 100.0
+										* 0.5 * 1.0
+										/ standardDerivationInputFiles.size() * 1.0) + 50.0));
 
 					}
 
