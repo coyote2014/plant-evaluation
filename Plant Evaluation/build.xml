@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project Plant Evaluation with Jar-in-Jar Loader">
+	<property name="output.dir" value="dist" />
+	<property name="product.short.name" value="Plant Evaluation" />
+	<property name="product.version" value="1.2" />
+	<property name="install.lib" value="libs" />
+	<property name="temp.dir" value="temp" />
+	<property name="launch4j.dir" location="launch4j" />
+	
+	<taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpath="${launch4j.dir}/launch4j.jar:${launch4j.dir}/lib/xstream.jar" />
+
+	<taskdef name="izpack" classpath="${install.lib}/standalone-compiler.jar" classname="com.izforge.izpack.ant.IzPackTask" />
+
+	<!--this file was created by Eclipse Runnable JAR Export Wizard-->
+	<!--ANT 1.7 is required                                        -->
+	<target name="create_run_jar">
+		<jar destfile="/home/fred/Eclipse IDE/workspace/Plant Evaluation/dist/PlantEvaluation.jar">
+			<manifest>
+				<attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader" />
+				<attribute name="Rsrc-Main-Class" value="de.atomfrede.tools.evalutation.ui.AppWindow" />
+				<attribute name="Class-Path" value="." />
+				<attribute name="Rsrc-Class-Path" value="./ commons-io-2.1.jar commons-lang3-3.0.1.jar commons-math-2.2.jar opencsv-2.3.jar jfreechart-1.0.13.jar jcommon-1.0.16.jar jgoodies-common-1.2.1.jar jgoodies-forms-1.4.2.jar swingx-core-1.6.2.jar commons-configuration-1.7.jar jide-oss-3.2.4.jar commons-logging-1.1.1.jar log4j-1.2.16.jar" />
+			</manifest>
+			<zipfileset src="jar-in-jar-loader.zip" />
+			<fileset dir="/home/fred/Eclipse IDE/workspace/Plant Evaluation/bin" />
+			<zipfileset dir="/home/fred/Eclipse IDE/workspace/Plant Evaluation/libs" includes="commons-io-2.1.jar" />
+			<zipfileset dir="/home/fred/Eclipse IDE/workspace/Plant Evaluation/libs" includes="commons-lang3-3.0.1.jar" />
+			<zipfileset dir="/home/fred/Eclipse IDE/workspace/Plant Evaluation/libs" includes="commons-math-2.2.jar" />
+			<zipfileset dir="/home/fred/Eclipse IDE/workspace/Plant Evaluation/libs" includes="opencsv-2.3.jar" />
+			<zipfileset dir="/home/fred/Eclipse IDE/workspace/Plant Evaluation/libs" includes="jfreechart-1.0.13.jar" />
+			<zipfileset dir="/home/fred/Eclipse IDE/workspace/Plant Evaluation/libs" includes="jcommon-1.0.16.jar" />
+			<zipfileset dir="/home/fred/Eclipse IDE/workspace/Plant Evaluation/libs" includes="jgoodies-common-1.2.1.jar" />
+			<zipfileset dir="/home/fred/Eclipse IDE/workspace/Plant Evaluation/libs" includes="jgoodies-forms-1.4.2.jar" />
+			<zipfileset dir="/home/fred/Eclipse IDE/workspace/Plant Evaluation/libs" includes="swingx-core-1.6.2.jar" />
+			<zipfileset dir="/home/fred/Eclipse IDE/workspace/Plant Evaluation/libs" includes="commons-configuration-1.7.jar" />
+			<zipfileset dir="/home/fred/Eclipse IDE/workspace/Plant Evaluation/libs" includes="jide-oss-3.2.4.jar" />
+			<zipfileset dir="/home/fred/Eclipse IDE/workspace/Plant Evaluation/libs" includes="commons-logging-1.1.1.jar" />
+			<zipfileset dir="/home/fred/Eclipse IDE/workspace/Plant Evaluation/libs" includes="log4j-1.2.16.jar" />
+		</jar>
+	</target>
+
+
+	<target name="create installer" depends="create_run_jar">
+		<echo message="Running IzPack to build the installer..." />
+		<izpack input="install-definition.xml" output="${output.dir}/${product.short.name}-${product.version}-install.jar" installerType="standard" inheritAll="true" basedir="." compression="deflate" compressionlevel="9" />
+		<!-- Clean working directory 
+		<echo message="Cleaning up working directory..." />
+		<delete dir="${temp.dir}" quiet="true" includeemptydirs="true" / -->
+		<echo message="Done." />
+	</target>
+	
+	<target name="create exe install" depends="create installer">
+		<launch4j configFile="l4jconfig.xml" />
+	</target>
+</project>
