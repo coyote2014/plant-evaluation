@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<shortcuts>
+    <skipIfNotSupported/>
+    <defaultCurrentUser/>
+    <programGroup defaultName="Plant Evaluation" location="applications"/>
+    <shortcut KdeUsername="root" applications="yes" desktop="no"
+        encoding="UTF-8" initialState="normal" name="Plant Evaluation"
+        programGroup="no" startMenu="no" startup="no"
+        target="$INSTALL_PATH/PlantEvaluation.jar" type="Application"
+        iconFile="$INSTALL_PATH/application.png" iconIndex="0" />
+</shortcuts>
