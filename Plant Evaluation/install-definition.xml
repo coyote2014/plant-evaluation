@@ -34,6 +34,7 @@
 		<res id="Heading.image" src="application.png" />
 		<res src="install_shortcutSpec.xml" id="shortcutSpec.xml" />
 		<res src="install_Unix_shortcutSpec.xml" id="Unix_shortcutSpec.xml" />
+		<res src="laf" id="useNativeLAF" />
 	</resources>
 	<panels>
 		<panel classname="CheckedHelloPanel" />
@@ -41,7 +42,7 @@
 		<panel classname="ImgPacksPanel" />
 		<panel classname="DefaultTargetPanel" />
 		<panel classname="InstallPanel" />
-		<panel classname="ShortcutPanel"/>
+		<panel classname="ShortcutPanel" />
 		<panel classname="SimpleFinishPanel" />
 	</panels>
 	<variables>
@@ -53,6 +54,9 @@
 			<description>Main Component of Plant Evaluation Tool.</description>
 			<file override="update" src="dist/PlantEvaluation.jar"
 				targetdir="$INSTALL_PATH/" />
+			<executable targetfile="$INSTALL_PATH/PlantEvaluation.jar" type="jar" stage="never" keep="true" failure="warn">
+				<os family="unix" />
+			</executable>
 			<file override="update" src="application.png" targetdir="$INSTALL_PATH/" />
 			<file override="update" src="favicon.ico" targetdir="$INSTALL_PATH/" />
 		</pack>

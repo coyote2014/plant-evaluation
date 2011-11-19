@@ -3,8 +3,7 @@
 	<skipIfNotSupported />
 	<defaultCurrentUser />
 	<programGroup defaultName="Plant Evaluation" location="applications" />
-	<shortcut applications="yes" desktop="no" initialState="noShow"
+	<shortcut applications="yes" desktop="yes" initialState="noShow"
 		name="Plant Evaluation" programGroup="no" startMenu="no" startup="no"
-		target="$INSTALL_PATH/PlantEvaluation.jar" iconFile="$INSTALL_PATH/favicon.ico"
-		iconIndex="0" />
+		target="$INSTALL_PATH/PlantEvaluation.jar" iconFile="$INSTALL_PATH/favicon.ico" />
 </shortcuts>
