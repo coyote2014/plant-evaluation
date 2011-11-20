@@ -87,7 +87,7 @@ public class PlantListPanel extends JPanel {
 
 	}
 
-	private void evaluate() {
+	public void evaluate() {
 		new SwingWorker<Void, Void>() {
 
 			@Override
@@ -150,10 +150,6 @@ public class PlantListPanel extends JPanel {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					invalidate();
-					// getEvaluationProgressBar().setVisible(true);
-					revalidate();
 					evaluate();
 				}
 			});

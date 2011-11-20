@@ -20,7 +20,7 @@
 		</fileset>
 	</path>
 
-	<manifestclasspath property="jar.classpath" jarfile="${dist.dir}/PlantEvaluation.jar" maxParentLevels="1">
+	<manifestclasspath property="jar.classpath" jarfile="${dist.dir}/PlantEvaluation.jar" maxParentLevels="0">
 		<classpath refid="build.classpath" />
 	</manifestclasspath>
 

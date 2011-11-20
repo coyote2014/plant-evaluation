@@ -113,7 +113,8 @@ public class AboutPanel extends JPanel {
 
 	private JLabel getLblVersion() {
 		if (lblVersion == null) {
-			lblVersion = new JLabel(Messages.getString("AboutPanel.version")); //$NON-NLS-1$
+			lblVersion = new JLabel(
+					Messages.getString("AboutPanel.version") + " " + Messages.getString("AppWindow.version.code")); //$NON-NLS-1$
 		}
 		return lblVersion;
 	}

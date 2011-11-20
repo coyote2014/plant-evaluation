@@ -27,7 +27,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.math.BigDecimal;
 import java.net.URISyntaxException;
 
 import javax.swing.JFrame;
@@ -55,6 +54,7 @@ public class AppWindow {
 
 	public static JFrame _frame;
 	private JFrame frame;
+	private MainPanel mainPanel;
 
 	private final Log log = LogFactory.getLog(AppWindow.class);
 
@@ -137,14 +137,7 @@ public class AppWindow {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					new BigDecimal("seven"); //$NON-NLS-1$
-				} catch (Exception ex) {
-					ExceptionDialog ed = new ExceptionDialog(frame, ex);
-					ed.pack();
-					ed.setLocationRelativeTo(frame);
-					ed.setVisible(true);
-				}
+				mainPanel.plantListPanel.evaluate();
 
 			}
 		});
@@ -229,8 +222,8 @@ public class AppWindow {
 		FormLayout layout = new FormLayout("fill:pref:grow"); //$NON-NLS-1$
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 		builder.setDefaultDialogBorder();
-
-		builder.append(new MainPanel(frame));
+		mainPanel = new MainPanel(frame);
+		builder.append(mainPanel);
 
 		frame.getContentPane().add(new JScrollPane(builder.getPanel()),
 				BorderLayout.CENTER);
