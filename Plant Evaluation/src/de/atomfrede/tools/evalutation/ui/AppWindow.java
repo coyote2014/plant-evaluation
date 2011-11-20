@@ -103,7 +103,7 @@ public class AppWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		log.trace("Plant Evaluator started");
+		log.info("Plant Evaluator started");
 		frame = new JFrame();
 
 		frame.setIconImage(Icons.IC_APPLICATION_X_LARGE.getImage());
