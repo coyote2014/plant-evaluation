@@ -11,7 +11,7 @@
 		<javaversion>1.6</javaversion>
 		<requiresjdk>no</requiresjdk>
 		<writeinstallationinformation>no</writeinstallationinformation>
-		<pack200 />
+		<!-- <pack200 /> -->
 		<run-privileged condition="izpack.windowsinstall.vista|izpack.windowsinstall.7" />
 	</info>
 
@@ -52,13 +52,14 @@
 		<pack name="Plant Evaluation" packImgId="Plant Evaluation"
 			preselected="yes" required="yes">
 			<description>Main Component of Plant Evaluation Tool.</description>
-			<file override="update" src="dist/PlantEvaluation.jar"
+			<file override="true" src="dist/PlantEvaluation.jar"
 				targetdir="$INSTALL_PATH/" />
 			<executable targetfile="$INSTALL_PATH/PlantEvaluation.jar" type="jar" stage="never" keep="true" failure="warn">
 				<os family="unix" />
 			</executable>
-			<file override="update" src="application.png" targetdir="$INSTALL_PATH/" />
-			<file override="update" src="favicon.ico" targetdir="$INSTALL_PATH/" />
+			<file override="true" src="application.png" targetdir="$INSTALL_PATH/" />
+			<file override="true" src="favicon.ico" targetdir="$INSTALL_PATH/" />
+			<file override="true" src="dist/libs" targetdir="$INSTALL_PATH/" />
 		</pack>
 	</packs>
 	<native name="ShellLink.dll" type="izpack" />
