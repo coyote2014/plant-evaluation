@@ -36,9 +36,8 @@
 
 	</target>
 
-	<target name="copy libs" depends="clean, makedir">
-		<delete dir="${dist.libs.dir}" />
-		<mkdir dir="${dist.libs.dir}" />
+	<target name="copy libs">
+		
 		<copy file="${libs.dir}/commons-io-2.1.jar" todir="${dist.libs.dir}" />
 		<copy file="${libs.dir}/commons-lang3-3.0.1.jar" todir="${dist.libs.dir}" />
 		<copy file="${libs.dir}/commons-math-2.2.jar" todir="${dist.libs.dir}" />
