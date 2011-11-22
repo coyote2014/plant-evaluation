@@ -68,7 +68,7 @@ public class CopyEvaluator extends AbstractEvaluator {
 
 			File[] allInputFiles = inputRootFolder.listFiles();
 			log.debug("#Files " + allInputFiles.length);
-
+			String[] header = null;
 			List<String[]> allLines = new ArrayList<String[]>();
 			for (int i = 0; i < allInputFiles.length; i++) {
 				File inputFile = allInputFiles[i];
@@ -82,11 +82,15 @@ public class CopyEvaluator extends AbstractEvaluator {
 						currentLines = readAllLinesInFile(inputFile);
 					}
 
-					if (i != 0) {
-						currentLines.remove(0);
-					} else {
-						allLines.add(currentLines.get(0));
-					}
+					if (header == null)
+						header = currentLines.get(0);
+
+					currentLines.remove(0);
+					// if (i != 0) {
+					// currentLines.remove(0);
+					// } else {
+					// allLines.add(currentLines.get(0));
+					// }
 
 					for (int j = 1; j < currentLines.size(); j++) {
 						String[] currentLine = currentLines.get(j);
@@ -101,8 +105,8 @@ public class CopyEvaluator extends AbstractEvaluator {
 
 				}
 			}
-			String[] header = allLines.get(0);
-			allLines.remove(0);
+			// String[] header = allLines.get(0);
+			// allLines.remove(0);
 			Collections.sort(allLines, new EntryComparator());
 			allLines.add(0, header);
 			writer.writeAll(allLines);
