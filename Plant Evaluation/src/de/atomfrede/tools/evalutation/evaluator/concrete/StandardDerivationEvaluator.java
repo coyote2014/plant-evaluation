@@ -122,17 +122,19 @@ public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
 	}
 
 	double getStandardDerivation(double[] values) {
-		if (values != null && values.length >= 1) {
-			return Math.sqrt(StatUtils.variance(values));
-		} else
-			return 0.0;
-		// return ((1.0 / values.length) * StatUtils.sum(values));
-		// double sum = 0;
+
+		return Math.sqrt(StatUtils.variance(values));
+
+		// double mean = StatUtils.mean(values);
+		//
+		// double sum = 0.0;
 		// for (int i = 0; i < values.length; i++) {
-		// sum += values[i];
+		// sum += Math.pow((values[i] - mean), 2);
 		// }
-		// double v = 1.0 / values.length;
-		// return v * sum;
+		// double divider = 1.0 / (values.length - 1.0);
+		// double value = divider * sum;
+		// double sd = Math.sqrt(value);
+		// return sd;
 	}
 
 	File getCorrespondingStandardDerivationFile(int currentDataFile) {
@@ -207,7 +209,7 @@ public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
 				currentDate = dateFormat
 						.parse(possibleLine[Constants.DATE_AND_TIME]);
 			}
-			currentIndex++;
+			currentIndex--;
 
 		}
 		return standardDerivationLines;
