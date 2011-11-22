@@ -31,7 +31,6 @@ import org.apache.commons.logging.LogFactory;
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.EntryComparator;
-import de.atomfrede.tools.evalutation.WriteUtils;
 import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
 import de.atomfrede.tools.evalutation.helper.PreProcessor;
 
@@ -65,7 +64,7 @@ public class CopyEvaluator extends AbstractEvaluator {
 				return false;
 
 			writer = getCsvWriter(outputFile);
-			WriteUtils.writeHeader(writer);
+			// WriteUtils.writeHeader(writer);
 
 			File[] allInputFiles = inputRootFolder.listFiles();
 			log.debug("#Files " + allInputFiles.length);
