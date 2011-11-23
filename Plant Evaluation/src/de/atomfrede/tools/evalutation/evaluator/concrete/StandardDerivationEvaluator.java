@@ -84,8 +84,8 @@ public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
 
 					double psrMean = parseDoubleValue(currentLine,
 							Constants.PSR);
-					// double delta13Mean = parseDoubleValue(currentLine,
-					// Constants.DELTA13);
+					double delta13Mean = parseDoubleValue(currentLine,
+							Constants.DELTA13);
 
 					double psrStandardDerivation = getStandardDerivation(psrValues);
 					double delta13StandardDerivation = getStandardDerivation(delta13Values);
@@ -93,6 +93,15 @@ public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
 						psrStandardDerivation = 0.0;
 						delta13StandardDerivation = 0.0;
 					}
+					if (psrMean != 0.0) {
+						psrMean = StatUtils.mean(psrValues);
+						currentLine[Constants.PSR] = psrMean + "";
+					}
+					if (delta13Mean != 0.0) {
+						delta13Mean = StatUtils.mean(delta13Values);
+						currentLine[Constants.DELTA13] = delta13Mean + "";
+					}
+
 					writeLineWithStandardDerivation(writer, currentLine,
 							psrStandardDerivation, delta13StandardDerivation);
 
