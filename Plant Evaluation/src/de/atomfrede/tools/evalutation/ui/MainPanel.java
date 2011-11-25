@@ -19,13 +19,25 @@
 
 package de.atomfrede.tools.evalutation.ui;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.jgoodies.forms.builder.DefaultFormBuilder;
+import com.jgoodies.forms.factories.ButtonBarFactory;
+import com.jgoodies.forms.layout.FormLayout;
 import com.jidesoft.swing.JideBorderLayout;
 
+import de.atomfrede.tools.evalutation.Plant;
 import de.atomfrede.tools.evalutation.main.PlantHelper;
 import de.atomfrede.tools.evalutation.ui.plant.PlantListPanel;
+import de.atomfrede.tools.evalutation.ui.res.Messages;
+import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
 public class MainPanel extends JPanel {
 
@@ -35,6 +47,8 @@ public class MainPanel extends JPanel {
 	private static final long serialVersionUID = 6119526095319839746L;
 	PlantListPanel plantListPanel;
 	FolderSelectionPanel folderSelectionPanel;
+	JCheckBox co2AbsOnlyCheckbox;
+	JButton addButton, evaluateButton;
 	JFrame parent;
 
 	public MainPanel(JFrame parent) {
@@ -48,6 +62,14 @@ public class MainPanel extends JPanel {
 
 		add(getFolderSelectionPanel(), JideBorderLayout.NORTH);
 		add(getPlantListPanel(), JideBorderLayout.CENTER);
+
+		FormLayout layout = new FormLayout("right:pref:grow, 4dlu, right:pref"); //$NON-NLS-1$
+		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+
+		builder.append(getCo2AbsoluteCheckBox());
+		builder.append(ButtonBarFactory.buildOKCancelBar(getEvaluateButton(),
+				getAddButton()));
+		add(builder.getPanel(), BorderLayout.SOUTH);
 	}
 
 	private PlantListPanel getPlantListPanel() {
@@ -63,6 +85,44 @@ public class MainPanel extends JPanel {
 			folderSelectionPanel = new FolderSelectionPanel(parent);
 		}
 		return folderSelectionPanel;
+	}
+
+	private JButton getAddButton() {
+		if (addButton == null) {
+			addButton = new JButton();
+			addButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					getPlantListPanel().addPlant(new Plant());
+				}
+			});
+			addButton.setIcon(Icons.IC_ADD_SMALL);
+			addButton.setMaximumSize(addButton.getPreferredSize());
+		}
+		return addButton;
+	}
+
+	private JButton getEvaluateButton() {
+		if (evaluateButton == null) {
+			evaluateButton = new JButton(Messages.getString("PlantListPanel.5")); //$NON-NLS-1$
+
+			evaluateButton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					getPlantListPanel().evaluate(evaluateButton, addButton);
+				}
+			});
+		}
+		return evaluateButton;
+	}
+
+	private JCheckBox getCo2AbsoluteCheckBox() {
+		if (co2AbsOnlyCheckbox == null) {
+			co2AbsOnlyCheckbox = new JCheckBox(
+					Messages.getString("MainPanel.1")); //$NON-NLS-1$
+		}
+		return co2AbsOnlyCheckbox;
 	}
 
 }

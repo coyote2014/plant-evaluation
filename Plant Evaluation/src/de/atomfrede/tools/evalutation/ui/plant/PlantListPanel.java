@@ -30,8 +30,10 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.jgoodies.forms.builder.DefaultFormBuilder;
-import com.jgoodies.forms.factories.ButtonBarFactory;
 import com.jgoodies.forms.layout.FormLayout;
 
 import de.atomfrede.tools.evalutation.Plant;
@@ -39,9 +41,10 @@ import de.atomfrede.tools.evalutation.evaluator.Evaluation;
 import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
 import de.atomfrede.tools.evalutation.main.PlantHelper;
 import de.atomfrede.tools.evalutation.ui.res.Messages;
-import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
 public class PlantListPanel extends JPanel {
+
+	private final Log log = LogFactory.getLog(PlantListPanel.class);
 
 	/**
 	 * 
@@ -49,7 +52,6 @@ public class PlantListPanel extends JPanel {
 	private static final long serialVersionUID = -2045646288488329282L;
 	List<Plant> plantList;
 	List<PlantDataInputPanel> plantDataInputPanelList;
-	JButton addButton, evaluateButton;
 
 	public PlantListPanel() {
 		this(new ArrayList<Plant>());
@@ -79,20 +81,21 @@ public class PlantListPanel extends JPanel {
 
 		}
 
-		builder.append(ButtonBarFactory.buildOKCancelBar(getEvaluateButton(),
-				getAddButton()));
+		// builder.append(ButtonBarFactory.buildOKCancelBar(getEvaluateButton(),
+		// getAddButton()));
 		builder.append(""); //$NON-NLS-1$
 
 		add(builder.getPanel(), BorderLayout.CENTER);
 
 	}
 
-	public void evaluate() {
+	public void evaluate(final JButton button, final JButton addButton) {
 		new SwingWorker<Void, Void>() {
 
 			@Override
 			protected Void doInBackground() throws Exception {
-				getEvaluateButton().setEnabled(false);
+				button.setEnabled(false);
+				addButton.setEnabled(false);
 				setUpEvaluation();
 				return null;
 			}
@@ -100,7 +103,8 @@ public class PlantListPanel extends JPanel {
 			@Override
 			protected void done() {
 				invalidate();
-				getEvaluateButton().setEnabled(true);
+				button.setEnabled(true);
+				addButton.setEnabled(true);
 				rebuild();
 				revalidate();
 			}
@@ -123,38 +127,6 @@ public class PlantListPanel extends JPanel {
 			}
 		});
 		return inputPanel;
-	}
-
-	private JButton getAddButton() {
-		if (addButton == null) {
-			addButton = new JButton();
-			addButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					addPlant(new Plant());
-
-				}
-			});
-			addButton.setIcon(Icons.IC_ADD_SMALL);
-			addButton.setMaximumSize(addButton.getPreferredSize());
-		}
-		return addButton;
-	}
-
-	private JButton getEvaluateButton() {
-		if (evaluateButton == null) {
-			evaluateButton = new JButton(Messages.getString("PlantListPanel.5")); //$NON-NLS-1$
-			// evaluateButton.setIcon(IC_ADD);
-
-			evaluateButton.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					evaluate();
-				}
-			});
-		}
-		return evaluateButton;
 	}
 
 	private void rebuild() {
@@ -217,7 +189,7 @@ public class PlantListPanel extends JPanel {
 		try {
 			evaluation.evaluate();
 		} catch (Exception e) {
-			System.out.println(e);
+			log.error(e);
 		}
 
 	}
