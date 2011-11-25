@@ -19,9 +19,6 @@
 
 package de.atomfrede.tools.evalutation.evaluator;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -38,11 +35,9 @@ import de.atomfrede.tools.evalutation.evaluator.concrete.PlantDivider;
 import de.atomfrede.tools.evalutation.evaluator.concrete.StandardDerivationEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.concrete.TemperatureEvaluator;
 
-public class Evaluation {
+public class StandardEvaluation extends AbstractEvaluation {
 
-	private final Log log = LogFactory.getLog(Evaluation.class);
-
-	List<AbstractEvaluator> evaluators = new ArrayList<AbstractEvaluator>();
+	private final Log log = LogFactory.getLog(StandardEvaluation.class);
 
 	CopyEvaluator copyEvaluator;
 	MeanValueEvaluator meanEvaluator;
@@ -53,7 +48,7 @@ public class Evaluation {
 	PhotoSynthesisEvaluator psr;
 	StandardDerivationEvaluator sd;
 
-	public Evaluation() {
+	public StandardEvaluation() {
 		copyEvaluator = new CopyEvaluator();
 		meanEvaluator = new MeanValueEvaluator(copyEvaluator.getOutputFile());
 		co2DiffEvaluator = new CO2DiffEvaluator(meanEvaluator.getOutputFile(),
@@ -79,11 +74,11 @@ public class Evaluation {
 		evaluators.add(plantDivider);
 		evaluators.add(psr);
 		evaluators.add(sd);
-		System.out.println("Evalöuators size " + evaluators.size());
 	}
 
+	@Override
 	public void evaluate() throws Exception {
-		log.trace("Evaluation started");
+		log.trace("Standard Evaluation started");
 		int i = 0;
 		boolean done = true;
 		while (i < evaluators.size()) {
@@ -152,13 +147,4 @@ public class Evaluation {
 
 		}
 	}
-
-	public List<AbstractEvaluator> getEvaluators() {
-		return evaluators;
-	}
-
-	public void setEvaluators(List<AbstractEvaluator> evaluator) {
-		this.evaluators = evaluator;
-	}
-
 }

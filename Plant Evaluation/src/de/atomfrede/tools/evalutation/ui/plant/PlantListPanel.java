@@ -37,7 +37,8 @@ import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
 import de.atomfrede.tools.evalutation.Plant;
-import de.atomfrede.tools.evalutation.evaluator.Evaluation;
+import de.atomfrede.tools.evalutation.evaluator.CO2AbsoluteOnlyEvaluation;
+import de.atomfrede.tools.evalutation.evaluator.StandardEvaluation;
 import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
 import de.atomfrede.tools.evalutation.main.PlantHelper;
 import de.atomfrede.tools.evalutation.ui.res.Messages;
@@ -191,7 +192,7 @@ public class PlantListPanel extends JPanel {
 
 	private void setupStandardEvaluation() {
 		updatePlants();
-		Evaluation evaluation = new Evaluation();
+		StandardEvaluation evaluation = new StandardEvaluation();
 		addProgressBars(evaluation.getEvaluators());
 		try {
 			evaluation.evaluate();
@@ -201,7 +202,13 @@ public class PlantListPanel extends JPanel {
 	}
 
 	private void setupCO2OnlyEvaluation() {
-
+		CO2AbsoluteOnlyEvaluation evaluation = new CO2AbsoluteOnlyEvaluation();
+		addProgressBars(evaluation.getEvaluators());
+		try {
+			evaluation.evaluate();
+		} catch (Exception e) {
+			log.error(e);
+		}
 	}
 
 	private void addProgressBars(List<AbstractEvaluator> evaluators) {

@@ -19,22 +19,49 @@
 
 package de.atomfrede.tools.evalutation.evaluator;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.concrete.CO2AbsoluteOnlyEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.concrete.CopyEvaluator;
 
-public class CO2AbsoluteOnlyEvaluation {
+public class CO2AbsoluteOnlyEvaluation extends AbstractEvaluation {
 
-	List<AbstractEvaluator> evaluators = new ArrayList<AbstractEvaluator>();
+	private final Log log = LogFactory.getLog(CO2AbsoluteOnlyEvaluation.class);
 
 	CopyEvaluator copyEvaluator;
+	CO2AbsoluteOnlyEvaluator co2absEvaluator;
 
 	public CO2AbsoluteOnlyEvaluation() {
 		copyEvaluator = new CopyEvaluator();
-
+		co2absEvaluator = new CO2AbsoluteOnlyEvaluator(
+				copyEvaluator.getOutputFile());
 		evaluators.add(copyEvaluator);
+		evaluators.add(co2absEvaluator);
 	}
 
+	@Override
+	public void evaluate() throws Exception {
+		log.trace("CO2 Absolute Only Evaluation started.");
+		int i = 0;
+		boolean done = true;
+		while (i < evaluators.size()) {
+			if (i == evaluators.size())
+				break;
+			AbstractEvaluator evaluator = evaluators.get(i);
+			done = evaluator.evaluate();
+			if (!done)
+				break;
+			else {
+				if (evaluator instanceof CopyEvaluator) {
+					CopyEvaluator cpe = (CopyEvaluator) evaluator;
+					co2absEvaluator.setInputFile(cpe.getOutputFile());
+					i++;
+					continue;
+				}
+			}
+			i++;
+		}
+	}
 }
