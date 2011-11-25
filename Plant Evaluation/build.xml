@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="dist" name="Create Runnable Jar for Project Plant Evaluation with Jar-in-Jar Loader">
+	<property name="output.dir" value="dist" />
+	<property name="product.short.name" value="Plant Evaluation" />
+	<property name="product.version" value="1.2" />
+	<property name="install.lib" value="libs" />
+	<property name="libs.dir" value="libs" />
+	<property name="temp.dir" value="temp" />
+	<property name="launch4j.dir" location="launch4j" />
+	<property name="dist.dir" location="dist" />
+	<property name="dist.libs.dir" location="${dist.dir}/libs" />
+
+	<taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpath="${launch4j.dir}/launch4j.jar:${launch4j.dir}/lib/xstream.jar" />
+
+	<taskdef name="izpack" classpath="${install.lib}/standalone-compiler.jar" classname="com.izforge.izpack.ant.IzPackTask" />
+
+	<path id="build.classpath">
+		<fileset dir="${dist.libs.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<manifestclasspath property="jar.classpath" jarfile="${dist.dir}/PlantEvaluation.jar" maxParentLevels="0">
+		<classpath refid="build.classpath" />
+	</manifestclasspath>
+
+	<target name="dist" depends="copy libs">
+		<jar destfile="${dist.dir}/PlantEvaluation.jar">
+			<manifest>
+				<attribute name="Main-Class" value="de.atomfrede.tools.evalutation.ui.AppWindow" />
+				<!-- <attribute name="Class-Path" value=". ${dist.libs.dir}/commons-io-2.1.jar ${dist.libs.dir}/commons-lang3-3.0.1.jar ${dist.libs.dir}/commons-math-2.2.jar ${dist.libs.dir}/opencsv-2.3.jar ${dist.libs.dir}/jfreechart-1.0.13.jar ${dist.libs.dir}/jcommon-1.0.16.jar ${dist.libs.dir}/jgoodies-common-1.2.1.jar ${dist.libs.dir}/jgoodies-forms-1.4.2.jar ${dist.libs.dir}/swingx-core-1.6.2.jar ${dist.libs.dir}/commons-configuration-1.7.jar ${dist.libs.dir}/jide-oss-3.2.4.jar ${dist.libs.dir}/commons-logging-1.1.1.jar ${dist.libs.dir}/log4j-1.2.16.jar" /> -->
+				<attribute name="Class-Path" value="${jar.classpath}" />
+			</manifest>
+			<fileset dir="bin" />
+		</jar>
+
+	</target>
+
+	<target name="copy libs">
+		
+		<copy file="${libs.dir}/commons-io-2.1.jar" todir="${dist.libs.dir}" />
+		<copy file="${libs.dir}/commons-lang3-3.0.1.jar" todir="${dist.libs.dir}" />
+		<copy file="${libs.dir}/commons-math-2.2.jar" todir="${dist.libs.dir}" />
+		<copy file="${libs.dir}/opencsv-2.3.jar" todir="${dist.libs.dir}" />
+		<copy file="${libs.dir}/jfreechart-1.0.13.jar" todir="${dist.libs.dir}" />
+		<copy file="${libs.dir}/jcommon-1.0.16.jar" todir="${dist.libs.dir}" />
+		<copy file="${libs.dir}/jgoodies-common-1.2.1.jar" todir="${dist.libs.dir}" />
+		<copy file="${libs.dir}/jgoodies-forms-1.4.2.jar" todir="${dist.libs.dir}" />
+		<copy file="${libs.dir}/swingx-core-1.6.2.jar" todir="${dist.libs.dir}" />
+		<copy file="${libs.dir}/commons-configuration-1.7.jar" todir="${dist.libs.dir}" />
+		<copy file="${libs.dir}/jide-oss-3.2.4.jar" todir="${dist.libs.dir}" />
+		<copy file="${libs.dir}/commons-logging-1.1.1.jar" todir="${dist.libs.dir}" />
+		<copy file="${libs.dir}/log4j-1.2.16.jar" todir="${dist.libs.dir}" />
+	</target>
+	
+	<target name="create installer" depends="dist">
+		<echo message="Running IzPack to build the installer..." />
+		<izpack input="install-definition.xml" output="${output.dir}/${product.short.name}-${product.version}-install.jar" installerType="standard" inheritAll="true" basedir="." />
+		<!-- Clean working directory 
+		<echo message="Cleaning up working directory..." />
+		<delete dir="${temp.dir}" quiet="true" includeemptydirs="true" / -->
+		<echo message="Done." />
+	</target>
+
+	<target name="create exe install" depends="create installer">
+		<launch4j configFile="l4jconfig.xml" />
+	</target>
+
+	<target name="clean">
+		<delete dir="${dist.dir}" />
+	</target>
+
+	<target name="makedir">
+		<mkdir dir="${dist.dir}" />
+	</target>
+</project>
