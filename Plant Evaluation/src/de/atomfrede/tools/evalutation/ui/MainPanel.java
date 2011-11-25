@@ -28,6 +28,9 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.factories.ButtonBarFactory;
 import com.jgoodies.forms.layout.FormLayout;
@@ -40,6 +43,8 @@ import de.atomfrede.tools.evalutation.ui.res.Messages;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
 public class MainPanel extends JPanel {
+
+	private final Log log = LogFactory.getLog(MainPanel.class);
 
 	/**
 	 * 
@@ -110,7 +115,13 @@ public class MainPanel extends JPanel {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					getPlantListPanel().evaluate(evaluateButton, addButton);
+					if (!getCo2AbsoluteCheckBox().isSelected())
+						getPlantListPanel().standardEvaluation(evaluateButton,
+								addButton);
+					else
+						getPlantListPanel().co2AbsoluteOnlyEvaluation(
+								evaluateButton, addButton);
+
 				}
 			});
 		}
@@ -124,5 +135,4 @@ public class MainPanel extends JPanel {
 		}
 		return co2AbsOnlyCheckbox;
 	}
-
 }

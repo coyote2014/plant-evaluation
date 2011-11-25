@@ -137,7 +137,7 @@ public class AppWindow {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainPanel.plantListPanel.evaluate(mainPanel.evaluateButton,
+				mainPanel.plantListPanel.standardEvaluation(mainPanel.evaluateButton,
 						mainPanel.addButton);
 
 			}

@@ -81,22 +81,43 @@ public class PlantListPanel extends JPanel {
 
 		}
 
-		// builder.append(ButtonBarFactory.buildOKCancelBar(getEvaluateButton(),
-		// getAddButton()));
 		builder.append(""); //$NON-NLS-1$
 
 		add(builder.getPanel(), BorderLayout.CENTER);
 
 	}
 
-	public void evaluate(final JButton button, final JButton addButton) {
+	public void standardEvaluation(final JButton button, final JButton addButton) {
 		new SwingWorker<Void, Void>() {
 
 			@Override
 			protected Void doInBackground() throws Exception {
 				button.setEnabled(false);
 				addButton.setEnabled(false);
-				setUpEvaluation();
+				setupStandardEvaluation();
+				return null;
+			}
+
+			@Override
+			protected void done() {
+				invalidate();
+				button.setEnabled(true);
+				addButton.setEnabled(true);
+				rebuild();
+				revalidate();
+			}
+		}.execute();
+	}
+
+	public void co2AbsoluteOnlyEvaluation(final JButton button,
+			final JButton addButton) {
+		new SwingWorker<Void, Void>() {
+
+			@Override
+			protected Void doInBackground() throws Exception {
+				button.setEnabled(false);
+				addButton.setEnabled(false);
+				setupCO2OnlyEvaluation();
 				return null;
 			}
 
@@ -168,30 +189,34 @@ public class PlantListPanel extends JPanel {
 		this.plantList = plantList;
 	}
 
-	private void setUpEvaluation() {
-		// // check
+	private void setupStandardEvaluation() {
 		updatePlants();
 		Evaluation evaluation = new Evaluation();
+		addProgressBars(evaluation.getEvaluators());
+		try {
+			evaluation.evaluate();
+		} catch (Exception e) {
+			log.error(e);
+		}
+	}
 
+	private void setupCO2OnlyEvaluation() {
+
+	}
+
+	private void addProgressBars(List<AbstractEvaluator> evaluators) {
 		invalidate();
 		FormLayout layout = new FormLayout("pref, 4dlu,fill:pref:grow");
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 		builder.setDefaultDialogBorder();
 
-		for (AbstractEvaluator eval : evaluation.getEvaluators()) {
+		for (AbstractEvaluator eval : evaluators) {
 			builder.append(eval.getName());
 			builder.append(eval.getProgressBar());
 		}
 
 		add(builder.getPanel(), BorderLayout.NORTH);
 		revalidate();
-		// TODO nicer Error handling
-		try {
-			evaluation.evaluate();
-		} catch (Exception e) {
-			log.error(e);
-		}
-
 	}
 
 	private void updatePlants() {
