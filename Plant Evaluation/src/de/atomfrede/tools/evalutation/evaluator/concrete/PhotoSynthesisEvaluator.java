@@ -43,7 +43,7 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 	static double UPPER_CHAMBER = 2.0;
 	static double LOWER_CHAMBER = 4.0;
 
-	static double flowRateLowerChamber = 500.0;
+	static double flowRateLowerChamber = 100.0;
 	static double flowRateUpperChamber = 3000.0;
 
 	static double VM = 8.314472;
