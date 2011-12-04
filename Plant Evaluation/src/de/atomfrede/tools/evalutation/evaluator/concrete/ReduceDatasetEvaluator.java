@@ -28,6 +28,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math.stat.StatUtils;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.evaluator.common.SingleInputFileEvaluator;
 
 public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
@@ -62,8 +63,11 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 				String[] meanLine = computeMeanLine(meanLines);
 				writer.writeNext(meanLine);
 				i = Math.min(i + 60 + 1, allLines.size());
+				progressBar
+						.setValue((int) ((i * 1.0 / allLines.size()) * 100.0));
 			}
 
+			progressBar.setValue(100);
 		} catch (Exception e) {
 			log.error(e);
 			return false;
@@ -80,13 +84,40 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 		meanLine = meanLines.get(meanLine.length - 1);
 
 		List<Double> co2AbsoluteValues = new ArrayList<Double>();
+		List<Double> _12Co2Values = new ArrayList<Double>();
+		List<Double> _13Co2Values = new ArrayList<Double>();
+		List<Double> _12Co2DryValues = new ArrayList<Double>();
+		List<Double> _13Co2DryValues = new ArrayList<Double>();
+		List<Double> deltaRawValues = new ArrayList<Double>();
 
 		for (int i = 0; i < meanLines.size(); i++) {
-			co2AbsoluteValues.add(parseDoubleValue(meanLines.get(i),
+			String[] currentMeanLine = meanLines.get(i);
+			_12Co2Values
+					.add(parseDoubleValue(currentMeanLine, Constants._12CO2));
+			_13Co2Values
+					.add(parseDoubleValue(currentMeanLine, Constants._13CO2));
+			_12Co2DryValues.add(parseDoubleValue(currentMeanLine,
+					Constants._12CO2_DRY));
+			_13Co2DryValues.add(parseDoubleValue(currentMeanLine,
+					Constants._13CO2_DRY));
+			deltaRawValues.add(parseDoubleValue(currentMeanLine,
+					Constants.DELTA));
+			co2AbsoluteValues.add(parseDoubleValue(currentMeanLine,
 					meanLine.length - 1));
+
 		}
+		double mean12Co2 = StatUtils.mean(list2DoubleArray(_12Co2Values));
+		double mean13Co2 = StatUtils.mean(list2DoubleArray(_13Co2Values));
+		double mean12Co2Dry = StatUtils.mean(list2DoubleArray(_12Co2DryValues));
+		double mean13Co2Dry = StatUtils.mean(list2DoubleArray(_13Co2DryValues));
+		double meanDeltaRaw = StatUtils.mean(list2DoubleArray(deltaRawValues));
 		double meanCo2Absolute = StatUtils
 				.mean(list2DoubleArray(co2AbsoluteValues));
+		meanLine[Constants._12CO2] = mean12Co2 + "";
+		meanLine[Constants._13CO2] = mean13Co2 + "";
+		meanLine[Constants._12CO2_DRY] = mean12Co2Dry + "";
+		meanLine[Constants._13CO2_DRY] = mean13Co2Dry + "";
+		meanLine[Constants.DELTA] = meanDeltaRaw + "";
 		meanLine[meanLine.length - 1] = meanCo2Absolute + "";
 		return meanLine;
 	}
