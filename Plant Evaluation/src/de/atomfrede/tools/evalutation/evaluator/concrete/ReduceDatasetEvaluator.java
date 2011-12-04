@@ -35,6 +35,7 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 
 	public ReduceDatasetEvaluator(File inputFile) {
 		super("Reduced Datasets", inputFile, null);
+		this.name = "Reducing Dataset";
 	}
 
 	@Override

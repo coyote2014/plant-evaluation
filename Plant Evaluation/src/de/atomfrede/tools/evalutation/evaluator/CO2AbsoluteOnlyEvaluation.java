@@ -25,6 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.concrete.CO2AbsoluteOnlyEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.concrete.CopyEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.concrete.ReduceDatasetEvaluator;
 
 public class CO2AbsoluteOnlyEvaluation extends AbstractEvaluation {
 
@@ -32,13 +33,17 @@ public class CO2AbsoluteOnlyEvaluation extends AbstractEvaluation {
 
 	CopyEvaluator copyEvaluator;
 	CO2AbsoluteOnlyEvaluator co2absEvaluator;
+	ReduceDatasetEvaluator reduceDatasetEvalutor;
 
 	public CO2AbsoluteOnlyEvaluation() {
 		copyEvaluator = new CopyEvaluator();
 		co2absEvaluator = new CO2AbsoluteOnlyEvaluator(
 				copyEvaluator.getOutputFile());
+		reduceDatasetEvalutor = new ReduceDatasetEvaluator(
+				co2absEvaluator.getOutputFile());
 		evaluators.add(copyEvaluator);
 		evaluators.add(co2absEvaluator);
+		evaluators.add(reduceDatasetEvalutor);
 	}
 
 	@Override
@@ -57,6 +62,12 @@ public class CO2AbsoluteOnlyEvaluation extends AbstractEvaluation {
 				if (evaluator instanceof CopyEvaluator) {
 					CopyEvaluator cpe = (CopyEvaluator) evaluator;
 					co2absEvaluator.setInputFile(cpe.getOutputFile());
+					i++;
+					continue;
+				}
+				if (evaluator instanceof ReduceDatasetEvaluator) {
+					CO2AbsoluteOnlyEvaluator eva = (CO2AbsoluteOnlyEvaluator) evaluator;
+					reduceDatasetEvalutor.setInputFile(eva.getOutputFile());
 					i++;
 					continue;
 				}
