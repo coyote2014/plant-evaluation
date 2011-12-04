@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.math.stat.StatUtils;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.evaluator.common.SingleInputFileEvaluator;
@@ -54,13 +55,13 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 
 			int i = 1;
 			while (i < allLines.size()) {
-				int endIndex = Math.min(i += 60, allLines.size());
+				int endIndex = Math.min(i + 60, allLines.size());
 				List<String[]> meanLines = getLinesForMeanComputation(i,
 						endIndex, allLines);
 
 				String[] meanLine = computeMeanLine(meanLines);
 				writer.writeNext(meanLine);
-				i = Math.min(i += 60, allLines.size());
+				i = Math.min(i + 60 + 1, allLines.size());
 			}
 
 		} catch (Exception e) {
@@ -76,8 +77,17 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 
 	private String[] computeMeanLine(List<String[]> meanLines) {
 		String[] meanLine = new String[meanLines.get(0).length];
+		meanLine = meanLines.get(meanLine.length - 1);
 
-		meanLine = meanLines.get(0);
+		List<Double> co2AbsoluteValues = new ArrayList<Double>();
+
+		for (int i = 0; i < meanLines.size(); i++) {
+			co2AbsoluteValues.add(parseDoubleValue(meanLines.get(i),
+					meanLine.length - 1));
+		}
+		double meanCo2Absolute = StatUtils
+				.mean(list2DoubleArray(co2AbsoluteValues));
+		meanLine[meanLine.length - 1] = meanCo2Absolute + "";
 		return meanLine;
 	}
 

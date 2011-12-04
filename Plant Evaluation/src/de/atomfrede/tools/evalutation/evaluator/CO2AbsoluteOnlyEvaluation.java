@@ -65,7 +65,7 @@ public class CO2AbsoluteOnlyEvaluation extends AbstractEvaluation {
 					i++;
 					continue;
 				}
-				if (evaluator instanceof ReduceDatasetEvaluator) {
+				if (evaluator instanceof CO2AbsoluteOnlyEvaluator) {
 					CO2AbsoluteOnlyEvaluator eva = (CO2AbsoluteOnlyEvaluator) evaluator;
 					reduceDatasetEvalutor.setInputFile(eva.getOutputFile());
 					i++;

@@ -76,6 +76,9 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 				for (File currentDataFile : inputFiles) {
 
 					currentPlant++;
+
+					Plant plant = PlantHelper.getDefaultPlantList().get(
+							currentPlant);
 					// assume it is ordered alphabetically
 					allLinesInCurrentFile = readAllLinesInFile(currentDataFile);
 					File outputFile = new File(outputFolder, "psr-0"
