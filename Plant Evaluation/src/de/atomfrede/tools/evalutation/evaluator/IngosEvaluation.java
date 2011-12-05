@@ -1,7 +1,7 @@
 /**
  *  Copyright 2011 Frederik Hahne 
  *
- * 	CO2AbsoluteOnlyEvaluation.java is part of Plant Evaluation.
+ * 	IngosEvaluation.java is part of Plant Evaluation.
  *
  *  Plant Evaluation is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,20 +25,30 @@ import org.apache.commons.logging.LogFactory;
 import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.concrete.CO2AbsoluteOnlyEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.concrete.CopyEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.concrete.PickDatasetEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.concrete.ReduceDatasetEvaluator;
 
-public class CO2AbsoluteOnlyEvaluation extends AbstractEvaluation {
+public class IngosEvaluation extends AbstractEvaluation {
 
-	private final Log log = LogFactory.getLog(CO2AbsoluteOnlyEvaluation.class);
+	private final Log log = LogFactory.getLog(IngosEvaluation.class);
 
 	CopyEvaluator copyEvaluator;
 	CO2AbsoluteOnlyEvaluator co2absEvaluator;
+	ReduceDatasetEvaluator reduceDatasetEvalutor;
+	PickDatasetEvaluator pickDatasetEvaluator;
 
-	public CO2AbsoluteOnlyEvaluation() {
+	public IngosEvaluation() {
 		copyEvaluator = new CopyEvaluator();
 		co2absEvaluator = new CO2AbsoluteOnlyEvaluator(
 				copyEvaluator.getOutputFile());
+		reduceDatasetEvalutor = new ReduceDatasetEvaluator(
+				co2absEvaluator.getOutputFile());
+		pickDatasetEvaluator = new PickDatasetEvaluator(
+				reduceDatasetEvalutor.getOutputFile());
 		evaluators.add(copyEvaluator);
 		evaluators.add(co2absEvaluator);
+		evaluators.add(reduceDatasetEvalutor);
+		evaluators.add(pickDatasetEvaluator);
 	}
 
 	@Override
@@ -57,6 +67,18 @@ public class CO2AbsoluteOnlyEvaluation extends AbstractEvaluation {
 				if (evaluator instanceof CopyEvaluator) {
 					CopyEvaluator cpe = (CopyEvaluator) evaluator;
 					co2absEvaluator.setInputFile(cpe.getOutputFile());
+					i++;
+					continue;
+				}
+				if (evaluator instanceof CO2AbsoluteOnlyEvaluator) {
+					CO2AbsoluteOnlyEvaluator eva = (CO2AbsoluteOnlyEvaluator) evaluator;
+					reduceDatasetEvalutor.setInputFile(eva.getOutputFile());
+					i++;
+					continue;
+				}
+				if (evaluator instanceof ReduceDatasetEvaluator) {
+					ReduceDatasetEvaluator eva = (ReduceDatasetEvaluator) evaluator;
+					pickDatasetEvaluator.setInputFile(eva.getOutputFile());
 					i++;
 					continue;
 				}

@@ -26,6 +26,10 @@ import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
 
 public abstract class AbstractEvaluation {
 
+	public enum EvaluationType {
+		CO2ABSOLUTE, JULIANE, INGO
+	}
+
 	protected List<AbstractEvaluator> evaluators = new ArrayList<AbstractEvaluator>();
 
 	public List<AbstractEvaluator> getEvaluators() {

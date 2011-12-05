@@ -26,9 +26,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.SwingWorker;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,9 +35,6 @@ import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
 import de.atomfrede.tools.evalutation.Plant;
-import de.atomfrede.tools.evalutation.evaluator.CO2AbsoluteOnlyEvaluation;
-import de.atomfrede.tools.evalutation.evaluator.StandardEvaluation;
-import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
 import de.atomfrede.tools.evalutation.main.PlantHelper;
 import de.atomfrede.tools.evalutation.ui.res.Messages;
 
@@ -86,51 +81,6 @@ public class PlantListPanel extends JPanel {
 
 		add(builder.getPanel(), BorderLayout.CENTER);
 
-	}
-
-	public void standardEvaluation(final JButton button, final JButton addButton) {
-		new SwingWorker<Void, Void>() {
-
-			@Override
-			protected Void doInBackground() throws Exception {
-				button.setEnabled(false);
-				addButton.setEnabled(false);
-				setupStandardEvaluation();
-				return null;
-			}
-
-			@Override
-			protected void done() {
-				invalidate();
-				button.setEnabled(true);
-				addButton.setEnabled(true);
-				rebuild();
-				revalidate();
-			}
-		}.execute();
-	}
-
-	public void co2AbsoluteOnlyEvaluation(final JButton button,
-			final JButton addButton) {
-		new SwingWorker<Void, Void>() {
-
-			@Override
-			protected Void doInBackground() throws Exception {
-				button.setEnabled(false);
-				addButton.setEnabled(false);
-				setupCO2OnlyEvaluation();
-				return null;
-			}
-
-			@Override
-			protected void done() {
-				invalidate();
-				button.setEnabled(true);
-				addButton.setEnabled(true);
-				rebuild();
-				revalidate();
-			}
-		}.execute();
 	}
 
 	private PlantDataInputPanel getPlantInputPanel(Plant plant, final int index) {
@@ -190,43 +140,7 @@ public class PlantListPanel extends JPanel {
 		this.plantList = plantList;
 	}
 
-	private void setupStandardEvaluation() {
-		updatePlants();
-		StandardEvaluation evaluation = new StandardEvaluation();
-		addProgressBars(evaluation.getEvaluators());
-		try {
-			evaluation.evaluate();
-		} catch (Exception e) {
-			log.error(e);
-		}
-	}
-
-	private void setupCO2OnlyEvaluation() {
-		CO2AbsoluteOnlyEvaluation evaluation = new CO2AbsoluteOnlyEvaluation();
-		addProgressBars(evaluation.getEvaluators());
-		try {
-			evaluation.evaluate();
-		} catch (Exception e) {
-			log.error(e);
-		}
-	}
-
-	private void addProgressBars(List<AbstractEvaluator> evaluators) {
-		invalidate();
-		FormLayout layout = new FormLayout("pref, 4dlu,fill:pref:grow");
-		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
-		builder.setDefaultDialogBorder();
-
-		for (AbstractEvaluator eval : evaluators) {
-			builder.append(eval.getName());
-			builder.append(eval.getProgressBar());
-		}
-
-		add(builder.getPanel(), BorderLayout.NORTH);
-		revalidate();
-	}
-
-	private void updatePlants() {
+	public void updatePlants() {
 		int i = -1;
 		for (Plant p : PlantHelper.getDefaultPlantList()) {
 			i++;

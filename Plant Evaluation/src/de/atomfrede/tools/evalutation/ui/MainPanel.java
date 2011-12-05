@@ -22,9 +22,11 @@ package de.atomfrede.tools.evalutation.ui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -36,7 +38,11 @@ import com.jgoodies.forms.factories.ButtonBarFactory;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jidesoft.swing.JideBorderLayout;
 
+import de.atomfrede.tools.evalutation.EvaluationController;
 import de.atomfrede.tools.evalutation.Plant;
+import de.atomfrede.tools.evalutation.evaluator.AbstractEvaluation;
+import de.atomfrede.tools.evalutation.evaluator.AbstractEvaluation.EvaluationType;
+import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
 import de.atomfrede.tools.evalutation.main.PlantHelper;
 import de.atomfrede.tools.evalutation.ui.plant.PlantListPanel;
 import de.atomfrede.tools.evalutation.ui.res.Messages;
@@ -51,30 +57,38 @@ public class MainPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 6119526095319839746L;
 	PlantListPanel plantListPanel;
+	JPanel centerPanel, progressPanel;
 	FolderSelectionPanel folderSelectionPanel;
+	JComboBox evaluationTypeCombobox;
+	@Deprecated
 	JCheckBox co2AbsOnlyCheckbox;
 	JButton addButton, evaluateButton;
 	JFrame parent;
+	EvaluationController controller;
 
 	public MainPanel(JFrame parent) {
 		super();
 		this.parent = parent;
 		initialize();
+		controller = new EvaluationController(getPlantListPanel(), this);
 	}
 
 	private void initialize() {
 		setLayout(new JideBorderLayout());
 
 		add(getFolderSelectionPanel(), JideBorderLayout.NORTH);
-		add(getPlantListPanel(), JideBorderLayout.CENTER);
-
-		FormLayout layout = new FormLayout("right:pref:grow, 4dlu, right:pref"); //$NON-NLS-1$
+		// add(getPlantListPanel(), JideBorderLayout.CENTER);
+		add(getCenterPanel());
+		FormLayout layout = new FormLayout(
+				"right:pref:grow, 4dlu, right:pref, 4dlu, right:pref"); //$NON-NLS-1$
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 
-		builder.append(getCo2AbsoluteCheckBox());
+		// builder.append(getCo2AbsoluteCheckBox());
+		builder.append("Evaluation Type", getEvaluationTypeComboBox());
 		builder.append(ButtonBarFactory.buildOKCancelBar(getEvaluateButton(),
 				getAddButton()));
 		add(builder.getPanel(), BorderLayout.SOUTH);
+
 	}
 
 	private PlantListPanel getPlantListPanel() {
@@ -83,6 +97,13 @@ public class MainPanel extends JPanel {
 					PlantHelper.getDefaultPlantList());
 		}
 		return plantListPanel;
+	}
+
+	private JPanel getCenterPanel() {
+		centerPanel = new JPanel(new JideBorderLayout());
+		centerPanel.add(getPlantListPanel(), JideBorderLayout.CENTER);
+
+		return centerPanel;
 	}
 
 	private FolderSelectionPanel getFolderSelectionPanel() {
@@ -115,24 +136,79 @@ public class MainPanel extends JPanel {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if (!getCo2AbsoluteCheckBox().isSelected())
-						getPlantListPanel().standardEvaluation(evaluateButton,
-								addButton);
-					else
-						getPlantListPanel().co2AbsoluteOnlyEvaluation(
-								evaluateButton, addButton);
+					AbstractEvaluation.EvaluationType type = (EvaluationType) getEvaluationTypeComboBox()
+							.getSelectedItem();
 
+					switch (type) {
+					case JULIANE:
+						// getPlantListPanel().standardEvaluation(evaluateButton,
+						// addButton);
+						controller.startStandardEvaluation();
+						break;
+					case CO2ABSOLUTE:
+						// getPlantListPanel().co2AbsoluteOnlyEvaluation(
+						// evaluateButton, addButton);
+						controller.startCo2AbsoluteOnlyEvaluation();
+						break;
+					case INGO:
+						controller.startIngoEvaluation();
+						break;
+					}
 				}
 			});
 		}
 		return evaluateButton;
 	}
 
-	private JCheckBox getCo2AbsoluteCheckBox() {
-		if (co2AbsOnlyCheckbox == null) {
-			co2AbsOnlyCheckbox = new JCheckBox(
-					Messages.getString("MainPanel.1")); //$NON-NLS-1$
+	private JComboBox getEvaluationTypeComboBox() {
+		if (evaluationTypeCombobox == null) {
+			evaluationTypeCombobox = new JComboBox(
+					AbstractEvaluation.EvaluationType.values());
+			// TODO use a pretty printer
+
+			evaluationTypeCombobox.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					AbstractEvaluation.EvaluationType type = (EvaluationType) evaluationTypeCombobox
+							.getSelectedItem();
+					switch (type) {
+					case JULIANE:
+						plantListPanel.setVisible(true);
+						revalidate();
+						break;
+
+					default:
+						plantListPanel.setVisible(false);
+						revalidate();
+						break;
+					}
+				}
+			});
 		}
-		return co2AbsOnlyCheckbox;
+		return evaluationTypeCombobox;
 	}
+
+	public void addProgressBars(List<AbstractEvaluator> evaluators) {
+		invalidate();
+		FormLayout layout = new FormLayout("pref, 4dlu,fill:pref:grow");
+		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+		builder.setDefaultDialogBorder();
+
+		for (AbstractEvaluator eval : evaluators) {
+			builder.append(eval.getName());
+			builder.append(eval.getProgressBar());
+		}
+
+		progressPanel = builder.getPanel();
+		centerPanel.add(progressPanel, BorderLayout.NORTH);
+		revalidate();
+	}
+
+	public void removeProgressPanel() {
+		invalidate();
+		centerPanel.remove(progressPanel);
+		revalidate();
+	}
+
 }
