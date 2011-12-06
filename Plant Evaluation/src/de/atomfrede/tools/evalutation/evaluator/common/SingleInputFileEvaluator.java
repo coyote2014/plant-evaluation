@@ -21,14 +21,19 @@ package de.atomfrede.tools.evalutation.evaluator.common;
 
 import java.io.File;
 
-public abstract class SingleInputFileEvaluator extends
-		AbstractEvaluator {
+/**
+ * 
+ * Evaluator that takes one file as input (and possible a standard deviation
+ * input file) and produces one file as output (and possible one file for
+ * standard deviation).
+ */
+public abstract class SingleInputFileEvaluator extends AbstractEvaluator {
 
 	protected File inputFile, standardDerivationInputFile, outputFile,
 			standardDerivationOutputFile;
 
-	public SingleInputFileEvaluator(String outputFolderName,
-			File inputFile, File standardDerivationInputFile) {
+	public SingleInputFileEvaluator(String outputFolderName, File inputFile,
+			File standardDerivationInputFile) {
 		super(outputFolderName);
 		this.inputFile = inputFile;
 		this.standardDerivationInputFile = standardDerivationInputFile;
