@@ -31,6 +31,12 @@ import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.evaluator.common.SingleInputFileEvaluator;
 
+/**
+ * Computes the CO2 Absolute values and adds them as a new column to the output
+ * file. The rest of the file keeps unchanged.
+ * 
+ * CO2-Absolute of i-th line is defined as 12CO2_DRY + 13CO2_DRY (of i-th line)
+ */
 public class CO2AbsoluteOnlyEvaluator extends SingleInputFileEvaluator {
 
 	private final Log log = LogFactory.getLog(CO2AbsoluteOnlyEvaluator.class);
@@ -57,16 +63,18 @@ public class CO2AbsoluteOnlyEvaluator extends SingleInputFileEvaluator {
 
 			for (int i = 1; i < lines.size(); i++) {
 				String[] currentLine = lines.get(i);
+				// read 12CO2_DRY and 13CO2_DRY
 				double _12CO2_dry = parseDoubleValue(currentLine,
 						Constants._12CO2_DRY);
 				double _13Co2_dry = parseDoubleValue(currentLine,
 						Constants._13CO2_DRY);
-
+				// Compute the CO2-Absolute value as the (absolute) sum of 12
+				// and 13CO2_DRY
 				double co2AbsoluteValue = Math.abs(_12CO2_dry + _13Co2_dry);
-
+				// get date and time for easier post processing in calc
 				Date date2Write = dateFormat.parse(currentLine[Constants.DATE]
 						+ " " + currentLine[Constants.TIME]);
-
+				// append both, date (with time) and CO2 Absolute to the file
 				appendDateAndCO2AbsoluteValue(writer, currentLine, date2Write,
 						co2AbsoluteValue);
 
@@ -84,6 +92,19 @@ public class CO2AbsoluteOnlyEvaluator extends SingleInputFileEvaluator {
 		return true;
 	}
 
+	/**
+	 * Appends the given date and the co2Absolute value to the file in one
+	 * single step.<br>
+	 * 
+	 * After execution the given line contains two additional columns, that
+	 * contain the date (with time) and the CO2-Absolute value.
+	 * 
+	 * 
+	 * @param writer
+	 * @param line
+	 * @param date2Write
+	 * @param co2Absolute
+	 */
 	private void appendDateAndCO2AbsoluteValue(CSVWriter writer, String[] line,
 			Date date2Write, double co2Absolute) {
 		String[] newLine = new String[line.length + 2];
@@ -97,6 +118,15 @@ public class CO2AbsoluteOnlyEvaluator extends SingleInputFileEvaluator {
 		writer.writeNext(newLine);
 	}
 
+	/**
+	 * Writes a new header to the file, where the new header is the old header
+	 * with two additional columns: <br>
+	 * Zeit<br>
+	 * CO2 Absolute
+	 * 
+	 * @param writer
+	 * @param line
+	 */
 	private void writeHeader(CSVWriter writer, String[] line) {
 		String[] newLine = new String[line.length + 2];
 		int i = 0;
