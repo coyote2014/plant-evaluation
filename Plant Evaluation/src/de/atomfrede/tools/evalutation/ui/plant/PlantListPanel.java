@@ -34,8 +34,8 @@ import org.apache.commons.logging.LogFactory;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
-import de.atomfrede.tools.evalutation.Plant;
-import de.atomfrede.tools.evalutation.main.PlantHelper;
+import de.atomfrede.tools.evalutation.plant.Plant;
+import de.atomfrede.tools.evalutation.plant.PlantHelper;
 import de.atomfrede.tools.evalutation.ui.res.Messages;
 
 public class PlantListPanel extends JPanel {

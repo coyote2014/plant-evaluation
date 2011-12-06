@@ -21,11 +21,21 @@ package de.atomfrede.tools.evalutation.options;
 
 import java.io.File;
 
+/**
+ * Simple static class that holds all options only for the current session.
+ * 
+ * All options are not stored permanently, they will get lost when after exiting
+ * the application.
+ */
 public class Options {
 
+	// shift every date by one hour to cope with summer and winter time
 	static boolean shiftByOneHour = false;
+	// should the reference chambers be recorded?
 	static boolean recordReferenceChambers = false;
+	// how many datasets should be recorded for SD computation?
 	static double sampleRate = 10.0;
+	// standard input and output folders
 	static File inputFolder = new File("input"); //$NON-NLS-1$
 	static File outputFolder = new File("output"); //$NON-NLS-1$
 	static File temperatureInputFolder = new File(inputFolder, "temp"); //$NON-NLS-1$

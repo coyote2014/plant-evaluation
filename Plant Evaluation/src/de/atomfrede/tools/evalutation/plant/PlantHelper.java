@@ -17,13 +17,12 @@
  *  along with Plant Evaluation.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.atomfrede.tools.evalutation.main;
+package de.atomfrede.tools.evalutation.plant;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.atomfrede.tools.evalutation.Plant;
 
 public class PlantHelper {
 

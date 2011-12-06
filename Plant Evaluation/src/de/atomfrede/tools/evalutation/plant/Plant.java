@@ -17,24 +17,20 @@
  *  along with Plant Evaluation.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.atomfrede.tools.evalutation;
+package de.atomfrede.tools.evalutation.plant;
 
 import java.util.Date;
 
+/**
+ * Data class that holds all necessary information about a plant, so that the
+ * PSR (or other things) can be computed.
+ */
 public class Plant {
-
+	// start and end date of measurement
 	Date startDate, endDate;
+	// leaf area for different chambers and the pressure that might change
+	// slightly over a measurement
 	double upperLeafArea, lowerLeafArea, pressureAtStartDay, pressureAtEndDay;
-
-	public double getPressureAtStartDay() {
-		return pressureAtStartDay;
-	}
-
-	public void setPressureAtStartDay(double pressureAtStartDay) {
-		this.pressureAtStartDay = pressureAtStartDay;
-	}
-
-	int number;
 
 	public Plant() {
 		this(new Date());
@@ -45,13 +41,8 @@ public class Plant {
 	}
 
 	public Plant(Date startDate, Date endDate) {
-		this(startDate, endDate, 0);
-	}
-
-	public Plant(Date startDate, Date endDate, int number) {
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.number = number;
 	}
 
 	public Date getStartDate() {
@@ -94,12 +85,12 @@ public class Plant {
 		this.pressureAtEndDay = pressureAtEndDay;
 	}
 
-	public int getNumber() {
-		return number;
+	public double getPressureAtStartDay() {
+		return pressureAtStartDay;
 	}
 
-	public void setNumber(int number) {
-		this.number = number;
+	public void setPressureAtStartDay(double pressureAtStartDay) {
+		this.pressureAtStartDay = pressureAtStartDay;
 	}
 
 	@Override

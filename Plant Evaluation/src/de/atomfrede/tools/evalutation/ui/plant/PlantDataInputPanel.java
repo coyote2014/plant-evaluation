@@ -34,7 +34,7 @@ import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-import de.atomfrede.tools.evalutation.Plant;
+import de.atomfrede.tools.evalutation.plant.Plant;
 import de.atomfrede.tools.evalutation.ui.dateTime.DateAndTimePicker;
 import de.atomfrede.tools.evalutation.ui.res.Messages;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;

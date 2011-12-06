@@ -26,6 +26,13 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 
+/**
+ * PreProcessor that preprocesses the files provided by the picarro isotope
+ * analyzer so they become a real .csv file.
+ * 
+ * After preprocessing each column is seperated by a comma and not by
+ * whitespaces anymore
+ */
 public class PreProcessor {
 
 	public static void replaceWhiteSpacesWithComma(File inputFile)

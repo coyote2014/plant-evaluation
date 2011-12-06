@@ -42,11 +42,11 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jidesoft.swing.JideBorderLayout;
 
 import de.atomfrede.tools.evalutation.EvaluationController;
-import de.atomfrede.tools.evalutation.Plant;
 import de.atomfrede.tools.evalutation.evaluator.AbstractEvaluation;
 import de.atomfrede.tools.evalutation.evaluator.AbstractEvaluation.EvaluationType;
 import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
-import de.atomfrede.tools.evalutation.main.PlantHelper;
+import de.atomfrede.tools.evalutation.plant.Plant;
+import de.atomfrede.tools.evalutation.plant.PlantHelper;
 import de.atomfrede.tools.evalutation.ui.plant.PlantListPanel;
 import de.atomfrede.tools.evalutation.ui.res.Messages;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
