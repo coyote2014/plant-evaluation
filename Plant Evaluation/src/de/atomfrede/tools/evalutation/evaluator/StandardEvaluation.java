@@ -52,17 +52,17 @@ public class StandardEvaluation extends AbstractEvaluation {
 		copyEvaluator = new CopyEvaluator();
 		meanEvaluator = new MeanValueEvaluator(copyEvaluator.getOutputFile());
 		co2DiffEvaluator = new CO2DiffEvaluator(meanEvaluator.getOutputFile(),
-				meanEvaluator.getStandardDerivationOutputFile());
+				meanEvaluator.getStandardDeviationOutputFile());
 		delta13Evaluator = new Delta13Evaluator(
 				co2DiffEvaluator.getOutputFile(),
-				co2DiffEvaluator.getStandardDerivationOutputFile());
+				co2DiffEvaluator.getStandardDeviationOutputFile());
 		temperature = new TemperatureEvaluator(
 				delta13Evaluator.getOutputFile(),
-				delta13Evaluator.getStandardDerivationOutputFile());
+				delta13Evaluator.getStandardDeviationOutputFile());
 		plantDivider = new PlantDivider(temperature.getOutputFile(),
-				temperature.getStandardDerivationOutputFile());
+				temperature.getStandardDeviationOutputFile());
 		psr = new PhotoSynthesisEvaluator(plantDivider.getOutputFiles(),
-				plantDivider.getStandardDerivationOutputFiles());
+				plantDivider.getStandardDeviationOutputFiles());
 		sd = new StandardDeviationEvaluator(psr.getOutputFiles(),
 				psr.getStandardDeviationOutputFiles());
 
@@ -101,8 +101,8 @@ public class StandardEvaluation extends AbstractEvaluation {
 							.setInputFile(((SingleInputFileEvaluator) evaluator)
 									.getOutputFile());
 					((SingleInputFileEvaluator) evaluators.get(i + 1))
-							.setStandardDerivationInputFile(((SingleInputFileEvaluator) evaluator)
-									.getStandardDerivationOutputFile());
+							.setStandardDeviationInputFile(((SingleInputFileEvaluator) evaluator)
+									.getStandardDeviationOutputFile());
 					i++;
 					continue;
 				}
@@ -114,8 +114,8 @@ public class StandardEvaluation extends AbstractEvaluation {
 									.getOutputFile());
 					((SingleInputMultipleOutputFileEvaluator) evaluators
 							.get(i + 1))
-							.setStandardDerivationInputFile(((SingleInputFileEvaluator) evaluator)
-									.getStandardDerivationOutputFile());
+							.setStandardDeviationInputFile(((SingleInputFileEvaluator) evaluator)
+									.getStandardDeviationOutputFile());
 					i++;
 					continue;
 				}
@@ -127,7 +127,7 @@ public class StandardEvaluation extends AbstractEvaluation {
 										.getOutputFiles());
 						((MultipleInputFileEvaluator) evaluators.get(i + 1))
 								.setStandardDeviationInputFiles(((SingleInputMultipleOutputFileEvaluator) evaluator)
-										.getStandardDerivationOutputFiles());
+										.getStandardDeviationOutputFiles());
 						i++;
 						continue;
 					}

@@ -82,20 +82,20 @@ public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 			writer.close();
 			{
 				// now compute needed valus for standard derivation file
-				if (!standardDerivationInputFile.exists())
+				if (!standardDeviationInputFile.exists())
 					return false;
 
-				standardDerivationOutputFile = new File(outputFolder,
+				standardDeviationOutputFile = new File(outputFolder,
 						"standard-derivation-co2diff.csv");
 
-				standardDerivationOutputFile.createNewFile();
-				if (!standardDerivationOutputFile.exists())
+				standardDeviationOutputFile.createNewFile();
+				if (!standardDeviationOutputFile.exists())
 					return false;
 
-				standardDerivationWriter = getCsvWriter(standardDerivationOutputFile);
+				standardDerivationWriter = getCsvWriter(standardDeviationOutputFile);
 				WriteUtils.writeHeader(standardDerivationWriter);
 
-				List<String[]> lines = readAllLinesInFile(standardDerivationInputFile);
+				List<String[]> lines = readAllLinesInFile(standardDeviationInputFile);
 
 				for (int i = 1; i < lines.size(); i++) {
 					// if (i % 1000 == 0)

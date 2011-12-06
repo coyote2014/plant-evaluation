@@ -82,7 +82,7 @@ public class PlantDivider extends SingleInputMultipleOutputFileEvaluator {
 			progressBar.setValue(50);
 			log.info("Dividing mean values done.");
 			{
-				allInputLines = readAllLinesInFile(standardDerivationInputFile);
+				allInputLines = readAllLinesInFile(standardDeviationInputFile);
 
 				for (int i = 0; i < PlantHelper.getDefaultPlantList().size(); i++) {
 					Plant currentPlant = PlantHelper.getDefaultPlantList().get(
@@ -100,7 +100,7 @@ public class PlantDivider extends SingleInputMultipleOutputFileEvaluator {
 					WriteUtils.writeHeader(writer);
 					writer.writeAll(values);
 					writer.close();
-					standardDerivationOutputFiles.add(outputFile);
+					standardDeviationOutputFiles.add(outputFile);
 
 					progressBar
 							.setValue((int) ((i * 1.0

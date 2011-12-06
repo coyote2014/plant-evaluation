@@ -86,17 +86,17 @@ public class TemperatureEvaluator extends SingleInputFileEvaluator {
 			progressBar.setValue(50);
 			log.info("Writing Temperature for mean data done.");
 			{
-				standardDerivationOutputFile = new File(outputFolder,
+				standardDeviationOutputFile = new File(outputFolder,
 						"standard-derivation-temperature.csv");
 
-				standardDerivationOutputFile.createNewFile();
-				if (!standardDerivationOutputFile.exists())
+				standardDeviationOutputFile.createNewFile();
+				if (!standardDeviationOutputFile.exists())
 					return false;
 
-				standardDerivationWriter = getCsvWriter(standardDerivationOutputFile);
+				standardDerivationWriter = getCsvWriter(standardDeviationOutputFile);
 				WriteUtils.writeHeader(standardDerivationWriter);
 
-				List<String[]> allDataLines = readAllLinesInFile(standardDerivationInputFile);
+				List<String[]> allDataLines = readAllLinesInFile(standardDeviationInputFile);
 
 				for (int i = 1; i < allDataLines.size(); i++) {
 					String[] currentLine = allDataLines.get(i);

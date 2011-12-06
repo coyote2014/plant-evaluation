@@ -94,14 +94,14 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 			progressBar.setValue(50);
 
 			// Standard Derivation Stuff
-			standardDerivationOutputFile = new File(outputFolder,
+			standardDeviationOutputFile = new File(outputFolder,
 					"standard-derivation-file.csv");
-			standardDerivationOutputFile.createNewFile();
+			standardDeviationOutputFile.createNewFile();
 
-			if (!standardDerivationOutputFile.exists())
+			if (!standardDeviationOutputFile.exists())
 				return false;
 
-			standardDerivationWriter = getCsvWriter(standardDerivationOutputFile);
+			standardDerivationWriter = getCsvWriter(standardDeviationOutputFile);
 			WriteUtils.writeHeader(standardDerivationWriter);
 
 			writeAllLinesForStandardDerivation(lines);

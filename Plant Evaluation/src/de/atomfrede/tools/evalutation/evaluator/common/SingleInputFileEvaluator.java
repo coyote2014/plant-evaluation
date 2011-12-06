@@ -22,21 +22,20 @@ package de.atomfrede.tools.evalutation.evaluator.common;
 import java.io.File;
 
 /**
- * 
  * Evaluator that takes one file as input (and possible a standard deviation
  * input file) and produces one file as output (and possible one file for
  * standard deviation).
  */
 public abstract class SingleInputFileEvaluator extends AbstractEvaluator {
 
-	protected File inputFile, standardDerivationInputFile, outputFile,
-			standardDerivationOutputFile;
+	protected File inputFile, standardDeviationInputFile, outputFile,
+			standardDeviationOutputFile;
 
 	public SingleInputFileEvaluator(String outputFolderName, File inputFile,
-			File standardDerivationInputFile) {
+			File standardDeviationInputFile) {
 		super(outputFolderName);
 		this.inputFile = inputFile;
-		this.standardDerivationInputFile = standardDerivationInputFile;
+		this.standardDeviationInputFile = standardDeviationInputFile;
 
 	}
 
@@ -48,12 +47,12 @@ public abstract class SingleInputFileEvaluator extends AbstractEvaluator {
 		this.inputFile = inputFile;
 	}
 
-	public File getStandardDerivationInputFile() {
-		return standardDerivationInputFile;
+	public File getStandardDeviationInputFile() {
+		return standardDeviationInputFile;
 	}
 
-	public void setStandardDerivationInputFile(File standardDerivationInputFile) {
-		this.standardDerivationInputFile = standardDerivationInputFile;
+	public void setStandardDeviationInputFile(File standardDeviationInputFile) {
+		this.standardDeviationInputFile = standardDeviationInputFile;
 	}
 
 	public File getOutputFile() {
@@ -64,13 +63,13 @@ public abstract class SingleInputFileEvaluator extends AbstractEvaluator {
 		this.outputFile = outputFile;
 	}
 
-	public File getStandardDerivationOutputFile() {
-		return standardDerivationOutputFile;
+	public File getStandardDeviationOutputFile() {
+		return standardDeviationOutputFile;
 	}
 
-	public void setStandardDerivationOutputFile(
-			File standardDerivationOutputFile) {
-		this.standardDerivationOutputFile = standardDerivationOutputFile;
+	public void setStandardDeviationOutputFile(
+			File standardDeviationOutputFile) {
+		this.standardDeviationOutputFile = standardDeviationOutputFile;
 	}
 
 	@Override

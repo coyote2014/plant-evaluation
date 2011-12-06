@@ -94,20 +94,20 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 			progressBar.setValue(50);
 			{
 				// first the mean values
-				if (!standardDerivationInputFile.exists())
+				if (!standardDeviationInputFile.exists())
 					return false;
 
-				standardDerivationOutputFile = new File(outputFolder,
+				standardDeviationOutputFile = new File(outputFolder,
 						"standard-derivation-delta13.csv");
 
-				standardDerivationOutputFile.createNewFile();
-				if (!standardDerivationOutputFile.exists())
+				standardDeviationOutputFile.createNewFile();
+				if (!standardDeviationOutputFile.exists())
 					return false;
 
-				standardDerivationWriter = getCsvWriter(standardDerivationOutputFile);
+				standardDerivationWriter = getCsvWriter(standardDeviationOutputFile);
 				WriteUtils.writeHeader(standardDerivationWriter);
 
-				List<String[]> allLines = readAllLinesInFile(standardDerivationInputFile);
+				List<String[]> allLines = readAllLinesInFile(standardDeviationInputFile);
 
 				// List<Integer> referenceLines = findAllReferenceChambers(
 				// allLines, SOLENOID_VALUE);
