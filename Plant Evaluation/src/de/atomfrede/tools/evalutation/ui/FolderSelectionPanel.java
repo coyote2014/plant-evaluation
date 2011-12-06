@@ -38,11 +38,12 @@ import de.atomfrede.tools.evalutation.options.Options;
 import de.atomfrede.tools.evalutation.ui.res.Messages;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
+/**
+ * Panel that contains interface to select all necessary folders to run a
+ * complete evaluation.
+ */
 public class FolderSelectionPanel extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6734919047205211900L;
 	JTextField inputFolderTextField, outputFolderTextField,
 			temperatureTextField;
@@ -101,6 +102,8 @@ public class FolderSelectionPanel extends JPanel {
 					if (returnValue == JFileChooser.APPROVE_OPTION) {
 						outputFolder = fc.getSelectedFile();
 						Options.setOutputFolder(outputFolder);
+						getOutputFolderTextField().setText(
+								outputFolder.getAbsolutePath());
 					}
 
 				}
@@ -127,6 +130,8 @@ public class FolderSelectionPanel extends JPanel {
 					if (returnValue == JFileChooser.APPROVE_OPTION) {
 						inputFolder = fc.getSelectedFile();
 						Options.setInputFolder(inputFolder);
+						getInputFolderTextField().setText(
+								inputFolder.getAbsolutePath());
 					}
 
 				}
@@ -152,6 +157,8 @@ public class FolderSelectionPanel extends JPanel {
 					if (returnValue == JFileChooser.APPROVE_OPTION) {
 						temperatureFolder = fc.getSelectedFile();
 						Options.setTemperatureInputFolder(temperatureFolder);
+						getTemperatureTextField().setText(
+								temperatureFolder.getAbsolutePath());
 					}
 				}
 			});
@@ -161,7 +168,7 @@ public class FolderSelectionPanel extends JPanel {
 
 	private JTextField getInputFolderTextField() {
 		if (inputFolderTextField == null) {
-			inputFolderTextField = new JTextField(inputFolder.getPath());
+			inputFolderTextField = new JTextField(inputFolder.getAbsolutePath());
 			inputFolderTextField.setEnabled(false);
 
 		}
@@ -170,7 +177,8 @@ public class FolderSelectionPanel extends JPanel {
 
 	private JTextField getOutputFolderTextField() {
 		if (outputFolderTextField == null) {
-			outputFolderTextField = new JTextField(outputFolder.getPath());
+			outputFolderTextField = new JTextField(
+					outputFolder.getAbsolutePath());
 			outputFolderTextField.setEnabled(false);
 		}
 		return outputFolderTextField;
@@ -178,7 +186,8 @@ public class FolderSelectionPanel extends JPanel {
 
 	private JTextField getTemperatureTextField() {
 		if (temperatureTextField == null) {
-			temperatureTextField = new JTextField(temperatureFolder.getPath());
+			temperatureTextField = new JTextField(
+					temperatureFolder.getAbsolutePath());
 			temperatureTextField.setEnabled(false);
 		}
 		return temperatureTextField;
