@@ -32,7 +32,7 @@ import de.atomfrede.tools.evalutation.evaluator.concrete.Delta13Evaluator;
 import de.atomfrede.tools.evalutation.evaluator.concrete.MeanValueEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.concrete.PhotoSynthesisEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.concrete.PlantDivider;
-import de.atomfrede.tools.evalutation.evaluator.concrete.StandardDerivationEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.concrete.StandardDeviationEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.concrete.TemperatureEvaluator;
 
 public class StandardEvaluation extends AbstractEvaluation {
@@ -46,7 +46,7 @@ public class StandardEvaluation extends AbstractEvaluation {
 	TemperatureEvaluator temperature;
 	PlantDivider plantDivider;
 	PhotoSynthesisEvaluator psr;
-	StandardDerivationEvaluator sd;
+	StandardDeviationEvaluator sd;
 
 	public StandardEvaluation() {
 		copyEvaluator = new CopyEvaluator();
@@ -63,8 +63,8 @@ public class StandardEvaluation extends AbstractEvaluation {
 				temperature.getStandardDerivationOutputFile());
 		psr = new PhotoSynthesisEvaluator(plantDivider.getOutputFiles(),
 				plantDivider.getStandardDerivationOutputFiles());
-		sd = new StandardDerivationEvaluator(psr.getOutputFiles(),
-				psr.getStandardDerivationOutputFiles());
+		sd = new StandardDeviationEvaluator(psr.getOutputFiles(),
+				psr.getStandardDeviationOutputFiles());
 
 		evaluators.add(copyEvaluator);
 		evaluators.add(meanEvaluator);
@@ -126,7 +126,7 @@ public class StandardEvaluation extends AbstractEvaluation {
 								.setInputFiles(((SingleInputMultipleOutputFileEvaluator) evaluator)
 										.getOutputFiles());
 						((MultipleInputFileEvaluator) evaluators.get(i + 1))
-								.setStandardDerivationInputFiles(((SingleInputMultipleOutputFileEvaluator) evaluator)
+								.setStandardDeviationInputFiles(((SingleInputMultipleOutputFileEvaluator) evaluator)
 										.getStandardDerivationOutputFiles());
 						i++;
 						continue;
@@ -136,8 +136,8 @@ public class StandardEvaluation extends AbstractEvaluation {
 								.setInputFiles(((MultipleInputFileEvaluator) evaluator)
 										.getOutputFiles());
 						((MultipleInputFileEvaluator) evaluators.get(i + 1))
-								.setStandardDerivationInputFiles(((MultipleInputFileEvaluator) evaluator)
-										.getStandardDerivationOutputFiles());
+								.setStandardDeviationInputFiles(((MultipleInputFileEvaluator) evaluator)
+										.getStandardDeviationOutputFiles());
 						i++;
 						continue;
 					}

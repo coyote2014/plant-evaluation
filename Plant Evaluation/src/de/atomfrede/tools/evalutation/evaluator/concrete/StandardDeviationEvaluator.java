@@ -38,22 +38,21 @@ import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.WriteUtils;
 import de.atomfrede.tools.evalutation.evaluator.common.MultipleInputFileEvaluator;
 
-public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
+public class StandardDeviationEvaluator extends MultipleInputFileEvaluator {
 
-	private final Log log = LogFactory
-			.getLog(StandardDerivationEvaluator.class);
+	private final Log log = LogFactory.getLog(StandardDeviationEvaluator.class);
 
 	int currentPlant;
 
 	List<String[]> currentMeanDataLines;
-	List<String[]> currentStandardDerivationLines;
+	List<String[]> currentStandardDeviationLines;
 
-	public StandardDerivationEvaluator(List<File> inputFiles,
-			List<File> standardDerivationInputFiles) {
-		super("standard-derivation", inputFiles, standardDerivationInputFiles);
+	public StandardDeviationEvaluator(List<File> inputFiles,
+			List<File> standardDeviationInputFiles) {
+		super("standard-derivation", inputFiles, standardDeviationInputFiles);
 		this.name = "Standard Derivation";
 		Collections.sort(inputFiles);
-		Collections.sort(standardDerivationInputFiles);
+		Collections.sort(standardDeviationInputFiles);
 	}
 
 	@Override
@@ -65,9 +64,9 @@ public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
 				currentPlant = i;
 
 				currentMeanDataLines = readAllLinesInFile(inputFiles.get(i));
-				File currentSdFile = getCorrespondingStandardDerivationFile(currentPlant);
+				File currentSdFile = getCorrespondingStandardDeviationFile(currentPlant);
 				System.out.println("Using SD File " + currentSdFile);
-				currentStandardDerivationLines = readAllLinesInFile(currentSdFile);
+				currentStandardDeviationLines = readAllLinesInFile(currentSdFile);
 
 				File outputFile = new File(outputFolder, "psr-sd-0"
 						+ (currentPlant) + ".csv");
@@ -87,8 +86,8 @@ public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
 					double delta13Mean = parseDoubleValue(currentLine,
 							Constants.DELTA13);
 
-					double psrStandardDerivation = getStandardDerivation(psrValues);
-					double delta13StandardDerivation = getStandardDerivation(delta13Values);
+					double psrStandardDerivation = getStandardDeviation(psrValues);
+					double delta13StandardDerivation = getStandardDeviation(delta13Values);
 					if (psrMean == 0.0) {
 						psrStandardDerivation = 0.0;
 						delta13StandardDerivation = 0.0;
@@ -102,7 +101,7 @@ public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
 						currentLine[Constants.DELTA13] = delta13Mean + "";
 					}
 
-					writeLineWithStandardDerivation(writer, currentLine,
+					writeLineWithStandardDeviation(writer, currentLine,
 							psrStandardDerivation, delta13StandardDerivation);
 
 					progressBar.setValue((int) (j * 1.0
@@ -122,15 +121,15 @@ public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
 			log.error(pe);
 			return false;
 		}
-		log.info("StandarDerivation Evaluator done.");
+		log.info("StandardDeviation Evaluator done.");
 		return true;
 	}
 
-	double getStandardDerivation(double[] values, double mean) {
+	double getStandardDeviation(double[] values, double mean) {
 		return Math.sqrt(StatUtils.variance(values, mean));
 	}
 
-	double getStandardDerivation(double[] values) {
+	double getStandardDeviation(double[] values) {
 
 		return Math.sqrt(StatUtils.variance(values));
 
@@ -146,8 +145,8 @@ public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
 		// return sd;
 	}
 
-	File getCorrespondingStandardDerivationFile(int currentDataFile) {
-		for (File file : standardDerivationInputFiles) {
+	File getCorrespondingStandardDeviationFile(int currentDataFile) {
+		for (File file : standardDeviationInputFiles) {
 			if (file.getName().endsWith(currentDataFile + ".csv")) {
 				return file;
 			}
@@ -155,7 +154,7 @@ public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
 		return null;
 	}
 
-	void writeLineWithStandardDerivation(CSVWriter writer, String[] line,
+	void writeLineWithStandardDeviation(CSVWriter writer, String[] line,
 			double psrStandardDerivation, double delta13StandardDerivation) {
 		String[] newLine = new String[line.length + 2];
 		int i = 0;
@@ -176,12 +175,12 @@ public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
 		double solenoid = parseDoubleValue(meanDataLine,
 				Constants.SOLENOID_VALVES);
 		Date meanDate = dateFormat.parse(meanDataLine[Constants.DATE_AND_TIME]);
-		List<Integer> allLinesForCurrentMeanDate = getAllLinesToComputeStandardDerivation(
+		List<Integer> allLinesForCurrentMeanDate = getAllLinesToComputeStandardDeviation(
 				meanDate, solenoid);
 
 		for (Integer lineIndex : allLinesForCurrentMeanDate) {
 			if (lineIndex >= 1) {
-				String[] currentLine = currentStandardDerivationLines
+				String[] currentLine = currentStandardDeviationLines
 						.get(lineIndex);
 				double psrValue = parseDoubleValue(currentLine, Constants.PSR);
 				double delta13Value = parseDoubleValue(currentLine,
@@ -196,9 +195,9 @@ public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
 		return dataMapping;
 	}
 
-	List<Integer> getAllLinesToComputeStandardDerivation(Date meanDate,
+	List<Integer> getAllLinesToComputeStandardDeviation(Date meanDate,
 			double solenoidToEvaluate) throws ParseException {
-		List<Integer> standardDerivationLines = new ArrayList<Integer>();
+		List<Integer> standardDeviationLines = new ArrayList<Integer>();
 		int startIndex = getStartIndex(meanDate);
 		if (startIndex == -1)
 			System.out.println("StartIndex for " + meanDate + " is "
@@ -208,33 +207,33 @@ public class StandardDerivationEvaluator extends MultipleInputFileEvaluator {
 		// standardDerivationLines.add(startIndex);
 		while (Math.abs(meanDate.getTime() - currentDate.getTime()) <= Constants.fiveMinutes
 				&& currentIndex >= 1
-				&& currentIndex < currentStandardDerivationLines.size()) {
-			String[] possibleLine = currentStandardDerivationLines
+				&& currentIndex < currentStandardDeviationLines.size()) {
+			String[] possibleLine = currentStandardDeviationLines
 					.get(currentIndex);
 			double solenoid = parseDoubleValue(possibleLine,
 					Constants.SOLENOID_VALVES);
 			if (solenoid == solenoidToEvaluate) {
-				standardDerivationLines.add(currentIndex);
+				standardDeviationLines.add(currentIndex);
 				currentDate = dateFormat
 						.parse(possibleLine[Constants.DATE_AND_TIME]);
 			}
 			currentIndex--;
 
 		}
-		return standardDerivationLines;
+		return standardDeviationLines;
 	}
 
 	int getStartIndex(Date meanDate) throws ParseException {
 		int startIndex = -1;
 		long shortestedDistance = Long.MAX_VALUE;
-		for (int i = 1; i < currentStandardDerivationLines.size(); i++) {
-			String[] currentStandardDerivationLine = currentStandardDerivationLines
+		for (int i = 1; i < currentStandardDeviationLines.size(); i++) {
+			String[] currentStandardDeviationLine = currentStandardDeviationLines
 					.get(i);
-			Date standardDerivationDate = dateFormat
-					.parse(currentStandardDerivationLine[Constants.DATE_AND_TIME]);
+			Date standardDeviationDate = dateFormat
+					.parse(currentStandardDeviationLine[Constants.DATE_AND_TIME]);
 
 			long difference = Math.abs(meanDate.getTime()
-					- standardDerivationDate.getTime());
+					- standardDeviationDate.getTime());
 			if (shortestedDistance > difference) {
 				shortestedDistance = difference;
 				startIndex = i;

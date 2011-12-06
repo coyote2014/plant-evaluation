@@ -25,16 +25,16 @@ import java.util.List;
 
 public abstract class MultipleInputFileEvaluator extends AbstractEvaluator {
 
-	protected List<File> inputFiles, standardDerivationInputFiles, outputFiles,
-			standardDerivationOutputFiles;
+	protected List<File> inputFiles, standardDeviationInputFiles, outputFiles,
+			standardDeviationOutputFiles;
 
 	public MultipleInputFileEvaluator(String outputFolderName,
 			List<File> inputFiles, List<File> standardDerivationInputFiles) {
 		super(outputFolderName);
 		this.inputFiles = inputFiles;
-		this.standardDerivationInputFiles = standardDerivationInputFiles;
+		this.standardDeviationInputFiles = standardDerivationInputFiles;
 		this.outputFiles = new ArrayList<File>();
-		this.standardDerivationOutputFiles = new ArrayList<File>();
+		this.standardDeviationOutputFiles = new ArrayList<File>();
 	}
 
 	public List<File> getInputFiles() {
@@ -45,13 +45,13 @@ public abstract class MultipleInputFileEvaluator extends AbstractEvaluator {
 		this.inputFiles = inputFiles;
 	}
 
-	public List<File> getStandardDerivationInputFiles() {
-		return standardDerivationInputFiles;
+	public List<File> getStandardDeviationInputFiles() {
+		return standardDeviationInputFiles;
 	}
 
-	public void setStandardDerivationInputFiles(
+	public void setStandardDeviationInputFiles(
 			List<File> standardDerivationInputFiles) {
-		this.standardDerivationInputFiles = standardDerivationInputFiles;
+		this.standardDeviationInputFiles = standardDerivationInputFiles;
 	}
 
 	public List<File> getOutputFiles() {
@@ -62,13 +62,13 @@ public abstract class MultipleInputFileEvaluator extends AbstractEvaluator {
 		this.outputFiles = outputFiles;
 	}
 
-	public List<File> getStandardDerivationOutputFiles() {
-		return standardDerivationOutputFiles;
+	public List<File> getStandardDeviationOutputFiles() {
+		return standardDeviationOutputFiles;
 	}
 
-	public void setStandardDerivationOutputFiles(
+	public void setStandardDeviationOutputFiles(
 			List<File> standardDerivationOutputFiles) {
-		this.standardDerivationOutputFiles = standardDerivationOutputFiles;
+		this.standardDeviationOutputFiles = standardDerivationOutputFiles;
 	}
 
 	@Override

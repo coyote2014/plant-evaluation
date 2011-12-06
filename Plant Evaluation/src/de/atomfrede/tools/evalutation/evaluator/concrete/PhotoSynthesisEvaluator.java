@@ -115,7 +115,7 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 
 			{
 				currentPlant = -1;
-				for (File currentDataFile : standardDerivationInputFiles) {
+				for (File currentDataFile : standardDeviationInputFiles) {
 					currentPlant++;
 					// assume it is ordered alphabetically
 					allLinesInCurrentFile = readAllLinesInFile(currentDataFile);
@@ -140,12 +140,12 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 								.setValue((int) ((i * 1.0
 										/ allLinesInCurrentFile.size() * 100.0
 										* 0.5 * 1.0
-										/ standardDerivationInputFiles.size() * 1.0) + 50.0));
+										/ standardDeviationInputFiles.size() * 1.0) + 50.0));
 
 					}
 
 					writer.close();
-					standardDerivationOutputFiles.add(outputFile);
+					standardDeviationOutputFiles.add(outputFile);
 				}
 			}
 		} catch (IOException ioe) {
