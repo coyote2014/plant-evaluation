@@ -20,6 +20,7 @@
 package de.atomfrede.tools.evalutation.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -28,7 +29,10 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.ListCellRenderer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -164,7 +168,8 @@ public class MainPanel extends JPanel {
 		if (evaluationTypeCombobox == null) {
 			evaluationTypeCombobox = new JComboBox(
 					AbstractEvaluation.EvaluationType.values());
-			// TODO use a pretty printer
+
+			evaluationTypeCombobox.setRenderer(new EvaluationTypeRender());
 
 			evaluationTypeCombobox.addActionListener(new ActionListener() {
 
@@ -185,10 +190,17 @@ public class MainPanel extends JPanel {
 					}
 				}
 			});
+
+			evaluationTypeCombobox.setSelectedItem(EvaluationType.JULIANE);
 		}
 		return evaluationTypeCombobox;
 	}
 
+	/**
+	 * Adds progressbars for each evaluator in the given list to this panel
+	 * 
+	 * @param evaluators
+	 */
 	public void addProgressBars(List<AbstractEvaluator> evaluators) {
 		invalidate();
 		FormLayout layout = new FormLayout("pref, 4dlu,fill:pref:grow");
@@ -209,6 +221,48 @@ public class MainPanel extends JPanel {
 		invalidate();
 		centerPanel.remove(progressPanel);
 		revalidate();
+	}
+
+	/**
+	 * Custom Renderer to display nice human readable strings for
+	 * {@link EvaluationType}s
+	 */
+	private static class EvaluationTypeRender extends JLabel implements
+			ListCellRenderer {
+
+		public EvaluationTypeRender() {
+			super();
+			setOpaque(true);
+		}
+
+		@Override
+		public Component getListCellRendererComponent(JList list, Object value,
+				int index, boolean isSelected, boolean cellHasFocus) {
+			EvaluationType selectedType = (EvaluationType) value;
+			if (isSelected) {
+				setBackground(list.getSelectionBackground());
+				setForeground(list.getSelectionForeground());
+			} else {
+				setBackground(list.getBackground());
+				setForeground(list.getForeground());
+			}
+			switch (selectedType) {
+			case CO2ABSOLUTE:
+				setText("<html>CO<sub>2</sub>-Absolute");
+				break;
+
+			case INGO:
+				setText("Type B (Ingo)");
+				break;
+			case JULIANE:
+				setText("Type A (Juliane)");
+				break;
+			default:
+				setText(selectedType.toString());
+				break;
+			}
+			return this;
+		}
 	}
 
 }

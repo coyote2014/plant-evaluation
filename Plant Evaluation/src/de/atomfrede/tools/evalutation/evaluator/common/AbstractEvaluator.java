@@ -119,6 +119,14 @@ public abstract class AbstractEvaluator {
 		this.name = name;
 	}
 
+	/**
+	 * Parsing the value at column type of the given line to a primitive double
+	 * 
+	 * @param line
+	 * @param type
+	 *            column number to parse
+	 * @return
+	 */
 	public double parseDoubleValue(String[] line, int type) {
 		return Double.parseDouble(line[type].replace(",", "."));
 	}
