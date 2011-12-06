@@ -246,4 +246,16 @@ public class PlantDataInputPanel extends JPanel {
 	public Date getEndDate() {
 		return getEndPicker().getDate();
 	}
+
+	@Override
+	public void setEnabled(boolean isEnabled) {
+		super.setEnabled(isEnabled);
+		deleteButton.setEnabled(isEnabled);
+		startDatePicker.setEnabled(isEnabled);
+		endDatePicker.setEnabled(isEnabled);
+		endDayPressureSpinner.setEnabled(isEnabled);
+		startDayPressureSpinner.setEnabled(isEnabled);
+		upperLeafAreaSpinner.setEnabled(isEnabled);
+		lowerLeafAreaSpinner.setEnabled(isEnabled);
+	}
 }

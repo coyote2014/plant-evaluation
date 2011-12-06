@@ -42,10 +42,8 @@ public class PlantListPanel extends JPanel {
 
 	private final Log log = LogFactory.getLog(PlantListPanel.class);
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2045646288488329282L;
+
 	List<Plant> plantList;
 	List<PlantDataInputPanel> plantDataInputPanelList;
 
@@ -87,6 +85,7 @@ public class PlantListPanel extends JPanel {
 		PlantDataInputPanel inputPanel = new PlantDataInputPanel(plant);
 
 		if (plantList.size() == 1)
+			// if there is only one plant disable the delete button
 			inputPanel.deleteButton.setEnabled(false);
 
 		plantDataInputPanelList.add(index, inputPanel);
@@ -101,6 +100,9 @@ public class PlantListPanel extends JPanel {
 		return inputPanel;
 	}
 
+	/**
+	 * Rebuilding the interface after a plant was added or removed
+	 */
 	private void rebuild() {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
@@ -140,7 +142,12 @@ public class PlantListPanel extends JPanel {
 		this.plantList = plantList;
 	}
 
+	/**
+	 * Updating the each plant with the data currently entered in the user
+	 * interface
+	 */
 	public void updatePlants() {
+		log.trace("Updating Plant List");
 		int i = -1;
 		for (Plant p : PlantHelper.getDefaultPlantList()) {
 			i++;
@@ -149,4 +156,17 @@ public class PlantListPanel extends JPanel {
 		}
 	}
 
+	@Override
+	public void setEnabled(boolean isEnabled) {
+		super.setEnabled(isEnabled);
+		int i = 0;
+		for (PlantDataInputPanel panel : plantDataInputPanelList) {
+			panel.setEnabled(isEnabled);
+			if (isEnabled && plantDataInputPanelList.size() == 1) {
+				panel.setEnabled(isEnabled);
+				panel.deleteButton.setEnabled(!isEnabled);
+			}
+
+		}
+	}
 }

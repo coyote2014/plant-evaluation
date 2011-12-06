@@ -24,7 +24,16 @@ import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * Special comparator that compares two lines of a .csv file and compares them
+ * by date and time
+ */
 public class EntryComparator implements Comparator<String[]> {
+
+	private final Log log = LogFactory.getLog(EntryComparator.class);
 
 	public SimpleDateFormat dateFormat = new SimpleDateFormat(
 			"yyyy-MM-dd HH:mm:ss.SS");
@@ -38,7 +47,7 @@ public class EntryComparator implements Comparator<String[]> {
 					+ " " + lineToCompare[Constants.TIME]);
 			return lineDate.compareTo(compareDate);
 		} catch (ParseException pe) {
-			System.out.println("Parse Exception in comparator..." + pe);
+			log.error("Parse Exception in comparator..." + pe);
 		}
 		return 0;
 	}

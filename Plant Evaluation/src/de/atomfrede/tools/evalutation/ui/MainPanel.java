@@ -26,7 +26,6 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -56,16 +55,12 @@ public class MainPanel extends JPanel {
 
 	private final Log log = LogFactory.getLog(MainPanel.class);
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6119526095319839746L;
+
 	PlantListPanel plantListPanel;
 	JPanel centerPanel, progressPanel;
 	FolderSelectionPanel folderSelectionPanel;
 	JComboBox evaluationTypeCombobox;
-	@Deprecated
-	JCheckBox co2AbsOnlyCheckbox;
 	JButton addButton, evaluateButton;
 	JFrame parent;
 	EvaluationController controller;
@@ -81,17 +76,17 @@ public class MainPanel extends JPanel {
 		setLayout(new JideBorderLayout());
 
 		add(getFolderSelectionPanel(), JideBorderLayout.NORTH);
-		// add(getPlantListPanel(), JideBorderLayout.CENTER);
 		add(getCenterPanel());
 		FormLayout layout = new FormLayout(
 				"right:pref:grow, 4dlu, right:pref, 4dlu, right:pref"); //$NON-NLS-1$
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 
-		// builder.append(getCo2AbsoluteCheckBox());
 		builder.append("Evaluation Type", getEvaluationTypeComboBox());
 		builder.append(ButtonBarFactory.buildOKCancelBar(getEvaluateButton(),
 				getAddButton()));
 		add(builder.getPanel(), BorderLayout.SOUTH);
+
+		log.trace("Main Panel initialized");
 
 	}
 
@@ -180,11 +175,13 @@ public class MainPanel extends JPanel {
 					switch (type) {
 					case JULIANE:
 						plantListPanel.setVisible(true);
+						getAddButton().setVisible(true);
 						revalidate();
 						break;
 
 					default:
 						plantListPanel.setVisible(false);
+						getAddButton().setVisible(false);
 						revalidate();
 						break;
 					}
@@ -194,6 +191,27 @@ public class MainPanel extends JPanel {
 			evaluationTypeCombobox.setSelectedItem(EvaluationType.JULIANE);
 		}
 		return evaluationTypeCombobox;
+	}
+
+	public void disableButtons() {
+		getEvaluateButton().setEnabled(false);
+		getAddButton().setEnabled(false);
+
+		getFolderSelectionPanel().inputFolderButton.setEnabled(false);
+		getFolderSelectionPanel().temperatureButton.setEnabled(false);
+		getFolderSelectionPanel().outputFolderButton.setEnabled(false);
+
+		getPlantListPanel().setEnabled(false);
+	}
+
+	public void enableButtons() {
+		getEvaluateButton().setEnabled(true);
+		getAddButton().setEnabled(true);
+		getFolderSelectionPanel().inputFolderButton.setEnabled(true);
+		getFolderSelectionPanel().temperatureButton.setEnabled(true);
+		getFolderSelectionPanel().outputFolderButton.setEnabled(true);
+
+		getPlantListPanel().setEnabled(true);
 	}
 
 	/**
@@ -227,6 +245,7 @@ public class MainPanel extends JPanel {
 	 * Custom Renderer to display nice human readable strings for
 	 * {@link EvaluationType}s
 	 */
+	@SuppressWarnings("serial")
 	private static class EvaluationTypeRender extends JLabel implements
 			ListCellRenderer {
 

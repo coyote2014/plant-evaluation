@@ -30,6 +30,9 @@ import de.atomfrede.tools.evalutation.evaluator.StandardEvaluation;
 import de.atomfrede.tools.evalutation.ui.MainPanel;
 import de.atomfrede.tools.evalutation.ui.plant.PlantListPanel;
 
+/**
+ * Controller class that starts and setups each evaluation process
+ */
 public class EvaluationController {
 
 	private final Log log = LogFactory.getLog(EvaluationController.class);
@@ -64,22 +67,25 @@ public class EvaluationController {
 
 			@Override
 			protected Void doInBackground() throws Exception {
-				// button.setEnabled(false);
-				// addButton.setEnabled(false);
+				disableButtons();
 				setupStandardEvaluation();
 				return null;
 			}
 
 			@Override
 			protected void done() {
-				// invalidate();
-				// button.setEnabled(true);
-				// addButton.setEnabled(true);
-				// rebuild();
-				// revalidate();
+				enableButtons();
 				mainPanel.removeProgressPanel();
 			}
 		}.execute();
+	}
+
+	private void disableButtons() {
+		mainPanel.disableButtons();
+	}
+
+	private void enableButtons() {
+		mainPanel.enableButtons();
 	}
 
 	public void startCo2AbsoluteOnlyEvaluation() {
@@ -87,19 +93,14 @@ public class EvaluationController {
 
 			@Override
 			protected Void doInBackground() throws Exception {
-				// button.setEnabled(false);
-				// addButton.setEnabled(false);
+				disableButtons();
 				setupCO2OnlyEvaluation();
 				return null;
 			}
 
 			@Override
 			protected void done() {
-				// invalidate();
-				// button.setEnabled(true);
-				// addButton.setEnabled(true);
-				// rebuild();
-				// revalidate();
+				enableButtons();
 				mainPanel.removeProgressPanel();
 			}
 		}.execute();
@@ -110,19 +111,14 @@ public class EvaluationController {
 
 			@Override
 			protected Void doInBackground() throws Exception {
-				// button.setEnabled(false);
-				// addButton.setEnabled(false);
+				disableButtons();
 				setupIngoEvaluation();
 				return null;
 			}
 
 			@Override
 			protected void done() {
-				// invalidate();
-				// button.setEnabled(true);
-				// addButton.setEnabled(true);
-				// rebuild();
-				// revalidate();
+				enableButtons();
 				mainPanel.removeProgressPanel();
 			}
 		}.execute();
