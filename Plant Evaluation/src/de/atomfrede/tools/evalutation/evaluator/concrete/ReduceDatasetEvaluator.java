@@ -31,6 +31,22 @@ import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.evaluator.common.SingleInputFileEvaluator;
 
+/**
+ * Evaluator that reduces the whole dataset by taking 60 lines, computing the
+ * means for neccessary columns and writing the resulting line into the
+ * outputfile. <br>
+ * Instead of having datasets for every second, we now have datasets for about
+ * each minute (with means).<br>
+ * <br>
+ * Neccessary Values are:<br>
+ * 
+ * ->CO2Absolute<br>
+ * ->12CO2<br>
+ * ->13CO2<br>
+ * ->12CO2_DRY<br>
+ * ->13CO2_DRY<br>
+ * ->DeltaRaw
+ */
 public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 
 	private final Log log = LogFactory.getLog(ReduceDatasetEvaluator.class);
@@ -51,15 +67,18 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 			writer = getCsvWriter(outputFile);
 
 			List<String[]> allLines = readAllLinesInFile(inputFile);
-
+			// first write the header again
 			writer.writeNext(allLines.get(0));
 
 			int i = 1;
 			while (i < allLines.size()) {
+				// the endindex is always the minimum of startIndex + 60 (so 60
+				// lines) and the size of all lines to avoid
+				// out of bounce exceptions
 				int endIndex = Math.min(i + 60, allLines.size());
 				List<String[]> meanLines = getLinesForMeanComputation(i,
 						endIndex, allLines);
-
+				// compute the means for all necessary values
 				String[] meanLine = computeMeanLine(meanLines);
 				writer.writeNext(meanLine);
 				i = Math.min(i + 60 + 1, allLines.size());
@@ -80,10 +99,18 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 		return true;
 	}
 
+	/**
+	 * Collects all values, computes their means and writes them into a new data
+	 * line for the csv file. Besides the computed means the line stays
+	 * unchanged.
+	 * 
+	 * @param meanLines
+	 * @return
+	 */
 	private String[] computeMeanLine(List<String[]> meanLines) {
 		String[] meanLine = new String[meanLines.get(0).length];
 		meanLine = meanLines.get(meanLine.length - 1);
-
+		// List for collection all values to compute means of
 		List<Double> co2AbsoluteValues = new ArrayList<Double>();
 		List<Double> _12Co2Values = new ArrayList<Double>();
 		List<Double> _13Co2Values = new ArrayList<Double>();
@@ -107,6 +134,7 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 					meanLine.length - 1));
 
 		}
+		// now compute the means
 		double mean12Co2 = StatUtils.mean(list2DoubleArray(_12Co2Values));
 		double mean13Co2 = StatUtils.mean(list2DoubleArray(_13Co2Values));
 		double mean12Co2Dry = StatUtils.mean(list2DoubleArray(_12Co2DryValues));
@@ -114,6 +142,7 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 		double meanDeltaRaw = StatUtils.mean(list2DoubleArray(deltaRawValues));
 		double meanCo2Absolute = StatUtils
 				.mean(list2DoubleArray(co2AbsoluteValues));
+		// add them to the new line that is written to the outputfile
 		meanLine[Constants._12CO2] = mean12Co2 + "";
 		meanLine[Constants._13CO2] = mean13Co2 + "";
 		meanLine[Constants._12CO2_DRY] = mean12Co2Dry + "";
@@ -123,6 +152,14 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 		return meanLine;
 	}
 
+	/**
+	 * Returns a list of data lines between startIndex and endIndex
+	 * 
+	 * @param startIndex
+	 * @param endIndex
+	 * @param allLines
+	 * @return
+	 */
 	private List<String[]> getLinesForMeanComputation(int startIndex,
 			int endIndex, List<String[]> allLines) {
 		List<String[]> lines = new ArrayList<String[]>();
