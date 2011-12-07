@@ -17,7 +17,7 @@
  *  along with Plant Evaluation.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.atomfrede.tools.evalutation.helper;
+package de.atomfrede.tools.evalutation.util;
 
 import java.io.File;
 import java.io.IOException;

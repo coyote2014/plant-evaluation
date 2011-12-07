@@ -32,7 +32,7 @@ import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.EntryComparator;
 import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
-import de.atomfrede.tools.evalutation.helper.PreProcessor;
+import de.atomfrede.tools.evalutation.util.PreProcessor;
 
 /**
  * First evaluator of every evaluation. Just processes all input files and

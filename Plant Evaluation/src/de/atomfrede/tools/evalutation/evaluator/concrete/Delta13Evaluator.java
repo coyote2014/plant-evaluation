@@ -48,7 +48,7 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 	@Override
 	public boolean evaluate() {
 		CSVWriter writer = null;
-		CSVWriter standardDerivationWriter = null;
+		CSVWriter standardDeviationWriter = null;
 		try {
 			{
 				// first the mean values
@@ -80,9 +80,9 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 								Constants.DATE_AND_TIME);
 						double delta13 = computeDelta13(currentLine,
 								refLine2Use);
-						writeDelta13Values(writer, currentLine, delta13);
+						writeValue(writer, currentLine, delta13);
 					} else {
-						writeDelta13Values(writer, currentLine, 0.0);
+						writeValue(writer, currentLine, 0.0);
 					}
 					progressBar.setValue((int) (i * 1.0 / allLines.size()
 							* 100.0 * 0.5));
@@ -103,8 +103,8 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 				if (!standardDeviationOutputFile.exists())
 					return false;
 
-				standardDerivationWriter = getCsvWriter(standardDeviationOutputFile);
-				WriteUtils.writeHeader(standardDerivationWriter);
+				standardDeviationWriter = getCsvWriter(standardDeviationOutputFile);
+				WriteUtils.writeHeader(standardDeviationWriter);
 
 				List<String[]> allLines = readAllLinesInFile(standardDeviationInputFile);
 
@@ -119,11 +119,10 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 								Constants.DATE_AND_TIME);
 						double delta13 = computeDelta13(currentLine,
 								refLine2Use);
-						writeDelta13Values(standardDerivationWriter,
-								currentLine, delta13);
+						writeValue(standardDeviationWriter, currentLine,
+								delta13);
 					} else {
-						writeDelta13Values(standardDerivationWriter,
-								currentLine, 0.0);
+						writeValue(standardDeviationWriter, currentLine, 0.0);
 					}
 					progressBar.setValue((int) ((i * 1.0 / allLines.size()
 							* 100.0 * 0.5) + 50.0));
@@ -139,8 +138,8 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 			try {
 				if (writer != null)
 					writer.close();
-				if (standardDerivationWriter != null)
-					standardDerivationWriter.close();
+				if (standardDeviationWriter != null)
+					standardDeviationWriter.close();
 			} catch (IOException ioe) {
 				log.error("IOException when trying to close writers.");
 			}
@@ -149,24 +148,6 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 		log.info("Delta13 done.");
 		progressBar.setValue(100);
 		return true;
-	}
-
-	/**
-	 * Writes the computed delta13 value to the next column in output file.
-	 * 
-	 * @param writer
-	 * @param currentLine
-	 * @param delta13
-	 */
-	void writeDelta13Values(CSVWriter writer, String[] currentLine,
-			double delta13) {
-		String[] newLine = new String[currentLine.length + 1];
-		int i = 0;
-		for (i = 0; i < currentLine.length; i++) {
-			newLine[i] = currentLine[i];
-		}
-		newLine[i] = delta13 + "";
-		writer.writeNext(newLine);
 	}
 
 	/**

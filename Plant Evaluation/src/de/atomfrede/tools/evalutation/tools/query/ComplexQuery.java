@@ -1,4 +1,4 @@
-package de.atomfrede.tools.evalutation.tools;
+package de.atomfrede.tools.evalutation.tools.query;
 
 import java.io.File;
 

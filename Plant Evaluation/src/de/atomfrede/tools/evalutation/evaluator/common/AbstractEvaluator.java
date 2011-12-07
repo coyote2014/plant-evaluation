@@ -223,6 +223,19 @@ public abstract class AbstractEvaluator {
 		return refIndex2Use;
 	}
 
+	protected void writeValue(CSVWriter writer, String[] currentLine,
+			double value) {
+		// first reuse the old values
+		String[] newLine = new String[currentLine.length + 1];
+		int i = 0;
+		for (i = 0; i < currentLine.length; i++) {
+			newLine[i] = currentLine[i];
+		}
+		// append the new value
+		newLine[i] = value + "";
+		writer.writeNext(newLine);
+	}
+
 	public JProgressBar getProgressBar() {
 		return progressBar;
 	}
