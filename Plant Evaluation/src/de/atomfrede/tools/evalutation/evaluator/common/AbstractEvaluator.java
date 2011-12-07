@@ -155,6 +155,14 @@ public abstract class AbstractEvaluator {
 		return reader.readAll();
 	}
 
+	/**
+	 * Collects all lines in the dataset where the column SOLENOID_VALVE is
+	 * equal to the {@link #referenceChamberValue}
+	 * 
+	 * @param lines
+	 * @param solenoidValve
+	 * @return
+	 */
 	public List<String[]> findAllReferenceLines(List<String[]> lines,
 			int solenoidValve) {
 		List<String[]> referenceLines = new ArrayList<String[]>();
@@ -165,6 +173,14 @@ public abstract class AbstractEvaluator {
 		return referenceLines;
 	}
 
+	/**
+	 * Returns a list of indices where the SOLENOID_VALVE is equal to the
+	 * {@link #referenceChamberValue}
+	 * 
+	 * @param lines
+	 * @param solenoidValve
+	 * @return
+	 */
 	public List<Integer> findAllReferenceChambers(List<String[]> lines,
 			int solenoidValve) {
 		List<Integer> referenceChamberLines = new ArrayList<Integer>();
@@ -175,15 +191,28 @@ public abstract class AbstractEvaluator {
 		return referenceChamberLines;
 	}
 
+	/**
+	 * Finds that reference line (where SOLENOID_VALVE ==
+	 * {@link #referenceChamberValue}) that is nearest in time to the given
+	 * line.
+	 * 
+	 * @param line
+	 *            Dataset for what to find the nearest reference line
+	 * @param allLines
+	 * @param referenceLines
+	 * @param timeColumn
+	 * @return
+	 * @throws ParseException
+	 */
 	public String[] getReferenceLineToUse(String[] line,
 			List<String[]> allLines, List<String[]> referenceLines,
-			int TIME_VALUE) throws ParseException {
+			int timeColumn) throws ParseException {
 
-		Date date = dateFormat.parse(line[TIME_VALUE]);
+		Date date = dateFormat.parse(line[timeColumn]);
 		long shortestedDistance = Long.MAX_VALUE;
 		String[] refIndex2Use = null;
 		for (String[] refLineIndex : referenceLines) {
-			Date refDate = dateFormat.parse(refLineIndex[TIME_VALUE]);
+			Date refDate = dateFormat.parse(refLineIndex[timeColumn]);
 			long difference = Math.abs(date.getTime() - refDate.getTime());
 			if (shortestedDistance > difference) {
 				shortestedDistance = difference;

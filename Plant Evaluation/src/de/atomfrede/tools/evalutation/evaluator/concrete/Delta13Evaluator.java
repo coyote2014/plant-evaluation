@@ -32,6 +32,10 @@ import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.WriteUtils;
 import de.atomfrede.tools.evalutation.evaluator.common.SingleInputFileEvaluator;
 
+/**
+ * Computes for each line in the dataset the delta13 value and appends that
+ * value as a new column to the output file.
+ */
 public class Delta13Evaluator extends SingleInputFileEvaluator {
 
 	private final Log log = LogFactory.getLog(Delta13Evaluator.class);
@@ -62,8 +66,6 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 
 				List<String[]> allLines = readAllLinesInFile(inputFile);
 
-				// List<Integer> referenceLines = findAllReferenceChambers(
-				// allLines, SOLENOID_VALUE);
 				allReferenceLines = findAllReferenceLines(allLines,
 						Constants.SOLENOID_VALVES);
 
@@ -76,9 +78,6 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 						String[] refLine2Use = getReferenceLineToUse(
 								currentLine, allLines, allReferenceLines,
 								Constants.DATE_AND_TIME);
-						// System.out.println("Current Line " + i);
-						// System.out.println("RefLine " + refLine2Use);
-						// String[] refLine = allLines.get(refLine2Use);
 						double delta13 = computeDelta13(currentLine,
 								refLine2Use);
 						writeDelta13Values(writer, currentLine, delta13);
@@ -109,9 +108,6 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 
 				List<String[]> allLines = readAllLinesInFile(standardDeviationInputFile);
 
-				// List<Integer> referenceLines = findAllReferenceChambers(
-				// allLines, SOLENOID_VALUE);
-
 				for (int i = 1; i < allLines.size(); i++) {
 					String[] currentLine = allLines.get(i);
 					double solenoid = parseDoubleValue(currentLine,
@@ -121,9 +117,6 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 						String[] refLine2Use = getReferenceLineToUse(
 								currentLine, allLines, allReferenceLines,
 								Constants.DATE_AND_TIME);
-						// String[] refLine = allLines.get(refLine2Use);
-						// System.out.println("CurrentLine " + i);
-						// System.out.println("RefLine2Use " + refLine2Use);
 						double delta13 = computeDelta13(currentLine,
 								refLine2Use);
 						writeDelta13Values(standardDerivationWriter,
@@ -149,7 +142,7 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 				if (standardDerivationWriter != null)
 					standardDerivationWriter.close();
 			} catch (IOException ioe) {
-				System.out.println("IOException when trying to close writers.");
+				log.error("IOException when trying to close writers.");
 			}
 		}
 
@@ -158,6 +151,13 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 		return true;
 	}
 
+	/**
+	 * Writes the computed delta13 value to the next column in output file.
+	 * 
+	 * @param writer
+	 * @param currentLine
+	 * @param delta13
+	 */
 	void writeDelta13Values(CSVWriter writer, String[] currentLine,
 			double delta13) {
 		String[] newLine = new String[currentLine.length + 1];
@@ -169,6 +169,17 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 		writer.writeNext(newLine);
 	}
 
+	/**
+	 * Computes the Delta-13 Values for the currentLine. <br>
+	 * Delta13 is defined as <br>
+	 * <br>
+	 * ((co2Abs * delta5minutes) - (co2Abs-ref * delta5minutes-ref)) / (co2abs -
+	 * co2abs-ref)
+	 * 
+	 * @param currentLine
+	 * @param refLine
+	 * @return
+	 */
 	double computeDelta13(String[] currentLine, String[] refLine) {
 		double co2abs = parseDoubleValue(currentLine, Constants.CO2_ABS);
 		double co2absRef = parseDoubleValue(refLine, Constants.CO2_ABS);
@@ -177,11 +188,6 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 		double delta5MinutesRef = parseDoubleValue(refLine,
 				Constants.MEAN_DELTA_5_MINUTES);
 
-		// double a = co2abs * delta5Minutes;
-		// double b = co2absRef * delta5MinutesRef;
-		// double c = a - b;
-		// double d = co2abs - co2absRef;
-		// double delta13 = c / d;
 		double delta13 = ((co2abs * delta5Minutes) - (co2absRef * delta5MinutesRef))
 				/ (co2abs - co2absRef);
 		return delta13;

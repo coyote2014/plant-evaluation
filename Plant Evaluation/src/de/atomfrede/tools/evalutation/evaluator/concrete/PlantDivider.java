@@ -41,7 +41,7 @@ import de.atomfrede.tools.evalutation.plant.PlantHelper;
  * produces one file of output for each plant corresponding to the dates setup
  * by the user.
  * 
- * This evaluator does not add new columns or data to the files.
+ * This evaluator does not add new columns or data to the files.hdr
  */
 public class PlantDivider extends SingleInputMultipleOutputFileEvaluator {
 

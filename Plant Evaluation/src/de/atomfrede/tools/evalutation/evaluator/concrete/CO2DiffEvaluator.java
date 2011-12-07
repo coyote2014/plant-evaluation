@@ -33,6 +33,10 @@ import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.WriteUtils;
 import de.atomfrede.tools.evalutation.evaluator.common.SingleInputFileEvaluator;
 
+/**
+ * Appends the CO2 Difference as a new column to the given input file. One file
+ * is produces as output.
+ */
 public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 
 	private final Log log = LogFactory.getLog(CO2DiffEvaluator.class);
