@@ -161,6 +161,13 @@ public class AppWindow {
 		});
 		mnEdit.add(mntmOptions);
 
+		JMenu mnTools = new JMenu(Messages.getString("AppWindow.mnTools.text")); //$NON-NLS-1$
+		menuBar.add(mnTools);
+
+		JMenuItem mntmPostprocessing = new JMenuItem(
+				Messages.getString("AppWindow.mntmPostprocessing.text")); //$NON-NLS-1$
+		mnTools.add(mntmPostprocessing);
+
 		JMenu mnHelp = new JMenu(Messages.getString("AppWindow.6")); //$NON-NLS-1$
 		menuBar.add(mnHelp);
 
