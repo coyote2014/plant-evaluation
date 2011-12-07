@@ -87,6 +87,7 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 			}
 
 			progressBar.setValue(100);
+
 		} catch (Exception e) {
 			log.error(e);
 			// TODO fixme
@@ -96,6 +97,7 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 				writer.close();
 			}
 		}
+		log.info("Reduce Dataset Evaluator done.");
 		return true;
 	}
 

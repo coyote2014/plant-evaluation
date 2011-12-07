@@ -18,6 +18,22 @@
  */
 package de.atomfrede.tools.evalutation.tools.plot;
 
+import java.io.File;
+
 public abstract class AbstractPlot {
+
+	protected File dataFile;
+
+	public AbstractPlot(File dataFile) {
+		this.dataFile = dataFile;
+	}
+
+	public File getDataFile() {
+		return dataFile;
+	}
+
+	public void setDataFile(File dataFile) {
+		this.dataFile = dataFile;
+	}
 
 }
