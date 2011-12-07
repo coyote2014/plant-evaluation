@@ -50,6 +50,10 @@ import de.atomfrede.tools.evalutation.ui.options.OptionsDialog;
 import de.atomfrede.tools.evalutation.ui.res.Messages;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
+/**
+ * The central frame that contains all ui elements and the main class that
+ * launches the application.
+ */
 public class AppWindow {
 
 	public static JFrame _frame;
@@ -128,22 +132,6 @@ public class AppWindow {
 
 		JMenu mnFile = new JMenu(Messages.getString("AppWindow.1")); //$NON-NLS-1$
 		menuBar.add(mnFile);
-
-		// JMenuItem mntmEvaluate = new JMenuItem(
-		//				Messages.getString("AppWindow.2")); //$NON-NLS-1$
-		// mntmEvaluate.setIcon(Icons.IC_PLAY_SMALL);
-		//
-		// mntmEvaluate.addActionListener(new ActionListener() {
-		//
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		// //
-		// mainPanel.plantListPanel.standardEvaluation(mainPanel.evaluateButton,
-		// // mainPanel.addButton);
-		//
-		// }
-		// });
-		// mnFile.add(mntmEvaluate);
 
 		JMenuItem mntmExit = new JMenuItem(Messages.getString("AppWindow.3")); //$NON-NLS-1$
 		mntmExit.setIcon(Icons.IC_LOGOUT_SMALL);

@@ -36,6 +36,13 @@ import de.atomfrede.tools.evalutation.evaluator.common.SingleInputMultipleOutput
 import de.atomfrede.tools.evalutation.plant.Plant;
 import de.atomfrede.tools.evalutation.plant.PlantHelper;
 
+/**
+ * Evaluator that takes one single file, containing all data, a input and
+ * produces one file of output for each plant corresponding to the dates setup
+ * by the user.
+ * 
+ * This evaluator does not add new columns or data to the files.
+ */
 public class PlantDivider extends SingleInputMultipleOutputFileEvaluator {
 
 	private final Log log = LogFactory.getLog(PlantDivider.class);
@@ -63,11 +70,14 @@ public class PlantDivider extends SingleInputMultipleOutputFileEvaluator {
 
 					CSVWriter writer = getCsvWriter(outputFile);
 					List<String[]> values;
-
+					// collect all values between its start and enddate
 					values = getAllDateLinesBetween(
 							currentPlant.getStartDate(),
 							currentPlant.getEndDate());
+					// write the header in the current file
 					WriteUtils.writeHeader(writer);
+					// write all lines for the current plant in its specific
+					// file
 					writer.writeAll(values);
 					writer.close();
 					outputFiles.add(outputFile);
@@ -120,6 +130,15 @@ public class PlantDivider extends SingleInputMultipleOutputFileEvaluator {
 		return true;
 	}
 
+	/**
+	 * Collects all lines within the input file that are between the given from
+	 * and till date
+	 * 
+	 * @param fromDate
+	 * @param tillDate
+	 * @return
+	 * @throws ParseException
+	 */
 	List<String[]> getAllDateLinesBetween(Date fromDate, Date tillDate)
 			throws ParseException {
 		List<String[]> dataBetween = new ArrayList<String[]>();

@@ -43,12 +43,13 @@ import com.jgoodies.forms.layout.FormLayout;
 
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
+/**
+ * Combines a DatePicker with a spinner to change the time of the selected date.
+ */
 public class DateAndTimePicker extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 7832437980182475053L;
+
 	private JXDatePicker datePicker = null;
 	private JSpinner timeSpinner = null;
 	private Calendar calendar = Calendar.getInstance();
@@ -145,6 +146,9 @@ public class DateAndTimePicker extends JPanel {
 		this.calendar = calendar;
 	}
 
+	/**
+	 * Custom UI that uses an Tango Icon as calendar icon
+	 */
 	private static class CustomDatePickerUI extends BasicDatePickerUI {
 
 		@Override

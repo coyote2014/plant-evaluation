@@ -37,7 +37,13 @@ public class TemperatureEvaluator extends SingleInputFileEvaluator {
 
 	private final Log log = LogFactory.getLog(TemperatureEvaluator.class);
 
+	/**
+	 * Column number for date/time in the temperature file of the hobo
+	 */
 	static final int DATE_TIME_TEMPERATURE = 1;
+	/**
+	 * Column number of the temperature
+	 */
 	static final int TEMPERATURE = 2;
 
 	File temperatureInputFile;
@@ -59,9 +65,11 @@ public class TemperatureEvaluator extends SingleInputFileEvaluator {
 			if (!temperatureInputFile.exists())
 				return false;
 
+			// read all lines in hobo's temperature file
 			temperatureDataLines = readAllLinesInFile(temperatureInputFile, ';');
 
 			{
+				// read the temperature for the mean value file
 				outputFile = new File(outputFolder, "mean-temperature.csv");
 
 				outputFile.createNewFile();
@@ -86,6 +94,7 @@ public class TemperatureEvaluator extends SingleInputFileEvaluator {
 			progressBar.setValue(50);
 			log.info("Writing Temperature for mean data done.");
 			{
+				// read the temperature for the standard deviation file
 				standardDeviationOutputFile = new File(outputFolder,
 						"standard-derivation-temperature.csv");
 
@@ -141,22 +150,35 @@ public class TemperatureEvaluator extends SingleInputFileEvaluator {
 		writer.writeNext(newLine);
 	}
 
+	/**
+	 * Finds that line in the temperature data that is the nearest (in time)
+	 * 
+	 * @param currentLine
+	 * @return
+	 * @throws ParseException
+	 */
 	double findTemperatureForLine(String[] currentLine) throws ParseException {
 		// first parse the date from the laser data input file
 		Date dateOfLaser = dateFormat
 				.parse(currentLine[Constants.DATE_AND_TIME]);
 
 		double temperature = 0.0;
+		// start with the longst distance
 		long shortestedDistance = Long.MAX_VALUE;
 		for (int i = 2; i < temperatureDataLines.size(); i++) {
 			String[] currentTemperatureLine = temperatureDataLines.get(i);
 			Date temperatureDate = temperatureAndPlantDateFormat
 					.parse(currentTemperatureLine[DATE_TIME_TEMPERATURE]);
+			// compute difference between date of temperature and the date in
+			// the given dataset line
 			long difference = Math.abs(dateOfLaser.getTime()
 					- temperatureDate.getTime());
-
+			// if the new difference is smaller than the current shortest
+			// distance, this becomes the new shortest distance
 			if (shortestedDistance > difference) {
 				shortestedDistance = difference;
+				// the temperature looking for is always the temperature with
+				// the shortest distance
 				temperature = parseDoubleValue(currentTemperatureLine,
 						TEMPERATURE);
 			}
