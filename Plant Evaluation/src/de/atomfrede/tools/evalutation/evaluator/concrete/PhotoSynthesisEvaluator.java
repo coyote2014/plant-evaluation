@@ -22,6 +22,8 @@ package de.atomfrede.tools.evalutation.evaluator.concrete;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -48,6 +50,7 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 
 	static double VM = 8.314472;
 	static double PAMP = 99.7;
+	@Deprecated
 	static double PRESSURE = PAMP * 1000.0;
 
 	// in cm
@@ -58,9 +61,9 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 	static double lowerDiameter = 7.0;
 
 	List<String[]> allLinesInCurrentFile;
-	// List<Integer> referenceLines;
 
 	int currentPlant;
+	Plant plant;
 
 	public PhotoSynthesisEvaluator(List<File> inputFiles,
 			List<File> standardDerivationInputFiles) {
@@ -77,8 +80,7 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 
 					currentPlant++;
 
-					Plant plant = PlantHelper.getDefaultPlantList().get(
-							currentPlant);
+					plant = PlantHelper.getDefaultPlantList().get(currentPlant);
 					// assume it is ordered alphabetically
 					allLinesInCurrentFile = readAllLinesInFile(currentDataFile);
 					File outputFile = new File(outputFolder, "psr-0"
@@ -91,14 +93,12 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 
 						String[] currentLine = allLinesInCurrentFile.get(i);
 
-						// referenceLines = findAllReferenceChambers(
-						// allLinesInCurrentFile, SOLENOID_VALUE);
 						allReferenceLines = findAllReferenceLines(
 								allLinesInCurrentFile,
 								Constants.SOLENOID_VALVES);
 
 						double psrForCurrentLine = computePhotoSynthesisRate(currentLine);
-						writePsr(writer, currentLine, psrForCurrentLine);
+						writeValue(writer, currentLine, psrForCurrentLine);
 
 						progressBar.setValue((int) (i * 1.0
 								/ allLinesInCurrentFile.size() * 100.0 * 0.5
@@ -130,11 +130,8 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 
 						String[] currentLine = allLinesInCurrentFile.get(i);
 
-						// referenceLines = findAllReferenceChambers(
-						// allLinesInCurrentFile, SOLENOID_VALUE);
-
 						double psrForCurrentLine = computePhotoSynthesisRate(currentLine);
-						writePsr(writer, currentLine, psrForCurrentLine);
+						writeValue(writer, currentLine, psrForCurrentLine);
 
 						progressBar
 								.setValue((int) ((i * 1.0
@@ -161,6 +158,7 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 
 	}
 
+	@Deprecated
 	void writePsr(CSVWriter writer, String[] currentLine, double psr) {
 		// first reuse the old values
 		String[] newLine = new String[currentLine.length + 1];
@@ -178,8 +176,9 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 
 		double solenoid = parseDoubleValue(line, Constants.SOLENOID_VALVES);
 		if (solenoid == 2.0 || solenoid == 4.0 || solenoid == 8.0) {
-			// compute it here
-			// first find the correponsing referenceLine
+			Date currentDate = dateFormat.parse(line[Constants.DATE_AND_TIME]);
+
+			// first find the corresponding referenceLine
 			String[] refLine = getReferenceLineToUse(line,
 					allLinesInCurrentFile, allReferenceLines,
 					Constants.DATE_AND_TIME);
@@ -200,16 +199,75 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 			}
 			double chamberVolume = getChamberVolume(height, diameter);
 			double leafArea = getLeafArea(currentPlant, solenoid);
+			// select the pressure to use according to the current date
+			// first use the pressure for the specific DAY in that date
+			double pressure = getPressure(plant, currentDate);
+
 			return getPhotoSynthesisRate(getCO2Abs(line), getCO2Abs(refLine),
 					getCO2Diff(line), getH2O(line), getH2O(refLine),
-					getH2ODiff(line, refLine), getTemperature(line), PRESSURE,
+					getH2ODiff(line, refLine), getTemperature(line), pressure,
 					chamberVolume, flowRate, leafArea);
 		}
 
 		return 0.0;
 	}
 
+	/**
+	 * Gets the pressure for the current date and the given plant.
+	 * 
+	 * We just assume that the pressure is during the complete start day
+	 * constants as well as for the complete end day.
+	 * 
+	 * Therefore when the given date is the same day like the start date we
+	 * return the start pressure, otherwise the end pressure.
+	 * 
+	 * @param currentPlant
+	 * @param date
+	 * @return
+	 */
+	double getPressure(Plant currentPlant, Date date) {
+
+		Date endDate = currentPlant.getEndDate();
+		Calendar endDateCalendar = Calendar.getInstance();
+		endDateCalendar.setTime(endDate);
+		// get the day of the month at the end of measurement
+		int endDateDay = endDateCalendar.get(Calendar.DAY_OF_MONTH);
+
+		Calendar currentDateCalendar = Calendar.getInstance();
+		currentDateCalendar.setTime(date);
+		// get the current day of the month
+		int currentDateDay = currentDateCalendar.get(Calendar.DAY_OF_MONTH);
+
+		// if both end day and current day are equal we have reached the end day
+		// and therefore return the pressure at the end day
+		if (endDateDay == currentDateDay)
+			return plant.getPressureAtEndDay();
+		else if (endDateDay != currentDateDay)
+			// otherwise return the pressure at start day
+			return plant.getPressureAtStartDay();
+
+		return PRESSURE;
+	}
+
 	// temperatur in celvin
+	/**
+	 * Computes the PSR corresponding to the formula given in the popular excel
+	 * sheet.
+	 * 
+	 * @param co2Abs
+	 * @param co2Ref
+	 * @param co2Diff
+	 * @param h2o
+	 * @param h2ORef
+	 * @param h2oDiff
+	 * @param temperature
+	 *            in celvin
+	 * @param pressure
+	 * @param chamberVolume
+	 * @param flowRate
+	 * @param leafArea
+	 * @return
+	 */
 	double getPhotoSynthesisRate(double co2Abs, double co2Ref, double co2Diff,
 			double h2o, double h2ORef, double h2oDiff, double temperature,
 			double pressure, double chamberVolume, double flowRate,
@@ -222,7 +280,7 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 		double wi = h2ORef;
 
 		double e = ui * (w0 - wi) / leafArea * (1.0 - w0) * 1000.0;
-
+		// according to the excel column names
 		double b5 = co2Ref;
 		double x5 = e;
 		double f5 = co2Diff;
@@ -235,21 +293,35 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 		return psr;
 	}
 
-	double getLeafArea(int currentPlant, double solenoidValue) {
+	/**
+	 * Returns the leaf area of the current plant corresponding to the given
+	 * solenoid valve
+	 * 
+	 * @param currentPlant
+	 * @param solenoidValve
+	 * @return
+	 */
+	double getLeafArea(int currentPlant, double solenoidValve) {
 		// 2 is upper chamber
 		// 4 is lower chamber
 		// 8 doesn't matter
 		Plant plant = PlantHelper.getDefaultPlantList().get(currentPlant);
-		if (solenoidValue == LOWER_CHAMBER)
+		if (solenoidValve == LOWER_CHAMBER)
 			return plant.getLowerLeafArea();
-		else if (solenoidValue == UPPER_CHAMBER)
+		else if (solenoidValve == UPPER_CHAMBER)
 			return plant.getUpperLeafArea();
 		return 1.0;
 	}
 
+	/**
+	 * Returns the difference between the H<sub>2</sub>O value and the
+	 * H<sub>2</sub>O reference value.
+	 * 
+	 * @param line
+	 * @param refLine
+	 * @return
+	 */
 	double getH2ODiff(String[] line, String[] refLine) {
-		// return (parseDoubleValue(line, H2O_VALUE) * 10000 - parseDoubleValue(
-		// refLine, H2O_VALUE) * 10000) / MILLION;
 		return getH2O(line) - getH2O(refLine);
 	}
 
@@ -269,6 +341,12 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 		return convertToCelvin(parseDoubleValue(line, Constants.TEMPERATURE));
 	}
 
+	/**
+	 * Converts a temperature in °Celsius into °Celvin,
+	 * 
+	 * @param celsius
+	 * @return
+	 */
 	double convertToCelvin(double celsius) {
 		return 273.15 + celsius;
 	}
