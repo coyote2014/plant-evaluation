@@ -17,9 +17,9 @@ public class SimpleQuery extends AbstractQuery {
 	AbstractInterval interval;
 
 	public SimpleQuery(int column, AbstractInterval interval, File inputFile) {
+		super(inputFile);
 		this.column = column;
 		this.interval = interval;
-		this.inputFile = inputFile;
 	}
 
 	public int getColumn() {

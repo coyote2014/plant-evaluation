@@ -6,6 +6,10 @@ public abstract class AbstractQuery {
 
 	protected File inputFile;
 
+	public AbstractQuery(File inputFile) {
+		this.inputFile = inputFile;
+	}
+
 	public File getInputFile() {
 		return inputFile;
 	}
