@@ -2,6 +2,9 @@ package de.atomfrede.tools.evalutation.tools;
 
 import java.io.File;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import de.atomfrede.tools.evalutation.interval.AbstractInterval;
 
 /**
@@ -12,6 +15,8 @@ import de.atomfrede.tools.evalutation.interval.AbstractInterval;
  * min and max belong to the interval.
  */
 public class SimpleQuery extends AbstractQuery {
+
+	private final Log log = LogFactory.getLog(SimpleQuery.class);
 
 	int column;
 	AbstractInterval interval;
