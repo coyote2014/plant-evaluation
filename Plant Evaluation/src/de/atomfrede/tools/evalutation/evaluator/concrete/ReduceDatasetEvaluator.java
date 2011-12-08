@@ -90,8 +90,7 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 
 		} catch (Exception e) {
 			log.error(e);
-			// TODO fixme: it is not working for ingos data!
-			// return true;
+			return false;
 		} finally {
 			if (writer != null) {
 				writer.close();
