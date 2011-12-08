@@ -36,7 +36,7 @@ import org.apache.commons.math.stat.StatUtils;
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.WriteUtils;
-import de.atomfrede.tools.evalutation.evaluator.common.MultipleInputFileEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.MultipleInputFileEvaluator;
 
 public class StandardDeviationEvaluator extends MultipleInputFileEvaluator {
 

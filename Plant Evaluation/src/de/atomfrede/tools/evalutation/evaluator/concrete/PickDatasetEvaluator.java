@@ -24,7 +24,7 @@ import java.util.List;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
-import de.atomfrede.tools.evalutation.evaluator.common.SingleInputFileEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
 
 public class PickDatasetEvaluator extends SingleInputFileEvaluator {
 

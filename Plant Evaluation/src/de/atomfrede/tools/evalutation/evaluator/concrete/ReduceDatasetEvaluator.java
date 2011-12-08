@@ -29,7 +29,7 @@ import org.apache.commons.math.stat.StatUtils;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
-import de.atomfrede.tools.evalutation.evaluator.common.SingleInputFileEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
 
 /**
  * Evaluator that reduces the whole dataset by taking 60 lines, computing the

@@ -32,7 +32,7 @@ import org.apache.commons.logging.LogFactory;
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.WriteUtils;
-import de.atomfrede.tools.evalutation.evaluator.common.SingleInputMultipleOutputFileEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.SingleInputMultipleOutputFileEvaluator;
 import de.atomfrede.tools.evalutation.plant.Plant;
 import de.atomfrede.tools.evalutation.plant.PlantHelper;
 

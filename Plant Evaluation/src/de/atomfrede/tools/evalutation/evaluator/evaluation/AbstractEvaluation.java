@@ -22,7 +22,7 @@ package de.atomfrede.tools.evalutation.evaluator.evaluation;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.AbstractEvaluator;
 
 public abstract class AbstractEvaluation {
 

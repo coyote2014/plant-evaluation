@@ -22,7 +22,7 @@ package de.atomfrede.tools.evalutation.evaluator.evaluation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.AbstractEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.concrete.CO2AbsoluteOnlyEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.concrete.CopyEvaluator;
 

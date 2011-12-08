@@ -22,10 +22,10 @@ package de.atomfrede.tools.evalutation.evaluator.evaluation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
-import de.atomfrede.tools.evalutation.evaluator.common.MultipleInputFileEvaluator;
-import de.atomfrede.tools.evalutation.evaluator.common.SingleInputFileEvaluator;
-import de.atomfrede.tools.evalutation.evaluator.common.SingleInputMultipleOutputFileEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.AbstractEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.MultipleInputFileEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.SingleInputMultipleOutputFileEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.concrete.CO2DiffEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.concrete.CopyEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.concrete.Delta13Evaluator;

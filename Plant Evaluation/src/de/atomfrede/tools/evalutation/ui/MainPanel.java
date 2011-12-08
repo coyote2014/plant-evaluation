@@ -42,7 +42,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jidesoft.swing.JideBorderLayout;
 
 import de.atomfrede.tools.evalutation.EvaluationController;
-import de.atomfrede.tools.evalutation.evaluator.common.AbstractEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.AbstractEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.evaluation.AbstractEvaluation;
 import de.atomfrede.tools.evalutation.evaluator.evaluation.AbstractEvaluation.EvaluationType;
 import de.atomfrede.tools.evalutation.plant.Plant;
