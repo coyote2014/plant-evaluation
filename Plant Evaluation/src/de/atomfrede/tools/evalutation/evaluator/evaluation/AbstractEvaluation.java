@@ -17,7 +17,7 @@
  *  along with Plant Evaluation.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.atomfrede.tools.evalutation.evaluator;
+package de.atomfrede.tools.evalutation.evaluator.evaluation;
 
 import java.util.ArrayList;
 import java.util.List;

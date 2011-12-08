@@ -24,9 +24,9 @@ import javax.swing.SwingWorker;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.atomfrede.tools.evalutation.evaluator.CO2AbsoluteOnlyEvaluation;
-import de.atomfrede.tools.evalutation.evaluator.IngosEvaluation;
-import de.atomfrede.tools.evalutation.evaluator.StandardEvaluation;
+import de.atomfrede.tools.evalutation.evaluator.evaluation.CO2AbsoluteOnlyEvaluation;
+import de.atomfrede.tools.evalutation.evaluator.evaluation.TypeBevaluation;
+import de.atomfrede.tools.evalutation.evaluator.evaluation.TypeAevaluation;
 import de.atomfrede.tools.evalutation.ui.MainPanel;
 import de.atomfrede.tools.evalutation.ui.plant.PlantListPanel;
 
@@ -126,7 +126,7 @@ public class EvaluationController {
 
 	private void setupStandardEvaluation() {
 		plantListPanel.updatePlants();
-		StandardEvaluation evaluation = new StandardEvaluation();
+		TypeAevaluation evaluation = new TypeAevaluation();
 		mainPanel.addProgressBars(evaluation.getEvaluators());
 		try {
 			evaluation.evaluate();
@@ -146,7 +146,7 @@ public class EvaluationController {
 	}
 
 	private void setupIngoEvaluation() {
-		IngosEvaluation evaluation = new IngosEvaluation();
+		TypeBevaluation evaluation = new TypeBevaluation();
 		mainPanel.addProgressBars(evaluation.getEvaluators());
 		try {
 			evaluation.evaluate();

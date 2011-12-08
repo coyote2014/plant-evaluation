@@ -1,7 +1,7 @@
 /**
  *  Copyright 2011 Frederik Hahne 
  *
- * 	Evaluation.java is part of Plant Evaluation.
+ * 	TypeAevaluation.java is part of Plant Evaluation.
  *
  *  Plant Evaluation is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
  *  along with Plant Evaluation.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.atomfrede.tools.evalutation.evaluator;
+package de.atomfrede.tools.evalutation.evaluator.evaluation;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,9 +35,12 @@ import de.atomfrede.tools.evalutation.evaluator.concrete.PlantDivider;
 import de.atomfrede.tools.evalutation.evaluator.concrete.StandardDeviationEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.concrete.TemperatureEvaluator;
 
-public class StandardEvaluation extends AbstractEvaluation {
+/**
+ * Type A Evaluation aka Juliane's evaluation
+ */
+public class TypeAevaluation extends AbstractEvaluation {
 
-	private final Log log = LogFactory.getLog(StandardEvaluation.class);
+	private final Log log = LogFactory.getLog(TypeAevaluation.class);
 
 	CopyEvaluator copyEvaluator;
 	MeanValueEvaluator meanEvaluator;
@@ -48,7 +51,7 @@ public class StandardEvaluation extends AbstractEvaluation {
 	PhotoSynthesisEvaluator psr;
 	StandardDeviationEvaluator sd;
 
-	public StandardEvaluation() {
+	public TypeAevaluation() {
 		copyEvaluator = new CopyEvaluator();
 		meanEvaluator = new MeanValueEvaluator(copyEvaluator.getOutputFile());
 		co2DiffEvaluator = new CO2DiffEvaluator(meanEvaluator.getOutputFile(),
