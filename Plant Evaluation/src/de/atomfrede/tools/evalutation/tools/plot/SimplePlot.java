@@ -18,6 +18,7 @@
  */
 package de.atomfrede.tools.evalutation.tools.plot;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.io.BufferedOutputStream;
@@ -32,8 +33,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.AxisLocation;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -68,11 +72,11 @@ public class SimplePlot extends AbstractPlot {
 		List<String[]> allLines = reader.readAll();
 
 		XYDataset dataset = createDataset(allLines);
-
-		JFreeChart chart = createChart(dataset);
+		XYDataset dataset2 = createDeltaRawDataSet(allLines);
+		JFreeChart chart = createChart(dataset, dataset2);
 
 		File fileName = new File(System.getProperty("user.home")
-				+ "/jfreechart1.pdf");
+				+ "/co2absolute.pdf");
 
 		saveChartAsPDF(fileName, chart, 400, 300, new DefaultFontMapper());
 
@@ -82,7 +86,7 @@ public class SimplePlot extends AbstractPlot {
 		return Double.parseDouble(line[type].replace(",", "."));
 	}
 
-	JFreeChart createChart(XYDataset dataset) {
+	JFreeChart createChart(XYDataset dataset, XYDataset dataset2) {
 		JFreeChart chart = ChartFactory.createXYLineChart("CO2 Absolute",
 		// chart title
 				"Time (indexed)",
@@ -99,8 +103,27 @@ public class SimplePlot extends AbstractPlot {
 		// urls
 				);
 		XYPlot plot = (XYPlot) chart.getPlot();
+		//
 
-		plot.getRangeAxis().setLowerBound(300.0);
+		plot.setDataset(1, dataset2);
+
+		NumberAxis axis2 = new NumberAxis("Delta Raw");
+		plot.setRangeAxis(1, axis2);
+
+		plot.setRangeAxisLocation(1, AxisLocation.BOTTOM_OR_RIGHT);
+		plot.getRangeAxis(1).setLowerBound(-20.0);
+		plot.getRangeAxis(1).setUpperBound(5.0);
+		plot.getRangeAxis(0).setLowerBound(250);
+		plot.getRangeAxisForDataset(0).setUpperBound(1100.0);
+		plot.mapDatasetToRangeAxis(1, 1);
+
+		plot.getRenderer(0).setSeriesPaint(0, Color.ORANGE);
+		XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
+		renderer.setBaseShapesVisible(false);
+		plot.setRenderer(1, renderer);
+
+		plot.getRenderer(1).setSeriesPaint(0, Color.GREEN);
+		// plot.getRenderer(1).setB
 		return chart;
 
 	}
@@ -111,6 +134,19 @@ public class SimplePlot extends AbstractPlot {
 
 		for (int i = 1; i < allLines.size(); i++) {
 			double value = parseDoubleValue(allLines.get(i), 37);
+			series.add(i, value);
+		}
+
+		dataset.addSeries(series);
+		return dataset;
+	}
+
+	XYDataset createDeltaRawDataSet(List<String[]> allLines) {
+		XYSeries series = new XYSeries("DeltaRaw");
+		XYSeriesCollection dataset = new XYSeriesCollection();
+
+		for (int i = 1; i < allLines.size(); i++) {
+			double value = parseDoubleValue(allLines.get(i), 22);
 			series.add(i, value);
 		}
 
@@ -131,8 +167,8 @@ public class SimplePlot extends AbstractPlot {
 		Document document = new Document(pagesize, 50, 50, 50, 50);
 		try {
 			PdfWriter writer = PdfWriter.getInstance(document, out);
-			document.addAuthor("JFreeChart");
-			document.addSubject("Demonstration");
+			// document.addAuthor("Plant-Evaluation");
+			// document.addSubject("CO2 Absolute Only");
 			document.open();
 			PdfContentByte cb = writer.getDirectContent();
 			PdfTemplate tp = cb.createTemplate(width, height);

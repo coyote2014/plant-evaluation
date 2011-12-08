@@ -90,13 +90,14 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 
 		} catch (Exception e) {
 			log.error(e);
-			// TODO fixme
-			return true;
+			// TODO fixme: it is not working for ingos data!
+			// return true;
 		} finally {
 			if (writer != null) {
 				writer.close();
 			}
 		}
+		// new SimplePlot(outputFile);
 		log.info("Reduce Dataset Evaluator done.");
 		return true;
 	}

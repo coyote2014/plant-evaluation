@@ -112,8 +112,8 @@ public class CO2AbsoluteOnlyEvaluator extends SingleInputFileEvaluator {
 		for (i = 0; i < line.length; i++) {
 			newLine[i] = line[i];
 		}
-		newLine[i] = dateFormat.format(date2Write);
-		newLine[i + 1] = co2Absolute + "";
+		newLine[newLine.length - 2] = dateFormat.format(date2Write);
+		newLine[newLine.length - 1] = co2Absolute + "";
 
 		writer.writeNext(newLine);
 	}
