@@ -26,14 +26,14 @@ import de.atomfrede.tools.evalutation.evaluator.AbstractEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.MultipleInputFileEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputMultipleOutputFileEvaluator;
-import de.atomfrede.tools.evalutation.evaluator.concrete.CO2DiffEvaluator;
-import de.atomfrede.tools.evalutation.evaluator.concrete.CopyEvaluator;
-import de.atomfrede.tools.evalutation.evaluator.concrete.Delta13Evaluator;
-import de.atomfrede.tools.evalutation.evaluator.concrete.MeanValueEvaluator;
-import de.atomfrede.tools.evalutation.evaluator.concrete.PhotoSynthesisEvaluator;
-import de.atomfrede.tools.evalutation.evaluator.concrete.PlantDivider;
-import de.atomfrede.tools.evalutation.evaluator.concrete.StandardDeviationEvaluator;
-import de.atomfrede.tools.evalutation.evaluator.concrete.TemperatureEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.evaluators.CO2DiffEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.evaluators.CopyEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.evaluators.Delta13Evaluator;
+import de.atomfrede.tools.evalutation.evaluator.evaluators.MeanValueEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.evaluators.PhotoSynthesisEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.evaluators.PlantDivider;
+import de.atomfrede.tools.evalutation.evaluator.evaluators.StandardDeviationEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.evaluators.TemperatureEvaluator;
 
 /**
  * Type A Evaluation aka Juliane's evaluation

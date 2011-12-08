@@ -23,8 +23,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.atomfrede.tools.evalutation.evaluator.AbstractEvaluator;
-import de.atomfrede.tools.evalutation.evaluator.concrete.CO2AbsoluteOnlyEvaluator;
-import de.atomfrede.tools.evalutation.evaluator.concrete.CopyEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.evaluators.CO2AbsoluteOnlyEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.evaluators.CopyEvaluator;
 
 public class CO2AbsoluteOnlyEvaluation extends AbstractEvaluation {
 

@@ -23,10 +23,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.atomfrede.tools.evalutation.evaluator.AbstractEvaluator;
-import de.atomfrede.tools.evalutation.evaluator.concrete.CO2AbsoluteOnlyEvaluator;
-import de.atomfrede.tools.evalutation.evaluator.concrete.CopyEvaluator;
-import de.atomfrede.tools.evalutation.evaluator.concrete.PickDatasetEvaluator;
-import de.atomfrede.tools.evalutation.evaluator.concrete.ReduceDatasetEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.evaluators.CO2AbsoluteOnlyEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.evaluators.CopyEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.evaluators.PickDatasetEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.evaluators.ReduceDatasetEvaluator;
 
 /**
  * Type B evaluation, aka Ingo's evaluation
