@@ -52,8 +52,7 @@ public class PickDatasetEvaluator extends SingleInputFileEvaluator {
 				int index = getSwitchIndex(i, allLines);
 				writer.writeNext(allLines.get(index - 1));
 				i = index;
-				progressBar
-						.setValue((int) ((i * 1.0 / allLines.size()) * 100.0));
+				progressBar.setValue((int) ((i * 1.0 / allLines.size()) * 100.0));
 			}
 
 			progressBar.setValue(100);
@@ -66,12 +65,10 @@ public class PickDatasetEvaluator extends SingleInputFileEvaluator {
 	}
 
 	private int getSwitchIndex(int startIndex, List<String[]> allLines) {
-		double startSolenoidValve = parseDoubleValue(allLines.get(startIndex),
-				Constants.SOLENOID_VALVE_INPUT);
+		double startSolenoidValve = parseDoubleValue(allLines.get(startIndex), Constants.SOLENOID_VALVE_INPUT);
 		for (int i = startIndex; i < allLines.size(); i++) {
 			String[] currentLine = allLines.get(i);
-			double currentSolenoid = parseDoubleValue(currentLine,
-					Constants.SOLENOID_VALVE_INPUT);
+			double currentSolenoid = parseDoubleValue(currentLine, Constants.SOLENOID_VALVE_INPUT);
 			if (currentSolenoid != startSolenoidValve) {
 				// detected a switch
 				return i;

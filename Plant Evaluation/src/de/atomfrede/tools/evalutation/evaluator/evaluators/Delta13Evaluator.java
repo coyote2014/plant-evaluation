@@ -66,26 +66,20 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 
 				List<String[]> allLines = readAllLinesInFile(inputFile);
 
-				allReferenceLines = findAllReferenceLines(allLines,
-						Constants.SOLENOID_VALVES);
+				allReferenceLines = findAllReferenceLines(allLines, Constants.SOLENOID_VALVES);
 
 				for (int i = 1; i < allLines.size(); i++) {
 					String[] currentLine = allLines.get(i);
-					double solenoid = parseDoubleValue(currentLine,
-							Constants.SOLENOID_VALVES);
+					double solenoid = parseDoubleValue(currentLine, Constants.SOLENOID_VALVES);
 					if (solenoid != 1.0) {
 						// only for non reference lines compute the values
-						String[] refLine2Use = getReferenceLineToUse(
-								currentLine, allLines, allReferenceLines,
-								Constants.DATE_AND_TIME);
-						double delta13 = computeDelta13(currentLine,
-								refLine2Use);
+						String[] refLine2Use = getReferenceLineToUse(currentLine, allLines, allReferenceLines, Constants.DATE_AND_TIME);
+						double delta13 = computeDelta13(currentLine, refLine2Use);
 						writeValue(writer, currentLine, delta13);
 					} else {
 						writeValue(writer, currentLine, 0.0);
 					}
-					progressBar.setValue((int) (i * 1.0 / allLines.size()
-							* 100.0 * 0.5));
+					progressBar.setValue((int) (i * 1.0 / allLines.size() * 100.0 * 0.5));
 				}
 			}
 			writer.close();
@@ -96,8 +90,7 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 				if (!standardDeviationInputFile.exists())
 					return false;
 
-				standardDeviationOutputFile = new File(outputFolder,
-						"standard-derivation-delta13.csv");
+				standardDeviationOutputFile = new File(outputFolder, "standard-derivation-delta13.csv");
 
 				standardDeviationOutputFile.createNewFile();
 				if (!standardDeviationOutputFile.exists())
@@ -110,22 +103,16 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 
 				for (int i = 1; i < allLines.size(); i++) {
 					String[] currentLine = allLines.get(i);
-					double solenoid = parseDoubleValue(currentLine,
-							Constants.SOLENOID_VALVES);
+					double solenoid = parseDoubleValue(currentLine, Constants.SOLENOID_VALVES);
 					if (solenoid != 1.0) {
 						// only for non reference lines compute the values
-						String[] refLine2Use = getReferenceLineToUse(
-								currentLine, allLines, allReferenceLines,
-								Constants.DATE_AND_TIME);
-						double delta13 = computeDelta13(currentLine,
-								refLine2Use);
-						writeValue(standardDeviationWriter, currentLine,
-								delta13);
+						String[] refLine2Use = getReferenceLineToUse(currentLine, allLines, allReferenceLines, Constants.DATE_AND_TIME);
+						double delta13 = computeDelta13(currentLine, refLine2Use);
+						writeValue(standardDeviationWriter, currentLine, delta13);
 					} else {
 						writeValue(standardDeviationWriter, currentLine, 0.0);
 					}
-					progressBar.setValue((int) ((i * 1.0 / allLines.size()
-							* 100.0 * 0.5) + 50.0));
+					progressBar.setValue((int) ((i * 1.0 / allLines.size() * 100.0 * 0.5) + 50.0));
 				}
 			}
 		} catch (IOException ioe) {
@@ -164,13 +151,10 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 	double computeDelta13(String[] currentLine, String[] refLine) {
 		double co2abs = parseDoubleValue(currentLine, Constants.CO2_ABS);
 		double co2absRef = parseDoubleValue(refLine, Constants.CO2_ABS);
-		double delta5Minutes = parseDoubleValue(currentLine,
-				Constants.MEAN_DELTA_5_MINUTES);
-		double delta5MinutesRef = parseDoubleValue(refLine,
-				Constants.MEAN_DELTA_5_MINUTES);
+		double delta5Minutes = parseDoubleValue(currentLine, Constants.MEAN_DELTA_5_MINUTES);
+		double delta5MinutesRef = parseDoubleValue(refLine, Constants.MEAN_DELTA_5_MINUTES);
 
-		double delta13 = ((co2abs * delta5Minutes) - (co2absRef * delta5MinutesRef))
-				/ (co2abs - co2absRef);
+		double delta13 = ((co2abs * delta5Minutes) - (co2absRef * delta5MinutesRef)) / (co2abs - co2absRef);
 		return delta13;
 	}
 }

@@ -25,8 +25,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.atomfrede.tools.evalutation.evaluator.evaluation.CO2AbsoluteOnlyEvaluation;
-import de.atomfrede.tools.evalutation.evaluator.evaluation.TypeBevaluation;
 import de.atomfrede.tools.evalutation.evaluator.evaluation.TypeAevaluation;
+import de.atomfrede.tools.evalutation.evaluator.evaluation.TypeBevaluation;
 import de.atomfrede.tools.evalutation.ui.MainPanel;
 import de.atomfrede.tools.evalutation.ui.plant.PlantListPanel;
 
@@ -40,8 +40,7 @@ public class EvaluationController {
 	PlantListPanel plantListPanel;
 	MainPanel mainPanel;
 
-	public EvaluationController(PlantListPanel plantListPanel,
-			MainPanel mainPanel) {
+	public EvaluationController(PlantListPanel plantListPanel, MainPanel mainPanel) {
 		this.plantListPanel = plantListPanel;
 		this.mainPanel = mainPanel;
 	}

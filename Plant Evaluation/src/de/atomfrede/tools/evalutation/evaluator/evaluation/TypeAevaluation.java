@@ -26,14 +26,7 @@ import de.atomfrede.tools.evalutation.evaluator.AbstractEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.MultipleInputFileEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputMultipleOutputFileEvaluator;
-import de.atomfrede.tools.evalutation.evaluator.evaluators.CO2DiffEvaluator;
-import de.atomfrede.tools.evalutation.evaluator.evaluators.CopyEvaluator;
-import de.atomfrede.tools.evalutation.evaluator.evaluators.Delta13Evaluator;
-import de.atomfrede.tools.evalutation.evaluator.evaluators.MeanValueEvaluator;
-import de.atomfrede.tools.evalutation.evaluator.evaluators.PhotoSynthesisEvaluator;
-import de.atomfrede.tools.evalutation.evaluator.evaluators.PlantDivider;
-import de.atomfrede.tools.evalutation.evaluator.evaluators.StandardDeviationEvaluator;
-import de.atomfrede.tools.evalutation.evaluator.evaluators.TemperatureEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.evaluators.*;
 
 /**
  * Type A Evaluation aka Juliane's evaluation
@@ -54,20 +47,12 @@ public class TypeAevaluation extends AbstractEvaluation {
 	public TypeAevaluation() {
 		copyEvaluator = new CopyEvaluator();
 		meanEvaluator = new MeanValueEvaluator(copyEvaluator.getOutputFile());
-		co2DiffEvaluator = new CO2DiffEvaluator(meanEvaluator.getOutputFile(),
-				meanEvaluator.getStandardDeviationOutputFile());
-		delta13Evaluator = new Delta13Evaluator(
-				co2DiffEvaluator.getOutputFile(),
-				co2DiffEvaluator.getStandardDeviationOutputFile());
-		temperature = new TemperatureEvaluator(
-				delta13Evaluator.getOutputFile(),
-				delta13Evaluator.getStandardDeviationOutputFile());
-		plantDivider = new PlantDivider(temperature.getOutputFile(),
-				temperature.getStandardDeviationOutputFile());
-		psr = new PhotoSynthesisEvaluator(plantDivider.getOutputFiles(),
-				plantDivider.getStandardDeviationOutputFiles());
-		sd = new StandardDeviationEvaluator(psr.getOutputFiles(),
-				psr.getStandardDeviationOutputFiles());
+		co2DiffEvaluator = new CO2DiffEvaluator(meanEvaluator.getOutputFile(), meanEvaluator.getStandardDeviationOutputFile());
+		delta13Evaluator = new Delta13Evaluator(co2DiffEvaluator.getOutputFile(), co2DiffEvaluator.getStandardDeviationOutputFile());
+		temperature = new TemperatureEvaluator(delta13Evaluator.getOutputFile(), delta13Evaluator.getStandardDeviationOutputFile());
+		plantDivider = new PlantDivider(temperature.getOutputFile(), temperature.getStandardDeviationOutputFile());
+		psr = new PhotoSynthesisEvaluator(plantDivider.getOutputFiles(), plantDivider.getStandardDeviationOutputFiles());
+		sd = new StandardDeviationEvaluator(psr.getOutputFiles(), psr.getStandardDeviationOutputFiles());
 
 		evaluators.add(copyEvaluator);
 		evaluators.add(meanEvaluator);
@@ -98,49 +83,33 @@ public class TypeAevaluation extends AbstractEvaluation {
 					i++;
 					continue;
 				}
-				if (i + 1 < evaluators.size()
-						&& evaluators.get(i + 1) instanceof SingleInputFileEvaluator) {
-					((SingleInputFileEvaluator) evaluators.get(i + 1))
-							.setInputFile(((SingleInputFileEvaluator) evaluator)
-									.getOutputFile());
-					((SingleInputFileEvaluator) evaluators.get(i + 1))
-							.setStandardDeviationInputFile(((SingleInputFileEvaluator) evaluator)
-									.getStandardDeviationOutputFile());
+				if (i + 1 < evaluators.size() && evaluators.get(i + 1) instanceof SingleInputFileEvaluator) {
+					((SingleInputFileEvaluator) evaluators.get(i + 1)).setInputFile(((SingleInputFileEvaluator) evaluator).getOutputFile());
+					((SingleInputFileEvaluator) evaluators.get(i + 1)).setStandardDeviationInputFile(((SingleInputFileEvaluator) evaluator)
+							.getStandardDeviationOutputFile());
 					i++;
 					continue;
 				}
-				if (i + 1 < evaluators.size()
-						&& evaluators.get(i + 1) instanceof SingleInputMultipleOutputFileEvaluator) {
-					((SingleInputMultipleOutputFileEvaluator) evaluators
-							.get(i + 1))
-							.setInputFile(((SingleInputFileEvaluator) evaluator)
-									.getOutputFile());
-					((SingleInputMultipleOutputFileEvaluator) evaluators
-							.get(i + 1))
-							.setStandardDeviationInputFile(((SingleInputFileEvaluator) evaluator)
-									.getStandardDeviationOutputFile());
+				if (i + 1 < evaluators.size() && evaluators.get(i + 1) instanceof SingleInputMultipleOutputFileEvaluator) {
+					((SingleInputMultipleOutputFileEvaluator) evaluators.get(i + 1)).setInputFile(((SingleInputFileEvaluator) evaluator).getOutputFile());
+					((SingleInputMultipleOutputFileEvaluator) evaluators.get(i + 1)).setStandardDeviationInputFile(((SingleInputFileEvaluator) evaluator)
+							.getStandardDeviationOutputFile());
 					i++;
 					continue;
 				}
-				if (i + 1 < evaluators.size()
-						&& evaluators.get(i + 1) instanceof MultipleInputFileEvaluator) {
+				if (i + 1 < evaluators.size() && evaluators.get(i + 1) instanceof MultipleInputFileEvaluator) {
 					if (evaluator instanceof SingleInputMultipleOutputFileEvaluator) {
+						((MultipleInputFileEvaluator) evaluators.get(i + 1)).setInputFiles(((SingleInputMultipleOutputFileEvaluator) evaluator)
+								.getOutputFiles());
 						((MultipleInputFileEvaluator) evaluators.get(i + 1))
-								.setInputFiles(((SingleInputMultipleOutputFileEvaluator) evaluator)
-										.getOutputFiles());
-						((MultipleInputFileEvaluator) evaluators.get(i + 1))
-								.setStandardDeviationInputFiles(((SingleInputMultipleOutputFileEvaluator) evaluator)
-										.getStandardDeviationOutputFiles());
+								.setStandardDeviationInputFiles(((SingleInputMultipleOutputFileEvaluator) evaluator).getStandardDeviationOutputFiles());
 						i++;
 						continue;
 					}
 					if (evaluator instanceof MultipleInputFileEvaluator) {
-						((MultipleInputFileEvaluator) evaluators.get(i + 1))
-								.setInputFiles(((MultipleInputFileEvaluator) evaluator)
-										.getOutputFiles());
-						((MultipleInputFileEvaluator) evaluators.get(i + 1))
-								.setStandardDeviationInputFiles(((MultipleInputFileEvaluator) evaluator)
-										.getStandardDeviationOutputFiles());
+						((MultipleInputFileEvaluator) evaluators.get(i + 1)).setInputFiles(((MultipleInputFileEvaluator) evaluator).getOutputFiles());
+						((MultipleInputFileEvaluator) evaluators.get(i + 1)).setStandardDeviationInputFiles(((MultipleInputFileEvaluator) evaluator)
+								.getStandardDeviationOutputFiles());
 						i++;
 						continue;
 					}

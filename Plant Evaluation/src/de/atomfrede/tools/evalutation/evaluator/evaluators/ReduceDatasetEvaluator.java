@@ -76,14 +76,12 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 				// lines) and the size of all lines to avoid
 				// out of bounce exceptions
 				int endIndex = Math.min(i + 60, allLines.size());
-				List<String[]> meanLines = getLinesForMeanComputation(i,
-						endIndex, allLines);
+				List<String[]> meanLines = getLinesForMeanComputation(i, endIndex, allLines);
 				// compute the means for all necessary values
 				String[] meanLine = computeMeanLine(meanLines);
 				writer.writeNext(meanLine);
 				i = Math.min(i + 60 + 1, allLines.size());
-				progressBar
-						.setValue((int) ((i * 1.0 / allLines.size()) * 100.0));
+				progressBar.setValue((int) ((i * 1.0 / allLines.size()) * 100.0));
 			}
 
 			progressBar.setValue(100);
@@ -125,18 +123,12 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 
 		for (int i = 0; i < meanLines.size(); i++) {
 			String[] currentMeanLine = meanLines.get(i);
-			_12Co2Values
-					.add(parseDoubleValue(currentMeanLine, Constants._12CO2));
-			_13Co2Values
-					.add(parseDoubleValue(currentMeanLine, Constants._13CO2));
-			_12Co2DryValues.add(parseDoubleValue(currentMeanLine,
-					Constants._12CO2_DRY));
-			_13Co2DryValues.add(parseDoubleValue(currentMeanLine,
-					Constants._13CO2_DRY));
-			deltaRawValues.add(parseDoubleValue(currentMeanLine,
-					Constants.DELTA));
-			co2AbsoluteValues.add(parseDoubleValue(currentMeanLine,
-					meanLine.length - 1));
+			_12Co2Values.add(parseDoubleValue(currentMeanLine, Constants._12CO2));
+			_13Co2Values.add(parseDoubleValue(currentMeanLine, Constants._13CO2));
+			_12Co2DryValues.add(parseDoubleValue(currentMeanLine, Constants._12CO2_DRY));
+			_13Co2DryValues.add(parseDoubleValue(currentMeanLine, Constants._13CO2_DRY));
+			deltaRawValues.add(parseDoubleValue(currentMeanLine, Constants.DELTA));
+			co2AbsoluteValues.add(parseDoubleValue(currentMeanLine, meanLine.length - 1));
 
 		}
 		// now compute the means
@@ -145,8 +137,7 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 		double mean12Co2Dry = StatUtils.mean(list2DoubleArray(_12Co2DryValues));
 		double mean13Co2Dry = StatUtils.mean(list2DoubleArray(_13Co2DryValues));
 		double meanDeltaRaw = StatUtils.mean(list2DoubleArray(deltaRawValues));
-		double meanCo2Absolute = StatUtils
-				.mean(list2DoubleArray(co2AbsoluteValues));
+		double meanCo2Absolute = StatUtils.mean(list2DoubleArray(co2AbsoluteValues));
 		// add them to the new line that is written to the outputfile
 		meanLine[Constants._12CO2] = mean12Co2 + "";
 		meanLine[Constants._13CO2] = mean13Co2 + "";
@@ -165,8 +156,7 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 	 * @param allLines
 	 * @return
 	 */
-	private List<String[]> getLinesForMeanComputation(int startIndex,
-			int endIndex, List<String[]> allLines) {
+	private List<String[]> getLinesForMeanComputation(int startIndex, int endIndex, List<String[]> allLines) {
 		List<String[]> lines = new ArrayList<String[]>();
 		for (int i = startIndex; i < endIndex; i++) {
 			lines.add(allLines.get(i));

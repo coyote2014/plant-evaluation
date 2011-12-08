@@ -50,8 +50,7 @@ public class PlantDataInputPanel extends JPanel {
 
 	DateAndTimePicker startDatePicker, endDatePicker;
 	JButton deleteButton;
-	JSpinner lowerLeafAreaSpinner, upperLeafAreaSpinner,
-			startDayPressureSpinner, endDayPressureSpinner;
+	JSpinner lowerLeafAreaSpinner, upperLeafAreaSpinner, startDayPressureSpinner, endDayPressureSpinner;
 
 	public PlantDataInputPanel() {
 		this(new Plant());
@@ -72,16 +71,13 @@ public class PlantDataInputPanel extends JPanel {
 
 		setLayout(new BorderLayout());
 
-		FormLayout layout = new FormLayout(
-				"pref, 4dlu, fill:pref:grow, 4dlu, pref, 4dlu, fill:pref:grow, 4dlu, pref"); //$NON-NLS-1$
+		FormLayout layout = new FormLayout("pref, 4dlu, fill:pref:grow, 4dlu, pref, 4dlu, fill:pref:grow, 4dlu, pref"); //$NON-NLS-1$
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 
 		CellConstraints cc = new CellConstraints();
 
-		builder.append(
-				Messages.getString("PlantDataInputPanel.2"), getStartPicker()); //$NON-NLS-1$
-		builder.append(
-				Messages.getString("PlantDataInputPanel.3"), getEndPicker()); //$NON-NLS-1$
+		builder.append(Messages.getString("PlantDataInputPanel.2"), getStartPicker()); //$NON-NLS-1$
+		builder.append(Messages.getString("PlantDataInputPanel.3"), getEndPicker()); //$NON-NLS-1$
 		// builder.append(getDeleteButton());
 		builder.nextLine();
 
@@ -127,11 +123,9 @@ public class PlantDataInputPanel extends JPanel {
 
 	private JSpinner getLowerLeafAreaSpinner() {
 		if (lowerLeafAreaSpinner == null) {
-			lowerLeafAreaSpinner = new JSpinner(new SpinnerNumberModel(0.0,
-					0.0, 1.0, 0.00000000001));
+			lowerLeafAreaSpinner = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 1.0, 0.00000000001));
 
-			JSpinner.NumberEditor leafAreaEditor = new JSpinner.NumberEditor(
-					lowerLeafAreaSpinner, "0.0000000000###"); //$NON-NLS-1$
+			JSpinner.NumberEditor leafAreaEditor = new JSpinner.NumberEditor(lowerLeafAreaSpinner, "0.0000000000###"); //$NON-NLS-1$
 
 			lowerLeafAreaSpinner.setEditor(leafAreaEditor);
 
@@ -140,10 +134,8 @@ public class PlantDataInputPanel extends JPanel {
 				@Override
 				public void stateChanged(ChangeEvent e) {
 					if (lowerLeafAreaSpinner != null) {
-						SpinnerNumberModel model = (SpinnerNumberModel) lowerLeafAreaSpinner
-								.getModel();
-						getPlant().setLowerLeafArea(
-								model.getNumber().doubleValue());
+						SpinnerNumberModel model = (SpinnerNumberModel) lowerLeafAreaSpinner.getModel();
+						getPlant().setLowerLeafArea(model.getNumber().doubleValue());
 					}
 
 				}
@@ -154,11 +146,9 @@ public class PlantDataInputPanel extends JPanel {
 
 	private JSpinner getUpperLeafAreaSpinner() {
 		if (upperLeafAreaSpinner == null) {
-			upperLeafAreaSpinner = new JSpinner(new SpinnerNumberModel(0.0,
-					0.0, 1.0, 0.00000000001));
+			upperLeafAreaSpinner = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 1.0, 0.00000000001));
 
-			JSpinner.NumberEditor leafAreaEditor = new JSpinner.NumberEditor(
-					upperLeafAreaSpinner, "0.0000000000###"); //$NON-NLS-1$
+			JSpinner.NumberEditor leafAreaEditor = new JSpinner.NumberEditor(upperLeafAreaSpinner, "0.0000000000###"); //$NON-NLS-1$
 
 			upperLeafAreaSpinner.setEditor(leafAreaEditor);
 
@@ -167,10 +157,8 @@ public class PlantDataInputPanel extends JPanel {
 				@Override
 				public void stateChanged(ChangeEvent e) {
 					if (upperLeafAreaSpinner != null) {
-						SpinnerNumberModel model = (SpinnerNumberModel) upperLeafAreaSpinner
-								.getModel();
-						getPlant().setUpperLeafArea(
-								model.getNumber().doubleValue());
+						SpinnerNumberModel model = (SpinnerNumberModel) upperLeafAreaSpinner.getModel();
+						getPlant().setUpperLeafArea(model.getNumber().doubleValue());
 					}
 
 				}
@@ -181,11 +169,9 @@ public class PlantDataInputPanel extends JPanel {
 
 	private JSpinner getStartDayPressureSpinner() {
 		if (startDayPressureSpinner == null) {
-			startDayPressureSpinner = new JSpinner(new SpinnerNumberModel(
-					1000.0, 800.0, 1500.0, 1.0));
+			startDayPressureSpinner = new JSpinner(new SpinnerNumberModel(1000.0, 800.0, 1500.0, 1.0));
 
-			JSpinner.NumberEditor pressureNumberEditor = new JSpinner.NumberEditor(
-					startDayPressureSpinner, "#000.0"); //$NON-NLS-1$
+			JSpinner.NumberEditor pressureNumberEditor = new JSpinner.NumberEditor(startDayPressureSpinner, "#000.0"); //$NON-NLS-1$
 
 			startDayPressureSpinner.setEditor(pressureNumberEditor);
 
@@ -194,10 +180,8 @@ public class PlantDataInputPanel extends JPanel {
 				@Override
 				public void stateChanged(ChangeEvent e) {
 					if (startDayPressureSpinner != null) {
-						SpinnerNumberModel model = (SpinnerNumberModel) startDayPressureSpinner
-								.getModel();
-						getPlant().setPressureAtStartDay(
-								model.getNumber().doubleValue());
+						SpinnerNumberModel model = (SpinnerNumberModel) startDayPressureSpinner.getModel();
+						getPlant().setPressureAtStartDay(model.getNumber().doubleValue());
 					}
 				}
 			});
@@ -207,11 +191,9 @@ public class PlantDataInputPanel extends JPanel {
 
 	private JSpinner getEndDayPressureSpinner() {
 		if (endDayPressureSpinner == null) {
-			endDayPressureSpinner = new JSpinner(new SpinnerNumberModel(1000.0,
-					800.0, 1500.0, 1.0));
+			endDayPressureSpinner = new JSpinner(new SpinnerNumberModel(1000.0, 800.0, 1500.0, 1.0));
 
-			JSpinner.NumberEditor pressureNumberEditor = new JSpinner.NumberEditor(
-					endDayPressureSpinner, "#000.0"); //$NON-NLS-1$
+			JSpinner.NumberEditor pressureNumberEditor = new JSpinner.NumberEditor(endDayPressureSpinner, "#000.0"); //$NON-NLS-1$
 
 			endDayPressureSpinner.setEditor(pressureNumberEditor);
 
@@ -220,10 +202,8 @@ public class PlantDataInputPanel extends JPanel {
 				@Override
 				public void stateChanged(ChangeEvent e) {
 					if (endDayPressureSpinner != null) {
-						SpinnerNumberModel model = (SpinnerNumberModel) endDayPressureSpinner
-								.getModel();
-						getPlant().setPressureAtEndDay(
-								model.getNumber().doubleValue());
+						SpinnerNumberModel model = (SpinnerNumberModel) endDayPressureSpinner.getModel();
+						getPlant().setPressureAtEndDay(model.getNumber().doubleValue());
 					}
 				}
 			});

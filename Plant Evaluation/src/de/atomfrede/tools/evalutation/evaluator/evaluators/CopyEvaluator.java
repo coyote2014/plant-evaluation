@@ -83,8 +83,7 @@ public class CopyEvaluator extends AbstractEvaluator {
 			List<String[]> allLines = new ArrayList<String[]>();
 			for (int i = 0; i < allInputFiles.length; i++) {
 				File inputFile = allInputFiles[i];
-				progressBar
-						.setValue((int) ((i * 1.0 / allInputFiles.length) * 100.0));
+				progressBar.setValue((int) ((i * 1.0 / allInputFiles.length) * 100.0));
 				if (inputFile.isFile()) {
 					// read all lines and write them to the new file
 					List<String[]> currentLines = readAllLinesInFile(inputFile);
@@ -105,11 +104,9 @@ public class CopyEvaluator extends AbstractEvaluator {
 
 					for (int j = 1; j < currentLines.size(); j++) {
 						String[] currentLine = currentLines.get(j);
-						double solenoidValue = parseDoubleValue(currentLine,
-								Constants.SOLENOID_VALVE_INPUT);
+						double solenoidValue = parseDoubleValue(currentLine, Constants.SOLENOID_VALVE_INPUT);
 						// TODO check if this is fine for every evaluation!
-						if (solenoidValue == 1.0 || solenoidValue == 4.0
-								|| solenoidValue == 2.0) {
+						if (solenoidValue == 1.0 || solenoidValue == 4.0 || solenoidValue == 2.0) {
 							allLines.add(currentLine);
 						}
 					}

@@ -35,8 +35,7 @@ public class CO2AbsoluteOnlyEvaluation extends AbstractEvaluation {
 
 	public CO2AbsoluteOnlyEvaluation() {
 		copyEvaluator = new CopyEvaluator();
-		co2absEvaluator = new CO2AbsoluteOnlyEvaluator(
-				copyEvaluator.getOutputFile());
+		co2absEvaluator = new CO2AbsoluteOnlyEvaluator(copyEvaluator.getOutputFile());
 		evaluators.add(copyEvaluator);
 		evaluators.add(co2absEvaluator);
 	}

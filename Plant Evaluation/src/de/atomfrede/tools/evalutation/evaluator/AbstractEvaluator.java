@@ -95,12 +95,10 @@ public abstract class AbstractEvaluator {
 	}
 
 	// the date format: "2011-08-01 00:30:23,54"
-	public SimpleDateFormat dateFormat = new SimpleDateFormat(
-			"yyyy-MM-dd HH:mm:ss.SS");
+	public SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SS");
 
 	// 22.07.11 10:59:38
-	public SimpleDateFormat temperatureAndPlantDateFormat = new SimpleDateFormat(
-			"dd.MM.yy,HH:mm:ss");
+	public SimpleDateFormat temperatureAndPlantDateFormat = new SimpleDateFormat("dd.MM.yy,HH:mm:ss");
 
 	/**
 	 * This method executes the concrete evaluation (read file, write file, do
@@ -132,13 +130,11 @@ public abstract class AbstractEvaluator {
 	}
 
 	public double[] list2DoubleArray(List<Double> values) {
-		return ArrayUtils
-				.toPrimitive(values.toArray(new Double[values.size()]));
+		return ArrayUtils.toPrimitive(values.toArray(new Double[values.size()]));
 	}
 
 	public int[] list2IntArray(List<Integer> values) {
-		return ArrayUtils
-				.toPrimitive(values.toArray(new Integer[values.size()]));
+		return ArrayUtils.toPrimitive(values.toArray(new Integer[values.size()]));
 	}
 
 	public CSVWriter getCsvWriter(File outputFile) throws IOException {
@@ -149,8 +145,7 @@ public abstract class AbstractEvaluator {
 		return readAllLinesInFile(input, ',');
 	}
 
-	public List<String[]> readAllLinesInFile(File input, char sperator)
-			throws IOException {
+	public List<String[]> readAllLinesInFile(File input, char sperator) throws IOException {
 		CSVReader reader = new CSVReader(new FileReader(input), sperator);
 		return reader.readAll();
 	}
@@ -163,8 +158,7 @@ public abstract class AbstractEvaluator {
 	 * @param solenoidValve
 	 * @return
 	 */
-	public List<String[]> findAllReferenceLines(List<String[]> lines,
-			int solenoidValve) {
+	public List<String[]> findAllReferenceLines(List<String[]> lines, int solenoidValve) {
 		List<String[]> referenceLines = new ArrayList<String[]>();
 		for (int i = 1; i < lines.size(); i++) {
 			if (parseDoubleValue(lines.get(i), solenoidValve) == referenceChamberValue)
@@ -181,8 +175,7 @@ public abstract class AbstractEvaluator {
 	 * @param solenoidValve
 	 * @return
 	 */
-	public List<Integer> findAllReferenceChambers(List<String[]> lines,
-			int solenoidValve) {
+	public List<Integer> findAllReferenceChambers(List<String[]> lines, int solenoidValve) {
 		List<Integer> referenceChamberLines = new ArrayList<Integer>();
 		for (int i = 1; i < lines.size(); i++) {
 			if (parseDoubleValue(lines.get(i), solenoidValve) == referenceChamberValue)
@@ -204,9 +197,7 @@ public abstract class AbstractEvaluator {
 	 * @return
 	 * @throws ParseException
 	 */
-	public String[] getReferenceLineToUse(String[] line,
-			List<String[]> allLines, List<String[]> referenceLines,
-			int timeColumn) throws ParseException {
+	public String[] getReferenceLineToUse(String[] line, List<String[]> allLines, List<String[]> referenceLines, int timeColumn) throws ParseException {
 
 		Date date = dateFormat.parse(line[timeColumn]);
 		long shortestedDistance = Long.MAX_VALUE;
@@ -223,8 +214,7 @@ public abstract class AbstractEvaluator {
 		return refIndex2Use;
 	}
 
-	protected void writeValue(CSVWriter writer, String[] currentLine,
-			double value) {
+	protected void writeValue(CSVWriter writer, String[] currentLine, double value) {
 		// first reuse the old values
 		String[] newLine = new String[currentLine.length + 1];
 		int i = 0;

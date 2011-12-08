@@ -21,12 +21,7 @@ package de.atomfrede.tools.evalutation.tools.plot;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -47,11 +42,7 @@ import au.com.bytecode.opencsv.CSVReader;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.DefaultFontMapper;
-import com.lowagie.text.pdf.FontMapper;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfTemplate;
-import com.lowagie.text.pdf.PdfWriter;
+import com.lowagie.text.pdf.*;
 
 public class SimplePlot extends AbstractPlot {
 
@@ -75,8 +66,7 @@ public class SimplePlot extends AbstractPlot {
 		XYDataset dataset2 = createDeltaRawDataSet(allLines);
 		JFreeChart chart = createChart(dataset, dataset2);
 
-		File fileName = new File(System.getProperty("user.home")
-				+ "/co2absolute.pdf");
+		File fileName = new File(System.getProperty("user.home") + "/co2absolute.pdf");
 
 		saveChartAsPDF(fileName, chart, 400, 300, new DefaultFontMapper());
 
@@ -87,8 +77,8 @@ public class SimplePlot extends AbstractPlot {
 	}
 
 	JFreeChart createChart(XYDataset dataset, XYDataset dataset2) {
-		JFreeChart chart = ChartFactory.createXYLineChart("CO2 Absolute",
-		// chart title
+		JFreeChart chart = ChartFactory.createXYLineChart("CO2 Absolute",// chart
+																			// title
 				"Time (indexed)",
 				// x axis label
 				"CO2 Absolute",
@@ -154,15 +144,13 @@ public class SimplePlot extends AbstractPlot {
 		return dataset;
 	}
 
-	public static void saveChartAsPDF(File file, JFreeChart chart, int width,
-			int height, FontMapper mapper) throws IOException {
+	public static void saveChartAsPDF(File file, JFreeChart chart, int width, int height, FontMapper mapper) throws IOException {
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
 		writeChartAsPDF(out, chart, width, height, mapper);
 		out.close();
 	}
 
-	public static void writeChartAsPDF(OutputStream out, JFreeChart chart,
-			int width, int height, FontMapper mapper) throws IOException {
+	public static void writeChartAsPDF(OutputStream out, JFreeChart chart, int width, int height, FontMapper mapper) throws IOException {
 		Rectangle pagesize = new Rectangle(width, height);
 		Document document = new Document(pagesize, 50, 50, 50, 50);
 		try {

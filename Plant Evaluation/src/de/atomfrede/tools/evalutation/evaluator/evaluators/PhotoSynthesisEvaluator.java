@@ -65,8 +65,7 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 	int currentPlant;
 	Plant plant;
 
-	public PhotoSynthesisEvaluator(List<File> inputFiles,
-			List<File> standardDerivationInputFiles) {
+	public PhotoSynthesisEvaluator(List<File> inputFiles, List<File> standardDerivationInputFiles) {
 		super("photosythesis", inputFiles, standardDerivationInputFiles);
 		this.name = "PSR";
 	}
@@ -83,8 +82,7 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 					plant = PlantHelper.getDefaultPlantList().get(currentPlant);
 					// assume it is ordered alphabetically
 					allLinesInCurrentFile = readAllLinesInFile(currentDataFile);
-					File outputFile = new File(outputFolder, "psr-0"
-							+ (currentPlant) + ".csv");
+					File outputFile = new File(outputFolder, "psr-0" + (currentPlant) + ".csv");
 
 					CSVWriter writer = getCsvWriter(outputFile);
 					WriteUtils.writeHeader(writer);
@@ -93,16 +91,12 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 
 						String[] currentLine = allLinesInCurrentFile.get(i);
 
-						allReferenceLines = findAllReferenceLines(
-								allLinesInCurrentFile,
-								Constants.SOLENOID_VALVES);
+						allReferenceLines = findAllReferenceLines(allLinesInCurrentFile, Constants.SOLENOID_VALVES);
 
 						double psrForCurrentLine = computePhotoSynthesisRate(currentLine);
 						writeValue(writer, currentLine, psrForCurrentLine);
 
-						progressBar.setValue((int) (i * 1.0
-								/ allLinesInCurrentFile.size() * 100.0 * 0.5
-								* 1.0 / inputFiles.size() * 1.0));
+						progressBar.setValue((int) (i * 1.0 / allLinesInCurrentFile.size() * 100.0 * 0.5 * 1.0 / inputFiles.size() * 1.0));
 
 					}
 
@@ -119,9 +113,7 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 					currentPlant++;
 					// assume it is ordered alphabetically
 					allLinesInCurrentFile = readAllLinesInFile(currentDataFile);
-					File outputFile = new File(outputFolder,
-							"standard-derivation-psr-0" + (currentPlant)
-									+ ".csv");
+					File outputFile = new File(outputFolder, "standard-derivation-psr-0" + (currentPlant) + ".csv");
 
 					CSVWriter writer = getCsvWriter(outputFile);
 					WriteUtils.writeHeader(writer);
@@ -134,10 +126,7 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 						writeValue(writer, currentLine, psrForCurrentLine);
 
 						progressBar
-								.setValue((int) ((i * 1.0
-										/ allLinesInCurrentFile.size() * 100.0
-										* 0.5 * 1.0
-										/ standardDeviationInputFiles.size() * 1.0) + 50.0));
+								.setValue((int) ((i * 1.0 / allLinesInCurrentFile.size() * 100.0 * 0.5 * 1.0 / standardDeviationInputFiles.size() * 1.0) + 50.0));
 
 					}
 
@@ -179,9 +168,7 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 			Date currentDate = dateFormat.parse(line[Constants.DATE_AND_TIME]);
 
 			// first find the corresponding referenceLine
-			String[] refLine = getReferenceLineToUse(line,
-					allLinesInCurrentFile, allReferenceLines,
-					Constants.DATE_AND_TIME);
+			String[] refLine = getReferenceLineToUse(line, allLinesInCurrentFile, allReferenceLines, Constants.DATE_AND_TIME);
 			// String[] refLine = allLinesInCurrentFile.get(refIndex);
 			double height = 0.0;
 			double diameter = 0.0;
@@ -203,10 +190,8 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 			// first use the pressure for the specific DAY in that date
 			double pressure = getPressure(plant, currentDate);
 
-			return getPhotoSynthesisRate(getCO2Abs(line), getCO2Abs(refLine),
-					getCO2Diff(line), getH2O(line), getH2O(refLine),
-					getH2ODiff(line, refLine), getTemperature(line), pressure,
-					chamberVolume, flowRate, leafArea);
+			return getPhotoSynthesisRate(getCO2Abs(line), getCO2Abs(refLine), getCO2Diff(line), getH2O(line), getH2O(refLine), getH2ODiff(line, refLine),
+					getTemperature(line), pressure, chamberVolume, flowRate, leafArea);
 		}
 
 		return 0.0;
@@ -268,10 +253,8 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 	 * @param leafArea
 	 * @return
 	 */
-	double getPhotoSynthesisRate(double co2Abs, double co2Ref, double co2Diff,
-			double h2o, double h2ORef, double h2oDiff, double temperature,
-			double pressure, double chamberVolume, double flowRate,
-			double leafArea) {
+	double getPhotoSynthesisRate(double co2Abs, double co2Ref, double co2Diff, double h2o, double h2ORef, double h2oDiff, double temperature, double pressure,
+			double chamberVolume, double flowRate, double leafArea) {
 
 		double ui = flowRate / MILLION / 60 * (pressure / (VM * temperature));
 

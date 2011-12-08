@@ -26,14 +26,12 @@ import java.util.List;
 /**
  * Evaluator that takes one file as input and produces multiple files as output.
  */
-public abstract class SingleInputMultipleOutputFileEvaluator extends
-		AbstractEvaluator {
+public abstract class SingleInputMultipleOutputFileEvaluator extends AbstractEvaluator {
 
 	protected File inputFile, standardDeviationInputFile;
 	protected List<File> outputFiles, standardDeviationOutputFiles;
 
-	public SingleInputMultipleOutputFileEvaluator(String outputFolderName,
-			File inputFile, File standardDeviationInputFile) {
+	public SingleInputMultipleOutputFileEvaluator(String outputFolderName, File inputFile, File standardDeviationInputFile) {
 		super(outputFolderName);
 		this.inputFile = inputFile;
 		this.standardDeviationInputFile = standardDeviationInputFile;
@@ -69,8 +67,7 @@ public abstract class SingleInputMultipleOutputFileEvaluator extends
 		return standardDeviationOutputFiles;
 	}
 
-	public void setStandardDeviationOutputFiles(
-			List<File> standardDeviationOutputFiles) {
+	public void setStandardDeviationOutputFiles(List<File> standardDeviationOutputFiles) {
 		this.standardDeviationOutputFiles = standardDeviationOutputFiles;
 	}
 

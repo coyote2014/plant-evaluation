@@ -53,8 +53,7 @@ public class AboutDialog extends JDialog {
 		add(innerPanel, BorderLayout.CENTER);
 
 		Dimension innerDimension = innerPanel.getPreferredSize();
-		innerDimension.setSize(innerDimension.width + 10,
-				innerDimension.height + 25);
+		innerDimension.setSize(innerDimension.width + 10, innerDimension.height + 25);
 		setSize(innerDimension);
 
 		this.setResizable(false);

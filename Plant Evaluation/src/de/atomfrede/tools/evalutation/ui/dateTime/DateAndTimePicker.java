@@ -26,12 +26,7 @@ import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Date;
 
-import javax.swing.Icon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerDateModel;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -67,8 +62,7 @@ public class DateAndTimePicker extends JPanel {
 
 	private void initialize() {
 		setLayout(new BorderLayout());
-		FormLayout layout = new FormLayout(
-				"fill:pref:grow, 4dlu, fill:pref:grow");
+		FormLayout layout = new FormLayout("fill:pref:grow, 4dlu, fill:pref:grow");
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 
 		builder.append(getDatePicker());
@@ -81,16 +75,14 @@ public class DateAndTimePicker extends JPanel {
 	public JSpinner getTimeSpinner() {
 		if (timeSpinner == null) {
 			timeSpinner = new JSpinner(new SpinnerDateModel());
-			JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(
-					timeSpinner, "HH:mm:ss");
+			JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner, "HH:mm:ss");
 			timeSpinner.setEditor(timeEditor);
 
 			timeSpinner.addChangeListener(new ChangeListener() {
 
 				@Override
 				public void stateChanged(ChangeEvent e) {
-					SpinnerDateModel model = (SpinnerDateModel) timeSpinner
-							.getModel();
+					SpinnerDateModel model = (SpinnerDateModel) timeSpinner.getModel();
 
 					Calendar cal = Calendar.getInstance();
 					cal.setTime(model.getDate());

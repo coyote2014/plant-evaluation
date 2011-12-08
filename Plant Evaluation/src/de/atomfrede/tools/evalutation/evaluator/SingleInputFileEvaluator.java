@@ -28,11 +28,9 @@ import java.io.File;
  */
 public abstract class SingleInputFileEvaluator extends AbstractEvaluator {
 
-	protected File inputFile, standardDeviationInputFile, outputFile,
-			standardDeviationOutputFile;
+	protected File inputFile, standardDeviationInputFile, outputFile, standardDeviationOutputFile;
 
-	public SingleInputFileEvaluator(String outputFolderName, File inputFile,
-			File standardDeviationInputFile) {
+	public SingleInputFileEvaluator(String outputFolderName, File inputFile, File standardDeviationInputFile) {
 		super(outputFolderName);
 		this.inputFile = inputFile;
 		this.standardDeviationInputFile = standardDeviationInputFile;
@@ -67,8 +65,7 @@ public abstract class SingleInputFileEvaluator extends AbstractEvaluator {
 		return standardDeviationOutputFile;
 	}
 
-	public void setStandardDeviationOutputFile(
-			File standardDeviationOutputFile) {
+	public void setStandardDeviationOutputFile(File standardDeviationOutputFile) {
 		this.standardDeviationOutputFile = standardDeviationOutputFile;
 	}
 

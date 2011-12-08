@@ -30,11 +30,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -70,25 +66,16 @@ public class AboutPanel extends JPanel {
 	 */
 	public AboutPanel(JDialog parentDialog) throws URISyntaxException {
 		sourceCodeUri = new URI(Messages.getString("AboutPanel.sourceCode")); //$NON-NLS-1$
-		tangoIconThemeUri = new URI(
-				"http://tango.freedesktop.org/Tango_Icon_Library");
+		tangoIconThemeUri = new URI("http://tango.freedesktop.org/Tango_Icon_Library");
 		webSiteUri = new URI("https://code.google.com/p/plant-evaluation/");
 		this.parentDialog = parentDialog;
-		setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC, FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(51dlu;default)"), }, new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC, }));
+		setLayout(new FormLayout(new ColumnSpec[] { FormFactory.RELATED_GAP_COLSPEC, FormFactory.DEFAULT_COLSPEC, FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(51dlu;default)"), }, new RowSpec[] { FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC, FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC, FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC, FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC, FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC, FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC, }));
 		add(getLblPlantEvaluationTool(), "2, 2, left, default"); //$NON-NLS-1$
 		add(getLabel(), "4, 2, 1, 12");
 		add(getLblVersion(), "2, 4"); //$NON-NLS-1$
@@ -104,8 +91,7 @@ public class AboutPanel extends JPanel {
 
 	private JLabel getLblPlantEvaluationTool() {
 		if (lblPlantEvaluationTool == null) {
-			lblPlantEvaluationTool = new JLabel(
-					Messages.getString("AboutPanel.8")); //$NON-NLS-1$
+			lblPlantEvaluationTool = new JLabel(Messages.getString("AboutPanel.8")); //$NON-NLS-1$
 			lblPlantEvaluationTool.setFont(new Font("Dialog", Font.BOLD, 20)); //$NON-NLS-1$
 		}
 		return lblPlantEvaluationTool;
@@ -113,8 +99,7 @@ public class AboutPanel extends JPanel {
 
 	private JLabel getLblVersion() {
 		if (lblVersion == null) {
-			lblVersion = new JLabel(
-					Messages.getString("AboutPanel.version") + " " + Messages.getString("AppWindow.version.code")); //$NON-NLS-1$
+			lblVersion = new JLabel(Messages.getString("AboutPanel.version") + " " + Messages.getString("AppWindow.version.code")); //$NON-NLS-1$
 		}
 		return lblVersion;
 	}
@@ -135,8 +120,7 @@ public class AboutPanel extends JPanel {
 
 	private JLabel getLblLicensedUnderGpl() {
 		if (lblLicensedUnderGpl == null) {
-			lblLicensedUnderGpl = new JLabel(
-					Messages.getString("AboutPanel.13")); //$NON-NLS-1$
+			lblLicensedUnderGpl = new JLabel(Messages.getString("AboutPanel.13")); //$NON-NLS-1$
 		}
 		return lblLicensedUnderGpl;
 	}

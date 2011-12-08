@@ -42,12 +42,9 @@ public class TypeBevaluation extends AbstractEvaluation {
 
 	public TypeBevaluation() {
 		copyEvaluator = new CopyEvaluator();
-		co2absEvaluator = new CO2AbsoluteOnlyEvaluator(
-				copyEvaluator.getOutputFile());
-		reduceDatasetEvalutor = new ReduceDatasetEvaluator(
-				co2absEvaluator.getOutputFile());
-		pickDatasetEvaluator = new PickDatasetEvaluator(
-				reduceDatasetEvalutor.getOutputFile());
+		co2absEvaluator = new CO2AbsoluteOnlyEvaluator(copyEvaluator.getOutputFile());
+		reduceDatasetEvalutor = new ReduceDatasetEvaluator(co2absEvaluator.getOutputFile());
+		pickDatasetEvaluator = new PickDatasetEvaluator(reduceDatasetEvalutor.getOutputFile());
 		evaluators.add(copyEvaluator);
 		evaluators.add(co2absEvaluator);
 		evaluators.add(reduceDatasetEvalutor);

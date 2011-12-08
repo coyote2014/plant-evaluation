@@ -25,13 +25,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.ListCellRenderer;
+import javax.swing.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -77,13 +71,11 @@ public class MainPanel extends JPanel {
 
 		add(getFolderSelectionPanel(), JideBorderLayout.NORTH);
 		add(getCenterPanel());
-		FormLayout layout = new FormLayout(
-				"right:pref:grow, 4dlu, right:pref, 4dlu, right:pref"); //$NON-NLS-1$
+		FormLayout layout = new FormLayout("right:pref:grow, 4dlu, right:pref, 4dlu, right:pref"); //$NON-NLS-1$
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 
 		builder.append("Evaluation Type", getEvaluationTypeComboBox());
-		builder.append(ButtonBarFactory.buildOKCancelBar(getEvaluateButton(),
-				getAddButton()));
+		builder.append(ButtonBarFactory.buildOKCancelBar(getEvaluateButton(), getAddButton()));
 		add(builder.getPanel(), BorderLayout.SOUTH);
 
 		log.trace("Main Panel initialized");
@@ -92,8 +84,7 @@ public class MainPanel extends JPanel {
 
 	private PlantListPanel getPlantListPanel() {
 		if (plantListPanel == null) {
-			plantListPanel = new PlantListPanel(
-					PlantHelper.getDefaultPlantList());
+			plantListPanel = new PlantListPanel(PlantHelper.getDefaultPlantList());
 		}
 		return plantListPanel;
 	}
@@ -135,8 +126,7 @@ public class MainPanel extends JPanel {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					AbstractEvaluation.EvaluationType type = (EvaluationType) getEvaluationTypeComboBox()
-							.getSelectedItem();
+					AbstractEvaluation.EvaluationType type = (EvaluationType) getEvaluationTypeComboBox().getSelectedItem();
 
 					switch (type) {
 					case JULIANE:
@@ -161,8 +151,7 @@ public class MainPanel extends JPanel {
 
 	private JComboBox getEvaluationTypeComboBox() {
 		if (evaluationTypeCombobox == null) {
-			evaluationTypeCombobox = new JComboBox(
-					AbstractEvaluation.EvaluationType.values());
+			evaluationTypeCombobox = new JComboBox(AbstractEvaluation.EvaluationType.values());
 
 			evaluationTypeCombobox.setRenderer(new EvaluationTypeRender());
 
@@ -170,8 +159,7 @@ public class MainPanel extends JPanel {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					AbstractEvaluation.EvaluationType type = (EvaluationType) evaluationTypeCombobox
-							.getSelectedItem();
+					AbstractEvaluation.EvaluationType type = (EvaluationType) evaluationTypeCombobox.getSelectedItem();
 					switch (type) {
 					case JULIANE:
 						plantListPanel.setVisible(true);
@@ -246,8 +234,7 @@ public class MainPanel extends JPanel {
 	 * {@link EvaluationType}s
 	 */
 	@SuppressWarnings("serial")
-	private static class EvaluationTypeRender extends JLabel implements
-			ListCellRenderer {
+	private static class EvaluationTypeRender extends JLabel implements ListCellRenderer {
 
 		public EvaluationTypeRender() {
 			super();
@@ -255,8 +242,7 @@ public class MainPanel extends JPanel {
 		}
 
 		@Override
-		public Component getListCellRendererComponent(JList list, Object value,
-				int index, boolean isSelected, boolean cellHasFocus) {
+		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 			EvaluationType selectedType = (EvaluationType) value;
 			if (isSelected) {
 				setBackground(list.getSelectionBackground());

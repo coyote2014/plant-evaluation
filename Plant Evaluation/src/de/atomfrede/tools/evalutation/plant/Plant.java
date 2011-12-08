@@ -99,8 +99,7 @@ public class Plant {
 
 		sb.append("Plant: \n");
 		sb.append("\t" + getStartDate() + "- \t " + getEndDate() + "\n");
-		sb.append("\t upper " + getUpperLeafArea() + "\t lower "
-				+ getLowerLeafArea());
+		sb.append("\t upper " + getUpperLeafArea() + "\t lower " + getLowerLeafArea());
 
 		return sb.toString();
 

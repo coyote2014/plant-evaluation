@@ -24,12 +24,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -69,8 +64,7 @@ public class OptionsDialog extends JDialog {
 	private JSpinner getSampleSpinner() {
 		if (sampleSpinner == null) {
 			sampleSpinner = new JSpinner();
-			SpinnerNumberModel numberModel = new SpinnerNumberModel(
-					Options.getSampleRate(), 1.0, 10.0, 1.0);
+			SpinnerNumberModel numberModel = new SpinnerNumberModel(Options.getSampleRate(), 1.0, 10.0, 1.0);
 			sampleSpinner.setModel(numberModel);
 
 			sampleSpinner.addChangeListener(new ChangeListener() {
@@ -78,8 +72,7 @@ public class OptionsDialog extends JDialog {
 				@Override
 				public void stateChanged(ChangeEvent e) {
 					// TODO Auto-generated method stub
-					SpinnerNumberModel model = (SpinnerNumberModel) sampleSpinner
-							.getModel();
+					SpinnerNumberModel model = (SpinnerNumberModel) sampleSpinner.getModel();
 					double selectedValue = model.getNumber().doubleValue();
 					sampleRate = selectedValue;
 
@@ -92,10 +85,8 @@ public class OptionsDialog extends JDialog {
 	private JCheckBox getRecordReferenceChambersCheckbox() {
 		if (recordReferenceChambersCheckbox == null) {
 			recordReferenceChambersCheckbox = new JCheckBox();
-			recordReferenceChambersCheckbox
-					.setText("Record Reference Chambers");
-			recordReferenceChambersCheckbox.setSelected(Options
-					.isRecordReferenceChambers());
+			recordReferenceChambersCheckbox.setText("Record Reference Chambers");
+			recordReferenceChambersCheckbox.setSelected(Options.isRecordReferenceChambers());
 
 			// recordReferenceChambersCheckbox
 			// .addActionListener(new ActionListener() {
@@ -113,8 +104,7 @@ public class OptionsDialog extends JDialog {
 	private JCheckBox getShiftByOneHourCheckBox() {
 		if (shiftByOneHourCheckBox == null) {
 			shiftByOneHourCheckBox = new JCheckBox();
-			shiftByOneHourCheckBox.setText(Messages
-					.getString("OptionsDialog.1")); //$NON-NLS-1$
+			shiftByOneHourCheckBox.setText(Messages.getString("OptionsDialog.1")); //$NON-NLS-1$
 			shiftByOneHourCheckBox.setSelected(Options.isShiftByOneHour());
 
 			// shiftByOneHourCheckBox.addActionListener(new ActionListener() {
@@ -151,11 +141,9 @@ public class OptionsDialog extends JDialog {
 	private void saveOptionsAndCloseDialog() {
 		Options.setShiftByOneHour(shiftByOneHourCheckBox.isSelected());
 
-		Options.setRecordReferenceChambers(recordReferenceChambersCheckbox
-				.isSelected());
+		Options.setRecordReferenceChambers(recordReferenceChambersCheckbox.isSelected());
 
-		Options.setRecordReferenceChambers(recordReferenceChambersCheckbox
-				.isSelected());
+		Options.setRecordReferenceChambers(recordReferenceChambersCheckbox.isSelected());
 
 		Options.setSampleRate(sampleRate);
 

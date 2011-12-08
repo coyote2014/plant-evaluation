@@ -64,19 +64,15 @@ public class CO2AbsoluteOnlyEvaluator extends SingleInputFileEvaluator {
 			for (int i = 1; i < lines.size(); i++) {
 				String[] currentLine = lines.get(i);
 				// read 12CO2_DRY and 13CO2_DRY
-				double _12CO2_dry = parseDoubleValue(currentLine,
-						Constants._12CO2_DRY);
-				double _13Co2_dry = parseDoubleValue(currentLine,
-						Constants._13CO2_DRY);
+				double _12CO2_dry = parseDoubleValue(currentLine, Constants._12CO2_DRY);
+				double _13Co2_dry = parseDoubleValue(currentLine, Constants._13CO2_DRY);
 				// Compute the CO2-Absolute value as the (absolute) sum of 12
 				// and 13CO2_DRY
 				double co2AbsoluteValue = Math.abs(_12CO2_dry + _13Co2_dry);
 				// get date and time for easier post processing in calc
-				Date date2Write = dateFormat.parse(currentLine[Constants.DATE]
-						+ " " + currentLine[Constants.TIME]);
+				Date date2Write = dateFormat.parse(currentLine[Constants.DATE] + " " + currentLine[Constants.TIME]);
 				// append both, date (with time) and CO2 Absolute to the file
-				appendDateAndCO2AbsoluteValue(writer, currentLine, date2Write,
-						co2AbsoluteValue);
+				appendDateAndCO2AbsoluteValue(writer, currentLine, date2Write, co2AbsoluteValue);
 
 				progressBar.setValue((int) ((i * 1.0 / lines.size()) * 100.0));
 			}
@@ -105,8 +101,7 @@ public class CO2AbsoluteOnlyEvaluator extends SingleInputFileEvaluator {
 	 * @param date2Write
 	 * @param co2Absolute
 	 */
-	private void appendDateAndCO2AbsoluteValue(CSVWriter writer, String[] line,
-			Date date2Write, double co2Absolute) {
+	private void appendDateAndCO2AbsoluteValue(CSVWriter writer, String[] line, Date date2Write, double co2Absolute) {
 		String[] newLine = new String[line.length + 2];
 		int i = 0;
 		for (i = 0; i < line.length; i++) {

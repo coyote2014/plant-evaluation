@@ -84,8 +84,7 @@ public class Options {
 		return recordReferenceChambers;
 	}
 
-	public static void setRecordReferenceChambers(
-			boolean recordReferenceChambers) {
+	public static void setRecordReferenceChambers(boolean recordReferenceChambers) {
 		Options.recordReferenceChambers = recordReferenceChambers;
 	}
 

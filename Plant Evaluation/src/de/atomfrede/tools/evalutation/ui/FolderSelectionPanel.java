@@ -23,11 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
@@ -45,10 +41,8 @@ import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 public class FolderSelectionPanel extends JPanel {
 
 	private static final long serialVersionUID = 6734919047205211900L;
-	JTextField inputFolderTextField, outputFolderTextField,
-			temperatureTextField;
-	JFileChooser inputFolderFileChooser, outputFolderFileChooser,
-			temperatureFileChooser;
+	JTextField inputFolderTextField, outputFolderTextField, temperatureTextField;
+	JFileChooser inputFolderFileChooser, outputFolderFileChooser, temperatureFileChooser;
 	JButton inputFolderButton, outputFolderButton, temperatureButton;
 
 	File inputFolder, outputFolder, temperatureFolder;
@@ -66,29 +60,24 @@ public class FolderSelectionPanel extends JPanel {
 
 	private void initialize() {
 		setLayout(new JideBorderLayout());
-		FormLayout layout = new FormLayout(
-				"pref, 4dlu, fill:pref:grow, 4dlu, pref"); //$NON-NLS-1$
+		FormLayout layout = new FormLayout("pref, 4dlu, fill:pref:grow, 4dlu, pref"); //$NON-NLS-1$
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 
 		builder.appendSeparator(Messages.getString("FolderSelectionPanel.1")); //$NON-NLS-1$
-		builder.append(
-				Messages.getString("FolderSelectionPanel.2"), getInputFolderTextField()); //$NON-NLS-1$
+		builder.append(Messages.getString("FolderSelectionPanel.2"), getInputFolderTextField()); //$NON-NLS-1$
 		builder.append(getInputFolderButton());
 
-		builder.append(
-				Messages.getString("FolderSelectionPanel.3"), getTemperatureTextField()); //$NON-NLS-1$
+		builder.append(Messages.getString("FolderSelectionPanel.3"), getTemperatureTextField()); //$NON-NLS-1$
 		builder.append(getTemperatureFolderButton());
 
-		builder.append(
-				Messages.getString("FolderSelectionPanel.4"), getOutputFolderTextField()); //$NON-NLS-1$
+		builder.append(Messages.getString("FolderSelectionPanel.4"), getOutputFolderTextField()); //$NON-NLS-1$
 		builder.append(getOutputFolderButton());
 		add(builder.getPanel(), JideBorderLayout.CENTER);
 	}
 
 	private JButton getOutputFolderButton() {
 		if (outputFolderButton == null) {
-			outputFolderButton = new JButton(
-					Messages.getString("FolderSelectionPanel.5")); //$NON-NLS-1$
+			outputFolderButton = new JButton(Messages.getString("FolderSelectionPanel.5")); //$NON-NLS-1$
 			outputFolderButton.setIcon(Icons.IC_FOLDER_OPEN_SMALL);
 			outputFolderButton.addActionListener(new ActionListener() {
 
@@ -96,14 +85,12 @@ public class FolderSelectionPanel extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					JFileChooser fc = getFileChooser();
 					fc.setCurrentDirectory(outputFolder);
-					int returnValue = fc.showDialog(parent,
-							Messages.getString("FolderSelectionPanel.6")); //$NON-NLS-1$
+					int returnValue = fc.showDialog(parent, Messages.getString("FolderSelectionPanel.6")); //$NON-NLS-1$
 
 					if (returnValue == JFileChooser.APPROVE_OPTION) {
 						outputFolder = fc.getSelectedFile();
 						Options.setOutputFolder(outputFolder);
-						getOutputFolderTextField().setText(
-								outputFolder.getAbsolutePath());
+						getOutputFolderTextField().setText(outputFolder.getAbsolutePath());
 					}
 
 				}
@@ -114,8 +101,7 @@ public class FolderSelectionPanel extends JPanel {
 
 	private JButton getInputFolderButton() {
 		if (inputFolderButton == null) {
-			inputFolderButton = new JButton(
-					Messages.getString("FolderSelectionPanel.7")); //$NON-NLS-1$
+			inputFolderButton = new JButton(Messages.getString("FolderSelectionPanel.7")); //$NON-NLS-1$
 			inputFolderButton.setIcon(Icons.IC_FOLDER_OPEN_SMALL);
 
 			inputFolderButton.addActionListener(new ActionListener() {
@@ -124,14 +110,12 @@ public class FolderSelectionPanel extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					JFileChooser fc = getFileChooser();
 					fc.setCurrentDirectory(inputFolder);
-					int returnValue = fc.showDialog(parent,
-							Messages.getString("FolderSelectionPanel.8")); //$NON-NLS-1$
+					int returnValue = fc.showDialog(parent, Messages.getString("FolderSelectionPanel.8")); //$NON-NLS-1$
 
 					if (returnValue == JFileChooser.APPROVE_OPTION) {
 						inputFolder = fc.getSelectedFile();
 						Options.setInputFolder(inputFolder);
-						getInputFolderTextField().setText(
-								inputFolder.getAbsolutePath());
+						getInputFolderTextField().setText(inputFolder.getAbsolutePath());
 					}
 
 				}
@@ -142,8 +126,7 @@ public class FolderSelectionPanel extends JPanel {
 
 	private JButton getTemperatureFolderButton() {
 		if (temperatureButton == null) {
-			temperatureButton = new JButton(
-					Messages.getString("FolderSelectionPanel.9")); //$NON-NLS-1$
+			temperatureButton = new JButton(Messages.getString("FolderSelectionPanel.9")); //$NON-NLS-1$
 			temperatureButton.setIcon(Icons.IC_FOLDER_OPEN_SMALL);
 			temperatureButton.addActionListener(new ActionListener() {
 
@@ -151,14 +134,12 @@ public class FolderSelectionPanel extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					JFileChooser fc = getFileChooser();
 					fc.setCurrentDirectory(temperatureFolder);
-					int returnValue = fc.showDialog(parent,
-							Messages.getString("FolderSelectionPanel.10")); //$NON-NLS-1$
+					int returnValue = fc.showDialog(parent, Messages.getString("FolderSelectionPanel.10")); //$NON-NLS-1$
 
 					if (returnValue == JFileChooser.APPROVE_OPTION) {
 						temperatureFolder = fc.getSelectedFile();
 						Options.setTemperatureInputFolder(temperatureFolder);
-						getTemperatureTextField().setText(
-								temperatureFolder.getAbsolutePath());
+						getTemperatureTextField().setText(temperatureFolder.getAbsolutePath());
 					}
 				}
 			});
@@ -177,8 +158,7 @@ public class FolderSelectionPanel extends JPanel {
 
 	private JTextField getOutputFolderTextField() {
 		if (outputFolderTextField == null) {
-			outputFolderTextField = new JTextField(
-					outputFolder.getAbsolutePath());
+			outputFolderTextField = new JTextField(outputFolder.getAbsolutePath());
 			outputFolderTextField.setEnabled(false);
 		}
 		return outputFolderTextField;
@@ -186,8 +166,7 @@ public class FolderSelectionPanel extends JPanel {
 
 	private JTextField getTemperatureTextField() {
 		if (temperatureTextField == null) {
-			temperatureTextField = new JTextField(
-					temperatureFolder.getAbsolutePath());
+			temperatureTextField = new JTextField(temperatureFolder.getAbsolutePath());
 			temperatureTextField.setEnabled(false);
 		}
 		return temperatureTextField;

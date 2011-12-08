@@ -29,11 +29,9 @@ import java.util.List;
  */
 public abstract class MultipleInputFileEvaluator extends AbstractEvaluator {
 
-	protected List<File> inputFiles, standardDeviationInputFiles, outputFiles,
-			standardDeviationOutputFiles;
+	protected List<File> inputFiles, standardDeviationInputFiles, outputFiles, standardDeviationOutputFiles;
 
-	public MultipleInputFileEvaluator(String outputFolderName,
-			List<File> inputFiles, List<File> standardDeviationInputFiles) {
+	public MultipleInputFileEvaluator(String outputFolderName, List<File> inputFiles, List<File> standardDeviationInputFiles) {
 		super(outputFolderName);
 		this.inputFiles = inputFiles;
 		this.standardDeviationInputFiles = standardDeviationInputFiles;
@@ -53,8 +51,7 @@ public abstract class MultipleInputFileEvaluator extends AbstractEvaluator {
 		return standardDeviationInputFiles;
 	}
 
-	public void setStandardDeviationInputFiles(
-			List<File> standardDeviationInputFiles) {
+	public void setStandardDeviationInputFiles(List<File> standardDeviationInputFiles) {
 		this.standardDeviationInputFiles = standardDeviationInputFiles;
 	}
 
@@ -70,8 +67,7 @@ public abstract class MultipleInputFileEvaluator extends AbstractEvaluator {
 		return standardDeviationOutputFiles;
 	}
 
-	public void setStandardDeviationOutputFiles(
-			List<File> standardDeviationOutputFiles) {
+	public void setStandardDeviationOutputFiles(List<File> standardDeviationOutputFiles) {
 		this.standardDeviationOutputFiles = standardDeviationOutputFiles;
 	}
 

@@ -62,18 +62,14 @@ public class PlantDivider extends SingleInputMultipleOutputFileEvaluator {
 				allInputLines = readAllLinesInFile(inputFile);
 				// for each plant in list
 				for (int i = 0; i < PlantHelper.getDefaultPlantList().size(); i++) {
-					Plant currentPlant = PlantHelper.getDefaultPlantList().get(
-							i);
+					Plant currentPlant = PlantHelper.getDefaultPlantList().get(i);
 
-					File outputFile = new File(outputFolder, "plant-0" + i
-							+ ".csv");
+					File outputFile = new File(outputFolder, "plant-0" + i + ".csv");
 
 					CSVWriter writer = getCsvWriter(outputFile);
 					List<String[]> values;
 					// collect all values between its start and enddate
-					values = getAllDateLinesBetween(
-							currentPlant.getStartDate(),
-							currentPlant.getEndDate());
+					values = getAllDateLinesBetween(currentPlant.getStartDate(), currentPlant.getEndDate());
 					// write the header in the current file
 					WriteUtils.writeHeader(writer);
 					// write all lines for the current plant in its specific
@@ -82,10 +78,7 @@ public class PlantDivider extends SingleInputMultipleOutputFileEvaluator {
 					writer.close();
 					outputFiles.add(outputFile);
 
-					progressBar
-							.setValue((int) (i * 1.0
-									/ PlantHelper.getDefaultPlantList().size()
-									* 100.0 * 0.5));
+					progressBar.setValue((int) (i * 1.0 / PlantHelper.getDefaultPlantList().size() * 100.0 * 0.5));
 				}
 
 			}
@@ -95,27 +88,20 @@ public class PlantDivider extends SingleInputMultipleOutputFileEvaluator {
 				allInputLines = readAllLinesInFile(standardDeviationInputFile);
 
 				for (int i = 0; i < PlantHelper.getDefaultPlantList().size(); i++) {
-					Plant currentPlant = PlantHelper.getDefaultPlantList().get(
-							i);
+					Plant currentPlant = PlantHelper.getDefaultPlantList().get(i);
 
-					File outputFile = new File(outputFolder,
-							"standard-derivation-0" + i + ".csv");
+					File outputFile = new File(outputFolder, "standard-derivation-0" + i + ".csv");
 
 					CSVWriter writer = getCsvWriter(outputFile);
 					List<String[]> values;
 
-					values = getAllDateLinesBetween(
-							currentPlant.getStartDate(),
-							currentPlant.getEndDate());
+					values = getAllDateLinesBetween(currentPlant.getStartDate(), currentPlant.getEndDate());
 					WriteUtils.writeHeader(writer);
 					writer.writeAll(values);
 					writer.close();
 					standardDeviationOutputFiles.add(outputFile);
 
-					progressBar
-							.setValue((int) ((i * 1.0
-									/ PlantHelper.getDefaultPlantList().size()
-									* 100.0 * 0.5) + 50.0));
+					progressBar.setValue((int) ((i * 1.0 / PlantHelper.getDefaultPlantList().size() * 100.0 * 0.5) + 50.0));
 				}
 			}
 		} catch (IOException ioe) {
@@ -139,16 +125,13 @@ public class PlantDivider extends SingleInputMultipleOutputFileEvaluator {
 	 * @return
 	 * @throws ParseException
 	 */
-	List<String[]> getAllDateLinesBetween(Date fromDate, Date tillDate)
-			throws ParseException {
+	List<String[]> getAllDateLinesBetween(Date fromDate, Date tillDate) throws ParseException {
 		List<String[]> dataBetween = new ArrayList<String[]>();
 		for (int i = 1; i < allInputLines.size(); i++) {
 			String[] currentLine = allInputLines.get(i);
-			Date currentDate = dateFormat
-					.parse(currentLine[Constants.DATE_AND_TIME]);
+			Date currentDate = dateFormat.parse(currentLine[Constants.DATE_AND_TIME]);
 
-			if (currentDate.getTime() >= fromDate.getTime()
-					&& tillDate.getTime() >= currentDate.getTime()) {
+			if (currentDate.getTime() >= fromDate.getTime() && tillDate.getTime() >= currentDate.getTime()) {
 				dataBetween.add(currentLine);
 			}
 		}

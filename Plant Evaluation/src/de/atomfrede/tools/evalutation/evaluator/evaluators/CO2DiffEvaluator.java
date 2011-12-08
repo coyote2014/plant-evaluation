@@ -66,19 +66,14 @@ public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 
 				List<String[]> lines = readAllLinesInFile(inputFile);
 
-				allReferenceLines = findAllReferenceLines(lines,
-						Constants.SOLENOID_VALVES);
+				allReferenceLines = findAllReferenceLines(lines, Constants.SOLENOID_VALVES);
 
 				for (int i = 1; i < lines.size(); i++) {
 					String[] currentLine = lines.get(i);
-					double co2Diff = parseDoubleValue(currentLine,
-							Constants.CO2_ABS)
-							- getCO2DiffForLine(currentLine, lines,
-									allReferenceLines);
+					double co2Diff = parseDoubleValue(currentLine, Constants.CO2_ABS) - getCO2DiffForLine(currentLine, lines, allReferenceLines);
 					writeCO2Diff(writer, currentLine, co2Diff);
 
-					progressBar
-							.setValue((int) (i * 1.0 / lines.size() * 100.0 * 0.5));
+					progressBar.setValue((int) (i * 1.0 / lines.size() * 100.0 * 0.5));
 				}
 			}
 			log.info("CO2 Diff for Data Values done.");
@@ -89,8 +84,7 @@ public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 				if (!standardDeviationInputFile.exists())
 					return false;
 
-				standardDeviationOutputFile = new File(outputFolder,
-						"standard-derivation-co2diff.csv");
+				standardDeviationOutputFile = new File(outputFolder, "standard-derivation-co2diff.csv");
 
 				standardDeviationOutputFile.createNewFile();
 				if (!standardDeviationOutputFile.exists())
@@ -106,13 +100,9 @@ public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 					// System.out.println("Writing Standard Derivation Line "
 					// + i);
 					String[] currentLine = lines.get(i);
-					double co2Diff = parseDoubleValue(currentLine,
-							Constants.CO2_ABS)
-							- getCO2DiffForLine(currentLine, lines,
-									allReferenceLines);
+					double co2Diff = parseDoubleValue(currentLine, Constants.CO2_ABS) - getCO2DiffForLine(currentLine, lines, allReferenceLines);
 					writeCO2Diff(standardDerivationWriter, currentLine, co2Diff);
-					progressBar
-							.setValue((int) ((i * 1.0 / lines.size() * 100.0 * 0.5) + 50.0));
+					progressBar.setValue((int) ((i * 1.0 / lines.size() * 100.0 * 0.5) + 50.0));
 				}
 			}
 			log.info("CO2 Diff for StandardDerivation Values done.");
@@ -149,17 +139,14 @@ public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 		writer.writeNext(newLine);
 	}
 
-	double getCO2DiffForLine(String[] line, List<String[]> allLines,
-			List<String[]> referenceLines) throws ParseException {
+	double getCO2DiffForLine(String[] line, List<String[]> allLines, List<String[]> referenceLines) throws ParseException {
 		double co2Diff = 0.0;
 		if (parseDoubleValue(line, Constants.SOLENOID_VALVES) != referenceChamberValue) {
 			Date date = dateFormat.parse(line[Constants.DATE_AND_TIME]);
 			long shortestedDistance = Long.MAX_VALUE;
 			for (String[] refLineIndex : referenceLines) {
-				Date refDate = dateFormat
-						.parse(refLineIndex[Constants.DATE_AND_TIME]);
-				long rawDifference = Math.abs(date.getTime()
-						- refDate.getTime());
+				Date refDate = dateFormat.parse(refLineIndex[Constants.DATE_AND_TIME]);
+				long rawDifference = Math.abs(date.getTime() - refDate.getTime());
 				if (rawDifference < shortestedDistance) {
 					co2Diff = parseDoubleValue(refLineIndex, Constants.CO2_ABS);
 					shortestedDistance = rawDifference;

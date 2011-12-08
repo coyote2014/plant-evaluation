@@ -35,8 +35,7 @@ import org.apache.commons.io.FileUtils;
  */
 public class PreProcessor {
 
-	public static void replaceWhiteSpacesWithComma(File inputFile)
-			throws IOException {
+	public static void replaceWhiteSpacesWithComma(File inputFile) throws IOException {
 		List<String> inputLines = FileUtils.readLines(inputFile);
 		List<String> outputlines = new ArrayList<String>();
 		for (String line : inputLines) {

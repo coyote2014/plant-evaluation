@@ -35,16 +35,13 @@ public class EntryComparator implements Comparator<String[]> {
 
 	private final Log log = LogFactory.getLog(EntryComparator.class);
 
-	public SimpleDateFormat dateFormat = new SimpleDateFormat(
-			"yyyy-MM-dd HH:mm:ss.SS");
+	public SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SS");
 
 	@Override
 	public int compare(String[] line, String[] lineToCompare) {
 		try {
-			Date lineDate = dateFormat.parse(line[Constants.DATE] + " "
-					+ line[Constants.TIME]);
-			Date compareDate = dateFormat.parse(lineToCompare[Constants.DATE]
-					+ " " + lineToCompare[Constants.TIME]);
+			Date lineDate = dateFormat.parse(line[Constants.DATE] + " " + line[Constants.TIME]);
+			Date compareDate = dateFormat.parse(lineToCompare[Constants.DATE] + " " + lineToCompare[Constants.TIME]);
 			return lineDate.compareTo(compareDate);
 		} catch (ParseException pe) {
 			log.error("Parse Exception in comparator..." + pe);

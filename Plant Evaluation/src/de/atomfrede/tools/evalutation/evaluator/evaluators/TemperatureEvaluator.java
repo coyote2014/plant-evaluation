@@ -50,8 +50,7 @@ public class TemperatureEvaluator extends SingleInputFileEvaluator {
 
 	List<String[]> temperatureDataLines;
 
-	public TemperatureEvaluator(File dataInputFile,
-			File standardDerivationInputFile) {
+	public TemperatureEvaluator(File dataInputFile, File standardDerivationInputFile) {
 		super("temperature", dataInputFile, standardDerivationInputFile);
 		this.name = "Temperature";
 	}
@@ -85,8 +84,7 @@ public class TemperatureEvaluator extends SingleInputFileEvaluator {
 					String[] currentLine = allDataLines.get(i);
 					double temperature = findTemperatureForLine(currentLine);
 					writeTemperature(writer, currentLine, temperature);
-					progressBar.setValue((int) (i * 1.0 / allDataLines.size()
-							* 100.0 * 0.5));
+					progressBar.setValue((int) (i * 1.0 / allDataLines.size() * 100.0 * 0.5));
 
 				}
 			}
@@ -95,8 +93,7 @@ public class TemperatureEvaluator extends SingleInputFileEvaluator {
 			log.info("Writing Temperature for mean data done.");
 			{
 				// read the temperature for the standard deviation file
-				standardDeviationOutputFile = new File(outputFolder,
-						"standard-derivation-temperature.csv");
+				standardDeviationOutputFile = new File(outputFolder, "standard-derivation-temperature.csv");
 
 				standardDeviationOutputFile.createNewFile();
 				if (!standardDeviationOutputFile.exists())
@@ -110,10 +107,8 @@ public class TemperatureEvaluator extends SingleInputFileEvaluator {
 				for (int i = 1; i < allDataLines.size(); i++) {
 					String[] currentLine = allDataLines.get(i);
 					double temperature = findTemperatureForLine(currentLine);
-					writeTemperature(standardDerivationWriter, currentLine,
-							temperature);
-					progressBar.setValue((int) ((i * 1.0 / allDataLines.size()
-							* 100.0 * 0.5) + 50.0));
+					writeTemperature(standardDerivationWriter, currentLine, temperature);
+					progressBar.setValue((int) ((i * 1.0 / allDataLines.size() * 100.0 * 0.5) + 50.0));
 
 				}
 			}
@@ -139,8 +134,7 @@ public class TemperatureEvaluator extends SingleInputFileEvaluator {
 		return true;
 	}
 
-	void writeTemperature(CSVWriter writer, String[] currentLine,
-			double temperature) {
+	void writeTemperature(CSVWriter writer, String[] currentLine, double temperature) {
 		String[] newLine = new String[currentLine.length + 1];
 		int i = 0;
 		for (i = 0; i < currentLine.length; i++) {
@@ -159,28 +153,24 @@ public class TemperatureEvaluator extends SingleInputFileEvaluator {
 	 */
 	double findTemperatureForLine(String[] currentLine) throws ParseException {
 		// first parse the date from the laser data input file
-		Date dateOfLaser = dateFormat
-				.parse(currentLine[Constants.DATE_AND_TIME]);
+		Date dateOfLaser = dateFormat.parse(currentLine[Constants.DATE_AND_TIME]);
 
 		double temperature = 0.0;
 		// start with the longst distance
 		long shortestedDistance = Long.MAX_VALUE;
 		for (int i = 2; i < temperatureDataLines.size(); i++) {
 			String[] currentTemperatureLine = temperatureDataLines.get(i);
-			Date temperatureDate = temperatureAndPlantDateFormat
-					.parse(currentTemperatureLine[DATE_TIME_TEMPERATURE]);
+			Date temperatureDate = temperatureAndPlantDateFormat.parse(currentTemperatureLine[DATE_TIME_TEMPERATURE]);
 			// compute difference between date of temperature and the date in
 			// the given dataset line
-			long difference = Math.abs(dateOfLaser.getTime()
-					- temperatureDate.getTime());
+			long difference = Math.abs(dateOfLaser.getTime() - temperatureDate.getTime());
 			// if the new difference is smaller than the current shortest
 			// distance, this becomes the new shortest distance
 			if (shortestedDistance > difference) {
 				shortestedDistance = difference;
 				// the temperature looking for is always the temperature with
 				// the shortest distance
-				temperature = parseDoubleValue(currentTemperatureLine,
-						TEMPERATURE);
+				temperature = parseDoubleValue(currentTemperatureLine, TEMPERATURE);
 			}
 		}
 		return temperature;

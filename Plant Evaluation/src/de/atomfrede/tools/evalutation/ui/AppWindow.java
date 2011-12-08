@@ -29,14 +29,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URISyntaxException;
 
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -139,10 +132,8 @@ public class AppWindow {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				WindowEvent wev = new WindowEvent(frame,
-						WindowEvent.WINDOW_CLOSING);
-				Toolkit.getDefaultToolkit().getSystemEventQueue()
-						.postEvent(wev);
+				WindowEvent wev = new WindowEvent(frame, WindowEvent.WINDOW_CLOSING);
+				Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
 
 			}
 		});
@@ -164,8 +155,7 @@ public class AppWindow {
 		JMenu mnTools = new JMenu(Messages.getString("AppWindow.mnTools.text")); //$NON-NLS-1$
 		menuBar.add(mnTools);
 
-		JMenuItem mntmPostprocessing = new JMenuItem(
-				Messages.getString("AppWindow.mntmPostprocessing.text")); //$NON-NLS-1$
+		JMenuItem mntmPostprocessing = new JMenuItem(Messages.getString("AppWindow.mntmPostprocessing.text")); //$NON-NLS-1$
 		mnTools.add(mntmPostprocessing);
 
 		JMenu mnHelp = new JMenu(Messages.getString("AppWindow.6")); //$NON-NLS-1$
@@ -197,15 +187,11 @@ public class AppWindow {
 	 * @return
 	 */
 	private int reallyExit() {
-		Object[] options = {
-				Messages.getString("AppWindow.11"), Messages.getString("AppWindow.12") }; //$NON-NLS-1$ //$NON-NLS-2$
+		Object[] options = { Messages.getString("AppWindow.11"), Messages.getString("AppWindow.12") }; //$NON-NLS-1$ //$NON-NLS-2$
 
-		int result = JOptionPane.showOptionDialog(
-				frame,
-				Messages.getString("AppWindow.13"), //$NON-NLS-1$
+		int result = JOptionPane.showOptionDialog(frame, Messages.getString("AppWindow.13"), //$NON-NLS-1$
 				Messages.getString("AppWindow.14"), JOptionPane.YES_NO_OPTION, //$NON-NLS-1$
-				JOptionPane.WARNING_MESSAGE, Icons.IC_DIALOG_WARNING_LARGE,
-				options, options[1]);
+				JOptionPane.WARNING_MESSAGE, Icons.IC_DIALOG_WARNING_LARGE, options, options[1]);
 
 		return result;
 	}
@@ -222,8 +208,7 @@ public class AppWindow {
 		mainPanel = new MainPanel(frame);
 		builder.append(mainPanel);
 
-		frame.getContentPane().add(new JScrollPane(builder.getPanel()),
-				BorderLayout.CENTER);
+		frame.getContentPane().add(new JScrollPane(builder.getPanel()), BorderLayout.CENTER);
 
 		Rectangle bounds = new Rectangle(builder.getPanel().getPreferredSize());
 		bounds.grow(20, 35);

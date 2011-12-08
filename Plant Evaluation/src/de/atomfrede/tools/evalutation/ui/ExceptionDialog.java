@@ -28,18 +28,7 @@ import java.awt.event.ActionEvent;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
 import com.jidesoft.dialog.ButtonPanel;
 import com.jidesoft.dialog.StandardDialog;
@@ -55,8 +44,7 @@ public class ExceptionDialog extends StandardDialog {
 	public JComponent _detailsPanel;
 	Exception exception;
 
-	public ExceptionDialog(JFrame parent, Exception exception)
-			throws HeadlessException {
+	public ExceptionDialog(JFrame parent, Exception exception) throws HeadlessException {
 		super(parent, exception.toString());
 		this.exception = exception;
 
@@ -89,8 +77,7 @@ public class ExceptionDialog extends StandardDialog {
 	protected StandardDialogPane createStandardDialogPane() {
 		DefaultStandardDialogPane dialogPane = new DefaultStandardDialogPane() {
 			@Override
-			protected void layoutComponents(Component bannerPanel,
-					Component contentPanel, ButtonPanel buttonPanel) {
+			protected void layoutComponents(Component bannerPanel, Component contentPanel, ButtonPanel buttonPanel) {
 				setLayout(new JideBoxLayout(this, BoxLayout.Y_AXIS));
 				if (bannerPanel != null) {
 					add(bannerPanel);

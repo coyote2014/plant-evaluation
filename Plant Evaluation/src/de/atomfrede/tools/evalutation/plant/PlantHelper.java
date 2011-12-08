@@ -23,7 +23,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class PlantHelper {
 
 	static double UPPER_LEAF_AREA_PLANT_ONE = 0.105823;
@@ -59,15 +58,13 @@ public class PlantHelper {
 	static final String PLANT_SIX_START = "08.08.11 09:11:00";
 	static final String PLANT_SIX_END = "10.08.11 22:03:00";
 
-	public static SimpleDateFormat dateFormat = new SimpleDateFormat(
-			"dd.MM.yy HH:mm:ss");
+	public static SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy HH:mm:ss");
 
 	static List<Plant> defaultPlants = new ArrayList<Plant>();
 
 	static {
 		try {
-			Plant plantOne = new Plant(dateFormat.parse(PLANT_ONE_START),
-					dateFormat.parse(PLANT_ONE_END));
+			Plant plantOne = new Plant(dateFormat.parse(PLANT_ONE_START), dateFormat.parse(PLANT_ONE_END));
 			plantOne.setLowerLeafArea(LOWER_LEAF_AREA_PLANT_ONE);
 			plantOne.setUpperLeafArea(UPPER_LEAF_AREA_PLANT_ONE);
 
