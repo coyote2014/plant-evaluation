@@ -37,12 +37,12 @@
 	</target>
 
 	<target name="copy libs">
-		
+		<copy file="${libs.dir}/iText-2.1.5.jar" todir="${dist.libs.dir}" />
 		<copy file="${libs.dir}/commons-io-2.1.jar" todir="${dist.libs.dir}" />
 		<copy file="${libs.dir}/commons-lang3-3.0.1.jar" todir="${dist.libs.dir}" />
 		<copy file="${libs.dir}/commons-math-2.2.jar" todir="${dist.libs.dir}" />
 		<copy file="${libs.dir}/opencsv-2.3.jar" todir="${dist.libs.dir}" />
-		<copy file="${libs.dir}/jfreechart-1.0.13.jar" todir="${dist.libs.dir}" />
+		<copy file="${libs.dir}/jfreechart-1.0.14.jar" todir="${dist.libs.dir}" />
 		<copy file="${libs.dir}/jcommon-1.0.16.jar" todir="${dist.libs.dir}" />
 		<copy file="${libs.dir}/jgoodies-common-1.2.1.jar" todir="${dist.libs.dir}" />
 		<copy file="${libs.dir}/jgoodies-forms-1.4.2.jar" todir="${dist.libs.dir}" />
