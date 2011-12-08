@@ -111,8 +111,11 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 	 * @return
 	 */
 	private String[] computeMeanLine(List<String[]> meanLines) {
+		// create a new empty line
 		String[] meanLine = new String[meanLines.get(0).length];
-		meanLine = meanLines.get(meanLine.length - 1);
+		// take the last line of all mean lines as line that will be written in
+		// the new file
+		meanLine = meanLines.get(meanLines.size() - 1);
 		// List for collection all values to compute means of
 		List<Double> co2AbsoluteValues = new ArrayList<Double>();
 		List<Double> _12Co2Values = new ArrayList<Double>();
