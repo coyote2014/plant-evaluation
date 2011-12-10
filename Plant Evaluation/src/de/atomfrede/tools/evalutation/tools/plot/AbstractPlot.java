@@ -19,6 +19,7 @@
 package de.atomfrede.tools.evalutation.tools.plot;
 
 import java.io.File;
+import java.util.Date;
 
 public abstract class AbstractPlot {
 
@@ -34,6 +35,18 @@ public abstract class AbstractPlot {
 
 	public void setDataFile(File dataFile) {
 		this.dataFile = dataFile;
+	}
+
+	public double parseDoubleValue(String[] line, int type) {
+		return Double.parseDouble(line[type].replace(",", "."));
+	}
+
+	public long parseLong(String[] line, int type) {
+		return Long.parseLong(line[type].replace(".", ""));
+	}
+
+	public Date parseDate(String[] line, int type) {
+		return new Date(parseLong(line, type));
 	}
 
 }

@@ -1,7 +1,7 @@
 /**
  *  Copyright 2011 Frederik Hahne
  *
- * 	SimplePlot.java is part of Plant Evaluation.
+ * 	TimePlot.java is part of Plant Evaluation.
  *
  *  Plant Evaluation is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,15 +21,15 @@ package de.atomfrede.tools.evalutation.tools.plot;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.AxisLocation;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.axis.*;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYDataset;
@@ -42,12 +42,13 @@ import com.lowagie.text.pdf.DefaultFontMapper;
 
 import de.atomfrede.tools.evalutation.tools.plot.util.PlotUtil;
 
-public class SimplePlot extends AbstractPlot {
+public class TimePlot extends AbstractPlot {
 
-	private final Log log = LogFactory.getLog(SimplePlot.class);
+	private final Log log = LogFactory.getLog(TimePlot.class);
 
-	public SimplePlot(File dataFile) {
-		super(dataFile);
+	public TimePlot(File inputFile) {
+		super(inputFile);
+
 		try {
 			plot();
 		} catch (Exception e) {
@@ -56,6 +57,7 @@ public class SimplePlot extends AbstractPlot {
 	}
 
 	void plot() throws Exception {
+
 		CSVReader reader = new CSVReader(new FileReader(dataFile));
 
 		List<String[]> allLines = reader.readAll();
@@ -64,34 +66,20 @@ public class SimplePlot extends AbstractPlot {
 		XYDataset dataset2 = createDeltaRawDataSet(allLines);
 		JFreeChart chart = createChart(dataset, dataset2);
 
-		File fileName = new File(System.getProperty("user.home") + "/co2absolute.pdf");
-		File svgFile = new File(System.getProperty("user.home") + "/co2absolute.svg");
+		File fileName = new File(System.getProperty("user.home") + "/co2absolute-time.pdf");
+		File svgFile = new File(System.getProperty("user.home") + "/co2absolute-time.svg");
 
-		PlotUtil.saveChartAsPDF(fileName, chart, 400, 300, new DefaultFontMapper());
+		PlotUtil.saveChartAsPDF(fileName, chart, 800, 300, new DefaultFontMapper());
 
-		PlotUtil.saveChartAsSVG(svgFile, chart, 400, 300);
+		PlotUtil.saveChartAsSVG(svgFile, chart, 800, 300);
+
 	}
 
 	JFreeChart createChart(XYDataset dataset, XYDataset dataset2) {
 		// Simple plot withpout time x axis
-		JFreeChart chart = ChartFactory.createXYLineChart("CO2 Absolute",// chart
-																			// title
-				"Time (indexed)",
-				// x axis label
-				"CO2 Absolute",
-				// y axis label
-				dataset,
-				// data
-				PlotOrientation.VERTICAL, true,
-				// include legend
-				true,
-				// tooltips
-				false
-		// urls
-				);
+		JFreeChart chart = ChartFactory.createTimeSeriesChart("CO2 Absolute", "Time", "CO2 Absolute", dataset, true, true, false);
 
 		XYPlot plot = (XYPlot) chart.getPlot();
-		//
 
 		plot.setDataset(1, dataset2);
 
@@ -117,6 +105,12 @@ public class SimplePlot extends AbstractPlot {
 		plot.setDomainGridlinePaint(Color.LIGHT_GRAY);
 		plot.setRangeGridlinePaint(Color.LIGHT_GRAY);
 
+		DateAxis axis = (DateAxis) plot.getDomainAxis();
+
+		axis.setDateFormatOverride(new SimpleDateFormat("dd.MM HH:mm"));
+		axis.setTickUnit(new DateTickUnit(DateTickUnitType.HOUR, 2));
+		axis.setVerticalTickLabels(true);
+
 		return chart;
 
 	}
@@ -127,7 +121,8 @@ public class SimplePlot extends AbstractPlot {
 
 		for (int i = 1; i < allLines.size(); i++) {
 			double value = parseDoubleValue(allLines.get(i), 37);
-			series.add(i, value);
+			Date date = parseDate(allLines.get(i), 4);
+			series.add(date.getTime(), value);
 		}
 
 		dataset.addSeries(series);
@@ -140,7 +135,8 @@ public class SimplePlot extends AbstractPlot {
 
 		for (int i = 1; i < allLines.size(); i++) {
 			double value = parseDoubleValue(allLines.get(i), 22);
-			series.add(i, value);
+			Date date = parseDate(allLines.get(i), 4);
+			series.add(date.getTime(), value);
 		}
 
 		dataset.addSeries(series);

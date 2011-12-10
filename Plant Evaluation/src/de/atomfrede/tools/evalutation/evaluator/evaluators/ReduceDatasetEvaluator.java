@@ -94,6 +94,7 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 				writer.close();
 			}
 		}
+		// new TimePlot(outputFile);
 		// new SimplePlot(outputFile);
 		log.info("Reduce Dataset Evaluator done.");
 		return true;
