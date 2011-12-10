@@ -37,20 +37,14 @@
 	</target>
 
 	<target name="copy libs">
-		<copy file="${libs.dir}/iText-2.1.5.jar" todir="${dist.libs.dir}" />
-		<copy file="${libs.dir}/commons-io-2.1.jar" todir="${dist.libs.dir}" />
-		<copy file="${libs.dir}/commons-lang3-3.0.1.jar" todir="${dist.libs.dir}" />
-		<copy file="${libs.dir}/commons-math-2.2.jar" todir="${dist.libs.dir}" />
-		<copy file="${libs.dir}/opencsv-2.3.jar" todir="${dist.libs.dir}" />
-		<copy file="${libs.dir}/jfreechart-1.0.14.jar" todir="${dist.libs.dir}" />
-		<copy file="${libs.dir}/jcommon-1.0.16.jar" todir="${dist.libs.dir}" />
-		<copy file="${libs.dir}/jgoodies-common-1.2.1.jar" todir="${dist.libs.dir}" />
-		<copy file="${libs.dir}/jgoodies-forms-1.4.2.jar" todir="${dist.libs.dir}" />
-		<copy file="${libs.dir}/swingx-core-1.6.2.jar" todir="${dist.libs.dir}" />
-		<copy file="${libs.dir}/commons-configuration-1.7.jar" todir="${dist.libs.dir}" />
-		<copy file="${libs.dir}/jide-oss-3.2.4.jar" todir="${dist.libs.dir}" />
-		<copy file="${libs.dir}/commons-logging-1.1.1.jar" todir="${dist.libs.dir}" />
-		<copy file="${libs.dir}/log4j-1.2.16.jar" todir="${dist.libs.dir}" />
+		<copy todir="${dist.libs.dir}">
+		  <fileset dir="${libs.dir}"
+		           includes="*.jar"
+		  />
+		</copy>
+
+		
+	
 	</target>
 	
 	<target name="create installer" depends="dist">
