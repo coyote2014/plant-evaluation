@@ -1,5 +1,5 @@
 /**
- *  Copyright 2011 Frederik Hahne fred
+ *  Copyright 2011 Frederik Hahne
  *
  * 	SimplePlot.java is part of Plant Evaluation.
  *
@@ -19,9 +19,8 @@
 package de.atomfrede.tools.evalutation.tools.plot;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -39,10 +38,9 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import au.com.bytecode.opencsv.CSVReader;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.*;
+import com.lowagie.text.pdf.DefaultFontMapper;
+
+import de.atomfrede.tools.evalutation.tools.plot.util.PlotUtil;
 
 public class SimplePlot extends AbstractPlot {
 
@@ -67,9 +65,11 @@ public class SimplePlot extends AbstractPlot {
 		JFreeChart chart = createChart(dataset, dataset2);
 
 		File fileName = new File(System.getProperty("user.home") + "/co2absolute.pdf");
+		File svgFile = new File(System.getProperty("user.home") + "/co2absolute.svg");
 
-		saveChartAsPDF(fileName, chart, 400, 300, new DefaultFontMapper());
+		PlotUtil.saveChartAsPDF(fileName, chart, 400, 300, new DefaultFontMapper());
 
+		PlotUtil.saveChartAsSVG(svgFile, chart, 400, 300);
 	}
 
 	public double parseDoubleValue(String[] line, int type) {
@@ -142,33 +142,6 @@ public class SimplePlot extends AbstractPlot {
 
 		dataset.addSeries(series);
 		return dataset;
-	}
-
-	public static void saveChartAsPDF(File file, JFreeChart chart, int width, int height, FontMapper mapper) throws IOException {
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
-		writeChartAsPDF(out, chart, width, height, mapper);
-		out.close();
-	}
-
-	public static void writeChartAsPDF(OutputStream out, JFreeChart chart, int width, int height, FontMapper mapper) throws IOException {
-		Rectangle pagesize = new Rectangle(width, height);
-		Document document = new Document(pagesize, 50, 50, 50, 50);
-		try {
-			PdfWriter writer = PdfWriter.getInstance(document, out);
-			// document.addAuthor("Plant-Evaluation");
-			// document.addSubject("CO2 Absolute Only");
-			document.open();
-			PdfContentByte cb = writer.getDirectContent();
-			PdfTemplate tp = cb.createTemplate(width, height);
-			Graphics2D g2 = tp.createGraphics(width, height, mapper);
-			Rectangle2D r2D = new Rectangle2D.Double(0, 0, width, height);
-			chart.draw(g2, r2D);
-			g2.dispose();
-			cb.addTemplate(tp, 0, 0);
-		} catch (DocumentException de) {
-			System.err.println(de.getMessage());
-		}
-		document.close();
 	}
 
 }
