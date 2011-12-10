@@ -42,6 +42,7 @@ import de.atomfrede.tools.evalutation.ui.about.AboutDialog;
 import de.atomfrede.tools.evalutation.ui.options.OptionsDialog;
 import de.atomfrede.tools.evalutation.ui.res.Messages;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
+import de.atomfrede.tools.evalutation.util.JarUtil;
 
 /**
  * The central frame that contains all ui elements and the main class that
@@ -64,6 +65,7 @@ public class AppWindow {
 			@Override
 			public void run() {
 				try {
+					JarUtil.startFileLogging();
 					AppWindow window = new AppWindow();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
