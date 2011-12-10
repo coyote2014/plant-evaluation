@@ -81,10 +81,10 @@ public class PlantDataInputPanel extends JPanel {
 		// builder.append(getDeleteButton());
 		builder.nextLine();
 
-		builder.append("Start Pressure");
+		builder.append(Messages.getString("PlantDataInputPanel.0")); //$NON-NLS-1$
 		builder.append(getStartDayPressureSpinner());
 
-		builder.append("End Pressure");
+		builder.append(Messages.getString("PlantDataInputPanel.1")); //$NON-NLS-1$
 		builder.append(getEndDayPressureSpinner());
 		builder.nextLine();
 

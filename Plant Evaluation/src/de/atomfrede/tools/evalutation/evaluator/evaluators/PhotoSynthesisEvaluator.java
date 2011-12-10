@@ -49,6 +49,7 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 	static double flowRateUpperChamber = 3000.0;
 
 	static double VM = 8.314472;
+	@Deprecated
 	static double PAMP = 99.7;
 	@Deprecated
 	static double PRESSURE = PAMP * 1000.0;
@@ -226,10 +227,10 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 		// if both end day and current day are equal we have reached the end day
 		// and therefore return the pressure at the end day
 		if (endDateDay == currentDateDay)
-			return plant.getPressureAtEndDay();
+			return plant.getPressureAtEndDay() * 100.0;
 		else if (endDateDay != currentDateDay)
 			// otherwise return the pressure at start day
-			return plant.getPressureAtStartDay();
+			return plant.getPressureAtStartDay() * 100.0;
 
 		return PRESSURE;
 	}
