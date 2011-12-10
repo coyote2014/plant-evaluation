@@ -21,6 +21,11 @@ package de.atomfrede.tools.evalutation.options;
 
 import java.io.File;
 
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
+
+import de.atomfrede.tools.evalutation.util.FileConfiguration;
+
 /**
  * Simple static class that holds all options only for the current session.
  * 
@@ -36,9 +41,29 @@ public class Options {
 	// how many datasets should be recorded for SD computation?
 	static double sampleRate = 10.0;
 	// standard input and output folders
-	static File inputFolder = new File("input"); //$NON-NLS-1$
+	static File inputFolder;
 	static File outputFolder = new File("output"); //$NON-NLS-1$
 	static File temperatureInputFolder = new File(inputFolder, "temp"); //$NON-NLS-1$
+
+	static PropertiesConfiguration configuration;
+
+	static {
+		try {
+			configuration = new PropertiesConfiguration(FileConfiguration.getConfigurationFile());
+			configuration.setAutoSave(true);
+			inputFolder = new File(configuration.getString(FileConfiguration.INPUT_FOLDER, "input"));
+		} catch (ConfigurationException ce) {
+
+		}
+	}
+
+	static void saveConfiguration() {
+		try {
+			configuration.save();
+		} catch (ConfigurationException ce) {
+
+		}
+	}
 
 	public static double getSampleRate() {
 		return sampleRate;
@@ -62,6 +87,7 @@ public class Options {
 
 	public static void setInputFolder(File inputFolder) {
 		Options.inputFolder = inputFolder;
+		configuration.setProperty(FileConfiguration.INPUT_FOLDER, inputFolder.getAbsolutePath());
 	}
 
 	public static File getOutputFolder() {
@@ -70,6 +96,7 @@ public class Options {
 
 	public static void setOutputFolder(File outputFolder) {
 		Options.outputFolder = outputFolder;
+		configuration.setProperty(FileConfiguration.OUTPUT_FOLDER, outputFolder.getAbsolutePath());
 	}
 
 	public static File getTemperatureInputFolder() {
@@ -78,6 +105,7 @@ public class Options {
 
 	public static void setTemperatureInputFolder(File temperatureInputFolder) {
 		Options.temperatureInputFolder = temperatureInputFolder;
+		configuration.setProperty(FileConfiguration.TEMPERATURE_FOLDER, temperatureInputFolder.getAbsolutePath());
 	}
 
 	public static boolean isRecordReferenceChambers() {

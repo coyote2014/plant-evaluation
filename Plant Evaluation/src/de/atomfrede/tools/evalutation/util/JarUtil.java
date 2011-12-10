@@ -19,6 +19,7 @@
 package de.atomfrede.tools.evalutation.util;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.security.CodeSource;
 
 import org.apache.log4j.BasicConfigurator;
@@ -30,11 +31,15 @@ import de.atomfrede.tools.evalutation.ui.AppWindow;
 
 public class JarUtil {
 
-	protected static File getJarLocation() throws Exception {
-		CodeSource codeSource = AppWindow.class.getProtectionDomain().getCodeSource();
-		File jarFile = new File(codeSource.getLocation().toURI().getPath());
+	protected static File getJarLocation() {
+		try {
+			CodeSource codeSource = AppWindow.class.getProtectionDomain().getCodeSource();
+			File jarFile = new File(codeSource.getLocation().toURI().getPath());
+			return jarFile;
+		} catch (URISyntaxException e) {
 
-		return jarFile;
+		}
+		return new File(".");
 	}
 
 	/**
