@@ -35,14 +35,14 @@ import de.atomfrede.tools.evalutation.util.FileConfiguration;
 public class Options {
 
 	// shift every date by one hour to cope with summer and winter time
-	static boolean shiftByOneHour = false;
+	static boolean shiftByOneHour;
 	// should the reference chambers be recorded?
-	static boolean recordReferenceChambers = false;
+	static boolean recordReferenceChambers;
 	// how many datasets should be recorded for SD computation?
-	static double sampleRate = 10.0;
+	static double sampleRate;
 	// standard input and output folders
 	static File inputFolder;
-	static File outputFolder = new File("output"); //$NON-NLS-1$
+	static File outputFolder;//$NON-NLS-1$
 	static File temperatureInputFolder = new File(inputFolder, "temp"); //$NON-NLS-1$
 
 	static PropertiesConfiguration configuration;
@@ -51,7 +51,15 @@ public class Options {
 		try {
 			configuration = new PropertiesConfiguration(FileConfiguration.getConfigurationFile());
 			configuration.setAutoSave(true);
+
 			inputFolder = new File(configuration.getString(FileConfiguration.INPUT_FOLDER, "input"));
+			outputFolder = new File(configuration.getString(FileConfiguration.OUTPUT_FOLDER, "output"));
+			temperatureInputFolder = new File(configuration.getString(FileConfiguration.TEMPERATURE_FOLDER, "input/temp"));
+
+			shiftByOneHour = configuration.getBoolean(FileConfiguration.OPTION_SHIFT_BY_ONE_HOUR, false);
+			recordReferenceChambers = configuration.getBoolean(FileConfiguration.OPTIONS_RECORD_REFERENCE_CHAMBERS, false);
+			sampleRate = configuration.getDouble(FileConfiguration.OPTIONS_SAMPLE_RATE, 10.0);
+
 		} catch (ConfigurationException ce) {
 
 		}
@@ -71,6 +79,7 @@ public class Options {
 
 	public static void setSampleRate(double count) {
 		sampleRate = count;
+		configuration.setProperty(FileConfiguration.OPTIONS_SAMPLE_RATE, count);
 	}
 
 	public static boolean isShiftByOneHour() {
@@ -79,6 +88,7 @@ public class Options {
 
 	public static void setShiftByOneHour(boolean shiftByOneHour) {
 		Options.shiftByOneHour = shiftByOneHour;
+		configuration.setProperty(FileConfiguration.OPTION_SHIFT_BY_ONE_HOUR, shiftByOneHour);
 	}
 
 	public static File getInputFolder() {
@@ -114,6 +124,7 @@ public class Options {
 
 	public static void setRecordReferenceChambers(boolean recordReferenceChambers) {
 		Options.recordReferenceChambers = recordReferenceChambers;
+		configuration.setProperty(FileConfiguration.OPTIONS_RECORD_REFERENCE_CHAMBERS, recordReferenceChambers);
 	}
 
 }

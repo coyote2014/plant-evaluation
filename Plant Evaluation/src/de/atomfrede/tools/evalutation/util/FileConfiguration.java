@@ -21,11 +21,20 @@ package de.atomfrede.tools.evalutation.util;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public class FileConfiguration {
 
 	public static String INPUT_FOLDER = "folder.input";
 	public static String TEMPERATURE_FOLDER = "folder.temperature";
 	public static String OUTPUT_FOLDER = "folder.output";
+
+	public static String OPTION_SHIFT_BY_ONE_HOUR = "options.shift";
+	public static String OPTIONS_RECORD_REFERENCE_CHAMBERS = "options.recordReference";
+	public static String OPTIONS_SAMPLE_RATE = "options.sampleRate";
+
+	private static final Log log = LogFactory.getLog(FileConfiguration.class);
 
 	static File configurationFile;
 
@@ -40,7 +49,7 @@ public class FileConfiguration {
 			if (!configurationFile.exists())
 				configurationFile.createNewFile();
 		} catch (IOException e) {
-
+			log.error("Could not create configuration file", e);
 		}
 	}
 
