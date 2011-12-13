@@ -47,6 +47,7 @@ public class CopyEvaluator extends AbstractEvaluator {
 	private final Log log = LogFactory.getLog(CopyEvaluator.class);
 
 	File outputFile;
+	List<Double> solenoidValvesOfInterest = new ArrayList<Double>();
 
 	public CopyEvaluator() {
 		super("copy");
@@ -64,6 +65,12 @@ public class CopyEvaluator extends AbstractEvaluator {
 	@Override
 	public boolean evaluate() {
 		log.info("Copy Evaluator started");
+		// setup all solenoid valves of interest
+		solenoidValvesOfInterest.add(Double.valueOf(1.0));
+		solenoidValvesOfInterest.add(Double.valueOf(2.0));
+		solenoidValvesOfInterest.add(Double.valueOf(4.0));
+		solenoidValvesOfInterest.add(Double.valueOf(8.0));
+		solenoidValvesOfInterest.add(Double.valueOf(16.0));
 		CSVWriter writer = null;
 		try {
 			// create one output file
@@ -105,8 +112,8 @@ public class CopyEvaluator extends AbstractEvaluator {
 					for (int j = 1; j < currentLines.size(); j++) {
 						String[] currentLine = currentLines.get(j);
 						double solenoidValue = parseDoubleValue(currentLine, Constants.SOLENOID_VALVE_INPUT);
-						// TODO check if this is fine for every evaluation!
-						if (solenoidValue == 1.0 || solenoidValue == 4.0 || solenoidValue == 2.0) {
+						// only copy the solenoid valves of interest
+						if (solenoidValvesOfInterest.contains(Double.valueOf(solenoidValue))) {
 							allLines.add(currentLine);
 						}
 					}
