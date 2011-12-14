@@ -30,6 +30,8 @@ import org.apache.commons.math.stat.StatUtils;
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
+import de.atomfrede.tools.evalutation.tools.plot.SimplePlot;
+import de.atomfrede.tools.evalutation.tools.plot.TimePlot;
 
 /**
  * Evaluator that reduces the whole dataset by taking 60 lines, computing the
@@ -94,8 +96,8 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 				writer.close();
 			}
 		}
-		// new TimePlot(outputFile);
-		// new SimplePlot(outputFile);
+		new TimePlot(outputFile);
+		new SimplePlot(outputFile);
 		log.info("Reduce Dataset Evaluator done.");
 		return true;
 	}

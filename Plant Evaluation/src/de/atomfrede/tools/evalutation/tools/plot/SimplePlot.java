@@ -40,6 +40,7 @@ import au.com.bytecode.opencsv.CSVReader;
 
 import com.lowagie.text.pdf.DefaultFontMapper;
 
+import de.atomfrede.tools.evalutation.options.Options;
 import de.atomfrede.tools.evalutation.tools.plot.util.PlotUtil;
 
 public class SimplePlot extends AbstractPlot {
@@ -64,8 +65,8 @@ public class SimplePlot extends AbstractPlot {
 		XYDataset dataset2 = createDeltaRawDataSet(allLines);
 		JFreeChart chart = createChart(dataset, dataset2);
 
-		File fileName = new File(System.getProperty("user.home") + "/co2absolute.pdf");
-		File svgFile = new File(System.getProperty("user.home") + "/co2absolute.svg");
+		File fileName = new File(Options.getOutputFolder(), "co2absolute.pdf");
+		File svgFile = new File(Options.getOutputFolder(), "co2absolute.svg");
 
 		PlotUtil.saveChartAsPDF(fileName, chart, 400, 300, new DefaultFontMapper());
 
@@ -99,10 +100,10 @@ public class SimplePlot extends AbstractPlot {
 		plot.setRangeAxis(1, axis2);
 
 		plot.setRangeAxisLocation(1, AxisLocation.BOTTOM_OR_RIGHT);
-		plot.getRangeAxis(1).setLowerBound(-35.0);
+		plot.getRangeAxis(1).setLowerBound(-25.0);
 		plot.getRangeAxis(1).setUpperBound(3.0);
-		plot.getRangeAxis(0).setLowerBound(250);
-		plot.getRangeAxisForDataset(0).setUpperBound(1000.0);
+		plot.getRangeAxis(0).setLowerBound(300);
+		plot.getRangeAxisForDataset(0).setUpperBound(1800.0);
 		plot.mapDatasetToRangeAxis(1, 1);
 
 		plot.getRenderer(0).setSeriesPaint(0, Color.ORANGE);
