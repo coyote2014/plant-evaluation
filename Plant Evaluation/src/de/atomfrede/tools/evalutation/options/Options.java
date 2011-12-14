@@ -27,6 +27,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
 import de.atomfrede.tools.evalutation.util.FileConfiguration;
+import de.atomfrede.tools.evalutation.util.JarUtil;
 
 /**
  * Simple static class that holds all options only for the current session.
@@ -72,9 +73,23 @@ public class Options {
 			configuration = new PropertiesConfiguration(FileConfiguration.getConfigurationFile());
 			configuration.setAutoSave(true);
 
-			inputFolder = new File(configuration.getString(FileConfiguration.INPUT_FOLDER, "input"));
-			outputFolder = new File(configuration.getString(FileConfiguration.OUTPUT_FOLDER, "output"));
-			temperatureInputFolder = new File(configuration.getString(FileConfiguration.TEMPERATURE_FOLDER, "input/temp"));
+			if (!JarUtil.isRunningOnWindows7()) {
+				inputFolder = new File(configuration.getString(FileConfiguration.INPUT_FOLDER, "input"));
+				outputFolder = new File(configuration.getString(FileConfiguration.OUTPUT_FOLDER, "output"));
+				temperatureInputFolder = new File(configuration.getString(FileConfiguration.TEMPERATURE_FOLDER, "input/temp"));
+			} else {
+				File userDir = JarUtil.getPlantEvaluationUserHomeDir();
+				inputFolder = new File(configuration.getString(FileConfiguration.INPUT_FOLDER, userDir.getAbsolutePath() + "/input"));
+				outputFolder = new File(configuration.getString(FileConfiguration.OUTPUT_FOLDER, userDir.getAbsolutePath() + "/output"));
+				temperatureInputFolder = new File(configuration.getString(FileConfiguration.TEMPERATURE_FOLDER, userDir.getAbsolutePath() + "/input/temp"));
+			}
+
+			if (!inputFolder.exists())
+				inputFolder.mkdir();
+			if (!outputFolder.exists())
+				outputFolder.mkdir();
+			if (!temperatureInputFolder.exists())
+				temperatureInputFolder.mkdir();
 
 			shiftByOneHour = configuration.getBoolean(FileConfiguration.OPTION_SHIFT_BY_ONE_HOUR, false);
 			recordReferenceChambers = configuration.getBoolean(FileConfiguration.OPTIONS_RECORD_REFERENCE_CHAMBERS, false);

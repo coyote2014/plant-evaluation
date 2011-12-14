@@ -44,7 +44,11 @@ public class FileConfiguration {
 		try {
 			File jarLocation = JarUtil.getJarLocation();
 			if (jarLocation.getName().endsWith(".jar")) {
-				configurationFile = new File(jarLocation.getParent(), "config.properties");
+				if (!JarUtil.isRunningOnWindows7())
+					configurationFile = new File(jarLocation.getParent(), "config.properties");
+				else {
+					configurationFile = new File(JarUtil.getPlantEvaluationUserHomeDir(), "config.properties");
+				}
 			} else {
 				configurationFile = new File("config.properties");
 			}

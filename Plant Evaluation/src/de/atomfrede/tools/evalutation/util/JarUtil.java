@@ -42,6 +42,12 @@ public class JarUtil {
 		return new File(".");
 	}
 
+	public static File getPlantEvaluationUserHomeDir() {
+		File userDir = new File(System.getProperty("user.home"));
+		File plantEvaluationDir = new File(userDir, "Plant Evaluation");
+		return plantEvaluationDir;
+	}
+
 	/**
 	 * Start the file logging and puts the log file in the directoty where the
 	 * executable jar is located instad of using the user.home directory.
@@ -59,8 +65,13 @@ public class JarUtil {
 			// now setup file logging
 			File logDir = new File(jarFile.getParentFile(), "log");
 
-			if (!logDir.exists() && !logDir.mkdirs())
-				throw new Exception("Can't create log dir!");
+			if (!logDir.exists() && !logDir.mkdirs() && !isRunningOnWindows7())
+				throw new Exception("Can't create log dir : " + logDir.getAbsolutePath());
+			else {
+				logDir = new File(getPlantEvaluationUserHomeDir(), "log");
+				if (!logDir.exists() && !logDir.mkdirs())
+					throw new Exception("Can't create log dir: " + logDir.getAbsolutePath());
+			}
 
 			File logFile = new File(logDir, "log4j.log");
 
@@ -83,5 +94,11 @@ public class JarUtil {
 
 			BasicConfigurator.configure(fileLogger);
 		}
+	}
+
+	public static boolean isRunningOnWindows7() {
+		String osName = System.getProperty("os.name");
+		String osVersion = System.getProperty("os.version");
+		return "Windows 7".equals(osName) && "6.1".equals(osVersion);
 	}
 }
