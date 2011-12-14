@@ -20,6 +20,8 @@
 package de.atomfrede.tools.evalutation.options;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -45,6 +47,10 @@ public class Options {
 	static File outputFolder;//$NON-NLS-1$
 	static File temperatureInputFolder = new File(inputFolder, "temp"); //$NON-NLS-1$
 
+	// the list of interesting solenoid valves to keep the result data as small
+	// as possible
+	static List<Double> solenoidValvesOfInterest = new ArrayList<Double>();
+
 	static PropertiesConfiguration configuration;
 
 	static {
@@ -59,6 +65,8 @@ public class Options {
 			shiftByOneHour = configuration.getBoolean(FileConfiguration.OPTION_SHIFT_BY_ONE_HOUR, false);
 			recordReferenceChambers = configuration.getBoolean(FileConfiguration.OPTIONS_RECORD_REFERENCE_CHAMBERS, false);
 			sampleRate = configuration.getDouble(FileConfiguration.OPTIONS_SAMPLE_RATE, 10.0);
+
+			solenoidValvesOfInterest = configuration.getList(FileConfiguration.OPTIONS_SOLENOID_VALVES_OF_INTEREST, new ArrayList<Double>());
 
 		} catch (ConfigurationException ce) {
 
@@ -125,6 +133,14 @@ public class Options {
 	public static void setRecordReferenceChambers(boolean recordReferenceChambers) {
 		Options.recordReferenceChambers = recordReferenceChambers;
 		configuration.setProperty(FileConfiguration.OPTIONS_RECORD_REFERENCE_CHAMBERS, recordReferenceChambers);
+	}
+
+	public static List<Double> getSolenoidValvesOfInterest() {
+		return solenoidValvesOfInterest;
+	}
+
+	public static void setSolenoidValvesOfInterest(List<Double> solenoidValvesOfInterest) {
+		Options.solenoidValvesOfInterest = solenoidValvesOfInterest;
 	}
 
 }

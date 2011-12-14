@@ -47,6 +47,7 @@ public class CopyEvaluator extends AbstractEvaluator {
 	private final Log log = LogFactory.getLog(CopyEvaluator.class);
 
 	File outputFile;
+	@Deprecated
 	List<Double> solenoidValvesOfInterest = new ArrayList<Double>();
 
 	public CopyEvaluator() {

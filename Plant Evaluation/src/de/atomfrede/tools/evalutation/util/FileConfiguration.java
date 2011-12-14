@@ -34,6 +34,8 @@ public class FileConfiguration {
 	public static String OPTIONS_RECORD_REFERENCE_CHAMBERS = "options.recordReference";
 	public static String OPTIONS_SAMPLE_RATE = "options.sampleRate";
 
+	public static String OPTIONS_SOLENOID_VALVES_OF_INTEREST = "options.solenoidValves";
+
 	private static final Log log = LogFactory.getLog(FileConfiguration.class);
 
 	static File configurationFile;
