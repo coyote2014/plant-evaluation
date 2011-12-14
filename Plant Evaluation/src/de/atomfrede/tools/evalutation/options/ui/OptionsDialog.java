@@ -17,7 +17,7 @@
  *  along with Plant Evaluation.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.atomfrede.tools.evalutation.ui.options;
+package de.atomfrede.tools.evalutation.options.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

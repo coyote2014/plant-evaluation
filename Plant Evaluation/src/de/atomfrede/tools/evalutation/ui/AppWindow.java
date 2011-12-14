@@ -38,8 +38,8 @@ import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jidesoft.swing.JideBorderLayout;
 
+import de.atomfrede.tools.evalutation.options.ui.OptionsDialog;
 import de.atomfrede.tools.evalutation.ui.about.AboutDialog;
-import de.atomfrede.tools.evalutation.ui.options.OptionsDialog;
 import de.atomfrede.tools.evalutation.ui.res.Messages;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 import de.atomfrede.tools.evalutation.util.JarUtil;
