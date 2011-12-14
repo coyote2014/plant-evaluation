@@ -18,6 +18,7 @@
  */
 package de.atomfrede.tools.evalutation.tools.plot;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileReader;
@@ -107,9 +108,13 @@ public class SimplePlot extends AbstractPlot {
 		plot.mapDatasetToRangeAxis(1, 1);
 
 		plot.getRenderer(0).setSeriesPaint(0, Color.ORANGE);
+		plot.getRenderer(0).setSeriesStroke(0, new BasicStroke(0.2F));
+		// new renderer for secondary axes
 		XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
 		renderer.setBaseShapesVisible(false);
 		plot.setRenderer(1, renderer);
+
+		renderer.setSeriesStroke(0, new BasicStroke(0.2F));
 
 		plot.getRenderer(1).setSeriesPaint(0, Color.GREEN);
 
