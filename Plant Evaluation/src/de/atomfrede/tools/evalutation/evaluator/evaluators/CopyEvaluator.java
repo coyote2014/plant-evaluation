@@ -32,6 +32,7 @@ import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.EntryComparator;
 import de.atomfrede.tools.evalutation.evaluator.AbstractEvaluator;
+import de.atomfrede.tools.evalutation.options.Options;
 import de.atomfrede.tools.evalutation.util.PreProcessor;
 
 /**
@@ -47,7 +48,6 @@ public class CopyEvaluator extends AbstractEvaluator {
 	private final Log log = LogFactory.getLog(CopyEvaluator.class);
 
 	File outputFile;
-	@Deprecated
 	List<Double> solenoidValvesOfInterest = new ArrayList<Double>();
 
 	public CopyEvaluator() {
@@ -67,11 +67,8 @@ public class CopyEvaluator extends AbstractEvaluator {
 	public boolean evaluate() {
 		log.info("Copy Evaluator started");
 		// setup all solenoid valves of interest
-		solenoidValvesOfInterest.add(Double.valueOf(1.0));
-		solenoidValvesOfInterest.add(Double.valueOf(2.0));
-		solenoidValvesOfInterest.add(Double.valueOf(4.0));
-		solenoidValvesOfInterest.add(Double.valueOf(8.0));
-		solenoidValvesOfInterest.add(Double.valueOf(16.0));
+		solenoidValvesOfInterest = Options.getSolenoidValvesOfInterest();
+
 		CSVWriter writer = null;
 		try {
 			// create one output file

@@ -51,10 +51,24 @@ public class Options {
 	// as possible
 	static List<Double> solenoidValvesOfInterest = new ArrayList<Double>();
 
+	static List<Double> allSolenoidValves = new ArrayList<Double>();
+
 	static PropertiesConfiguration configuration;
 
 	static {
 		try {
+			solenoidValvesOfInterest.add(Double.valueOf(1.0));
+			solenoidValvesOfInterest.add(Double.valueOf(2.0));
+			solenoidValvesOfInterest.add(Double.valueOf(4.0));
+			solenoidValvesOfInterest.add(Double.valueOf(8.0));
+			solenoidValvesOfInterest.add(Double.valueOf(16.0));
+
+			allSolenoidValves.add(Double.valueOf(1.0));
+			allSolenoidValves.add(Double.valueOf(2.0));
+			allSolenoidValves.add(Double.valueOf(4.0));
+			allSolenoidValves.add(Double.valueOf(8.0));
+			allSolenoidValves.add(Double.valueOf(16.0));
+
 			configuration = new PropertiesConfiguration(FileConfiguration.getConfigurationFile());
 			configuration.setAutoSave(true);
 
@@ -66,7 +80,7 @@ public class Options {
 			recordReferenceChambers = configuration.getBoolean(FileConfiguration.OPTIONS_RECORD_REFERENCE_CHAMBERS, false);
 			sampleRate = configuration.getDouble(FileConfiguration.OPTIONS_SAMPLE_RATE, 10.0);
 
-			solenoidValvesOfInterest = configuration.getList(FileConfiguration.OPTIONS_SOLENOID_VALVES_OF_INTEREST, new ArrayList<Double>());
+			solenoidValvesOfInterest = configuration.getList(FileConfiguration.OPTIONS_SOLENOID_VALVES_OF_INTEREST, solenoidValvesOfInterest);
 
 		} catch (ConfigurationException ce) {
 
@@ -141,6 +155,14 @@ public class Options {
 
 	public static void setSolenoidValvesOfInterest(List<Double> solenoidValvesOfInterest) {
 		Options.solenoidValvesOfInterest = solenoidValvesOfInterest;
+		configuration.setProperty(FileConfiguration.OPTIONS_SOLENOID_VALVES_OF_INTEREST, solenoidValvesOfInterest);
 	}
 
+	public static List<Double> getAllSolenoidValves() {
+		return allSolenoidValves;
+	}
+
+	public static void setAllSolenoidValves(List<Double> allSolenoidValves) {
+		Options.allSolenoidValves = allSolenoidValves;
+	}
 }
