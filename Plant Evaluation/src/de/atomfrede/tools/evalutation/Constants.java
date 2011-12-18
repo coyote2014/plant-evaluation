@@ -41,35 +41,35 @@ public final class Constants {
 	/**
 	 * Column of 12CO2 in input file
 	 */
-	public static int _12CO2 = 16;
+	public static int _12CO2 = 18;
 	/**
 	 * Column of 12CO2 Dry in input file
 	 */
-	public static int _12CO2_DRY = 17;
+	public static int _12CO2_DRY = 19;
 	/**
 	 * Column of 13CO2 in input file
 	 */
-	public static int _13CO2 = 18;
+	public static int _13CO2 = 20;
 	/**
 	 * Column of 13CO2 Dry in input file
 	 */
-	public static int _13CO2_DRY = 19;
+	public static int _13CO2_DRY = 21;
 	/**
 	 * Column of Delta 5 Minutes in input file
 	 */
-	public static int DELTA_5_MINUTES = 25;
+	public static int DELTA_5_MINUTES = 24;
 	/**
 	 * Column of Delta Raw in input file
 	 */
-	public static int DELTA = 22;
+	public static int DELTA = 25;
 	/**
 	 * Column of H2O in input file
 	 */
-	public static int H2O = 20;
+	public static int H2O = 26;
 	/**
 	 * Column of Solenoid Valve in input file
 	 */
-	public static int SOLENOID_VALVE_INPUT = 15;
+	public static int SOLENOID_VALVE_INPUT = 16;
 
 	// Columns for the generated files
 	/**
@@ -132,6 +132,10 @@ public final class Constants {
 	 * Column for SD (StandardDerivation) of Delta13 values
 	 */
 	public static int SD_DELTA13 = 14;
+	/**
+	 * Column number of epoch time in input file
+	 */
+	public static int EPOCH_TIME = 5;
 
 	/**
 	 * Time Constants used during evaluation
