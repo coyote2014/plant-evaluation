@@ -29,7 +29,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math.stat.StatUtils;
 
 import au.com.bytecode.opencsv.CSVWriter;
-import de.atomfrede.tools.evalutation.Constants;
+import de.atomfrede.tools.evalutation.OutputFileConstants;
 import de.atomfrede.tools.evalutation.WriteUtils;
 import de.atomfrede.tools.evalutation.evaluator.MultipleInputFileEvaluator;
 
@@ -71,11 +71,11 @@ public class StandardDeviationEvaluator extends MultipleInputFileEvaluator {
 				for (int j = 1; j < currentMeanDataLines.size(); j++) {
 					String[] currentLine = currentMeanDataLines.get(j);
 					Map<Integer, double[]> mapping = getPSRandDelta13Value(currentLine);
-					double[] psrValues = mapping.get(Constants.PSR);
-					double[] delta13Values = mapping.get(Constants.DELTA13);
+					double[] psrValues = mapping.get(OutputFileConstants.PSR);
+					double[] delta13Values = mapping.get(OutputFileConstants.DELTA13);
 
-					double psrMean = parseDoubleValue(currentLine, Constants.PSR);
-					double delta13Mean = parseDoubleValue(currentLine, Constants.DELTA13);
+					double psrMean = parseDoubleValue(currentLine, OutputFileConstants.PSR);
+					double delta13Mean = parseDoubleValue(currentLine, OutputFileConstants.DELTA13);
 
 					double psrStandardDerivation = getStandardDeviation(psrValues);
 					double delta13StandardDerivation = getStandardDeviation(delta13Values);
@@ -85,11 +85,11 @@ public class StandardDeviationEvaluator extends MultipleInputFileEvaluator {
 					}
 					if (psrMean != 0.0) {
 						psrMean = StatUtils.mean(psrValues);
-						currentLine[Constants.PSR] = psrMean + "";
+						currentLine[OutputFileConstants.PSR] = psrMean + "";
 					}
 					if (delta13Mean != 0.0) {
 						delta13Mean = StatUtils.mean(delta13Values);
-						currentLine[Constants.DELTA13] = delta13Mean + "";
+						currentLine[OutputFileConstants.DELTA13] = delta13Mean + "";
 					}
 
 					writeLineWithStandardDeviation(writer, currentLine, psrStandardDerivation, delta13StandardDerivation);
@@ -158,21 +158,21 @@ public class StandardDeviationEvaluator extends MultipleInputFileEvaluator {
 		Map<Integer, double[]> dataMapping = new HashMap<Integer, double[]>();
 		List<Double> allPSRValues = new ArrayList<Double>();
 		List<Double> allDelta13Values = new ArrayList<Double>();
-		double solenoid = parseDoubleValue(meanDataLine, Constants.SOLENOID_VALVES);
-		Date meanDate = dateFormat.parse(meanDataLine[Constants.DATE_AND_TIME]);
+		double solenoid = parseDoubleValue(meanDataLine, OutputFileConstants.SOLENOID_VALVES);
+		Date meanDate = dateFormat.parse(meanDataLine[OutputFileConstants.DATE_AND_TIME]);
 		List<Integer> allLinesForCurrentMeanDate = getAllLinesToComputeStandardDeviation(meanDate, solenoid);
 
 		for (Integer lineIndex : allLinesForCurrentMeanDate) {
 			if (lineIndex >= 1) {
 				String[] currentLine = currentStandardDeviationLines.get(lineIndex);
-				double psrValue = parseDoubleValue(currentLine, Constants.PSR);
-				double delta13Value = parseDoubleValue(currentLine, Constants.DELTA13);
+				double psrValue = parseDoubleValue(currentLine, OutputFileConstants.PSR);
+				double delta13Value = parseDoubleValue(currentLine, OutputFileConstants.DELTA13);
 				allPSRValues.add(psrValue);
 				allDelta13Values.add(delta13Value);
 			}
 		}
-		dataMapping.put(Constants.PSR, list2DoubleArray(allPSRValues));
-		dataMapping.put(Constants.DELTA13, list2DoubleArray(allDelta13Values));
+		dataMapping.put(OutputFileConstants.PSR, list2DoubleArray(allPSRValues));
+		dataMapping.put(OutputFileConstants.DELTA13, list2DoubleArray(allDelta13Values));
 
 		return dataMapping;
 	}
@@ -185,13 +185,13 @@ public class StandardDeviationEvaluator extends MultipleInputFileEvaluator {
 		Date currentDate = meanDate;
 		int currentIndex = startIndex;
 		// standardDerivationLines.add(startIndex);
-		while (Math.abs(meanDate.getTime() - currentDate.getTime()) <= Constants.fiveMinutes && currentIndex >= 1
+		while (Math.abs(meanDate.getTime() - currentDate.getTime()) <= OutputFileConstants.fiveMinutes && currentIndex >= 1
 				&& currentIndex < currentStandardDeviationLines.size()) {
 			String[] possibleLine = currentStandardDeviationLines.get(currentIndex);
-			double solenoid = parseDoubleValue(possibleLine, Constants.SOLENOID_VALVES);
+			double solenoid = parseDoubleValue(possibleLine, OutputFileConstants.SOLENOID_VALVES);
 			if (solenoid == solenoidToEvaluate) {
 				standardDeviationLines.add(currentIndex);
-				currentDate = dateFormat.parse(possibleLine[Constants.DATE_AND_TIME]);
+				currentDate = dateFormat.parse(possibleLine[OutputFileConstants.DATE_AND_TIME]);
 			}
 			currentIndex--;
 
@@ -204,7 +204,7 @@ public class StandardDeviationEvaluator extends MultipleInputFileEvaluator {
 		long shortestedDistance = Long.MAX_VALUE;
 		for (int i = 1; i < currentStandardDeviationLines.size(); i++) {
 			String[] currentStandardDeviationLine = currentStandardDeviationLines.get(i);
-			Date standardDeviationDate = dateFormat.parse(currentStandardDeviationLine[Constants.DATE_AND_TIME]);
+			Date standardDeviationDate = dateFormat.parse(currentStandardDeviationLine[OutputFileConstants.DATE_AND_TIME]);
 
 			long difference = Math.abs(meanDate.getTime() - standardDeviationDate.getTime());
 			if (shortestedDistance > difference) {

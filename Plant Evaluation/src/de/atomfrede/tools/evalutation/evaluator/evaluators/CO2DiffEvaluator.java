@@ -29,7 +29,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import au.com.bytecode.opencsv.CSVWriter;
-import de.atomfrede.tools.evalutation.Constants;
+import de.atomfrede.tools.evalutation.OutputFileConstants;
 import de.atomfrede.tools.evalutation.WriteUtils;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
 
@@ -66,11 +66,11 @@ public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 
 				List<String[]> lines = readAllLinesInFile(inputFile);
 
-				allReferenceLines = findAllReferenceLines(lines, Constants.SOLENOID_VALVES);
+				allReferenceLines = findAllReferenceLines(lines, OutputFileConstants.SOLENOID_VALVES);
 
 				for (int i = 1; i < lines.size(); i++) {
 					String[] currentLine = lines.get(i);
-					double co2Diff = parseDoubleValue(currentLine, Constants.CO2_ABS) - getCO2DiffForLine(currentLine, lines, allReferenceLines);
+					double co2Diff = parseDoubleValue(currentLine, OutputFileConstants.CO2_ABS) - getCO2DiffForLine(currentLine, lines, allReferenceLines);
 					writeCO2Diff(writer, currentLine, co2Diff);
 
 					progressBar.setValue((int) (i * 1.0 / lines.size() * 100.0 * 0.5));
@@ -100,7 +100,7 @@ public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 					// System.out.println("Writing Standard Derivation Line "
 					// + i);
 					String[] currentLine = lines.get(i);
-					double co2Diff = parseDoubleValue(currentLine, Constants.CO2_ABS) - getCO2DiffForLine(currentLine, lines, allReferenceLines);
+					double co2Diff = parseDoubleValue(currentLine, OutputFileConstants.CO2_ABS) - getCO2DiffForLine(currentLine, lines, allReferenceLines);
 					writeCO2Diff(standardDerivationWriter, currentLine, co2Diff);
 					progressBar.setValue((int) ((i * 1.0 / lines.size() * 100.0 * 0.5) + 50.0));
 				}
@@ -141,20 +141,20 @@ public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 
 	double getCO2DiffForLine(String[] line, List<String[]> allLines, List<String[]> referenceLines) throws ParseException {
 		double co2Diff = 0.0;
-		if (parseDoubleValue(line, Constants.SOLENOID_VALVES) != referenceChamberValue) {
-			Date date = dateFormat.parse(line[Constants.DATE_AND_TIME]);
+		if (parseDoubleValue(line, OutputFileConstants.SOLENOID_VALVES) != referenceChamberValue) {
+			Date date = dateFormat.parse(line[OutputFileConstants.DATE_AND_TIME]);
 			long shortestedDistance = Long.MAX_VALUE;
 			for (String[] refLineIndex : referenceLines) {
-				Date refDate = dateFormat.parse(refLineIndex[Constants.DATE_AND_TIME]);
+				Date refDate = dateFormat.parse(refLineIndex[OutputFileConstants.DATE_AND_TIME]);
 				long rawDifference = Math.abs(date.getTime() - refDate.getTime());
 				if (rawDifference < shortestedDistance) {
-					co2Diff = parseDoubleValue(refLineIndex, Constants.CO2_ABS);
+					co2Diff = parseDoubleValue(refLineIndex, OutputFileConstants.CO2_ABS);
 					shortestedDistance = rawDifference;
 				}
 			}
 			return co2Diff;
 		}
 		// TODO return the value of that reference chamber
-		return parseDoubleValue(line, Constants.CO2_ABS);
+		return parseDoubleValue(line, OutputFileConstants.CO2_ABS);
 	}
 }

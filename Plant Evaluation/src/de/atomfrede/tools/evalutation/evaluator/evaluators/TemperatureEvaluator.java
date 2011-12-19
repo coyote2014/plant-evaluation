@@ -29,7 +29,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import au.com.bytecode.opencsv.CSVWriter;
-import de.atomfrede.tools.evalutation.Constants;
+import de.atomfrede.tools.evalutation.OutputFileConstants;
 import de.atomfrede.tools.evalutation.WriteUtils;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
 
@@ -153,7 +153,7 @@ public class TemperatureEvaluator extends SingleInputFileEvaluator {
 	 */
 	double findTemperatureForLine(String[] currentLine) throws ParseException {
 		// first parse the date from the laser data input file
-		Date dateOfLaser = dateFormat.parse(currentLine[Constants.DATE_AND_TIME]);
+		Date dateOfLaser = dateFormat.parse(currentLine[OutputFileConstants.DATE_AND_TIME]);
 
 		double temperature = 0.0;
 		// start with the longst distance

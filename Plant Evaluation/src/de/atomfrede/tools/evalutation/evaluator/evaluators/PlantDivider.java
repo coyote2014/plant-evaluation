@@ -30,7 +30,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import au.com.bytecode.opencsv.CSVWriter;
-import de.atomfrede.tools.evalutation.Constants;
+import de.atomfrede.tools.evalutation.OutputFileConstants;
 import de.atomfrede.tools.evalutation.WriteUtils;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputMultipleOutputFileEvaluator;
 import de.atomfrede.tools.evalutation.plant.Plant;
@@ -129,7 +129,7 @@ public class PlantDivider extends SingleInputMultipleOutputFileEvaluator {
 		List<String[]> dataBetween = new ArrayList<String[]>();
 		for (int i = 1; i < allInputLines.size(); i++) {
 			String[] currentLine = allInputLines.get(i);
-			Date currentDate = dateFormat.parse(currentLine[Constants.DATE_AND_TIME]);
+			Date currentDate = dateFormat.parse(currentLine[OutputFileConstants.DATE_AND_TIME]);
 
 			if (currentDate.getTime() >= fromDate.getTime() && tillDate.getTime() >= currentDate.getTime()) {
 				dataBetween.add(currentLine);

@@ -23,7 +23,7 @@ import java.io.File;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVWriter;
-import de.atomfrede.tools.evalutation.Constants;
+import de.atomfrede.tools.evalutation.InputFileConstants;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
 
 public class PickDatasetEvaluator extends SingleInputFileEvaluator {
@@ -65,10 +65,10 @@ public class PickDatasetEvaluator extends SingleInputFileEvaluator {
 	}
 
 	private int getSwitchIndex(int startIndex, List<String[]> allLines) {
-		double startSolenoidValve = parseDoubleValue(allLines.get(startIndex), Constants.SOLENOID_VALVE_INPUT);
+		double startSolenoidValve = parseDoubleValue(allLines.get(startIndex), InputFileConstants.SOLENOID_VALVE_INPUT);
 		for (int i = startIndex; i < allLines.size(); i++) {
 			String[] currentLine = allLines.get(i);
-			double currentSolenoid = parseDoubleValue(currentLine, Constants.SOLENOID_VALVE_INPUT);
+			double currentSolenoid = parseDoubleValue(currentLine, InputFileConstants.SOLENOID_VALVE_INPUT);
 			if (currentSolenoid != startSolenoidValve) {
 				// detected a switch
 				return i;

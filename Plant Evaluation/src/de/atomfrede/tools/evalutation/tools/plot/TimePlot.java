@@ -41,7 +41,8 @@ import au.com.bytecode.opencsv.CSVReader;
 
 import com.lowagie.text.pdf.DefaultFontMapper;
 
-import de.atomfrede.tools.evalutation.Constants;
+import de.atomfrede.tools.evalutation.OutputFileConstants;
+import de.atomfrede.tools.evalutation.InputFileConstants;
 import de.atomfrede.tools.evalutation.options.Options;
 import de.atomfrede.tools.evalutation.tools.plot.util.PlotUtil;
 
@@ -129,7 +130,7 @@ public class TimePlot extends AbstractPlot {
 
 		for (int i = 1; i < allLines.size(); i++) {
 			double value = parseDoubleValue(allLines.get(i), 39);
-			Date date = parseDate(allLines.get(i), Constants.EPOCH_TIME);
+			Date date = parseDate(allLines.get(i), OutputFileConstants.EPOCH_TIME);
 			series.add(date.getTime(), value);
 		}
 
@@ -142,8 +143,8 @@ public class TimePlot extends AbstractPlot {
 		XYSeriesCollection dataset = new XYSeriesCollection();
 
 		for (int i = 1; i < allLines.size(); i++) {
-			double value = parseDoubleValue(allLines.get(i), Constants.DELTA);
-			Date date = parseDate(allLines.get(i), Constants.EPOCH_TIME);
+			double value = parseDoubleValue(allLines.get(i), InputFileConstants.DELTA);
+			Date date = parseDate(allLines.get(i), OutputFileConstants.EPOCH_TIME);
 			series.add(date.getTime(), value);
 		}
 

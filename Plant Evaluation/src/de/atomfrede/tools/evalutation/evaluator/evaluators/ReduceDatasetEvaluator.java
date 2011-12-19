@@ -28,7 +28,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math.stat.StatUtils;
 
 import au.com.bytecode.opencsv.CSVWriter;
-import de.atomfrede.tools.evalutation.Constants;
+import de.atomfrede.tools.evalutation.InputFileConstants;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
 import de.atomfrede.tools.evalutation.tools.plot.SimplePlot;
 import de.atomfrede.tools.evalutation.tools.plot.TimePlot;
@@ -126,11 +126,11 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 
 		for (int i = 0; i < meanLines.size(); i++) {
 			String[] currentMeanLine = meanLines.get(i);
-			_12Co2Values.add(parseDoubleValue(currentMeanLine, Constants._12CO2));
-			_13Co2Values.add(parseDoubleValue(currentMeanLine, Constants._13CO2));
-			_12Co2DryValues.add(parseDoubleValue(currentMeanLine, Constants._12CO2_DRY));
-			_13Co2DryValues.add(parseDoubleValue(currentMeanLine, Constants._13CO2_DRY));
-			deltaRawValues.add(parseDoubleValue(currentMeanLine, Constants.DELTA));
+			_12Co2Values.add(parseDoubleValue(currentMeanLine, InputFileConstants._12CO2));
+			_13Co2Values.add(parseDoubleValue(currentMeanLine, InputFileConstants._13CO2));
+			_12Co2DryValues.add(parseDoubleValue(currentMeanLine, InputFileConstants._12CO2_DRY));
+			_13Co2DryValues.add(parseDoubleValue(currentMeanLine, InputFileConstants._13CO2_DRY));
+			deltaRawValues.add(parseDoubleValue(currentMeanLine, InputFileConstants.DELTA));
 			co2AbsoluteValues.add(parseDoubleValue(currentMeanLine, meanLine.length - 1));
 
 		}
@@ -142,11 +142,11 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 		double meanDeltaRaw = StatUtils.mean(list2DoubleArray(deltaRawValues));
 		double meanCo2Absolute = StatUtils.mean(list2DoubleArray(co2AbsoluteValues));
 		// add them to the new line that is written to the outputfile
-		meanLine[Constants._12CO2] = mean12Co2 + "";
-		meanLine[Constants._13CO2] = mean13Co2 + "";
-		meanLine[Constants._12CO2_DRY] = mean12Co2Dry + "";
-		meanLine[Constants._13CO2_DRY] = mean13Co2Dry + "";
-		meanLine[Constants.DELTA] = meanDeltaRaw + "";
+		meanLine[InputFileConstants._12CO2] = mean12Co2 + "";
+		meanLine[InputFileConstants._13CO2] = mean13Co2 + "";
+		meanLine[InputFileConstants._12CO2_DRY] = mean12Co2Dry + "";
+		meanLine[InputFileConstants._13CO2_DRY] = mean13Co2Dry + "";
+		meanLine[InputFileConstants.DELTA] = meanDeltaRaw + "";
 		meanLine[meanLine.length - 1] = meanCo2Absolute + "";
 		return meanLine;
 	}

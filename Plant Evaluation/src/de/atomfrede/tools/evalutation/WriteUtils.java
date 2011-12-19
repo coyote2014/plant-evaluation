@@ -30,21 +30,21 @@ public class WriteUtils {
 	static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SS");
 
 	public static void writeHeader(CSVWriter writer) {
-		String[] header = { Constants.DATE_HEADER, Constants.TIME_HEADER, Constants._12CO2_dry_HEADER, Constants._13CO2_dry_HEADER,
-				Constants.delta5minutes_HEADER, Constants.H2O_HEADER, Constants.solenoid_HEADER, Constants.CO2_ABS_HEADER, Constants.COMPLETE_TIME_HEADER,
-				Constants.CO2_DIFF_HEADER, Constants.DELTA_13_HEADER, Constants.TEMPERATURE_HEADER, Constants.PHOTO_SYNTHESIS_RATE_HEADER,
-				Constants.PHOTO_SYNTHESIS_RATE_STANDARD_DERIVATION_HEADER, Constants.DELTA_13_STANDARD_DERIVATION_HEADER };
+		String[] header = { OutputFileConstants.DATE_HEADER, OutputFileConstants.TIME_HEADER, OutputFileConstants._12CO2_dry_HEADER, OutputFileConstants._13CO2_dry_HEADER,
+				OutputFileConstants.delta5minutes_HEADER, OutputFileConstants.H2O_HEADER, OutputFileConstants.solenoid_HEADER, OutputFileConstants.CO2_ABS_HEADER, OutputFileConstants.COMPLETE_TIME_HEADER,
+				OutputFileConstants.CO2_DIFF_HEADER, OutputFileConstants.DELTA_13_HEADER, OutputFileConstants.TEMPERATURE_HEADER, OutputFileConstants.PHOTO_SYNTHESIS_RATE_HEADER,
+				OutputFileConstants.PHOTO_SYNTHESIS_RATE_STANDARD_DERIVATION_HEADER, OutputFileConstants.DELTA_13_STANDARD_DERIVATION_HEADER };
 		writer.writeNext(header);
 	}
 
 	public static void appendMeanValues(Date date2Write, String solenoid2Write, Map<Integer, Double> type2MeanValue, CSVWriter writer) {
 		String date = dateFormat.format(date2Write).split(" ")[0];
 		String time = dateFormat.format(date2Write).split(" ")[1];
-		String meanDeltaFiveMinutes = type2MeanValue.get(Constants.DELTA_5_MINUTES) + "";
-		String meanH2O = type2MeanValue.get(Constants.H2O) + "";
-		String mean12CO2 = type2MeanValue.get(Constants._12CO2_DRY) + "";
-		String mean13CO2 = type2MeanValue.get(Constants._13CO2_DRY) + "";
-		String co2Abs = Math.abs((type2MeanValue.get(Constants._12CO2_DRY) + type2MeanValue.get(Constants._13CO2_DRY))) + "";
+		String meanDeltaFiveMinutes = type2MeanValue.get(InputFileConstants.DELTA_5_MINUTES) + "";
+		String meanH2O = type2MeanValue.get(InputFileConstants.H2O) + "";
+		String mean12CO2 = type2MeanValue.get(InputFileConstants._12CO2_DRY) + "";
+		String mean13CO2 = type2MeanValue.get(InputFileConstants._13CO2_DRY) + "";
+		String co2Abs = Math.abs((type2MeanValue.get(InputFileConstants._12CO2_DRY) + type2MeanValue.get(InputFileConstants._13CO2_DRY))) + "";
 		String[] newLine = { date, time, mean12CO2, mean13CO2, meanDeltaFiveMinutes, meanH2O, solenoid2Write, co2Abs, dateFormat.format(date2Write) };
 		writer.writeNext(newLine);
 	}

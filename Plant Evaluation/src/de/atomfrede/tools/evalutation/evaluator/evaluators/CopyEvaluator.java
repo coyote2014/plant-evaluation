@@ -29,8 +29,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import au.com.bytecode.opencsv.CSVWriter;
-import de.atomfrede.tools.evalutation.Constants;
 import de.atomfrede.tools.evalutation.EntryComparator;
+import de.atomfrede.tools.evalutation.InputFileConstants;
 import de.atomfrede.tools.evalutation.evaluator.AbstractEvaluator;
 import de.atomfrede.tools.evalutation.options.Options;
 import de.atomfrede.tools.evalutation.util.PreProcessor;
@@ -109,7 +109,7 @@ public class CopyEvaluator extends AbstractEvaluator {
 
 					for (int j = 1; j < currentLines.size(); j++) {
 						String[] currentLine = currentLines.get(j);
-						double solenoidValue = parseDoubleValue(currentLine, Constants.SOLENOID_VALVE_INPUT);
+						double solenoidValue = parseDoubleValue(currentLine, InputFileConstants.SOLENOID_VALVE_INPUT);
 						// only copy the solenoid valves of interest
 						if (solenoidValvesOfInterest.contains(Double.valueOf(solenoidValue))) {
 							allLines.add(currentLine);

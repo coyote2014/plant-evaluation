@@ -28,7 +28,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import au.com.bytecode.opencsv.CSVWriter;
-import de.atomfrede.tools.evalutation.Constants;
+import de.atomfrede.tools.evalutation.OutputFileConstants;
 import de.atomfrede.tools.evalutation.WriteUtils;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
 
@@ -66,14 +66,14 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 
 				List<String[]> allLines = readAllLinesInFile(inputFile);
 
-				allReferenceLines = findAllReferenceLines(allLines, Constants.SOLENOID_VALVES);
+				allReferenceLines = findAllReferenceLines(allLines, OutputFileConstants.SOLENOID_VALVES);
 
 				for (int i = 1; i < allLines.size(); i++) {
 					String[] currentLine = allLines.get(i);
-					double solenoid = parseDoubleValue(currentLine, Constants.SOLENOID_VALVES);
+					double solenoid = parseDoubleValue(currentLine, OutputFileConstants.SOLENOID_VALVES);
 					if (solenoid != 1.0) {
 						// only for non reference lines compute the values
-						String[] refLine2Use = getReferenceLineToUse(currentLine, allLines, allReferenceLines, Constants.DATE_AND_TIME);
+						String[] refLine2Use = getReferenceLineToUse(currentLine, allLines, allReferenceLines, OutputFileConstants.DATE_AND_TIME);
 						double delta13 = computeDelta13(currentLine, refLine2Use);
 						writeValue(writer, currentLine, delta13);
 					} else {
@@ -103,10 +103,10 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 
 				for (int i = 1; i < allLines.size(); i++) {
 					String[] currentLine = allLines.get(i);
-					double solenoid = parseDoubleValue(currentLine, Constants.SOLENOID_VALVES);
+					double solenoid = parseDoubleValue(currentLine, OutputFileConstants.SOLENOID_VALVES);
 					if (solenoid != 1.0) {
 						// only for non reference lines compute the values
-						String[] refLine2Use = getReferenceLineToUse(currentLine, allLines, allReferenceLines, Constants.DATE_AND_TIME);
+						String[] refLine2Use = getReferenceLineToUse(currentLine, allLines, allReferenceLines, OutputFileConstants.DATE_AND_TIME);
 						double delta13 = computeDelta13(currentLine, refLine2Use);
 						writeValue(standardDeviationWriter, currentLine, delta13);
 					} else {
@@ -149,10 +149,10 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 	 * @return
 	 */
 	double computeDelta13(String[] currentLine, String[] refLine) {
-		double co2abs = parseDoubleValue(currentLine, Constants.CO2_ABS);
-		double co2absRef = parseDoubleValue(refLine, Constants.CO2_ABS);
-		double delta5Minutes = parseDoubleValue(currentLine, Constants.MEAN_DELTA_5_MINUTES);
-		double delta5MinutesRef = parseDoubleValue(refLine, Constants.MEAN_DELTA_5_MINUTES);
+		double co2abs = parseDoubleValue(currentLine, OutputFileConstants.CO2_ABS);
+		double co2absRef = parseDoubleValue(refLine, OutputFileConstants.CO2_ABS);
+		double delta5Minutes = parseDoubleValue(currentLine, OutputFileConstants.MEAN_DELTA_5_MINUTES);
+		double delta5MinutesRef = parseDoubleValue(refLine, OutputFileConstants.MEAN_DELTA_5_MINUTES);
 
 		double delta13 = ((co2abs * delta5Minutes) - (co2absRef * delta5MinutesRef)) / (co2abs - co2absRef);
 		return delta13;

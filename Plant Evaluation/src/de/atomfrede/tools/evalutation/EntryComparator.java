@@ -40,8 +40,8 @@ public class EntryComparator implements Comparator<String[]> {
 	@Override
 	public int compare(String[] line, String[] lineToCompare) {
 		try {
-			Date lineDate = dateFormat.parse(line[Constants.DATE] + " " + line[Constants.TIME]);
-			Date compareDate = dateFormat.parse(lineToCompare[Constants.DATE] + " " + lineToCompare[Constants.TIME]);
+			Date lineDate = dateFormat.parse(line[OutputFileConstants.DATE] + " " + line[OutputFileConstants.TIME]);
+			Date compareDate = dateFormat.parse(lineToCompare[OutputFileConstants.DATE] + " " + lineToCompare[OutputFileConstants.TIME]);
 			return lineDate.compareTo(compareDate);
 		} catch (ParseException pe) {
 			log.error("Parse Exception in comparator..." + pe);

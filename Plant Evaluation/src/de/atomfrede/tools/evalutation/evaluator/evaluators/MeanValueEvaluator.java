@@ -29,8 +29,9 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math.stat.StatUtils;
 
 import au.com.bytecode.opencsv.CSVWriter;
-import de.atomfrede.tools.evalutation.Constants;
+import de.atomfrede.tools.evalutation.OutputFileConstants;
 import de.atomfrede.tools.evalutation.EntryComparator;
+import de.atomfrede.tools.evalutation.InputFileConstants;
 import de.atomfrede.tools.evalutation.WriteUtils;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
 import de.atomfrede.tools.evalutation.options.Options;
@@ -67,12 +68,12 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 				if (startIndex > 1 && startIndex < lines.size()) {
 					String[] currentLine = lines.get(startIndex - 1);
 
-					Date date2Write = dateFormat.parse(currentLine[Constants.DATE] + " " + currentLine[Constants.TIME]);
+					Date date2Write = dateFormat.parse(currentLine[OutputFileConstants.DATE] + " " + currentLine[OutputFileConstants.TIME]);
 
 					if (Options.isShiftByOneHour())
-						date2Write = new Date(date2Write.getTime() + Constants.oneHour);
+						date2Write = new Date(date2Write.getTime() + OutputFileConstants.oneHour);
 
-					String solenoid2Write = currentLine[Constants.SOLENOID_VALVE_INPUT];
+					String solenoid2Write = currentLine[InputFileConstants.SOLENOID_VALVE_INPUT];
 					Map<Integer, double[]> type2RawValues = collectValuesOfLastFiveMinutes(lines, startIndex - 1);
 					Map<Integer, Double> type2MeanValue = computeMeanValues(type2RawValues);
 					WriteUtils.appendMeanValues(date2Write, solenoid2Write, type2MeanValue, writer);
@@ -117,28 +118,28 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 
 	Map<Integer, Double> computeMeanValues(Map<Integer, double[]> type2RawValues) {
 		Map<Integer, Double> type2MeanValues = new HashMap<Integer, Double>();
-		type2MeanValues.put(Constants.DELTA_5_MINUTES, StatUtils.mean(type2RawValues.get(Constants.DELTA_5_MINUTES)));
-		type2MeanValues.put(Constants._12CO2_DRY, StatUtils.mean(type2RawValues.get(Constants._12CO2_DRY)));
-		type2MeanValues.put(Constants._13CO2_DRY, StatUtils.mean(type2RawValues.get(Constants._13CO2_DRY)));
-		type2MeanValues.put(Constants.H2O, StatUtils.mean(type2RawValues.get(Constants.H2O)));
+		type2MeanValues.put(InputFileConstants.DELTA_5_MINUTES, StatUtils.mean(type2RawValues.get(InputFileConstants.DELTA_5_MINUTES)));
+		type2MeanValues.put(InputFileConstants._12CO2_DRY, StatUtils.mean(type2RawValues.get(InputFileConstants._12CO2_DRY)));
+		type2MeanValues.put(InputFileConstants._13CO2_DRY, StatUtils.mean(type2RawValues.get(InputFileConstants._13CO2_DRY)));
+		type2MeanValues.put(InputFileConstants.H2O, StatUtils.mean(type2RawValues.get(InputFileConstants.H2O)));
 		return type2MeanValues;
 	}
 
 	int findEndOfChamber(List<String[]> lines, int startIndex) {
 		String[] currentLine = lines.get(startIndex);
-		if (currentLine.length < Constants.SOLENOID_VALVE_INPUT)
+		if (currentLine.length < InputFileConstants.SOLENOID_VALVE_INPUT)
 			return -1;
 
-		String lastSolenoid = currentLine[Constants.SOLENOID_VALVE_INPUT];
+		String lastSolenoid = currentLine[InputFileConstants.SOLENOID_VALVE_INPUT];
 		for (int i = startIndex; i < lines.size(); i++) {
-			if (lines.get(i).length < Constants.SOLENOID_VALVE_INPUT) {
+			if (lines.get(i).length < InputFileConstants.SOLENOID_VALVE_INPUT) {
 				String[] errorLine = lines.get(i);
 				log.trace("No Solenoid " + lines.get(i));
 				for (int j = 0; j < errorLine.length; j++) {
 					log.trace(j + "-th value " + errorLine[j]);
 				}
 			} else {
-				String actualSolenoid = lines.get(i)[Constants.SOLENOID_VALVE_INPUT];
+				String actualSolenoid = lines.get(i)[InputFileConstants.SOLENOID_VALVE_INPUT];
 				if (!actualSolenoid.equals(lastSolenoid)) {
 					// System.out.println("Change!");
 					return i;
@@ -169,20 +170,20 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 
 	void writeLinesForStandardDerivation(String[] lineToWrite) throws ParseException {
 		// First collect all values
-		String date = lineToWrite[Constants.DATE];
-		String time = lineToWrite[Constants.TIME];
+		String date = lineToWrite[OutputFileConstants.DATE];
+		String time = lineToWrite[OutputFileConstants.TIME];
 		Date date2Write = dateFormat.parse(date + " " + time);
 
 		if (Options.isShiftByOneHour())
-			date2Write = new Date(date2Write.getTime() + Constants.oneHour);
+			date2Write = new Date(date2Write.getTime() + OutputFileConstants.oneHour);
 
 		date = dateFormat.format(date2Write).split(" ")[0];
 		time = dateFormat.format(date2Write).split(" ")[1];
-		double _12CO2_dry_value = parseDoubleValue(lineToWrite, Constants._12CO2_DRY);
-		double _13CO2_dry_value = parseDoubleValue(lineToWrite, Constants._13CO2_DRY);
-		double _solenoidValue = parseDoubleValue(lineToWrite, Constants.SOLENOID_VALVE_INPUT);
-		double h2O = parseDoubleValue(lineToWrite, Constants.H2O);
-		double delta5Minutes = parseDoubleValue(lineToWrite, Constants.DELTA_5_MINUTES);
+		double _12CO2_dry_value = parseDoubleValue(lineToWrite, InputFileConstants._12CO2_DRY);
+		double _13CO2_dry_value = parseDoubleValue(lineToWrite, InputFileConstants._13CO2_DRY);
+		double _solenoidValue = parseDoubleValue(lineToWrite, InputFileConstants.SOLENOID_VALVE_INPUT);
+		double h2O = parseDoubleValue(lineToWrite, InputFileConstants.H2O);
+		double delta5Minutes = parseDoubleValue(lineToWrite, InputFileConstants.DELTA_5_MINUTES);
 		double co2Abs = Math.abs(_12CO2_dry_value + _13CO2_dry_value);
 		String date_time = date + " " + time;
 		// then write a new line in standardderivation file
@@ -200,36 +201,36 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 
 		Map<Integer, double[]> mapping = new HashMap<Integer, double[]>();
 
-		mapping.put(Constants.DELTA_5_MINUTES, list2DoubleArray(fiveMinutesDeltaValues));
-		mapping.put(Constants._12CO2_DRY, list2DoubleArray(_12CO2_dry_Values));
-		mapping.put(Constants._13CO2_DRY, list2DoubleArray(_13CO2_dry_Values));
-		mapping.put(Constants.H2O, list2DoubleArray(_H20_Values));
+		mapping.put(InputFileConstants.DELTA_5_MINUTES, list2DoubleArray(fiveMinutesDeltaValues));
+		mapping.put(InputFileConstants._12CO2_DRY, list2DoubleArray(_12CO2_dry_Values));
+		mapping.put(InputFileConstants._13CO2_DRY, list2DoubleArray(_13CO2_dry_Values));
+		mapping.put(InputFileConstants.H2O, list2DoubleArray(_H20_Values));
 
 		String[] startLine = lines.get(startIndex);
 		// save line for later computation for standard derivation
-		double startSolenoid = parseDoubleValue(startLine, Constants.SOLENOID_VALVE_INPUT);
+		double startSolenoid = parseDoubleValue(startLine, InputFileConstants.SOLENOID_VALVE_INPUT);
 		if (startSolenoid != 1.0)
 			linesNeedForStandardDerivation.add(Integer.valueOf(startIndex));
 		else if (startSolenoid == 1.0 && Options.isRecordReferenceChambers())
 			linesNeedForStandardDerivation.add(Integer.valueOf(startIndex));
 
 		StringBuilder dateBuilder = new StringBuilder();
-		dateBuilder.append(startLine[Constants.DATE]);
+		dateBuilder.append(startLine[OutputFileConstants.DATE]);
 		dateBuilder.append(" ");
-		dateBuilder.append(startLine[Constants.TIME]);
+		dateBuilder.append(startLine[OutputFileConstants.TIME]);
 		Date startDate = dateFormat.parse(dateBuilder.toString());
 		Date currentDate = startDate;
 
-		fiveMinutesDeltaValues.add(parseDoubleValue(startLine, Constants.DELTA_5_MINUTES));
-		_12CO2_dry_Values.add(parseDoubleValue(startLine, Constants._12CO2_DRY));
-		_13CO2_dry_Values.add(parseDoubleValue(startLine, Constants._13CO2_DRY));
-		_H20_Values.add(parseDoubleValue(startLine, Constants.H2O));
+		fiveMinutesDeltaValues.add(parseDoubleValue(startLine, InputFileConstants.DELTA_5_MINUTES));
+		_12CO2_dry_Values.add(parseDoubleValue(startLine, InputFileConstants._12CO2_DRY));
+		_13CO2_dry_Values.add(parseDoubleValue(startLine, InputFileConstants._13CO2_DRY));
+		_H20_Values.add(parseDoubleValue(startLine, InputFileConstants.H2O));
 
 		int currentIndex = startIndex - 1;
-		while (Math.abs(startDate.getTime() - currentDate.getTime()) <= Constants.fiveMinutes && currentIndex >= 1) {
+		while (Math.abs(startDate.getTime() - currentDate.getTime()) <= OutputFileConstants.fiveMinutes && currentIndex >= 1) {
 
 			String[] currentLine = lines.get(currentIndex);
-			double currentSolenoid = parseDoubleValue(currentLine, Constants.SOLENOID_VALVE_INPUT);
+			double currentSolenoid = parseDoubleValue(currentLine, InputFileConstants.SOLENOID_VALVE_INPUT);
 			if (currentSolenoid != startSolenoid) {
 				log.trace("Break");
 				break;
@@ -242,19 +243,19 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 					linesNeedForStandardDerivation.add(currentIndex);
 			}
 
-			currentDate = dateFormat.parse(currentLine[Constants.DATE] + " " + currentLine[Constants.TIME]);
-			fiveMinutesDeltaValues.add(parseDoubleValue(currentLine, Constants.DELTA_5_MINUTES));
-			_12CO2_dry_Values.add(parseDoubleValue(currentLine, Constants._12CO2_DRY));
-			_13CO2_dry_Values.add(parseDoubleValue(currentLine, Constants._13CO2_DRY));
-			_H20_Values.add(parseDoubleValue(currentLine, Constants.H2O));
+			currentDate = dateFormat.parse(currentLine[OutputFileConstants.DATE] + " " + currentLine[OutputFileConstants.TIME]);
+			fiveMinutesDeltaValues.add(parseDoubleValue(currentLine, InputFileConstants.DELTA_5_MINUTES));
+			_12CO2_dry_Values.add(parseDoubleValue(currentLine, InputFileConstants._12CO2_DRY));
+			_13CO2_dry_Values.add(parseDoubleValue(currentLine, InputFileConstants._13CO2_DRY));
+			_H20_Values.add(parseDoubleValue(currentLine, InputFileConstants.H2O));
 
 			currentIndex -= 1;
 		}
 
-		mapping.put(Constants.DELTA_5_MINUTES, list2DoubleArray(fiveMinutesDeltaValues));
-		mapping.put(Constants._12CO2_DRY, list2DoubleArray(_12CO2_dry_Values));
-		mapping.put(Constants._13CO2_DRY, list2DoubleArray(_13CO2_dry_Values));
-		mapping.put(Constants.H2O, list2DoubleArray(_H20_Values));
+		mapping.put(InputFileConstants.DELTA_5_MINUTES, list2DoubleArray(fiveMinutesDeltaValues));
+		mapping.put(InputFileConstants._12CO2_DRY, list2DoubleArray(_12CO2_dry_Values));
+		mapping.put(InputFileConstants._13CO2_DRY, list2DoubleArray(_13CO2_dry_Values));
+		mapping.put(InputFileConstants.H2O, list2DoubleArray(_H20_Values));
 		return mapping;
 	}
 }

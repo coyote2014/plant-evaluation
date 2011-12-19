@@ -19,10 +19,11 @@
 
 package de.atomfrede.tools.evalutation;
 
-public final class Constants {
+public final class OutputFileConstants {
 
 	public static String DATE_HEADER = "DATE";
 	public static String TIME_HEADER = "TIME";
+
 	public static String delta5minutes_HEADER = "Σ delta5Minutes";
 	public static String _12CO2_dry_HEADER = "Σ 12CO2_dry";
 	public static String _13CO2_dry_HEADER = "Σ 13CO2_dry";
@@ -36,40 +37,6 @@ public final class Constants {
 	public static String PHOTO_SYNTHESIS_RATE_HEADER = "PSR";
 	public static String PHOTO_SYNTHESIS_RATE_STANDARD_DERIVATION_HEADER = "SD of PSR";
 	public static String DELTA_13_STANDARD_DERIVATION_HEADER = "SD of δ13";
-
-	// These are the columns for the raw input files
-	/**
-	 * Column of 12CO2 in input file
-	 */
-	public static int _12CO2 = 18;
-	/**
-	 * Column of 12CO2 Dry in input file
-	 */
-	public static int _12CO2_DRY = 19;
-	/**
-	 * Column of 13CO2 in input file
-	 */
-	public static int _13CO2 = 20;
-	/**
-	 * Column of 13CO2 Dry in input file
-	 */
-	public static int _13CO2_DRY = 21;
-	/**
-	 * Column of Delta 5 Minutes in input file
-	 */
-	public static int DELTA_5_MINUTES = 24;
-	/**
-	 * Column of Delta Raw in input file
-	 */
-	public static int DELTA = 25;
-	/**
-	 * Column of H2O in input file
-	 */
-	public static int H2O = 26;
-	/**
-	 * Column of Solenoid Valve in input file
-	 */
-	public static int SOLENOID_VALVE_INPUT = 16;
 
 	// Columns for the generated files
 	/**

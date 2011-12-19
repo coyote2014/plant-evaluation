@@ -41,7 +41,7 @@ import au.com.bytecode.opencsv.CSVReader;
 
 import com.lowagie.text.pdf.DefaultFontMapper;
 
-import de.atomfrede.tools.evalutation.Constants;
+import de.atomfrede.tools.evalutation.InputFileConstants;
 import de.atomfrede.tools.evalutation.options.Options;
 import de.atomfrede.tools.evalutation.tools.plot.util.PlotUtil;
 
@@ -146,7 +146,7 @@ public class SimplePlot extends AbstractPlot {
 		XYSeriesCollection dataset = new XYSeriesCollection();
 
 		for (int i = 1; i < allLines.size(); i++) {
-			double value = parseDoubleValue(allLines.get(i), Constants.DELTA);
+			double value = parseDoubleValue(allLines.get(i), InputFileConstants.DELTA);
 			series.add(i, value);
 		}
 

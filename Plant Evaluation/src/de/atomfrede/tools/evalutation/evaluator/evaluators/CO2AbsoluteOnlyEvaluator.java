@@ -28,7 +28,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import au.com.bytecode.opencsv.CSVWriter;
-import de.atomfrede.tools.evalutation.Constants;
+import de.atomfrede.tools.evalutation.OutputFileConstants;
+import de.atomfrede.tools.evalutation.InputFileConstants;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
 
 /**
@@ -64,13 +65,13 @@ public class CO2AbsoluteOnlyEvaluator extends SingleInputFileEvaluator {
 			for (int i = 1; i < lines.size(); i++) {
 				String[] currentLine = lines.get(i);
 				// read 12CO2_DRY and 13CO2_DRY
-				double _12CO2_dry = parseDoubleValue(currentLine, Constants._12CO2_DRY);
-				double _13Co2_dry = parseDoubleValue(currentLine, Constants._13CO2_DRY);
+				double _12CO2_dry = parseDoubleValue(currentLine, InputFileConstants._12CO2_DRY);
+				double _13Co2_dry = parseDoubleValue(currentLine, InputFileConstants._13CO2_DRY);
 				// Compute the CO2-Absolute value as the (absolute) sum of 12
 				// and 13CO2_DRY
 				double co2AbsoluteValue = Math.abs(_12CO2_dry + _13Co2_dry);
 				// get date and time for easier post processing in calc
-				Date date2Write = dateFormat.parse(currentLine[Constants.DATE] + " " + currentLine[Constants.TIME]);
+				Date date2Write = dateFormat.parse(currentLine[OutputFileConstants.DATE] + " " + currentLine[OutputFileConstants.TIME]);
 				// append both, date (with time) and CO2 Absolute to the file
 				appendDateAndCO2AbsoluteValue(writer, currentLine, date2Write, co2AbsoluteValue);
 

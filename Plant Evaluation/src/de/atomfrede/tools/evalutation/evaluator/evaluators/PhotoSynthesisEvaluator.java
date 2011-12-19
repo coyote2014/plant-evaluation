@@ -30,7 +30,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import au.com.bytecode.opencsv.CSVWriter;
-import de.atomfrede.tools.evalutation.Constants;
+import de.atomfrede.tools.evalutation.OutputFileConstants;
 import de.atomfrede.tools.evalutation.WriteUtils;
 import de.atomfrede.tools.evalutation.evaluator.MultipleInputFileEvaluator;
 import de.atomfrede.tools.evalutation.plant.Plant;
@@ -92,7 +92,7 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 
 						String[] currentLine = allLinesInCurrentFile.get(i);
 
-						allReferenceLines = findAllReferenceLines(allLinesInCurrentFile, Constants.SOLENOID_VALVES);
+						allReferenceLines = findAllReferenceLines(allLinesInCurrentFile, OutputFileConstants.SOLENOID_VALVES);
 
 						double psrForCurrentLine = computePhotoSynthesisRate(currentLine);
 						writeValue(writer, currentLine, psrForCurrentLine);
@@ -161,15 +161,15 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 	}
 
 	double computePhotoSynthesisRate(String[] line) throws ParseException {
-		if (parseDoubleValue(line, Constants.SOLENOID_VALVES) == 1.0)
+		if (parseDoubleValue(line, OutputFileConstants.SOLENOID_VALVES) == 1.0)
 			return 0.0;
 
-		double solenoid = parseDoubleValue(line, Constants.SOLENOID_VALVES);
+		double solenoid = parseDoubleValue(line, OutputFileConstants.SOLENOID_VALVES);
 		if (solenoid == 2.0 || solenoid == 4.0 || solenoid == 8.0) {
-			Date currentDate = dateFormat.parse(line[Constants.DATE_AND_TIME]);
+			Date currentDate = dateFormat.parse(line[OutputFileConstants.DATE_AND_TIME]);
 
 			// first find the corresponding referenceLine
-			String[] refLine = getReferenceLineToUse(line, allLinesInCurrentFile, allReferenceLines, Constants.DATE_AND_TIME);
+			String[] refLine = getReferenceLineToUse(line, allLinesInCurrentFile, allReferenceLines, OutputFileConstants.DATE_AND_TIME);
 			// String[] refLine = allLinesInCurrentFile.get(refIndex);
 			double height = 0.0;
 			double diameter = 0.0;
@@ -310,19 +310,19 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 	}
 
 	double getH2O(String[] line) {
-		return (parseDoubleValue(line, Constants.MEAN_H2O) * 10000) / MILLION;
+		return (parseDoubleValue(line, OutputFileConstants.MEAN_H2O) * 10000) / MILLION;
 	}
 
 	double getCO2Diff(String[] line) {
-		return parseDoubleValue(line, Constants.CO2_DIFF) / MILLION;
+		return parseDoubleValue(line, OutputFileConstants.CO2_DIFF) / MILLION;
 	}
 
 	double getCO2Abs(String[] line) {
-		return parseDoubleValue(line, Constants.CO2_ABS) / MILLION;
+		return parseDoubleValue(line, OutputFileConstants.CO2_ABS) / MILLION;
 	}
 
 	double getTemperature(String[] line) {
-		return convertToCelvin(parseDoubleValue(line, Constants.TEMPERATURE));
+		return convertToCelvin(parseDoubleValue(line, OutputFileConstants.TEMPERATURE));
 	}
 
 	/**
