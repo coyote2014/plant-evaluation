@@ -130,7 +130,7 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 			_13Co2Values.add(parseDoubleValue(currentMeanLine, InputFileConstants._13CO2));
 			_12Co2DryValues.add(parseDoubleValue(currentMeanLine, InputFileConstants._12CO2_DRY));
 			_13Co2DryValues.add(parseDoubleValue(currentMeanLine, InputFileConstants._13CO2_DRY));
-			deltaRawValues.add(parseDoubleValue(currentMeanLine, InputFileConstants.DELTA));
+			deltaRawValues.add(parseDoubleValue(currentMeanLine, InputFileConstants.DELTA_RAW));
 			co2AbsoluteValues.add(parseDoubleValue(currentMeanLine, meanLine.length - 1));
 
 		}
@@ -146,7 +146,7 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 		meanLine[InputFileConstants._13CO2] = mean13Co2 + "";
 		meanLine[InputFileConstants._12CO2_DRY] = mean12Co2Dry + "";
 		meanLine[InputFileConstants._13CO2_DRY] = mean13Co2Dry + "";
-		meanLine[InputFileConstants.DELTA] = meanDeltaRaw + "";
+		meanLine[InputFileConstants.DELTA_RAW] = meanDeltaRaw + "";
 		meanLine[meanLine.length - 1] = meanCo2Absolute + "";
 		return meanLine;
 	}

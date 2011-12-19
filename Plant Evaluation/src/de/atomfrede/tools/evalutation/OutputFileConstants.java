@@ -100,11 +100,6 @@ public final class OutputFileConstants {
 	 */
 	public static int SD_DELTA13 = 14;
 	/**
-	 * Column number of epoch time in input file
-	 */
-	public static int EPOCH_TIME = 5;
-
-	/**
 	 * Time Constants used during evaluation
 	 */
 	// 1 hour are 3 600 000ms

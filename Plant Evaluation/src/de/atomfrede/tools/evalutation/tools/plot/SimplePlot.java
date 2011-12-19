@@ -132,8 +132,9 @@ public class SimplePlot extends AbstractPlot {
 		XYSeries series = new XYSeries("CO2 Absolute");
 		XYSeriesCollection dataset = new XYSeriesCollection();
 
+		int size = allLines.get(1).length - 1;
 		for (int i = 1; i < allLines.size(); i++) {
-			double value = parseDoubleValue(allLines.get(i), 39);
+			double value = parseDoubleValue(allLines.get(i), size);
 			series.add(i, value);
 		}
 
@@ -146,7 +147,7 @@ public class SimplePlot extends AbstractPlot {
 		XYSeriesCollection dataset = new XYSeriesCollection();
 
 		for (int i = 1; i < allLines.size(); i++) {
-			double value = parseDoubleValue(allLines.get(i), InputFileConstants.DELTA);
+			double value = parseDoubleValue(allLines.get(i), InputFileConstants.DELTA_RAW);
 			series.add(i, value);
 		}
 

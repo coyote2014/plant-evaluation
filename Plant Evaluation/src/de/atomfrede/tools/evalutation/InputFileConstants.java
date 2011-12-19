@@ -20,6 +20,16 @@ package de.atomfrede.tools.evalutation;
 
 public class InputFileConstants {
 
+	public static String HEADER_12_CO2 = "12CO2";
+	public static String HEADER_12_CO2_DRY = "12CO2_dry";
+	public static String HEADER_13_CO2 = "13CO2";
+	public static String HEADER_13_CO2_DRY = "13CO2_dry";
+	public static String HEADER_DELTA_5_MINUTES = "Delta_5min";
+	public static String HEADER_DELTA_RAW = "Delta_Raw";
+	public static String HEADER_H2O = "H2O";
+	public static String HEADER_SOLENOID_VALVE = "solenoid_valves";
+	public static String HEADER_EPOCH_TIME = "EPOCH_TIME";
+
 	/**
 	 * Column of 12CO2 in input file
 	 */
@@ -43,7 +53,7 @@ public class InputFileConstants {
 	/**
 	 * Column of Delta Raw in input file
 	 */
-	public static int DELTA = 25;
+	public static int DELTA_RAW = 25;
 	/**
 	 * Column of H2O in input file
 	 */
@@ -52,6 +62,15 @@ public class InputFileConstants {
 	 * Column of Solenoid Valve in input file
 	 */
 	public static int SOLENOID_VALVE_INPUT = 16;
+
+	/**
+	 * Column number of epoch time in input file
+	 */
+	public static int EPOCH_TIME = 5;
+
+	public static void setEPOCH_TIME(int ePOCH_TIME) {
+		EPOCH_TIME = ePOCH_TIME;
+	}
 
 	public static void set_12CO2(int _12co2) {
 		_12CO2 = _12co2;
@@ -73,8 +92,8 @@ public class InputFileConstants {
 		DELTA_5_MINUTES = dELTA_5_MINUTES;
 	}
 
-	public static void setDELTA(int dELTA) {
-		DELTA = dELTA;
+	public static void setDELTA_RAW(int dELTA_RAW) {
+		DELTA_RAW = dELTA_RAW;
 	}
 
 	public static void setH2O(int h2o) {

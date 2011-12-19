@@ -33,6 +33,7 @@ import de.atomfrede.tools.evalutation.EntryComparator;
 import de.atomfrede.tools.evalutation.InputFileConstants;
 import de.atomfrede.tools.evalutation.evaluator.AbstractEvaluator;
 import de.atomfrede.tools.evalutation.options.Options;
+import de.atomfrede.tools.evalutation.util.ColumnCheckUtil;
 import de.atomfrede.tools.evalutation.util.PreProcessor;
 
 /**
@@ -101,8 +102,10 @@ public class CopyEvaluator extends AbstractEvaluator {
 						currentLines = readAllLinesInFile(inputFile);
 					}
 					// if there is no header use the first line
-					if (header == null)
+					if (header == null) {
 						header = currentLines.get(0);
+						ColumnCheckUtil.checkHeader(header);
+					}
 					// then remove it, because we don't need the header of the
 					// other files anymore
 					currentLines.remove(0);

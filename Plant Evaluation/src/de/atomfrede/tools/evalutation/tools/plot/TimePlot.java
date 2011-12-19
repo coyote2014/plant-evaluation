@@ -41,7 +41,6 @@ import au.com.bytecode.opencsv.CSVReader;
 
 import com.lowagie.text.pdf.DefaultFontMapper;
 
-import de.atomfrede.tools.evalutation.OutputFileConstants;
 import de.atomfrede.tools.evalutation.InputFileConstants;
 import de.atomfrede.tools.evalutation.options.Options;
 import de.atomfrede.tools.evalutation.tools.plot.util.PlotUtil;
@@ -128,9 +127,11 @@ public class TimePlot extends AbstractPlot {
 		XYSeries series = new XYSeries("CO2 Absolute");
 		XYSeriesCollection dataset = new XYSeriesCollection();
 
+		int size = allLines.get(1).length - 1;
+
 		for (int i = 1; i < allLines.size(); i++) {
-			double value = parseDoubleValue(allLines.get(i), 39);
-			Date date = parseDate(allLines.get(i), OutputFileConstants.EPOCH_TIME);
+			double value = parseDoubleValue(allLines.get(i), size);
+			Date date = parseDate(allLines.get(i), InputFileConstants.EPOCH_TIME);
 			series.add(date.getTime(), value);
 		}
 
@@ -143,8 +144,8 @@ public class TimePlot extends AbstractPlot {
 		XYSeriesCollection dataset = new XYSeriesCollection();
 
 		for (int i = 1; i < allLines.size(); i++) {
-			double value = parseDoubleValue(allLines.get(i), InputFileConstants.DELTA);
-			Date date = parseDate(allLines.get(i), OutputFileConstants.EPOCH_TIME);
+			double value = parseDoubleValue(allLines.get(i), InputFileConstants.DELTA_RAW);
+			Date date = parseDate(allLines.get(i), InputFileConstants.EPOCH_TIME);
 			series.add(date.getTime(), value);
 		}
 
