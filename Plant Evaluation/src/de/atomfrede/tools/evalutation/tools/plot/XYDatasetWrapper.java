@@ -26,7 +26,7 @@ import org.jfree.data.xy.XYDataset;
 public abstract class XYDatasetWrapper {
 
 	XYDataset dataset;
-	double minimum, maximum;
+	Double minimum, maximum;
 	List<String[]> allLines;
 	String seriesName;
 
@@ -34,9 +34,11 @@ public abstract class XYDatasetWrapper {
 		this.seriesName = seriesName;
 		this.allLines = allLines;
 
-		minimum = Double.MAX_VALUE;
-		maximum = Double.MIN_VALUE;
+		minimum = null;
+		maximum = null;
 	}
+
+	public abstract void createDataset();
 
 	public XYDataset getDataset() {
 		return dataset;
@@ -63,15 +65,43 @@ public abstract class XYDatasetWrapper {
 	}
 
 	public double parseDoubleValue(String[] line, int type) {
-		return Double.parseDouble(line[type].replace(",", "."));
+		double value = Double.parseDouble(line[type].replace(",", "."));
+		if (maximum == null && minimum == null) {
+			maximum = value;
+			minimum = value;
+		} else {
+			if (value > maximum)
+				maximum = value;
+			if (value < minimum)
+				minimum = value;
+		}
+		return value;
 	}
 
 	public long parseLong(String[] line, int type) {
-		return Long.parseLong(line[type].replace(".", ""));
+		long value = Long.parseLong(line[type].replace(".", ""));
+		// if (maximum == null && minimum == null) {
+		// maximum = value;
+		// minimum = value;
+		// } else {
+		// if (value > maximum)
+		// maximum = value;
+		// if (value < minimum)
+		// minimum = value;
+		// }
+		return value;
 	}
 
 	public Date parseDate(String[] line, int type) {
 		return new Date(parseLong(line, type));
+	}
+
+	public String getSeriesName() {
+		return seriesName;
+	}
+
+	public void setSeriesName(String seriesName) {
+		this.seriesName = seriesName;
 	}
 
 }

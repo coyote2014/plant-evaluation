@@ -65,8 +65,13 @@ public class TimePlot extends AbstractPlot {
 
 		List<String[]> allLines = reader.readAll();
 
-		XYDataset dataset = createDataset(allLines);
-		XYDataset dataset2 = createDeltaRawDataSet(allLines);
+		// XYDataset dataset = createDataset(allLines);
+		// XYDataset dataset2 = createDeltaRawDataSet(allLines);
+		// JFreeChart chart = createChart(dataset, dataset2);
+		XYDatasetWrapper dataset = createCO2AbsoluteDatasetWrapper(allLines);
+		log.info(dataset.getSeriesName() + " [" + dataset.getMinimum() + ", " + dataset.getMaximum() + "]");
+		XYDatasetWrapper dataset2 = createDeltaRawDatasetWrapper(allLines);
+		log.info(dataset2.getSeriesName() + " [" + dataset2.getMinimum() + ", " + dataset2.getMaximum() + "]");
 		JFreeChart chart = createChart(dataset, dataset2);
 
 		File fileName = new File(Options.getOutputFolder(), "co2absolute-time.pdf");
@@ -78,6 +83,55 @@ public class TimePlot extends AbstractPlot {
 
 	}
 
+	JFreeChart createChart(XYDatasetWrapper dataset, XYDatasetWrapper dataset2) {
+		JFreeChart chart = ChartFactory.createTimeSeriesChart(dataset.getSeriesName() + "/" + dataset2.getSeriesName(), "Time", dataset.getSeriesName(),
+				dataset.getDataset(), true, true, false);
+
+		XYPlot plot = (XYPlot) chart.getPlot();
+		// first add the second plot
+		plot.setDataset(1, dataset2.getDataset());
+
+		// change the number axis for second dataset
+		NumberAxis axis2 = new NumberAxis(dataset2.getSeriesName());
+		plot.setRangeAxis(1, axis2);
+		plot.setRangeAxisLocation(1, AxisLocation.BOTTOM_OR_RIGHT);
+		plot.getRangeAxis(1).setLowerBound(dataset2.getMinimum() - 15.0);
+		plot.getRangeAxis(1).setUpperBound(dataset2.getMaximum() - dataset2.getMaximum() + 1000);
+		// map the second dataset to the second axis
+		plot.mapDatasetToRangeAxis(1, 1);
+		// adapt minimum and maximum for first dataset
+		plot.getRangeAxis(0).setLowerBound(dataset.getMinimum());
+		plot.getRangeAxis(0).setUpperBound(dataset.getMaximum());
+
+		// some additional "design" stuff for the plot
+		plot.getRenderer(0).setSeriesPaint(0, Color.ORANGE);
+		plot.getRenderer(0).setSeriesStroke(0, new BasicStroke(0.2F));
+		// new renderer for secondary axes
+		XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
+		renderer.setBaseShapesVisible(false);
+
+		renderer.setSeriesStroke(0, new BasicStroke(0.2F));
+
+		plot.setRenderer(1, renderer);
+
+		plot.getRenderer(1).setSeriesPaint(0, Color.GREEN);
+
+		plot.setBackgroundPaint(Color.white);
+		plot.setDomainMinorGridlinePaint(Color.LIGHT_GRAY);
+		plot.setDomainGridlinePaint(Color.LIGHT_GRAY);
+		plot.setRangeGridlinePaint(Color.LIGHT_GRAY);
+
+		// format the date axis
+		DateAxis axis = (DateAxis) plot.getDomainAxis();
+
+		axis.setDateFormatOverride(new SimpleDateFormat("dd.MM HH:mm"));
+		axis.setTickUnit(new DateTickUnit(DateTickUnitType.HOUR, 1));
+		axis.setVerticalTickLabels(true);
+
+		return chart;
+	}
+
+	@Deprecated
 	JFreeChart createChart(XYDataset dataset, XYDataset dataset2) {
 		// Simple plot withpout time x axis
 		JFreeChart chart = ChartFactory.createTimeSeriesChart("CO2 Absolute", "Time", "CO2 Absolute", dataset, true, true, false);
@@ -123,6 +177,20 @@ public class TimePlot extends AbstractPlot {
 
 	}
 
+	XYDatasetWrapper createCO2AbsoluteDatasetWrapper(List<String[]> allLines) {
+		int size = allLines.get(1).length - 1;
+		TimeDatasetWrapper wrapper = new TimeDatasetWrapper("CO2 Absolute", allLines, size, InputFileConstants.EPOCH_TIME);
+		wrapper.createDataset();
+		return wrapper;
+	}
+
+	XYDatasetWrapper createDeltaRawDatasetWrapper(List<String[]> allLines) {
+		TimeDatasetWrapper wrapper = new TimeDatasetWrapper("Delta Raw", allLines, InputFileConstants.DELTA_RAW, InputFileConstants.EPOCH_TIME);
+		wrapper.createDataset();
+		return wrapper;
+	}
+
+	@Deprecated
 	XYDataset createDataset(List<String[]> allLines) {
 
 		XYSeries series = new XYSeries("CO2 Absolute");
@@ -140,6 +208,7 @@ public class TimePlot extends AbstractPlot {
 		return dataset;
 	}
 
+	@Deprecated
 	XYDataset createDeltaRawDataSet(List<String[]> allLines) {
 		XYSeries series = new XYSeries("DeltaRaw");
 		XYSeriesCollection dataset = new XYSeriesCollection();
