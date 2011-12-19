@@ -124,6 +124,7 @@ public class TimePlot extends AbstractPlot {
 	}
 
 	XYDataset createDataset(List<String[]> allLines) {
+
 		XYSeries series = new XYSeries("CO2 Absolute");
 		XYSeriesCollection dataset = new XYSeriesCollection();
 
