@@ -22,11 +22,17 @@ package de.atomfrede.tools.evalutation.evaluator.evaluators;
 import java.io.File;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.InputFileConstants;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
+import de.atomfrede.tools.evalutation.util.DialogUtil;
 
 public class PickDatasetEvaluator extends SingleInputFileEvaluator {
+
+	private final Log log = LogFactory.getLog(PickDatasetEvaluator.class);
 
 	public PickDatasetEvaluator(File inputFile) {
 		super("Pick DataSets", inputFile, null);
@@ -57,9 +63,12 @@ public class PickDatasetEvaluator extends SingleInputFileEvaluator {
 
 			progressBar.setValue(100);
 		} catch (Exception e) {
+			log.error(e);
+			DialogUtil.getInstance().showError(e);
 			return false;
 		} finally {
-			writer.close();
+			if (writer != null)
+				writer.close();
 		}
 		return true;
 	}

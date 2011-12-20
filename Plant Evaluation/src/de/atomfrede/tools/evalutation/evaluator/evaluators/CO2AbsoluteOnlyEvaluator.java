@@ -32,6 +32,7 @@ import de.atomfrede.tools.evalutation.CommonConstants;
 import de.atomfrede.tools.evalutation.InputFileConstants;
 import de.atomfrede.tools.evalutation.OutputFileConstants;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
+import de.atomfrede.tools.evalutation.util.DialogUtil;
 
 /**
  * Computes the CO2 Absolute values and adds them as a new column to the output
@@ -82,9 +83,14 @@ public class CO2AbsoluteOnlyEvaluator extends SingleInputFileEvaluator {
 			progressBar.setValue(100);
 		} catch (IOException ioe) {
 			log.error(ioe);
+			DialogUtil.getInstance().showError(ioe);
 			return false;
+		} catch (Exception e) {
+			log.error(e);
+			DialogUtil.getInstance().showError(e);
 		} finally {
-			writer.close();
+			if (writer != null)
+				writer.close();
 		}
 		log.info("CO2 Absolute Only Evaluator Done");
 		return true;

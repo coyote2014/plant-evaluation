@@ -29,8 +29,9 @@ import org.apache.commons.logging.LogFactory;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.OutputFileConstants;
-import de.atomfrede.tools.evalutation.WriteUtils;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
+import de.atomfrede.tools.evalutation.util.DialogUtil;
+import de.atomfrede.tools.evalutation.util.WriteUtils;
 
 /**
  * Computes for each line in the dataset the delta13 value and appends that
@@ -46,9 +47,8 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 	}
 
 	@Override
-	public boolean evaluate() {
+	public boolean evaluate() throws Exception {
 		CSVWriter writer = null;
-		CSVWriter standardDeviationWriter = null;
 		try {
 			{
 				// first the mean values
@@ -96,8 +96,8 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 				if (!standardDeviationOutputFile.exists())
 					return false;
 
-				standardDeviationWriter = getCsvWriter(standardDeviationOutputFile);
-				WriteUtils.writeHeader(standardDeviationWriter);
+				writer = getCsvWriter(standardDeviationOutputFile);
+				WriteUtils.writeHeader(writer);
 
 				List<String[]> allLines = readAllLinesInFile(standardDeviationInputFile);
 
@@ -108,28 +108,28 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 						// only for non reference lines compute the values
 						String[] refLine2Use = getReferenceLineToUse(currentLine, allLines, allReferenceLines, OutputFileConstants.DATE_AND_TIME);
 						double delta13 = computeDelta13(currentLine, refLine2Use);
-						writeValue(standardDeviationWriter, currentLine, delta13);
+						writeValue(writer, currentLine, delta13);
 					} else {
-						writeValue(standardDeviationWriter, currentLine, 0.0);
+						writeValue(writer, currentLine, 0.0);
 					}
 					progressBar.setValue((int) ((i * 1.0 / allLines.size() * 100.0 * 0.5) + 50.0));
 				}
 			}
 		} catch (IOException ioe) {
 			log.error("IOException " + ioe.getMessage());
+			DialogUtil.getInstance().showError(ioe);
 			return false;
 		} catch (ParseException pe) {
 			log.error("ParseException " + pe.getMessage());
+			DialogUtil.getInstance().showError(pe);
+			return false;
+		} catch (Exception e) {
+			log.error(e);
+			DialogUtil.getInstance().showError(e);
 			return false;
 		} finally {
-			try {
-				if (writer != null)
-					writer.close();
-				if (standardDeviationWriter != null)
-					standardDeviationWriter.close();
-			} catch (IOException ioe) {
-				log.error("IOException when trying to close writers.");
-			}
+			if (writer != null)
+				writer.close();
 		}
 
 		log.info("Delta13 done.");

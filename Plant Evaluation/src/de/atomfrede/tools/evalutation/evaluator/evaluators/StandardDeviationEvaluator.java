@@ -31,8 +31,9 @@ import org.apache.commons.math.stat.StatUtils;
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.CommonConstants;
 import de.atomfrede.tools.evalutation.OutputFileConstants;
-import de.atomfrede.tools.evalutation.WriteUtils;
 import de.atomfrede.tools.evalutation.evaluator.MultipleInputFileEvaluator;
+import de.atomfrede.tools.evalutation.util.DialogUtil;
+import de.atomfrede.tools.evalutation.util.WriteUtils;
 
 public class StandardDeviationEvaluator extends MultipleInputFileEvaluator {
 
@@ -51,7 +52,8 @@ public class StandardDeviationEvaluator extends MultipleInputFileEvaluator {
 	}
 
 	@Override
-	public boolean evaluate() {
+	public boolean evaluate() throws Exception {
+		CSVWriter writer = null;
 		currentPlant = -1;
 		try {
 			for (int i = 0; i < inputFiles.size(); i++) {
@@ -65,7 +67,7 @@ public class StandardDeviationEvaluator extends MultipleInputFileEvaluator {
 
 				File outputFile = new File(outputFolder, "psr-sd-0" + (currentPlant) + ".csv");
 
-				CSVWriter writer = getCsvWriter(outputFile);
+				writer = getCsvWriter(outputFile);
 				WriteUtils.writeHeader(writer);
 
 				// for each line compute the standard derivation
@@ -105,10 +107,19 @@ public class StandardDeviationEvaluator extends MultipleInputFileEvaluator {
 			}
 		} catch (IOException ioe) {
 			log.error(ioe);
+			DialogUtil.getInstance().showError(ioe);
 			return false;
 		} catch (ParseException pe) {
 			log.error(pe);
+			DialogUtil.getInstance().showError(pe);
 			return false;
+		} catch (Exception e) {
+			log.error(e);
+			DialogUtil.getInstance().showError(e);
+			return false;
+		} finally {
+			if (writer != null)
+				writer.close();
 		}
 		log.info("StandardDeviation Evaluator done.");
 		return true;

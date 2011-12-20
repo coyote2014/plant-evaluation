@@ -35,6 +35,7 @@ import de.atomfrede.tools.evalutation.InputFileConstants;
 import de.atomfrede.tools.evalutation.evaluator.AbstractEvaluator;
 import de.atomfrede.tools.evalutation.options.Options;
 import de.atomfrede.tools.evalutation.util.ColumnCheckUtil;
+import de.atomfrede.tools.evalutation.util.DialogUtil;
 import de.atomfrede.tools.evalutation.util.PreProcessor;
 
 /**
@@ -66,7 +67,7 @@ public class CopyEvaluator extends AbstractEvaluator {
 	}
 
 	@Override
-	public boolean evaluate() {
+	public boolean evaluate() throws Exception {
 		log.info("Copy Evaluator started");
 		// setup all solenoid valves of interest
 		solenoidValvesOfInterest = new double[Options.getSolenoidValvesOfInterest().size()];
@@ -133,20 +134,17 @@ public class CopyEvaluator extends AbstractEvaluator {
 			// write all lines to output file
 			writer.writeAll(allLines);
 			progressBar.setValue(100);
-
 		} catch (IOException ioe) {
 			log.error(ioe);
+			DialogUtil.getInstance().showError(ioe);
 			return false;
 		} catch (Exception e) {
 			log.error(e);
+			DialogUtil.getInstance().showError(e);
 			return false;
 		} finally {
 			if (writer != null)
-				try {
-					writer.close();
-				} catch (IOException e) {
-					log.error(e);
-				}
+				writer.close();
 		}
 
 		log.info("Copy Evaluator Done.");

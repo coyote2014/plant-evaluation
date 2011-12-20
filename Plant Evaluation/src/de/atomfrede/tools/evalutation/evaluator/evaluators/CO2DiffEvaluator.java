@@ -30,8 +30,9 @@ import org.apache.commons.logging.LogFactory;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.OutputFileConstants;
-import de.atomfrede.tools.evalutation.WriteUtils;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
+import de.atomfrede.tools.evalutation.util.DialogUtil;
+import de.atomfrede.tools.evalutation.util.WriteUtils;
 
 /**
  * Appends the CO2 Difference as a new column to the given input file. One file
@@ -47,9 +48,8 @@ public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 	}
 
 	@Override
-	public boolean evaluate() {
+	public boolean evaluate() throws Exception {
 		CSVWriter writer = null;
-		CSVWriter standardDerivationWriter = null;
 		try {
 			{
 				if (!inputFile.exists())
@@ -90,8 +90,8 @@ public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 				if (!standardDeviationOutputFile.exists())
 					return false;
 
-				standardDerivationWriter = getCsvWriter(standardDeviationOutputFile);
-				WriteUtils.writeHeader(standardDerivationWriter);
+				writer = getCsvWriter(standardDeviationOutputFile);
+				WriteUtils.writeHeader(writer);
 
 				List<String[]> lines = readAllLinesInFile(standardDeviationInputFile);
 
@@ -101,27 +101,26 @@ public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 					// + i);
 					String[] currentLine = lines.get(i);
 					double co2Diff = parseDoubleValue(currentLine, OutputFileConstants.CO2_ABSOLUTE) - getCO2DiffForLine(currentLine, lines, allReferenceLines);
-					writeCO2Diff(standardDerivationWriter, currentLine, co2Diff);
+					writeCO2Diff(writer, currentLine, co2Diff);
 					progressBar.setValue((int) ((i * 1.0 / lines.size() * 100.0 * 0.5) + 50.0));
 				}
 			}
 			log.info("CO2 Diff for StandardDerivation Values done.");
 		} catch (IOException ioe) {
 			log.error("IOException " + ioe.getMessage());
+			DialogUtil.getInstance().showError(ioe);
 			return false;
 		} catch (ParseException pe) {
 			log.error("ParseException " + pe.getMessage());
+			DialogUtil.getInstance().showError(pe);
+			return false;
+		} catch (Exception e) {
+			log.error(e);
+			DialogUtil.getInstance().showError(e);
 			return false;
 		} finally {
-			try {
-				if (writer != null)
-					writer.close();
-				if (standardDerivationWriter != null)
-					standardDerivationWriter.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			if (writer != null)
+				writer.close();
 		}
 		log.info("CO2Diff done");
 		progressBar.setValue(100);

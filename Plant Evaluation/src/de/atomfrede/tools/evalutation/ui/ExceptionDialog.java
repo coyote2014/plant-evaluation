@@ -23,6 +23,7 @@ package de.atomfrede.tools.evalutation.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.io.PrintWriter;
@@ -30,23 +31,34 @@ import java.io.StringWriter;
 
 import javax.swing.*;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.jidesoft.dialog.ButtonPanel;
 import com.jidesoft.dialog.StandardDialog;
 import com.jidesoft.dialog.StandardDialogPane;
 import com.jidesoft.swing.JideBoxLayout;
 
+import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
+
 public class ExceptionDialog extends StandardDialog {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -562443043328805520L;
+
+	@SuppressWarnings("unused")
+	private final Log log = LogFactory.getLog(ExceptionDialog.class);
+
 	public JComponent _detailsPanel;
 	Exception exception;
 
 	public ExceptionDialog(JFrame parent, Exception exception) throws HeadlessException {
 		super(parent, exception.toString());
 		this.exception = exception;
+		// setModal(true);
+		// setModalityType(ModalityType.APPLICATION_MODAL);
+		setIconImage(Icons.IC_DIALOG_ERROR_SMALL.getImage());
+		pack();
+		setLocationRelativeTo(parent);
 
 	}
 
@@ -69,6 +81,11 @@ public class ExceptionDialog extends StandardDialog {
 		panel.add(label, BorderLayout.BEFORE_FIRST_LINE);
 		label.setLabelFor(textArea);
 		panel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
+
+		setSize((int) panel.getPreferredSize().getWidth() + 20, getHeight() + 95);
+		setMinimumSize(getSize());
+		setMaximumSize(new Dimension(getSize().width, getSize().height + 150));
+		panel.setMaximumSize(new Dimension((int) getMaximumSize().getWidth(), 150));
 		return panel;
 	}
 
@@ -97,13 +114,15 @@ public class ExceptionDialog extends StandardDialog {
 	@Override
 	public JComponent createContentPanel() {
 		// TODO use here nicer layout, maybe with an icon
+
 		JPanel panel = new JPanel(new BorderLayout(10, 10));
 		panel.setBorder(BorderFactory.createEmptyBorder(20, 40, 40, 40));
 
-		JLabel label = new JLabel(exception.toString());
-		label.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel label = new JLabel("<html>An error occured!<br/>" + exception.toString() + "</html>");
+		label.setHorizontalAlignment(SwingConstants.LEFT);
 		panel.add(label, BorderLayout.CENTER);
-
+		panel.add(new JLabel(Icons.IC_DIALOG_ERROR_LARGE), BorderLayout.WEST);
+		setSize(panel.getPreferredSize());
 		return panel;
 	}
 
@@ -147,16 +166,6 @@ public class ExceptionDialog extends StandardDialog {
 		getRootPane().setDefaultButton(closeButton);
 		buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		buttonPanel.setSizeConstraint(ButtonPanel.NO_LESS_THAN);
-		// since the
-		// checkbox
-		// is quite
-		// wide, we
-		// don't
-		// want all
-		// of them
-		// have the
-		// same
-		// size.
 		return buttonPanel;
 	}
 

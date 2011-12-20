@@ -30,8 +30,9 @@ import org.apache.commons.logging.LogFactory;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.OutputFileConstants;
-import de.atomfrede.tools.evalutation.WriteUtils;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
+import de.atomfrede.tools.evalutation.util.DialogUtil;
+import de.atomfrede.tools.evalutation.util.WriteUtils;
 
 public class TemperatureEvaluator extends SingleInputFileEvaluator {
 
@@ -56,7 +57,7 @@ public class TemperatureEvaluator extends SingleInputFileEvaluator {
 	}
 
 	@Override
-	public boolean evaluate() {
+	public boolean evaluate() throws Exception {
 		CSVWriter writer = null;
 		CSVWriter standardDerivationWriter = null;
 		try {
@@ -114,19 +115,21 @@ public class TemperatureEvaluator extends SingleInputFileEvaluator {
 			}
 		} catch (IOException ioe) {
 			log.error(ioe);
+			DialogUtil.getInstance().showError(ioe);
 			return false;
 		} catch (ParseException pe) {
 			log.error(pe);
+			DialogUtil.getInstance().showError(pe);
+			return false;
+		} catch (Exception e) {
+			log.error(e);
+			DialogUtil.getInstance().showError(e);
 			return false;
 		} finally {
-			try {
-				if (writer != null)
-					writer.close();
-				if (standardDerivationWriter != null)
-					standardDerivationWriter.close();
-			} catch (IOException ioe) {
-				System.out.println("IOException when trying to close writers.");
-			}
+			if (writer != null)
+				writer.close();
+			if (standardDerivationWriter != null)
+				standardDerivationWriter.close();
 		}
 
 		log.info("Temperature done.");

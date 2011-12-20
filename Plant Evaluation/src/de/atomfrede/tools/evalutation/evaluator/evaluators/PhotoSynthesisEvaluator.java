@@ -31,10 +31,11 @@ import org.apache.commons.logging.LogFactory;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.OutputFileConstants;
-import de.atomfrede.tools.evalutation.WriteUtils;
 import de.atomfrede.tools.evalutation.evaluator.MultipleInputFileEvaluator;
 import de.atomfrede.tools.evalutation.plant.Plant;
 import de.atomfrede.tools.evalutation.plant.PlantHelper;
+import de.atomfrede.tools.evalutation.util.DialogUtil;
+import de.atomfrede.tools.evalutation.util.WriteUtils;
 
 public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 
@@ -72,7 +73,8 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 	}
 
 	@Override
-	public boolean evaluate() {
+	public boolean evaluate() throws Exception {
+		CSVWriter writer = null;
 		try {
 			{
 				currentPlant = -1;
@@ -85,7 +87,7 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 					allLinesInCurrentFile = readAllLinesInFile(currentDataFile);
 					File outputFile = new File(outputFolder, "psr-0" + (currentPlant) + ".csv");
 
-					CSVWriter writer = getCsvWriter(outputFile);
+					writer = getCsvWriter(outputFile);
 					WriteUtils.writeHeader(writer);
 
 					for (int i = 1; i < allLinesInCurrentFile.size(); i++) {
@@ -101,7 +103,6 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 
 					}
 
-					writer.close();
 					outputFiles.add(outputFile);
 				}
 			}
@@ -116,7 +117,7 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 					allLinesInCurrentFile = readAllLinesInFile(currentDataFile);
 					File outputFile = new File(outputFolder, "standard-derivation-psr-0" + (currentPlant) + ".csv");
 
-					CSVWriter writer = getCsvWriter(outputFile);
+					writer = getCsvWriter(outputFile);
 					WriteUtils.writeHeader(writer);
 
 					for (int i = 1; i < allLinesInCurrentFile.size(); i++) {
@@ -131,16 +132,24 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 
 					}
 
-					writer.close();
 					standardDeviationOutputFiles.add(outputFile);
 				}
 			}
 		} catch (IOException ioe) {
 			log.error(ioe);
+			DialogUtil.getInstance().showError(ioe);
 			return false;
 		} catch (ParseException pe) {
 			log.error(pe);
+			DialogUtil.getInstance().showError(pe);
 			return false;
+		} catch (Exception e) {
+			log.error(e);
+			DialogUtil.getInstance().showError(e);
+			return false;
+		} finally {
+			if (writer != null)
+				writer.close();
 		}
 		log.info("PSR Evaluator Done.");
 		progressBar.setValue(100);

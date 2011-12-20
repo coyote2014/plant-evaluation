@@ -31,10 +31,11 @@ import org.apache.commons.logging.LogFactory;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.OutputFileConstants;
-import de.atomfrede.tools.evalutation.WriteUtils;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputMultipleOutputFileEvaluator;
 import de.atomfrede.tools.evalutation.plant.Plant;
 import de.atomfrede.tools.evalutation.plant.PlantHelper;
+import de.atomfrede.tools.evalutation.util.DialogUtil;
+import de.atomfrede.tools.evalutation.util.WriteUtils;
 
 /**
  * Evaluator that takes one single file, containing all data, a input and
@@ -55,7 +56,8 @@ public class PlantDivider extends SingleInputMultipleOutputFileEvaluator {
 	}
 
 	@Override
-	public boolean evaluate() {
+	public boolean evaluate() throws Exception {
+		CSVWriter writer = null;
 		try {
 			{
 				// first read all mean value data
@@ -66,7 +68,7 @@ public class PlantDivider extends SingleInputMultipleOutputFileEvaluator {
 
 					File outputFile = new File(outputFolder, "plant-0" + i + ".csv");
 
-					CSVWriter writer = getCsvWriter(outputFile);
+					writer = getCsvWriter(outputFile);
 					List<String[]> values;
 					// collect all values between its start and enddate
 					values = getAllDateLinesBetween(currentPlant.getStartDate(), currentPlant.getEndDate());
@@ -92,7 +94,7 @@ public class PlantDivider extends SingleInputMultipleOutputFileEvaluator {
 
 					File outputFile = new File(outputFolder, "standard-derivation-0" + i + ".csv");
 
-					CSVWriter writer = getCsvWriter(outputFile);
+					writer = getCsvWriter(outputFile);
 					List<String[]> values;
 
 					values = getAllDateLinesBetween(currentPlant.getStartDate(), currentPlant.getEndDate());
@@ -106,10 +108,19 @@ public class PlantDivider extends SingleInputMultipleOutputFileEvaluator {
 			}
 		} catch (IOException ioe) {
 			log.error(ioe);
+			DialogUtil.getInstance().showError(ioe);
 			return false;
 		} catch (ParseException pe) {
 			log.error(pe);
+			DialogUtil.getInstance().showError(pe);
 			return false;
+		} catch (Exception e) {
+			log.error(e);
+			DialogUtil.getInstance().showError(e);
+			return false;
+		} finally {
+			if (writer != null)
+				writer.close();
 		}
 		log.info("Plant Divider Done");
 		progressBar.setValue(100);

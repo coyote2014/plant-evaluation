@@ -36,12 +36,14 @@ import org.apache.commons.logging.LogFactory;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
+import com.jidesoft.dialog.StandardDialog;
 import com.jidesoft.swing.JideBorderLayout;
 
 import de.atomfrede.tools.evalutation.options.ui.OptionsDialog;
 import de.atomfrede.tools.evalutation.ui.about.AboutDialog;
 import de.atomfrede.tools.evalutation.ui.res.Messages;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
+import de.atomfrede.tools.evalutation.util.DialogUtil;
 import de.atomfrede.tools.evalutation.util.JarUtil;
 
 /**
@@ -158,6 +160,13 @@ public class AppWindow {
 		menuBar.add(mnTools);
 
 		JMenuItem mntmPostprocessing = new JMenuItem(Messages.getString("AppWindow.mntmPostprocessing.text")); //$NON-NLS-1$
+		mntmPostprocessing.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+			}
+		});
 		mnTools.add(mntmPostprocessing);
 
 		JMenu mnHelp = new JMenu(Messages.getString("AppWindow.6")); //$NON-NLS-1$
@@ -179,6 +188,8 @@ public class AppWindow {
 		mnHelp.add(mntmAbout);
 
 		createContent();
+
+		DialogUtil.getInstance().setMainFrame(frame);
 
 	}
 

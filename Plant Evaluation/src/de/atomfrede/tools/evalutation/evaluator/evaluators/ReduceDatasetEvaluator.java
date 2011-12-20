@@ -32,6 +32,7 @@ import de.atomfrede.tools.evalutation.InputFileConstants;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
 import de.atomfrede.tools.evalutation.tools.plot.SimplePlot;
 import de.atomfrede.tools.evalutation.tools.plot.TimePlot;
+import de.atomfrede.tools.evalutation.util.DialogUtil;
 
 /**
  * Evaluator that reduces the whole dataset by taking 60 lines, computing the
@@ -90,14 +91,21 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 
 		} catch (Exception e) {
 			log.error(e);
+			DialogUtil.getInstance().showError(e);
 			return false;
 		} finally {
-			if (writer != null) {
+			if (writer != null)
 				writer.close();
-			}
 		}
-		new TimePlot(outputFile);
-		new SimplePlot(outputFile);
+
+		try {
+			new TimePlot(outputFile);
+			new SimplePlot(outputFile);
+		} catch (Exception e) {
+			log.error("Error during plot.", e);
+			DialogUtil.getInstance().showError(e);
+
+		}
 		log.info("Reduce Dataset Evaluator done.");
 		return true;
 	}

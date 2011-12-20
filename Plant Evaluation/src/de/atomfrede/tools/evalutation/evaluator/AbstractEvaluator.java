@@ -129,10 +129,12 @@ public abstract class AbstractEvaluator {
 		return Double.parseDouble(line[type].replace(",", "."));
 	}
 
+	@Deprecated
 	public double[] list2DoubleArray(List<Double> values) {
 		return ArrayUtils.toPrimitive(values.toArray(new Double[values.size()]));
 	}
 
+	@Deprecated
 	public int[] list2IntArray(List<Integer> values) {
 		return ArrayUtils.toPrimitive(values.toArray(new Integer[values.size()]));
 	}

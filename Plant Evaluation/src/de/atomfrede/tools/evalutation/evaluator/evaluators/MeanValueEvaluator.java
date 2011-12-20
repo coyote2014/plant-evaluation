@@ -32,9 +32,10 @@ import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.CommonConstants;
 import de.atomfrede.tools.evalutation.EntryComparator;
 import de.atomfrede.tools.evalutation.InputFileConstants;
-import de.atomfrede.tools.evalutation.WriteUtils;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
 import de.atomfrede.tools.evalutation.options.Options;
+import de.atomfrede.tools.evalutation.util.DialogUtil;
+import de.atomfrede.tools.evalutation.util.WriteUtils;
 
 public class MeanValueEvaluator extends SingleInputFileEvaluator {
 
@@ -50,7 +51,7 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 	}
 
 	@Override
-	public boolean evaluate() {
+	public boolean evaluate() throws Exception {
 		CSVWriter writer = null;
 		try {
 			outputFile = new File(outputFolder, "laser-mean-values.csv");
@@ -95,21 +96,20 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 
 			writeAllLinesForStandardDerivation(lines);
 		} catch (IOException ioe) {
-			log.error("IOException " + ioe.getMessage());
+			log.error(ioe);
+			DialogUtil.getInstance().showError(ioe);
 			return false;
 		} catch (ParseException pe) {
-			System.out.println("ParseException " + pe.toString() + "  " + pe.getMessage());
+			log.error(pe);
+			DialogUtil.getInstance().showError(pe);
+			return false;
+		} catch (Exception e) {
+			log.error(e);
+			DialogUtil.getInstance().showError(e);
 			return false;
 		} finally {
-			try {
-				if (writer != null)
-					writer.close();
-				if (standardDerivationWriter != null)
-					standardDerivationWriter.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			if (writer != null)
+				writer.close();
 		}
 		log.info("Mean Values computed.");
 		progressBar.setValue(100);
