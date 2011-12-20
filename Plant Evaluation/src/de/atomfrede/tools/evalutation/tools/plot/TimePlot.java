@@ -65,9 +65,6 @@ public class TimePlot extends AbstractPlot {
 
 		List<String[]> allLines = reader.readAll();
 
-		// XYDataset dataset = createDataset(allLines);
-		// XYDataset dataset2 = createDeltaRawDataSet(allLines);
-		// JFreeChart chart = createChart(dataset, dataset2);
 		XYDatasetWrapper dataset = createCO2AbsoluteDatasetWrapper(allLines);
 		log.info(dataset.getSeriesName() + " [" + dataset.getMinimum() + ", " + dataset.getMaximum() + "]");
 		XYDatasetWrapper dataset2 = createDeltaRawDatasetWrapper(allLines);
@@ -88,18 +85,21 @@ public class TimePlot extends AbstractPlot {
 				dataset.getDataset(), true, true, false);
 
 		XYPlot plot = (XYPlot) chart.getPlot();
-		// first add the second plot
+		// first add the second plot (-> delta raw)
 		plot.setDataset(1, dataset2.getDataset());
 
 		// change the number axis for second dataset
 		NumberAxis axis2 = new NumberAxis(dataset2.getSeriesName());
 		plot.setRangeAxis(1, axis2);
 		plot.setRangeAxisLocation(1, AxisLocation.BOTTOM_OR_RIGHT);
+		// minimum and maximum for Delta raw axis
 		plot.getRangeAxis(1).setLowerBound(dataset2.getMinimum() - 15.0);
 		plot.getRangeAxis(1).setUpperBound(dataset2.getMaximum() - dataset2.getMaximum() + 1000);
 		// map the second dataset to the second axis
 		plot.mapDatasetToRangeAxis(1, 1);
+
 		// adapt minimum and maximum for first dataset
+		// range for CO2-Absolute axis
 		plot.getRangeAxis(0).setLowerBound(dataset.getMinimum());
 		plot.getRangeAxis(0).setUpperBound(dataset.getMaximum());
 
