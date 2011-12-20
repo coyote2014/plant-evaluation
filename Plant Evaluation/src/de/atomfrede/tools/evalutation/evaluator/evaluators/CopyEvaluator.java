@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -49,7 +50,7 @@ public class CopyEvaluator extends AbstractEvaluator {
 	private final Log log = LogFactory.getLog(CopyEvaluator.class);
 
 	File outputFile;
-	List<Double> solenoidValvesOfInterest = new ArrayList<Double>();
+	double[] solenoidValvesOfInterest;
 
 	public CopyEvaluator() {
 		super("copy");
@@ -68,7 +69,12 @@ public class CopyEvaluator extends AbstractEvaluator {
 	public boolean evaluate() {
 		log.info("Copy Evaluator started");
 		// setup all solenoid valves of interest
-		solenoidValvesOfInterest = Options.getSolenoidValvesOfInterest();
+		solenoidValvesOfInterest = new double[Options.getSolenoidValvesOfInterest().size()];
+		int k = 0;
+		for (Double d : Options.getSolenoidValvesOfInterest()) {
+			solenoidValvesOfInterest[k] = d.doubleValue();
+			k++;
+		}
 
 		CSVWriter writer = null;
 		try {
@@ -113,10 +119,15 @@ public class CopyEvaluator extends AbstractEvaluator {
 					for (int j = 1; j < currentLines.size(); j++) {
 						String[] currentLine = currentLines.get(j);
 						double solenoidValue = parseDoubleValue(currentLine, InputFileConstants.SOLENOID_VALVE_INPUT);
-						// only copy the solenoid valves of interest
-						if (solenoidValvesOfInterest.contains(Double.valueOf(solenoidValue))) {
+						if (ArrayUtils.contains(solenoidValvesOfInterest, solenoidValue)) {
 							allLines.add(currentLine);
 						}
+						// only copy the solenoid valves of interest
+						// if
+						// (solenoidValvesOfInterest.contains(Double.valueOf(solenoidValue)))
+						// {
+
+						// }
 					}
 
 				}
