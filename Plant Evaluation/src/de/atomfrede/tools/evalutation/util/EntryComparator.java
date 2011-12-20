@@ -17,7 +17,7 @@
  *  along with Plant Evaluation.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.atomfrede.tools.evalutation;
+package de.atomfrede.tools.evalutation.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
