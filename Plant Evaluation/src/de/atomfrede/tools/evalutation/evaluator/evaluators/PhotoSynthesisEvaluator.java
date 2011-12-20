@@ -318,7 +318,7 @@ public class PhotoSynthesisEvaluator extends MultipleInputFileEvaluator {
 	}
 
 	double getCO2Abs(String[] line) {
-		return parseDoubleValue(line, OutputFileConstants.CO2_ABS) / MILLION;
+		return parseDoubleValue(line, OutputFileConstants.CO2_ABSOLUTE) / MILLION;
 	}
 
 	double getTemperature(String[] line) {

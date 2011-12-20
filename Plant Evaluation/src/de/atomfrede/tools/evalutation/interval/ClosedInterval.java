@@ -24,4 +24,9 @@ public class ClosedInterval extends AbstractInterval {
 		return false;
 	}
 
+	@Override
+	public String toString() {
+		return "Closed Interval [" + min + ", " + max + "]";
+	}
+
 }

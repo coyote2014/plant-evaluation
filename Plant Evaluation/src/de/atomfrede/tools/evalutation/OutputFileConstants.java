@@ -21,32 +21,21 @@ package de.atomfrede.tools.evalutation;
 
 public final class OutputFileConstants {
 
-	public static String DATE_HEADER = "DATE";
-	public static String TIME_HEADER = "TIME";
-
-	public static String delta5minutes_HEADER = "Σ delta5Minutes";
-	public static String _12CO2_dry_HEADER = "Σ 12CO2_dry";
-	public static String _13CO2_dry_HEADER = "Σ 13CO2_dry";
-	public static String H2O_HEADER = "Σ H2O";
-	public static String solenoid_HEADER = "solenoid valve";
-	public static String CO2_ABS_HEADER = "CO2 ABS";
-	public static String COMPLETE_TIME_HEADER = "Zeit";
-	public static String CO2_DIFF_HEADER = "CO2Diff";
-	public static String DELTA_13_HEADER = "δ13Pflanze";
-	public static String TEMPERATURE_HEADER = "Temperature in °C";
-	public static String PHOTO_SYNTHESIS_RATE_HEADER = "PSR";
-	public static String PHOTO_SYNTHESIS_RATE_STANDARD_DERIVATION_HEADER = "SD of PSR";
-	public static String DELTA_13_STANDARD_DERIVATION_HEADER = "SD of δ13";
+	public static String HEADER_DELTA_5_MINUTES = "Σ delta5Minutes";
+	public static String HEADER_12_CO2_DRY = "Σ 12CO2_dry";
+	public static String HEADER_13_CO2_DRY = "Σ 13CO2_dry";
+	public static String HEADER_H2O = "Σ H2O";
+	public static String HEADER_SOLENOID_VALVE = "solenoid valves";
+	public static String HEADER_CO2_ABSOLUTE = "CO2 Absolute";
+	public static String HEADER_DATE_AND_TIME = "Zeit";
+	public static String HEADER_CO2_DIFFERENCE = "CO2 Difference";
+	public static String HEADER_DELTA_13 = "δ13Pflanze";
+	public static String HEADER_TEMPERATURE = "Temperature in °C";
+	public static String HEADER_PHOTO_SYNTHESIS_RATE = "PSR";
+	public static String HEADER_PHOTO_SYNTHESIS_RATE_STANDARD_DEVIVATION = "SD of PSR";
+	public static String HEADER_DELTA_13_STANDARD_DEVIVATION = "SD of δ13";
 
 	// Columns for the generated files
-	/**
-	 * Date Column (without time)
-	 */
-	public static int DATE = 0;
-	/**
-	 * Time Column (without date)
-	 */
-	public static int TIME = 1;
 	/**
 	 * Column for mean of 12CO2 Dry values
 	 */
@@ -70,7 +59,7 @@ public final class OutputFileConstants {
 	/**
 	 * Column for CO2 Absolute values
 	 */
-	public static int CO2_ABS = 7;
+	public static int CO2_ABSOLUTE = 7;
 	/**
 	 * Column for Date + Time Column values
 	 */
@@ -99,12 +88,57 @@ public final class OutputFileConstants {
 	 * Column for SD (StandardDerivation) of Delta13 values
 	 */
 	public static int SD_DELTA13 = 14;
-	/**
-	 * Time Constants used during evaluation
-	 */
-	// 1 hour are 3 600 000ms
-	public static long oneHour = 3600000L;
-	// 5 minutes are 300000ms
-	public static double fiveMinutes = 300000.0;
+
+	public static void setMEAN_12CO2_DRY(int mEAN_12CO2_DRY) {
+		MEAN_12CO2_DRY = mEAN_12CO2_DRY;
+	}
+
+	public static void setMEAN_13CO2_DRY(int mEAN_13CO2_DRY) {
+		MEAN_13CO2_DRY = mEAN_13CO2_DRY;
+	}
+
+	public static void setMEAN_DELTA_5_MINUTES(int mEAN_DELTA_5_MINUTES) {
+		MEAN_DELTA_5_MINUTES = mEAN_DELTA_5_MINUTES;
+	}
+
+	public static void setMEAN_H2O(int mEAN_H2O) {
+		MEAN_H2O = mEAN_H2O;
+	}
+
+	public static void setSOLENOID_VALVES(int sOLENOID_VALVES) {
+		SOLENOID_VALVES = sOLENOID_VALVES;
+	}
+
+	public static void setCO2_ABSOLUTE(int cO2_ABSOLUTE) {
+		CO2_ABSOLUTE = cO2_ABSOLUTE;
+	}
+
+	public static void setDATE_AND_TIME(int dATE_AND_TIME) {
+		DATE_AND_TIME = dATE_AND_TIME;
+	}
+
+	public static void setCO2_DIFF(int cO2_DIFF) {
+		CO2_DIFF = cO2_DIFF;
+	}
+
+	public static void setDELTA13(int dELTA13) {
+		DELTA13 = dELTA13;
+	}
+
+	public static void setTEMPERATURE(int tEMPERATURE) {
+		TEMPERATURE = tEMPERATURE;
+	}
+
+	public static void setPSR(int pSR) {
+		PSR = pSR;
+	}
+
+	public static void setSD_PSR(int sD_PSR) {
+		SD_PSR = sD_PSR;
+	}
+
+	public static void setSD_DELTA13(int sD_DELTA13) {
+		SD_DELTA13 = sD_DELTA13;
+	}
 
 }

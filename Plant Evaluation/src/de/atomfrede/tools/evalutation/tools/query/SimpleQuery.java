@@ -25,6 +25,7 @@ public class SimpleQuery extends AbstractQuery {
 		super(inputFile);
 		this.column = column;
 		this.interval = interval;
+		log.trace("SimpleQuery created with column " + column + " and interval " + interval);
 	}
 
 	public int getColumn() {

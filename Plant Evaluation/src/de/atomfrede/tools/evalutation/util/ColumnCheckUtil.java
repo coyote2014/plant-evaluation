@@ -22,6 +22,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.atomfrede.tools.evalutation.InputFileConstants;
+import de.atomfrede.tools.evalutation.OutputFileConstants;
 
 /**
  * Checks if the current header still fits to the expected column numbers. If
@@ -31,43 +32,74 @@ public class ColumnCheckUtil {
 
 	private static final Log log = LogFactory.getLog(ColumnCheckUtil.class);
 
-	public static void checkHeader(String[] header) {
+	/**
+	 * Checks if the order of columns in the inputfiles (from picarro device)
+	 * has changed. If thats the case the constants are changed accordingly, so
+	 * the program "learns" the correct file formats and adapts accordingly
+	 * 
+	 * @param inputFileheader
+	 */
+	public static void checkInputFileHeader(String[] inputFileheader) {
 
-		if (!header[InputFileConstants._12CO2].equals(InputFileConstants.HEADER_12_CO2)) {
-			InputFileConstants.set_12CO2(findColumn(header, InputFileConstants.HEADER_12_CO2));
+		if (!inputFileheader[InputFileConstants._12CO2].equals(InputFileConstants.HEADER_12_CO2)) {
+			InputFileConstants.set_12CO2(findColumn(inputFileheader, InputFileConstants.HEADER_12_CO2));
 		}
 
-		if (!header[InputFileConstants._12CO2_DRY].equals(InputFileConstants.HEADER_12_CO2_DRY)) {
-			InputFileConstants.set_12CO2_DRY(findColumn(header, InputFileConstants.HEADER_12_CO2_DRY));
+		if (!inputFileheader[InputFileConstants._12CO2_DRY].equals(InputFileConstants.HEADER_12_CO2_DRY)) {
+			InputFileConstants.set_12CO2_DRY(findColumn(inputFileheader, InputFileConstants.HEADER_12_CO2_DRY));
 		}
 
-		if (!header[InputFileConstants._13CO2].equals(InputFileConstants.HEADER_13_CO2)) {
-			InputFileConstants.set_13CO2(findColumn(header, InputFileConstants.HEADER_13_CO2));
+		if (!inputFileheader[InputFileConstants._13CO2].equals(InputFileConstants.HEADER_13_CO2)) {
+			InputFileConstants.set_13CO2(findColumn(inputFileheader, InputFileConstants.HEADER_13_CO2));
 		}
 
-		if (!header[InputFileConstants._13CO2_DRY].equals(InputFileConstants.HEADER_13_CO2_DRY)) {
-			InputFileConstants.set_13CO2_DRY(findColumn(header, InputFileConstants.HEADER_13_CO2_DRY));
+		if (!inputFileheader[InputFileConstants._13CO2_DRY].equals(InputFileConstants.HEADER_13_CO2_DRY)) {
+			InputFileConstants.set_13CO2_DRY(findColumn(inputFileheader, InputFileConstants.HEADER_13_CO2_DRY));
 		}
 
-		if (!header[InputFileConstants.DELTA_5_MINUTES].equals(InputFileConstants.HEADER_DELTA_5_MINUTES)) {
-			InputFileConstants.setDELTA_5_MINUTES(findColumn(header, InputFileConstants.HEADER_DELTA_5_MINUTES));
+		if (!inputFileheader[InputFileConstants.DELTA_5_MINUTES].equals(InputFileConstants.HEADER_DELTA_5_MINUTES)) {
+			InputFileConstants.setDELTA_5_MINUTES(findColumn(inputFileheader, InputFileConstants.HEADER_DELTA_5_MINUTES));
 		}
 
-		if (!header[InputFileConstants.DELTA_RAW].equals(InputFileConstants.HEADER_DELTA_RAW)) {
-			InputFileConstants.setDELTA_RAW(findColumn(header, InputFileConstants.HEADER_DELTA_RAW));
+		if (!inputFileheader[InputFileConstants.DELTA_RAW].equals(InputFileConstants.HEADER_DELTA_RAW)) {
+			InputFileConstants.setDELTA_RAW(findColumn(inputFileheader, InputFileConstants.HEADER_DELTA_RAW));
 		}
 
-		if (!header[InputFileConstants.EPOCH_TIME].equals(InputFileConstants.HEADER_EPOCH_TIME)) {
-			InputFileConstants.setEPOCH_TIME(findColumn(header, InputFileConstants.HEADER_EPOCH_TIME));
+		if (!inputFileheader[InputFileConstants.EPOCH_TIME].equals(InputFileConstants.HEADER_EPOCH_TIME)) {
+			InputFileConstants.setEPOCH_TIME(findColumn(inputFileheader, InputFileConstants.HEADER_EPOCH_TIME));
 		}
 
-		if (!header[InputFileConstants.H2O].equals(InputFileConstants.HEADER_H2O)) {
-			InputFileConstants.setH2O(findColumn(header, InputFileConstants.HEADER_H2O));
+		if (!inputFileheader[InputFileConstants.H2O].equals(InputFileConstants.HEADER_H2O)) {
+			InputFileConstants.setH2O(findColumn(inputFileheader, InputFileConstants.HEADER_H2O));
 		}
 
-		if (!header[InputFileConstants.SOLENOID_VALVE_INPUT].equals(InputFileConstants.HEADER_SOLENOID_VALVE)) {
-			InputFileConstants.setSOLENOID_VALVE_INPUT(findColumn(header, InputFileConstants.HEADER_SOLENOID_VALVE));
+		if (!inputFileheader[InputFileConstants.SOLENOID_VALVE_INPUT].equals(InputFileConstants.HEADER_SOLENOID_VALVE)) {
+			InputFileConstants.setSOLENOID_VALVE_INPUT(findColumn(inputFileheader, InputFileConstants.HEADER_SOLENOID_VALVE));
 		}
+	}
+
+	/**
+	 * Checks the given outputfile header for changes in the column order. So
+	 * the outputformat can be changed dynamically. Each time a single evaluator
+	 * is started this method must be called in order to use the correct
+	 * columns.
+	 * 
+	 * @param header
+	 */
+	public static void checkOutputFileHeader(String[] header) {
+
+		if (!header[OutputFileConstants.CO2_ABSOLUTE].equals(OutputFileConstants.HEADER_CO2_ABSOLUTE)) {
+			OutputFileConstants.setCO2_ABSOLUTE(findColumn(header, OutputFileConstants.HEADER_CO2_ABSOLUTE));
+		}
+
+		if (!header[OutputFileConstants.CO2_DIFF].equals(OutputFileConstants.HEADER_CO2_DIFFERENCE)) {
+			OutputFileConstants.setCO2_DIFF(findColumn(header, OutputFileConstants.HEADER_CO2_DIFFERENCE));
+		}
+
+		if (!header[OutputFileConstants.DATE_AND_TIME].equals(OutputFileConstants.HEADER_DATE_AND_TIME)) {
+			OutputFileConstants.setDATE_AND_TIME(findColumn(header, OutputFileConstants.HEADER_DATE_AND_TIME));
+		}
+
 	}
 
 	private static int findColumn(String[] header, String headerToFind) {

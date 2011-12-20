@@ -110,7 +110,7 @@ public class CopyEvaluator extends AbstractEvaluator {
 					// if there is no header use the first line
 					if (header == null) {
 						header = currentLines.get(0);
-						ColumnCheckUtil.checkHeader(header);
+						ColumnCheckUtil.checkInputFileHeader(header);
 					}
 					// then remove it, because we don't need the header of the
 					// other files anymore

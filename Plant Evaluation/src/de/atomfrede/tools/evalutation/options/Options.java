@@ -35,6 +35,7 @@ import de.atomfrede.tools.evalutation.util.JarUtil;
  * Simple static class that holds all options only for the current session.
  * 
  */
+@SuppressWarnings("unchecked")
 public class Options {
 
 	private static final Log log = LogFactory.getLog(Options.class);

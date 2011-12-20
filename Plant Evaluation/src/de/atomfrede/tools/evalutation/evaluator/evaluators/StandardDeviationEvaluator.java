@@ -29,6 +29,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math.stat.StatUtils;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import de.atomfrede.tools.evalutation.CommonConstants;
 import de.atomfrede.tools.evalutation.OutputFileConstants;
 import de.atomfrede.tools.evalutation.WriteUtils;
 import de.atomfrede.tools.evalutation.evaluator.MultipleInputFileEvaluator;
@@ -185,7 +186,7 @@ public class StandardDeviationEvaluator extends MultipleInputFileEvaluator {
 		Date currentDate = meanDate;
 		int currentIndex = startIndex;
 		// standardDerivationLines.add(startIndex);
-		while (Math.abs(meanDate.getTime() - currentDate.getTime()) <= OutputFileConstants.fiveMinutes && currentIndex >= 1
+		while (Math.abs(meanDate.getTime() - currentDate.getTime()) <= CommonConstants.fiveMinutes && currentIndex >= 1
 				&& currentIndex < currentStandardDeviationLines.size()) {
 			String[] possibleLine = currentStandardDeviationLines.get(currentIndex);
 			double solenoid = parseDoubleValue(possibleLine, OutputFileConstants.SOLENOID_VALVES);

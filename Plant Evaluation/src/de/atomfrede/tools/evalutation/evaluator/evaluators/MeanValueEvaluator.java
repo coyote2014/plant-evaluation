@@ -29,7 +29,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math.stat.StatUtils;
 
 import au.com.bytecode.opencsv.CSVWriter;
-import de.atomfrede.tools.evalutation.OutputFileConstants;
+import de.atomfrede.tools.evalutation.CommonConstants;
 import de.atomfrede.tools.evalutation.EntryComparator;
 import de.atomfrede.tools.evalutation.InputFileConstants;
 import de.atomfrede.tools.evalutation.WriteUtils;
@@ -68,10 +68,10 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 				if (startIndex > 1 && startIndex < lines.size()) {
 					String[] currentLine = lines.get(startIndex - 1);
 
-					Date date2Write = dateFormat.parse(currentLine[OutputFileConstants.DATE] + " " + currentLine[OutputFileConstants.TIME]);
+					Date date2Write = dateFormat.parse(currentLine[CommonConstants.DATE] + " " + currentLine[CommonConstants.TIME]);
 
 					if (Options.isShiftByOneHour())
-						date2Write = new Date(date2Write.getTime() + OutputFileConstants.oneHour);
+						date2Write = new Date(date2Write.getTime() + CommonConstants.oneHour);
 
 					String solenoid2Write = currentLine[InputFileConstants.SOLENOID_VALVE_INPUT];
 					Map<Integer, double[]> type2RawValues = collectValuesOfLastFiveMinutes(lines, startIndex - 1);
@@ -170,12 +170,12 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 
 	void writeLinesForStandardDerivation(String[] lineToWrite) throws ParseException {
 		// First collect all values
-		String date = lineToWrite[OutputFileConstants.DATE];
-		String time = lineToWrite[OutputFileConstants.TIME];
+		String date = lineToWrite[CommonConstants.DATE];
+		String time = lineToWrite[CommonConstants.TIME];
 		Date date2Write = dateFormat.parse(date + " " + time);
 
 		if (Options.isShiftByOneHour())
-			date2Write = new Date(date2Write.getTime() + OutputFileConstants.oneHour);
+			date2Write = new Date(date2Write.getTime() + CommonConstants.oneHour);
 
 		date = dateFormat.format(date2Write).split(" ")[0];
 		time = dateFormat.format(date2Write).split(" ")[1];
@@ -215,9 +215,9 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 			linesNeedForStandardDerivation.add(Integer.valueOf(startIndex));
 
 		StringBuilder dateBuilder = new StringBuilder();
-		dateBuilder.append(startLine[OutputFileConstants.DATE]);
+		dateBuilder.append(startLine[CommonConstants.DATE]);
 		dateBuilder.append(" ");
-		dateBuilder.append(startLine[OutputFileConstants.TIME]);
+		dateBuilder.append(startLine[CommonConstants.TIME]);
 		Date startDate = dateFormat.parse(dateBuilder.toString());
 		Date currentDate = startDate;
 
@@ -227,7 +227,7 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 		_H20_Values.add(parseDoubleValue(startLine, InputFileConstants.H2O));
 
 		int currentIndex = startIndex - 1;
-		while (Math.abs(startDate.getTime() - currentDate.getTime()) <= OutputFileConstants.fiveMinutes && currentIndex >= 1) {
+		while (Math.abs(startDate.getTime() - currentDate.getTime()) <= CommonConstants.fiveMinutes && currentIndex >= 1) {
 
 			String[] currentLine = lines.get(currentIndex);
 			double currentSolenoid = parseDoubleValue(currentLine, InputFileConstants.SOLENOID_VALVE_INPUT);
@@ -243,7 +243,7 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 					linesNeedForStandardDerivation.add(currentIndex);
 			}
 
-			currentDate = dateFormat.parse(currentLine[OutputFileConstants.DATE] + " " + currentLine[OutputFileConstants.TIME]);
+			currentDate = dateFormat.parse(currentLine[CommonConstants.DATE] + " " + currentLine[CommonConstants.TIME]);
 			fiveMinutesDeltaValues.add(parseDoubleValue(currentLine, InputFileConstants.DELTA_5_MINUTES));
 			_12CO2_dry_Values.add(parseDoubleValue(currentLine, InputFileConstants._12CO2_DRY));
 			_13CO2_dry_Values.add(parseDoubleValue(currentLine, InputFileConstants._13CO2_DRY));

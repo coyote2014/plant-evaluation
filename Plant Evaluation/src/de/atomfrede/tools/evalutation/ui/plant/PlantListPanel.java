@@ -159,7 +159,6 @@ public class PlantListPanel extends JPanel {
 	@Override
 	public void setEnabled(boolean isEnabled) {
 		super.setEnabled(isEnabled);
-		int i = 0;
 		for (PlantDataInputPanel panel : plantDataInputPanelList) {
 			panel.setEnabled(isEnabled);
 			if (isEnabled && plantDataInputPanelList.size() == 1) {

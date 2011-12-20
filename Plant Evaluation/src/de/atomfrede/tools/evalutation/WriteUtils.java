@@ -30,10 +30,12 @@ public class WriteUtils {
 	static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SS");
 
 	public static void writeHeader(CSVWriter writer) {
-		String[] header = { OutputFileConstants.DATE_HEADER, OutputFileConstants.TIME_HEADER, OutputFileConstants._12CO2_dry_HEADER, OutputFileConstants._13CO2_dry_HEADER,
-				OutputFileConstants.delta5minutes_HEADER, OutputFileConstants.H2O_HEADER, OutputFileConstants.solenoid_HEADER, OutputFileConstants.CO2_ABS_HEADER, OutputFileConstants.COMPLETE_TIME_HEADER,
-				OutputFileConstants.CO2_DIFF_HEADER, OutputFileConstants.DELTA_13_HEADER, OutputFileConstants.TEMPERATURE_HEADER, OutputFileConstants.PHOTO_SYNTHESIS_RATE_HEADER,
-				OutputFileConstants.PHOTO_SYNTHESIS_RATE_STANDARD_DERIVATION_HEADER, OutputFileConstants.DELTA_13_STANDARD_DERIVATION_HEADER };
+		String[] header = { CommonConstants.DATE_HEADER, CommonConstants.TIME_HEADER, OutputFileConstants.HEADER_12_CO2_DRY,
+				OutputFileConstants.HEADER_13_CO2_DRY, OutputFileConstants.HEADER_DELTA_5_MINUTES, OutputFileConstants.HEADER_H2O,
+				OutputFileConstants.HEADER_SOLENOID_VALVE, OutputFileConstants.HEADER_CO2_ABSOLUTE, OutputFileConstants.HEADER_DATE_AND_TIME,
+				OutputFileConstants.HEADER_CO2_DIFFERENCE, OutputFileConstants.HEADER_DELTA_13, OutputFileConstants.HEADER_TEMPERATURE,
+				OutputFileConstants.HEADER_PHOTO_SYNTHESIS_RATE, OutputFileConstants.HEADER_PHOTO_SYNTHESIS_RATE_STANDARD_DEVIVATION,
+				OutputFileConstants.HEADER_DELTA_13_STANDARD_DEVIVATION };
 		writer.writeNext(header);
 	}
 

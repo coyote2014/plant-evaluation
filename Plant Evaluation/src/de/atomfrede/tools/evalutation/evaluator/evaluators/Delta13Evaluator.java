@@ -149,8 +149,8 @@ public class Delta13Evaluator extends SingleInputFileEvaluator {
 	 * @return
 	 */
 	double computeDelta13(String[] currentLine, String[] refLine) {
-		double co2abs = parseDoubleValue(currentLine, OutputFileConstants.CO2_ABS);
-		double co2absRef = parseDoubleValue(refLine, OutputFileConstants.CO2_ABS);
+		double co2abs = parseDoubleValue(currentLine, OutputFileConstants.CO2_ABSOLUTE);
+		double co2absRef = parseDoubleValue(refLine, OutputFileConstants.CO2_ABSOLUTE);
 		double delta5Minutes = parseDoubleValue(currentLine, OutputFileConstants.MEAN_DELTA_5_MINUTES);
 		double delta5MinutesRef = parseDoubleValue(refLine, OutputFileConstants.MEAN_DELTA_5_MINUTES);
 

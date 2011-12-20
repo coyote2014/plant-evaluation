@@ -70,7 +70,7 @@ public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 
 				for (int i = 1; i < lines.size(); i++) {
 					String[] currentLine = lines.get(i);
-					double co2Diff = parseDoubleValue(currentLine, OutputFileConstants.CO2_ABS) - getCO2DiffForLine(currentLine, lines, allReferenceLines);
+					double co2Diff = parseDoubleValue(currentLine, OutputFileConstants.CO2_ABSOLUTE) - getCO2DiffForLine(currentLine, lines, allReferenceLines);
 					writeCO2Diff(writer, currentLine, co2Diff);
 
 					progressBar.setValue((int) (i * 1.0 / lines.size() * 100.0 * 0.5));
@@ -100,7 +100,7 @@ public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 					// System.out.println("Writing Standard Derivation Line "
 					// + i);
 					String[] currentLine = lines.get(i);
-					double co2Diff = parseDoubleValue(currentLine, OutputFileConstants.CO2_ABS) - getCO2DiffForLine(currentLine, lines, allReferenceLines);
+					double co2Diff = parseDoubleValue(currentLine, OutputFileConstants.CO2_ABSOLUTE) - getCO2DiffForLine(currentLine, lines, allReferenceLines);
 					writeCO2Diff(standardDerivationWriter, currentLine, co2Diff);
 					progressBar.setValue((int) ((i * 1.0 / lines.size() * 100.0 * 0.5) + 50.0));
 				}
@@ -148,13 +148,13 @@ public class CO2DiffEvaluator extends SingleInputFileEvaluator {
 				Date refDate = dateFormat.parse(refLineIndex[OutputFileConstants.DATE_AND_TIME]);
 				long rawDifference = Math.abs(date.getTime() - refDate.getTime());
 				if (rawDifference < shortestedDistance) {
-					co2Diff = parseDoubleValue(refLineIndex, OutputFileConstants.CO2_ABS);
+					co2Diff = parseDoubleValue(refLineIndex, OutputFileConstants.CO2_ABSOLUTE);
 					shortestedDistance = rawDifference;
 				}
 			}
 			return co2Diff;
 		}
 		// TODO return the value of that reference chamber
-		return parseDoubleValue(line, OutputFileConstants.CO2_ABS);
+		return parseDoubleValue(line, OutputFileConstants.CO2_ABSOLUTE);
 	}
 }

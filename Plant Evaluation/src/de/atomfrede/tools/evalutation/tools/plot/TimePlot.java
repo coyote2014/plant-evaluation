@@ -58,6 +58,7 @@ public class TimePlot extends AbstractPlot {
 		} catch (Exception e) {
 			log.error("Error during plot", e);
 		}
+		log.info("Time plor created.");
 	}
 
 	void plot() throws Exception {

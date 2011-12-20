@@ -28,8 +28,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import au.com.bytecode.opencsv.CSVWriter;
-import de.atomfrede.tools.evalutation.OutputFileConstants;
+import de.atomfrede.tools.evalutation.CommonConstants;
 import de.atomfrede.tools.evalutation.InputFileConstants;
+import de.atomfrede.tools.evalutation.OutputFileConstants;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
 
 /**
@@ -71,7 +72,7 @@ public class CO2AbsoluteOnlyEvaluator extends SingleInputFileEvaluator {
 				// and 13CO2_DRY
 				double co2AbsoluteValue = Math.abs(_12CO2_dry + _13Co2_dry);
 				// get date and time for easier post processing in calc
-				Date date2Write = dateFormat.parse(currentLine[OutputFileConstants.DATE] + " " + currentLine[OutputFileConstants.TIME]);
+				Date date2Write = dateFormat.parse(currentLine[CommonConstants.DATE] + " " + currentLine[CommonConstants.TIME]);
 				// append both, date (with time) and CO2 Absolute to the file
 				appendDateAndCO2AbsoluteValue(writer, currentLine, date2Write, co2AbsoluteValue);
 
@@ -129,8 +130,8 @@ public class CO2AbsoluteOnlyEvaluator extends SingleInputFileEvaluator {
 		for (i = 0; i < line.length; i++) {
 			newLine[i] = line[i];
 		}
-		newLine[i] = "Zeit";
-		newLine[i + 1] = "CO2 Absolute";
+		newLine[i] = OutputFileConstants.HEADER_DATE_AND_TIME;
+		newLine[i + 1] = OutputFileConstants.HEADER_CO2_ABSOLUTE;
 
 		writer.writeNext(newLine);
 
