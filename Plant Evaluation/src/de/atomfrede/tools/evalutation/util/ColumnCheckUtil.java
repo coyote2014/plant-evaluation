@@ -39,7 +39,7 @@ public class ColumnCheckUtil {
 	 * 
 	 * @param inputFileheader
 	 */
-	public static void checkInputFileHeader(String[] inputFileheader) {
+	public static void checkInputFileHeader(String[] inputFileheader) throws Exception {
 
 		if (!inputFileheader[InputFileConstants._12CO2].equals(InputFileConstants.HEADER_12_CO2)) {
 			InputFileConstants.set_12CO2(findColumn(inputFileheader, InputFileConstants.HEADER_12_CO2));
@@ -86,7 +86,7 @@ public class ColumnCheckUtil {
 	 * 
 	 * @param header
 	 */
-	public static void checkOutputFileHeader(String[] header) {
+	public static void checkOutputFileHeader(String[] header) throws Exception {
 
 		if (!header[OutputFileConstants.CO2_ABSOLUTE].equals(OutputFileConstants.HEADER_CO2_ABSOLUTE)) {
 			OutputFileConstants.setCO2_ABSOLUTE(findColumn(header, OutputFileConstants.HEADER_CO2_ABSOLUTE));
@@ -100,9 +100,48 @@ public class ColumnCheckUtil {
 			OutputFileConstants.setDATE_AND_TIME(findColumn(header, OutputFileConstants.HEADER_DATE_AND_TIME));
 		}
 
+		if (!header[OutputFileConstants.DELTA13].equals(OutputFileConstants.HEADER_DELTA_13)) {
+			OutputFileConstants.setDELTA13(findColumn(header, OutputFileConstants.HEADER_DELTA_13));
+		}
+
+		if (!header[OutputFileConstants.MEAN_12CO2_DRY].equals(OutputFileConstants.HEADER_12_CO2_DRY)) {
+			OutputFileConstants.setMEAN_12CO2_DRY(findColumn(header, OutputFileConstants.HEADER_12_CO2_DRY));
+		}
+
+		if (!header[OutputFileConstants.MEAN_13CO2_DRY].equals(OutputFileConstants.HEADER_13_CO2_DRY)) {
+			OutputFileConstants.setMEAN_13CO2_DRY(findColumn(header, OutputFileConstants.HEADER_13_CO2_DRY));
+		}
+
+		if (!header[OutputFileConstants.MEAN_DELTA_5_MINUTES].equals(OutputFileConstants.HEADER_DELTA_5_MINUTES)) {
+			OutputFileConstants.setMEAN_DELTA_5_MINUTES(findColumn(header, OutputFileConstants.HEADER_DELTA_5_MINUTES));
+		}
+
+		if (!header[OutputFileConstants.MEAN_H2O].equals(OutputFileConstants.HEADER_H2O)) {
+			OutputFileConstants.setMEAN_H2O(findColumn(header, OutputFileConstants.HEADER_H2O));
+		}
+
+		if (!header[OutputFileConstants.PSR].equals(OutputFileConstants.HEADER_PHOTO_SYNTHESIS_RATE)) {
+			OutputFileConstants.setPSR(findColumn(header, OutputFileConstants.HEADER_PHOTO_SYNTHESIS_RATE));
+		}
+
+		if (!header[OutputFileConstants.SD_DELTA13].equals(OutputFileConstants.HEADER_DELTA_13_STANDARD_DEVIVATION)) {
+			OutputFileConstants.setSD_DELTA13(findColumn(header, OutputFileConstants.HEADER_DELTA_13_STANDARD_DEVIVATION));
+		}
+
+		if (!header[OutputFileConstants.SD_PSR].equals(OutputFileConstants.HEADER_PHOTO_SYNTHESIS_RATE_STANDARD_DEVIVATION)) {
+			OutputFileConstants.setSD_PSR(findColumn(header, OutputFileConstants.HEADER_PHOTO_SYNTHESIS_RATE_STANDARD_DEVIVATION));
+		}
+
+		if (!header[OutputFileConstants.SOLENOID_VALVES].equals(OutputFileConstants.HEADER_SOLENOID_VALVE)) {
+			OutputFileConstants.setSOLENOID_VALVES(findColumn(header, OutputFileConstants.HEADER_SOLENOID_VALVE));
+		}
+
+		if (!header[OutputFileConstants.TEMPERATURE].equals(OutputFileConstants.HEADER_TEMPERATURE)) {
+			OutputFileConstants.setTEMPERATURE(findColumn(header, OutputFileConstants.HEADER_TEMPERATURE));
+		}
 	}
 
-	private static int findColumn(String[] header, String headerToFind) {
+	private static int findColumn(String[] header, String headerToFind) throws Exception {
 		log.info("The column " + headerToFind + " has changed, looking for the new position.");
 		for (int i = 0; i < header.length; i++) {
 			String cHeader = header[i];
@@ -111,6 +150,6 @@ public class ColumnCheckUtil {
 				return i;
 			}
 		}
-		return 0;
+		throw new Exception("The requested column with name " + headerToFind + " could not be found in the provided header.");
 	}
 }

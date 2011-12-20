@@ -119,17 +119,11 @@ public class CopyEvaluator extends AbstractEvaluator {
 					for (int j = 1; j < currentLines.size(); j++) {
 						String[] currentLine = currentLines.get(j);
 						double solenoidValue = parseDoubleValue(currentLine, InputFileConstants.SOLENOID_VALVE_INPUT);
+						// only add the interesting solenoid valves
 						if (ArrayUtils.contains(solenoidValvesOfInterest, solenoidValue)) {
 							allLines.add(currentLine);
 						}
-						// only copy the solenoid valves of interest
-						// if
-						// (solenoidValvesOfInterest.contains(Double.valueOf(solenoidValue)))
-						// {
-
-						// }
 					}
-
 				}
 			}
 			// sort all lines
@@ -142,6 +136,9 @@ public class CopyEvaluator extends AbstractEvaluator {
 
 		} catch (IOException ioe) {
 			log.error(ioe);
+			return false;
+		} catch (Exception e) {
+			log.error(e);
 			return false;
 		} finally {
 			if (writer != null)
