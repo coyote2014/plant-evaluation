@@ -51,6 +51,7 @@ public class TimePlot extends AbstractPlot {
 
 	public TimePlot(File inputFile) {
 		super(inputFile);
+		log.info("Starting time plotting.");
 
 		try {
 			plot();

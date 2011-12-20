@@ -25,6 +25,8 @@ import java.util.List;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import de.atomfrede.tools.evalutation.util.FileConfiguration;
 import de.atomfrede.tools.evalutation.util.JarUtil;
@@ -32,10 +34,10 @@ import de.atomfrede.tools.evalutation.util.JarUtil;
 /**
  * Simple static class that holds all options only for the current session.
  * 
- * All options are not stored permanently, they will get lost when after exiting
- * the application.
  */
 public class Options {
+
+	private static final Log log = LogFactory.getLog(Options.class);
 
 	// shift every date by one hour to cope with summer and winter time
 	static boolean shiftByOneHour;
@@ -97,8 +99,9 @@ public class Options {
 
 			solenoidValvesOfInterest = configuration.getList(FileConfiguration.OPTIONS_SOLENOID_VALVES_OF_INTEREST, solenoidValvesOfInterest);
 
+			checkSolenoidValves();
 		} catch (ConfigurationException ce) {
-
+			log.error("Could not update configuration.", ce);
 		}
 	}
 
@@ -108,6 +111,21 @@ public class Options {
 		} catch (ConfigurationException ce) {
 
 		}
+	}
+
+	static void checkSolenoidValves() {
+		Object obj = solenoidValvesOfInterest.get(0);
+		log.debug("obj is " + obj.getClass());
+		List<Double> temp = new ArrayList<Double>();
+		if (obj instanceof String) {
+			for (int i = 0; i < solenoidValvesOfInterest.size(); i++) {
+				obj = solenoidValvesOfInterest.get(i);
+				temp.add(Double.valueOf(obj.toString()));
+			}
+			solenoidValvesOfInterest = temp;
+		}
+		obj = solenoidValvesOfInterest.get(0);
+		log.debug("obj is " + obj.getClass());
 	}
 
 	public static double getSampleRate() {
