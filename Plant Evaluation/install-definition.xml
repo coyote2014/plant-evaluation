@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+<installation version="1.0">
+	<info>
+		<appname>Plant Evaluation Tool</appname>
+		<appversion>1.6.0</appversion>
+		<authors>
+			<author email="frederik.hahne@googlemail.com" name="Frederik Hahne" />
+		</authors>
+		<url>http://code.google.com/p/plant-evaluation/</url>
+		<uninstaller name="Uninstaller.jar" write="yes" />
+		<javaversion>1.6</javaversion>
+		<requiresjdk>no</requiresjdk>
+		<writeinstallationinformation>no</writeinstallationinformation>
+		<!-- <pack200 /> -->
+		<run-privileged condition="izpack.windowsinstall.vista|izpack.windowsinstall.7" />
+	</info>
+
+	<guiprefs height="768" resizable="no" width="1024">
+		<modifier key="useFlags" value="yes" />
+		<modifier key="langDisplayType" value="default" />
+		<modifier key="useHeadingPanel" value="yes" />
+		<modifier key="headingImageOnLeft" value="no" />
+		<modifier key="headingFontSize" value="4" />
+		<modifier key="headingBackgroundColor" value="-65794" />
+		<modifier key="headingForegroundColor" value="-14373597" />
+	</guiprefs>
+	<locale>
+		<langpack iso3="eng" />
+	</locale>
+	<resources>
+		<res id="LicencePanel.licence" parse="yes" src="gpl.txt" />
+		<res id="Plant Evaluation" src="screen.jpg" />
+		<res id="installer.langsel.img" src="application.png" />
+		<res id="Heading.image" src="application.png" />
+		<res src="install_shortcutSpec.xml" id="shortcutSpec.xml" />
+		<res src="install_Unix_shortcutSpec.xml" id="Unix_shortcutSpec.xml" />
+		<res src="laf" id="useNativeLAF" />
+	</resources>
+	<panels>
+		<panel classname="CheckedHelloPanel" />
+		<panel classname="LicencePanel" />
+		<panel classname="ImgPacksPanel" />
+		<panel classname="DefaultTargetPanel" />
+		<panel classname="InstallPanel" />
+		<panel classname="ShortcutPanel" />
+		<panel classname="SimpleFinishPanel" />
+	</panels>
+	<variables>
+		<variable name="DesktopShortcutCheckboxEnabled" value="true" />
+	</variables>
+	<packs>
+		<pack name="Plant Evaluation" packImgId="Plant Evaluation"
+			preselected="yes" required="yes">
+			<description>Main Component of Plant Evaluation Tool.</description>
+			<file override="true" src="dist/PlantEvaluation.jar"
+				targetdir="$INSTALL_PATH/" />
+			<executable targetfile="$INSTALL_PATH/PlantEvaluation.jar" type="jar" stage="never" keep="true" failure="warn">
+				<os family="unix" />
+			</executable>
+			<file override="true" src="application.png" targetdir="$INSTALL_PATH/" />
+			<file override="true" src="favicon.ico" targetdir="$INSTALL_PATH/" />
+			<file override="true" src="dist/libs" targetdir="$INSTALL_PATH/" />
+		</pack>
+	</packs>
+	<native name="ShellLink.dll" type="izpack" />
+	<native name="ShellLink_x64.dll" type="izpack" />
+</installation>
