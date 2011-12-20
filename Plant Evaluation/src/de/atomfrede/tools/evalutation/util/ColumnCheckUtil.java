@@ -21,8 +21,8 @@ package de.atomfrede.tools.evalutation.util;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.atomfrede.tools.evalutation.InputFileConstants;
-import de.atomfrede.tools.evalutation.OutputFileConstants;
+import de.atomfrede.tools.evalutation.constants.InputFileConstants;
+import de.atomfrede.tools.evalutation.constants.OutputFileConstants;
 
 /**
  * Checks if the current header still fits to the expected column numbers. If

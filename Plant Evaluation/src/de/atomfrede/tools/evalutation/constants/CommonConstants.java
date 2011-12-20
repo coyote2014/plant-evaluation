@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Plant Evaluation.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.atomfrede.tools.evalutation;
+package de.atomfrede.tools.evalutation.constants;
 
 /**
  * A simple class holding common constants, like headers and column values

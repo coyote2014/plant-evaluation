@@ -41,7 +41,7 @@ import au.com.bytecode.opencsv.CSVReader;
 
 import com.lowagie.text.pdf.DefaultFontMapper;
 
-import de.atomfrede.tools.evalutation.InputFileConstants;
+import de.atomfrede.tools.evalutation.constants.InputFileConstants;
 import de.atomfrede.tools.evalutation.options.Options;
 import de.atomfrede.tools.evalutation.tools.plot.util.PlotUtil;
 

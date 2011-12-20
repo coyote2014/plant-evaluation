@@ -31,7 +31,7 @@ import org.apache.commons.logging.LogFactory;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.EntryComparator;
-import de.atomfrede.tools.evalutation.InputFileConstants;
+import de.atomfrede.tools.evalutation.constants.InputFileConstants;
 import de.atomfrede.tools.evalutation.evaluator.AbstractEvaluator;
 import de.atomfrede.tools.evalutation.options.Options;
 import de.atomfrede.tools.evalutation.util.ColumnCheckUtil;

@@ -28,9 +28,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import au.com.bytecode.opencsv.CSVWriter;
-import de.atomfrede.tools.evalutation.CommonConstants;
-import de.atomfrede.tools.evalutation.InputFileConstants;
-import de.atomfrede.tools.evalutation.OutputFileConstants;
+import de.atomfrede.tools.evalutation.constants.CommonConstants;
+import de.atomfrede.tools.evalutation.constants.InputFileConstants;
+import de.atomfrede.tools.evalutation.constants.OutputFileConstants;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
 import de.atomfrede.tools.evalutation.util.DialogUtil;
 

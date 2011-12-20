@@ -28,7 +28,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math.stat.StatUtils;
 
 import au.com.bytecode.opencsv.CSVWriter;
-import de.atomfrede.tools.evalutation.InputFileConstants;
+import de.atomfrede.tools.evalutation.constants.InputFileConstants;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
 import de.atomfrede.tools.evalutation.tools.plot.SimplePlot;
 import de.atomfrede.tools.evalutation.tools.plot.TimePlot;

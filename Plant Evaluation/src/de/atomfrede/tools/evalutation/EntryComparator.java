@@ -27,6 +27,8 @@ import java.util.Date;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import de.atomfrede.tools.evalutation.constants.CommonConstants;
+
 /**
  * Special comparator that compares two lines of a .csv file and compares them
  * by date and time
