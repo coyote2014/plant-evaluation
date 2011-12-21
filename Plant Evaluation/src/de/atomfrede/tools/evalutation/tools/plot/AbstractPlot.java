@@ -21,6 +21,8 @@ package de.atomfrede.tools.evalutation.tools.plot;
 import java.io.File;
 import java.util.Date;
 
+import org.jfree.chart.JFreeChart;
+
 public abstract class AbstractPlot {
 
 	protected File dataFile;
@@ -48,5 +50,7 @@ public abstract class AbstractPlot {
 	public Date parseDate(String[] line, int type) {
 		return new Date(parseLong(line, type));
 	}
+
+	abstract JFreeChart createChart(XYDatasetWrapper... datasetWrappers);
 
 }

@@ -26,7 +26,6 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 public class TimeDatasetWrapper extends XYDatasetWrapper {
 
-	int dataColumn;
 	int timeColumn;
 
 	public TimeDatasetWrapper(String seriesName, List<String[]> allLines, int dataColumn, int timeColumn) {

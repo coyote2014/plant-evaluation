@@ -227,4 +227,17 @@ public class TimePlot extends AbstractPlot {
 		return dataset;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.atomfrede.tools.evalutation.tools.plot.AbstractPlot#createChart(de
+	 * .atomfrede.tools.evalutation.tools.plot.XYDatasetWrapper[])
+	 */
+	@Override
+	JFreeChart createChart(XYDatasetWrapper... datasetWrappers) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

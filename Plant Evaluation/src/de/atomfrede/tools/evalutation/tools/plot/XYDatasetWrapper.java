@@ -23,17 +23,15 @@ import java.util.List;
 
 import org.jfree.data.xy.XYDataset;
 
-public abstract class XYDatasetWrapper {
+public abstract class XYDatasetWrapper extends AbstractDatasetWrapper {
 
 	XYDataset dataset;
 	Double minimum, maximum;
-	List<String[]> allLines;
-	String seriesName;
+	int dataColumn;
 
 	public XYDatasetWrapper(String seriesName, List<String[]> allLines) {
 		this.seriesName = seriesName;
 		this.allLines = allLines;
-
 		minimum = null;
 		maximum = null;
 	}
@@ -80,28 +78,10 @@ public abstract class XYDatasetWrapper {
 
 	public long parseLong(String[] line, int type) {
 		long value = Long.parseLong(line[type].replace(".", ""));
-		// if (maximum == null && minimum == null) {
-		// maximum = value;
-		// minimum = value;
-		// } else {
-		// if (value > maximum)
-		// maximum = value;
-		// if (value < minimum)
-		// minimum = value;
-		// }
 		return value;
 	}
 
 	public Date parseDate(String[] line, int type) {
 		return new Date(parseLong(line, type));
 	}
-
-	public String getSeriesName() {
-		return seriesName;
-	}
-
-	public void setSeriesName(String seriesName) {
-		this.seriesName = seriesName;
-	}
-
 }
