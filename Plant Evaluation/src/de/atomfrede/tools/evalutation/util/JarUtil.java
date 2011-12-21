@@ -80,7 +80,7 @@ public class JarUtil {
 			if (!logFile.canWrite())
 				throw new Exception("Can't write log file " + logFile.getPath());
 
-			Level level = Level.toLevel("DEBUG");
+			Level level = Level.toLevel("TRACE");
 
 			fileLogger.setFile(logFile.getAbsolutePath());
 
