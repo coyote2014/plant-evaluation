@@ -28,6 +28,6 @@
 	<classpathentry kind="lib" path="libs/commons-collections-3.2.1.jar"/>
 	<classpathentry kind="lib" path="libs/commons-lang3-3.0.1.jar"/>
 	<classpathentry kind="lib" path="libs/jcommon-1.0.17.jar"/>
-	<classpathentry kind="lib" path="libs/CJWizards-0.2.jar"/>
+	<classpathentry kind="lib" path="libs/CJWizards.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
