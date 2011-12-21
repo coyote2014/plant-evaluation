@@ -51,38 +51,40 @@ public class TimePlot extends AbstractPlot {
 
 	public TimePlot(File inputFile) {
 		super(inputFile);
-		log.info("Starting time plotting.");
-
-		try {
-			plot();
-		} catch (Exception e) {
-			log.error("Error during plot", e);
-		}
-		log.info("Time plor created.");
 	}
 
-	void plot() throws Exception {
+	public void plot() throws Exception {
+		log.trace("plot() called");
+		CSVReader reader = null;
+		try {
+			log.trace("Trying to create reader for file " + dataFile.getName());
+			reader = new CSVReader(new FileReader(dataFile));
+			log.trace("File Reader created");
+			List<String[]> allLines = reader.readAll();
+			log.trace("all data for plot readed");
 
-		CSVReader reader = new CSVReader(new FileReader(dataFile));
+			XYDatasetWrapper dataset = createCO2AbsoluteDatasetWrapper(allLines);
+			log.trace(dataset.getSeriesName() + " [" + dataset.getMinimum() + ", " + dataset.getMaximum() + "]");
+			XYDatasetWrapper dataset2 = createDeltaRawDatasetWrapper(allLines);
+			log.trace(dataset2.getSeriesName() + " [" + dataset2.getMinimum() + ", " + dataset2.getMaximum() + "]");
+			JFreeChart chart = createChart(dataset, dataset2);
 
-		List<String[]> allLines = reader.readAll();
+			File fileName = new File(Options.getOutputFolder(), "co2absolute-time.pdf");
+			File svgFile = new File(Options.getOutputFolder(), "co2absolute-time.svg");
 
-		XYDatasetWrapper dataset = createCO2AbsoluteDatasetWrapper(allLines);
-		log.info(dataset.getSeriesName() + " [" + dataset.getMinimum() + ", " + dataset.getMaximum() + "]");
-		XYDatasetWrapper dataset2 = createDeltaRawDatasetWrapper(allLines);
-		log.info(dataset2.getSeriesName() + " [" + dataset2.getMinimum() + ", " + dataset2.getMaximum() + "]");
-		JFreeChart chart = createChart(dataset, dataset2);
+			PlotUtil.saveChartAsPDF(fileName, chart, 800, 300, new DefaultFontMapper());
 
-		File fileName = new File(Options.getOutputFolder(), "co2absolute-time.pdf");
-		File svgFile = new File(Options.getOutputFolder(), "co2absolute-time.svg");
-
-		PlotUtil.saveChartAsPDF(fileName, chart, 800, 300, new DefaultFontMapper());
-
-		PlotUtil.saveChartAsSVG(svgFile, chart, 800, 300);
+			PlotUtil.saveChartAsSVG(svgFile, chart, 800, 300);
+		} finally {
+			if (reader != null)
+				reader.close();
+		}
 
 	}
 
 	JFreeChart createChart(XYDatasetWrapper dataset, XYDatasetWrapper dataset2) {
+		log.trace("createChart() called");
+
 		JFreeChart chart = ChartFactory.createTimeSeriesChart(dataset.getSeriesName() + "/" + dataset2.getSeriesName(), "Time", dataset.getSeriesName(),
 				dataset.getDataset(), true, true, false);
 
@@ -133,6 +135,19 @@ public class TimePlot extends AbstractPlot {
 		return chart;
 	}
 
+	XYDatasetWrapper createCO2AbsoluteDatasetWrapper(List<String[]> allLines) {
+		int size = allLines.get(1).length - 1;
+		TimeDatasetWrapper wrapper = new TimeDatasetWrapper("CO2 Absolute", allLines, size, InputFileConstants.EPOCH_TIME);
+		wrapper.createDataset();
+		return wrapper;
+	}
+
+	XYDatasetWrapper createDeltaRawDatasetWrapper(List<String[]> allLines) {
+		TimeDatasetWrapper wrapper = new TimeDatasetWrapper("Delta Raw", allLines, InputFileConstants.DELTA_RAW, InputFileConstants.EPOCH_TIME);
+		wrapper.createDataset();
+		return wrapper;
+	}
+
 	@Deprecated
 	JFreeChart createChart(XYDataset dataset, XYDataset dataset2) {
 		// Simple plot withpout time x axis
@@ -177,19 +192,6 @@ public class TimePlot extends AbstractPlot {
 
 		return chart;
 
-	}
-
-	XYDatasetWrapper createCO2AbsoluteDatasetWrapper(List<String[]> allLines) {
-		int size = allLines.get(1).length - 1;
-		TimeDatasetWrapper wrapper = new TimeDatasetWrapper("CO2 Absolute", allLines, size, InputFileConstants.EPOCH_TIME);
-		wrapper.createDataset();
-		return wrapper;
-	}
-
-	XYDatasetWrapper createDeltaRawDatasetWrapper(List<String[]> allLines) {
-		TimeDatasetWrapper wrapper = new TimeDatasetWrapper("Delta Raw", allLines, InputFileConstants.DELTA_RAW, InputFileConstants.EPOCH_TIME);
-		wrapper.createDataset();
-		return wrapper;
 	}
 
 	@Deprecated

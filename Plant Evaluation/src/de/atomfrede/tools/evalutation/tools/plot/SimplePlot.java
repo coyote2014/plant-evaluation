@@ -51,14 +51,9 @@ public class SimplePlot extends AbstractPlot {
 
 	public SimplePlot(File dataFile) {
 		super(dataFile);
-		try {
-			plot();
-		} catch (Exception e) {
-			log.error("Error during plot", e);
-		}
 	}
 
-	void plot() throws Exception {
+	public void plot() throws Exception {
 		CSVReader reader = new CSVReader(new FileReader(dataFile));
 
 		List<String[]> allLines = reader.readAll();
