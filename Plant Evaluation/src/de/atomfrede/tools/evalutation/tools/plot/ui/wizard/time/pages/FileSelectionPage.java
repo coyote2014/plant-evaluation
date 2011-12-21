@@ -1,7 +1,7 @@
 /**
  *  Copyright 2011 Frederik Hahne
  *
- * 	PlotWizard.java is part of Plant Evaluation.
+ * 	FileSelectionPage.java is part of Plant Evaluation.
  *
  *  Plant Evaluation is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,34 +16,27 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Plant Evaluation.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.atomfrede.tools.evalutation.tools.plot.ui.wizard;
+package de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.pages;
 
-import javax.swing.JDialog;
-
-import org.ciscavate.cjwizard.WizardContainer;
-
-import de.atomfrede.tools.evalutation.tools.plot.AbstractPlot.PlotType;
+import org.ciscavate.cjwizard.WizardPage;
 
 @SuppressWarnings("serial")
-public abstract class PlotWizard extends JDialog {
+public class FileSelectionPage extends WizardPage {
 
-	protected PlotType type;
-	protected WizardContainer wizardContainer;
-
-	public PlotType getType() {
-		return type;
+	/**
+	 * @param title
+	 * @param description
+	 */
+	public FileSelectionPage(String title, String description) {
+		super(title, description);
 	}
 
-	public void setType(PlotType type) {
-		this.type = type;
+	public FileSelectionPage() {
+		this("Select Data File", "Select the file which contains the data you like to plot.");
 	}
 
-	public WizardContainer getWizardContainer() {
-		return wizardContainer;
-	}
+	void addContent() {
 
-	public void setWizardContainer(WizardContainer wizardContainer) {
-		this.wizardContainer = wizardContainer;
 	}
 
 }
