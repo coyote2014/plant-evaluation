@@ -129,12 +129,10 @@ public abstract class AbstractEvaluator {
 		return Double.parseDouble(line[type].replace(",", "."));
 	}
 
-	@Deprecated
 	public double[] list2DoubleArray(List<Double> values) {
 		return ArrayUtils.toPrimitive(values.toArray(new Double[values.size()]));
 	}
 
-	@Deprecated
 	public int[] list2IntArray(List<Integer> values) {
 		return ArrayUtils.toPrimitive(values.toArray(new Integer[values.size()]));
 	}
@@ -148,8 +146,14 @@ public abstract class AbstractEvaluator {
 	}
 
 	public List<String[]> readAllLinesInFile(File input, char sperator) throws IOException {
-		CSVReader reader = new CSVReader(new FileReader(input), sperator);
-		return reader.readAll();
+		CSVReader reader = null;
+		try {
+			reader = new CSVReader(new FileReader(input), sperator);
+			return reader.readAll();
+		} finally {
+			if (reader != null)
+				reader.close();
+		}
 	}
 
 	/**
