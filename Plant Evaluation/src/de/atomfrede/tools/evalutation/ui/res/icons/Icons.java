@@ -68,4 +68,8 @@ public class Icons {
 	public static final ImageIcon IC_OFFICE_CALENDAR_SMALL = new ImageIcon(Icons.class.getResource("small/office-calendar.png"));
 
 	public static final ImageIcon IC_OFFICE_CALENDAR_LARGE = new ImageIcon(Icons.class.getResource("large/office-calendar.png"));
+
+	public static final ImageIcon IC_TOOL_PLOT_SMALL = new ImageIcon(Icons.class.getResource("small/tool-plot.png"));
+
+	public static final ImageIcon IC_TOOL_PLOT_LARGE = new ImageIcon(Icons.class.getResource("large/tool-plot.png"));
 }

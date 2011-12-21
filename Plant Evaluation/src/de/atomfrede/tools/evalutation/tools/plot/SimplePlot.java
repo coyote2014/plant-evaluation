@@ -47,10 +47,12 @@ import de.atomfrede.tools.evalutation.tools.plot.util.PlotUtil;
 
 public class SimplePlot extends AbstractPlot {
 
+	@SuppressWarnings("unused")
 	private final Log log = LogFactory.getLog(SimplePlot.class);
 
 	public SimplePlot(File dataFile) {
 		super(dataFile);
+		setType(PlotType.SIMPLE);
 	}
 
 	public void plot() throws Exception {

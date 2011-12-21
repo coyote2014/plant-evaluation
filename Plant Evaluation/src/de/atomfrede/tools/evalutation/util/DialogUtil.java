@@ -19,13 +19,21 @@
 package de.atomfrede.tools.evalutation.util;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import de.atomfrede.tools.evalutation.tools.plot.AbstractPlot.PlotType;
 import de.atomfrede.tools.evalutation.ui.ExceptionDialog;
+import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
 public class DialogUtil {
 
 	private static DialogUtil instance;
+
+	private final Log log = LogFactory.getLog(DialogUtil.class);
 
 	JFrame frame;
 
@@ -51,5 +59,33 @@ public class DialogUtil {
 			}
 		});
 
+	}
+
+	public void showPlotTypeSelection() {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				Object[] types = PlotType.values();
+
+				PlotType selectedType = (PlotType) JOptionPane.showInputDialog(frame, "Select type of plot you want to create.", "Select Plot Type",
+						JOptionPane.QUESTION_MESSAGE, Icons.IC_INFORMATION_LARGE, types, types[0]);
+
+				if (selectedType != null) {
+					log.debug("Plot " + selectedType + " should be created.");
+					switch (selectedType) {
+					case SIMPLE: {
+						break;
+					}
+					case TIME: {
+
+						break;
+					}
+					default:
+						break;
+					}
+				}
+			}
+		});
 	}
 }

@@ -51,6 +51,7 @@ public class TimePlot extends AbstractPlot {
 
 	public TimePlot(File inputFile) {
 		super(inputFile);
+		setType(PlotType.TIME);
 	}
 
 	public void plot() throws Exception {

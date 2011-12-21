@@ -36,7 +36,6 @@ import org.apache.commons.logging.LogFactory;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
-import com.jidesoft.dialog.StandardDialog;
 import com.jidesoft.swing.JideBorderLayout;
 
 import de.atomfrede.tools.evalutation.options.ui.OptionsDialog;
@@ -168,6 +167,18 @@ public class AppWindow {
 			}
 		});
 		mnTools.add(mntmPostprocessing);
+
+		JMenuItem mntmPlot = new JMenuItem(Messages.getString("AppWindow.mntmPlot.text")); //$NON-NLS-1$
+		mntmPlot.setIcon(Icons.IC_TOOL_PLOT_SMALL);
+		mntmPlot.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				DialogUtil.getInstance().showPlotTypeSelection();
+			}
+		});
+
+		mnTools.add(mntmPlot);
 
 		JMenu mnHelp = new JMenu(Messages.getString("AppWindow.6")); //$NON-NLS-1$
 		menuBar.add(mnHelp);

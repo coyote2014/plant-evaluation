@@ -25,7 +25,13 @@ import org.jfree.chart.JFreeChart;
 
 public abstract class AbstractPlot {
 
+	public enum PlotType {
+		SIMPLE, TIME
+	}
+
 	protected File dataFile;
+	protected PlotType type;
+	protected int width, height;
 
 	public AbstractPlot(File dataFile) {
 		this.dataFile = dataFile;
@@ -49,6 +55,30 @@ public abstract class AbstractPlot {
 
 	public Date parseDate(String[] line, int type) {
 		return new Date(parseLong(line, type));
+	}
+
+	public PlotType getType() {
+		return type;
+	}
+
+	public void setType(PlotType type) {
+		this.type = type;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
 	}
 
 	abstract JFreeChart createChart(XYDatasetWrapper... datasetWrappers);
