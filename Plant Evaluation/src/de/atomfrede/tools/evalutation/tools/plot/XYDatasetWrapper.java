@@ -30,8 +30,7 @@ public abstract class XYDatasetWrapper extends AbstractDatasetWrapper {
 	int dataColumn;
 
 	public XYDatasetWrapper(String seriesName, List<String[]> allLines) {
-		this.seriesName = seriesName;
-		this.allLines = allLines;
+		super(seriesName, allLines);
 		minimum = null;
 		maximum = null;
 	}

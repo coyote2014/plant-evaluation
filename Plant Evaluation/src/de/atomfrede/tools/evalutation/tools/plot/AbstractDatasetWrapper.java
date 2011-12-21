@@ -28,6 +28,11 @@ public abstract class AbstractDatasetWrapper {
 	Color seriesColor;
 	Float stroke;
 
+	public AbstractDatasetWrapper(String seriesName, List<String[]> allLines) {
+		this.seriesName = seriesName;
+		this.allLines = allLines;
+	}
+
 	public String getSeriesName() {
 		return seriesName;
 	}
