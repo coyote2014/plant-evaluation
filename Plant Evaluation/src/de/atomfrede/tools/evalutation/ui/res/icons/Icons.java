@@ -72,4 +72,8 @@ public class Icons {
 	public static final ImageIcon IC_TOOL_PLOT_SMALL = new ImageIcon(Icons.class.getResource("small/tool-plot.png"));
 
 	public static final ImageIcon IC_TOOL_PLOT_LARGE = new ImageIcon(Icons.class.getResource("large/tool-plot.png"));
+
+	public static final ImageIcon IC_MIME_CSV_SMALL = new ImageIcon(Icons.class.getResource("small/X-office-spreadsheet.png"));
+
+	public static final ImageIcon IC_MIME_CSV_LARGE = new ImageIcon(Icons.class.getResource("large/X-office-spreadsheet.png"));
 }

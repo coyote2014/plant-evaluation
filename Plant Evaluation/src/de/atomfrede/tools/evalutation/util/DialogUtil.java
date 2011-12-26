@@ -18,6 +18,7 @@
  */
 package de.atomfrede.tools.evalutation.util;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -26,6 +27,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.atomfrede.tools.evalutation.tools.plot.AbstractPlot.PlotType;
+import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.TimePlotWizard;
 import de.atomfrede.tools.evalutation.ui.ExceptionDialog;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
@@ -50,6 +52,10 @@ public class DialogUtil {
 		this.frame = frame;
 	}
 
+	public JFrame getFrame() {
+		return this.frame;
+	}
+
 	public void showError(final Exception ex) {
 		SwingUtilities.invokeLater(new Runnable() {
 
@@ -58,7 +64,16 @@ public class DialogUtil {
 				new ExceptionDialog(frame, ex).setVisible(true);
 			}
 		});
+	}
 
+	public void showDialog(final JDialog wizardDialog) {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				wizardDialog.setVisible(true);
+			}
+		});
 	}
 
 	public void showPlotTypeSelection() {
@@ -78,7 +93,10 @@ public class DialogUtil {
 						break;
 					}
 					case TIME: {
-
+						TimePlotWizard wizard = new TimePlotWizard();
+						wizard.setSize(400, 350);
+						wizard.setLocationRelativeTo(frame);
+						showDialog(wizard);
 						break;
 					}
 					default:
