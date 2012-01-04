@@ -30,7 +30,6 @@ import org.apache.commons.math.stat.StatUtils;
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.constants.InputFileConstants;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
-import de.atomfrede.tools.evalutation.tools.plot.TimePlot;
 import de.atomfrede.tools.evalutation.util.DialogUtil;
 
 /**
@@ -97,14 +96,6 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 				writer.close();
 		}
 
-		try {
-			new TimePlot(outputFile, false).plot();
-			// new SimplePlot(outputFile).plot();
-		} catch (Exception e) {
-			log.error("Error during plot.", e);
-			DialogUtil.getInstance().showError(e);
-
-		}
 		log.info("Reduce Dataset Evaluator done.");
 		return true;
 	}

@@ -27,6 +27,7 @@ import de.atomfrede.tools.evalutation.evaluator.evaluators.CO2AbsoluteOnlyEvalua
 import de.atomfrede.tools.evalutation.evaluator.evaluators.CopyEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.evaluators.PickDatasetEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.evaluators.ReduceDatasetEvaluator;
+import de.atomfrede.tools.evalutation.tools.plot.TimePlot;
 
 /**
  * Type B evaluation, aka Ingo's evaluation
@@ -78,6 +79,7 @@ public class TypeBevaluation extends AbstractEvaluation {
 				}
 				if (evaluator instanceof ReduceDatasetEvaluator) {
 					ReduceDatasetEvaluator eva = (ReduceDatasetEvaluator) evaluator;
+					new TimePlot(eva.getOutputFile()).plot();
 					pickDatasetEvaluator.setInputFile(eva.getOutputFile());
 					i++;
 					continue;
