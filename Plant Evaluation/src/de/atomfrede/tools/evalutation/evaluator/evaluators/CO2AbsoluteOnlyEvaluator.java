@@ -32,6 +32,7 @@ import de.atomfrede.tools.evalutation.constants.CommonConstants;
 import de.atomfrede.tools.evalutation.constants.InputFileConstants;
 import de.atomfrede.tools.evalutation.constants.OutputFileConstants;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
+import de.atomfrede.tools.evalutation.tools.plot.TimePlot;
 import de.atomfrede.tools.evalutation.util.DialogUtil;
 
 /**
@@ -92,6 +93,7 @@ public class CO2AbsoluteOnlyEvaluator extends SingleInputFileEvaluator {
 			if (writer != null)
 				writer.close();
 		}
+		new TimePlot(outputFile, true).plot();
 		log.info("CO2 Absolute Only Evaluator Done");
 		return true;
 	}

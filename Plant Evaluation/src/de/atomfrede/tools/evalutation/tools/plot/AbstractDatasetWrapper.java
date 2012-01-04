@@ -25,12 +25,13 @@ public abstract class AbstractDatasetWrapper {
 
 	List<String[]> allLines;
 	String seriesName;
-	Color seriesColor;
-	Float stroke;
+	Color seriesColor = Color.ORANGE;
+	Float stroke = 0.3f;
 
 	public AbstractDatasetWrapper(String seriesName, List<String[]> allLines) {
 		this.seriesName = seriesName;
 		this.allLines = allLines;
+
 	}
 
 	public String getSeriesName() {

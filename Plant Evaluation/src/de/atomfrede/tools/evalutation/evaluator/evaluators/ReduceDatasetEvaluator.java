@@ -98,7 +98,7 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 		}
 
 		try {
-			new TimePlot(outputFile).plot();
+			new TimePlot(outputFile, false).plot();
 			// new SimplePlot(outputFile).plot();
 		} catch (Exception e) {
 			log.error("Error during plot.", e);
