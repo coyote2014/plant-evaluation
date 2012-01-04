@@ -103,7 +103,7 @@ public class CO2AbsoluteOnlyEvaluator extends SingleInputFileEvaluator {
 			if (writer != null)
 				writer.close();
 		}
-		new CO2AbsoluteOnlyPlot(outputFile).plot();
+		new Plot(outputFile).plot();
 		log.info("CO2 Absolute Only Evaluator Done");
 		return true;
 	}
@@ -155,15 +155,14 @@ public class CO2AbsoluteOnlyEvaluator extends SingleInputFileEvaluator {
 
 	}
 
-	private class CO2AbsoluteOnlyPlot extends TimePlot {
+	public class Plot extends TimePlot {
 
 		/**
 		 * @param inputFile
 		 * @param co2AbsoluteOnly
 		 */
-		public CO2AbsoluteOnlyPlot(File inputFile) {
+		public Plot(File inputFile) {
 			super(inputFile);
-			// TODO Auto-generated constructor stub
 		}
 
 		@Override
@@ -195,15 +194,14 @@ public class CO2AbsoluteOnlyEvaluator extends SingleInputFileEvaluator {
 			log.info("Plotting done.");
 		}
 
-		@Override
-		protected XYDatasetWrapper createCO2AbsoluteDatasetWrapper(List<String[]> allLines) {
+		XYDatasetWrapper createCO2AbsoluteDatasetWrapper(List<String[]> allLines) {
 			int size = allLines.get(1).length - 1;
 			TimeDatasetWrapper wrapper = new TimeDatasetWrapper("CO2 Absolute", allLines, size, InputFileConstants.EPOCH_TIME);
 			wrapper.createDataset();
 			return wrapper;
 		}
 
-		protected XYDatasetWrapper createDeltaFiveMinutesDatasetWrapper(List<String[]> allLines) {
+		XYDatasetWrapper createDeltaFiveMinutesDatasetWrapper(List<String[]> allLines) {
 			TimeDatasetWrapper wrapper = new TimeDatasetWrapper("Delta 5 Minutes", allLines, InputFileConstants.DELTA_5_MINUTES, InputFileConstants.EPOCH_TIME);
 			wrapper.createDataset();
 			wrapper.setSeriesColor(Color.GREEN);

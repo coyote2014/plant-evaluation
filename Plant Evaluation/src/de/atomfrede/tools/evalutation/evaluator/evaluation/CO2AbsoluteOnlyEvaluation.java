@@ -25,6 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import de.atomfrede.tools.evalutation.evaluator.AbstractEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.evaluators.CO2AbsoluteOnlyEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.evaluators.CopyEvaluator;
+import de.atomfrede.tools.evalutation.evaluator.evaluators.ReduceDatasetEvaluator;
 
 public class CO2AbsoluteOnlyEvaluation extends AbstractEvaluation {
 
@@ -32,12 +33,15 @@ public class CO2AbsoluteOnlyEvaluation extends AbstractEvaluation {
 
 	CopyEvaluator copyEvaluator;
 	CO2AbsoluteOnlyEvaluator co2absEvaluator;
+	ReduceDatasetEvaluator reduceDatasetEvaluator;
 
 	public CO2AbsoluteOnlyEvaluation() {
 		copyEvaluator = new CopyEvaluator();
 		co2absEvaluator = new CO2AbsoluteOnlyEvaluator(copyEvaluator.getOutputFile());
+		reduceDatasetEvaluator = new ReduceDatasetEvaluator(co2absEvaluator.getOutputFile());
 		evaluators.add(copyEvaluator);
 		evaluators.add(co2absEvaluator);
+		evaluators.add(reduceDatasetEvaluator);
 	}
 
 	@Override
@@ -58,6 +62,19 @@ public class CO2AbsoluteOnlyEvaluation extends AbstractEvaluation {
 					co2absEvaluator.setInputFile(cpe.getOutputFile());
 					i++;
 					continue;
+				}
+
+				if (evaluator instanceof CO2AbsoluteOnlyEvaluator) {
+					CO2AbsoluteOnlyEvaluator eva = (CO2AbsoluteOnlyEvaluator) evaluator;
+					reduceDatasetEvaluator.setInputFile(eva.getOutputFile());
+					i++;
+					continue;
+				}
+
+				if (evaluator instanceof ReduceDatasetEvaluator) {
+					ReduceDatasetEvaluator eva = (ReduceDatasetEvaluator) evaluator;
+					eva.new CO2AbsoluteDeltaFiveMinutesPlot(eva.getOutputFile()).plot();
+
 				}
 			}
 			i++;

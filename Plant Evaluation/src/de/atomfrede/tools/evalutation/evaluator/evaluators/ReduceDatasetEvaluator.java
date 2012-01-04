@@ -19,17 +19,28 @@
 
 package de.atomfrede.tools.evalutation.evaluator.evaluators;
 
+import java.awt.Color;
 import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math.stat.StatUtils;
+import org.jfree.chart.JFreeChart;
 
+import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
+
+import com.lowagie.text.pdf.DefaultFontMapper;
+
 import de.atomfrede.tools.evalutation.constants.InputFileConstants;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
+import de.atomfrede.tools.evalutation.tools.plot.TimeDatasetWrapper;
+import de.atomfrede.tools.evalutation.tools.plot.TimePlot;
+import de.atomfrede.tools.evalutation.tools.plot.XYDatasetWrapper;
+import de.atomfrede.tools.evalutation.tools.plot.util.PlotUtil;
 import de.atomfrede.tools.evalutation.util.DialogUtil;
 
 /**
@@ -163,5 +174,111 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 			lines.add(allLines.get(i));
 		}
 		return lines;
+	}
+
+	public class CO2AbsoluteDeltaFiveMinutesPlot extends TimePlot {
+
+		/**
+		 * @param inputFile
+		 */
+		public CO2AbsoluteDeltaFiveMinutesPlot(File inputFile) {
+			super(inputFile);
+		}
+
+		@Override
+		public void plot() throws Exception {
+			CSVReader reader = null;
+			try {
+				reader = new CSVReader(new FileReader(dataFile));
+				List<String[]> allLines = reader.readAll();
+
+				XYDatasetWrapper dataset = createCO2AbsoluteDatasetWrapper(allLines);
+				XYDatasetWrapper dataset2 = createDeltaFiveMinutesDatasetWrapper(allLines);
+				JFreeChart chart;
+				XYDatasetWrapper[] wrappers = { dataset, dataset2 };
+				chart = createChart(wrappers);
+
+				File fileName = new File(dataFile.getParent(), "plot.pdf");
+				File svgFile = new File(dataFile.getParent(), "plot.svg");
+
+				PlotUtil.saveChartAsPDF(fileName, chart, 800, 300, new DefaultFontMapper());
+
+				PlotUtil.saveChartAsSVG(svgFile, chart, 800, 300);
+			} catch (Exception e) {
+				log.error("Error during plot", e);
+				throw (e);
+			} finally {
+				if (reader != null)
+					reader.close();
+			}
+			log.info("Plotting done.");
+		}
+
+		XYDatasetWrapper createCO2AbsoluteDatasetWrapper(List<String[]> allLines) {
+			int size = allLines.get(1).length - 1;
+			TimeDatasetWrapper wrapper = new TimeDatasetWrapper("CO2 Absolute", allLines, size, InputFileConstants.EPOCH_TIME);
+			wrapper.createDataset();
+			return wrapper;
+		}
+
+		XYDatasetWrapper createDeltaFiveMinutesDatasetWrapper(List<String[]> allLines) {
+			TimeDatasetWrapper wrapper = new TimeDatasetWrapper("Delta 5 Minutes", allLines, InputFileConstants.DELTA_5_MINUTES, InputFileConstants.EPOCH_TIME);
+			wrapper.createDataset();
+			wrapper.setSeriesColor(Color.GREEN);
+			return wrapper;
+		}
+
+	}
+
+	public class CO2AbsoluteDeltaRawPlot extends TimePlot {
+
+		/**
+		 * @param inputFile
+		 */
+		public CO2AbsoluteDeltaRawPlot(File inputFile) {
+			super(inputFile);
+		}
+
+		@Override
+		public void plot() throws Exception {
+			CSVReader reader = null;
+			try {
+				reader = new CSVReader(new FileReader(dataFile));
+				List<String[]> allLines = reader.readAll();
+
+				XYDatasetWrapper dataset = createCO2AbsoluteDatasetWrapper(allLines);
+				XYDatasetWrapper dataset2 = createDeltaRawDatasetWrapper(allLines);
+				XYDatasetWrapper[] wrappers = { dataset, dataset2 };
+				JFreeChart chart = createChart(wrappers);
+
+				File fileName = new File(dataFile.getParent(), "plot.pdf");
+				File svgFile = new File(dataFile.getParent(), "plot.svg");
+
+				PlotUtil.saveChartAsPDF(fileName, chart, 800, 300, new DefaultFontMapper());
+
+				PlotUtil.saveChartAsSVG(svgFile, chart, 800, 300);
+			} catch (Exception e) {
+				log.error("Error during plot", e);
+				throw (e);
+			} finally {
+				if (reader != null)
+					reader.close();
+			}
+		}
+
+		XYDatasetWrapper createCO2AbsoluteDatasetWrapper(List<String[]> allLines) {
+			int size = allLines.get(1).length - 1;
+			TimeDatasetWrapper wrapper = new TimeDatasetWrapper("CO2 Absolute", allLines, size, InputFileConstants.EPOCH_TIME);
+			wrapper.createDataset();
+			return wrapper;
+		}
+
+		XYDatasetWrapper createDeltaRawDatasetWrapper(List<String[]> allLines) {
+			TimeDatasetWrapper wrapper = new TimeDatasetWrapper("Delta Raw", allLines, InputFileConstants.DELTA_RAW, InputFileConstants.EPOCH_TIME);
+			wrapper.createDataset();
+			wrapper.setSeriesColor(Color.GREEN);
+			return wrapper;
+		}
+
 	}
 }
