@@ -44,11 +44,21 @@ public class OptionsDialog extends JDialog {
 
 	private final Log log = LogFactory.getLog(OptionsDialog.class);
 	private static final long serialVersionUID = 2017237494464526876L;
-	JCheckBox shiftByOneHourCheckBox, recordReferenceChambersCheckbox;
+	// type A (= Juliane) Options
+	JCheckBox shiftByOneHourCheckBox, recordReferenceValveCheckbox;
 	JSpinner sampleSpinner;
+
+	// CO2 Absolute Options
+	// TODO spinners for minimun and maximum of plots
+
 	JButton okButton, cancelButton;
+
+	// General Options (=Copy Evaluator)
 	JCheckBox allSolenoidValvesCheckbox, solenoidValveOneCheckBox, solenoidValveTwoCheckBox, solenoidValveFourCheckBox, solenoidValveEightCheckBox,
 			solenoidValveSixteenCheckBox;
+
+	JTabbedPane tabs;
+	JPanel firstTab, secondTab, thirdTab, fourthTab;
 
 	double sampleRate = Options.getSampleRate();
 
@@ -101,12 +111,12 @@ public class OptionsDialog extends JDialog {
 	}
 
 	private JCheckBox getRecordReferenceChambersCheckbox() {
-		if (recordReferenceChambersCheckbox == null) {
-			recordReferenceChambersCheckbox = new JCheckBox();
-			recordReferenceChambersCheckbox.setText("Record Reference Chambers");
-			recordReferenceChambersCheckbox.setSelected(Options.isRecordReferenceChambers());
+		if (recordReferenceValveCheckbox == null) {
+			recordReferenceValveCheckbox = new JCheckBox();
+			recordReferenceValveCheckbox.setText(Messages.getString("OptionsDialog.2")); //$NON-NLS-1$
+			recordReferenceValveCheckbox.setSelected(Options.isRecordReferenceChambers());
 		}
-		return recordReferenceChambersCheckbox;
+		return recordReferenceValveCheckbox;
 	}
 
 	private JCheckBox getShiftByOneHourCheckBox() {
@@ -120,7 +130,7 @@ public class OptionsDialog extends JDialog {
 
 	private JButton getOkButton() {
 		if (okButton == null) {
-			okButton = new JButton("OK");
+			okButton = new JButton(Messages.getString("OptionsDialog.4")); //$NON-NLS-1$
 
 			okButton.addActionListener(new ActionListener() {
 
@@ -135,7 +145,7 @@ public class OptionsDialog extends JDialog {
 
 	private JButton getCancelButton() {
 		if (cancelButton == null) {
-			cancelButton = new JButton("Cancel");
+			cancelButton = new JButton(Messages.getString("OptionsDialog.5")); //$NON-NLS-1$
 
 			cancelButton.addActionListener(new ActionListener() {
 
@@ -150,7 +160,7 @@ public class OptionsDialog extends JDialog {
 
 	private JCheckBox getAllSolenoidValveCheckBox() {
 		if (allSolenoidValvesCheckbox == null) {
-			allSolenoidValvesCheckbox = new JCheckBox("All Valves");
+			allSolenoidValvesCheckbox = new JCheckBox(Messages.getString("OptionsDialog.6")); //$NON-NLS-1$
 
 			allSolenoidValvesCheckbox.addActionListener(new ActionListener() {
 
@@ -165,7 +175,7 @@ public class OptionsDialog extends JDialog {
 
 	private JCheckBox getSolenoidValveOneCheckBox() {
 		if (solenoidValveOneCheckBox == null) {
-			solenoidValveOneCheckBox = new JCheckBox("1.0");
+			solenoidValveOneCheckBox = new JCheckBox("1.0"); //$NON-NLS-1$
 
 			solenoidValveOneCheckBox.addActionListener(new ActionListener() {
 
@@ -183,7 +193,7 @@ public class OptionsDialog extends JDialog {
 
 	private JCheckBox getSolenoidValveTwoCheckBox() {
 		if (solenoidValveTwoCheckBox == null) {
-			solenoidValveTwoCheckBox = new JCheckBox("2.0");
+			solenoidValveTwoCheckBox = new JCheckBox("2.0"); //$NON-NLS-1$
 
 			solenoidValveTwoCheckBox.addActionListener(new ActionListener() {
 
@@ -201,7 +211,7 @@ public class OptionsDialog extends JDialog {
 
 	private JCheckBox getSolenoidValveFourCheckBox() {
 		if (solenoidValveFourCheckBox == null) {
-			solenoidValveFourCheckBox = new JCheckBox("4.0");
+			solenoidValveFourCheckBox = new JCheckBox("4.0"); //$NON-NLS-1$
 
 			solenoidValveFourCheckBox.addActionListener(new ActionListener() {
 
@@ -219,7 +229,7 @@ public class OptionsDialog extends JDialog {
 
 	private JCheckBox getSolenoidValveEightCheckBox() {
 		if (solenoidValveEightCheckBox == null) {
-			solenoidValveEightCheckBox = new JCheckBox("8.0");
+			solenoidValveEightCheckBox = new JCheckBox("8.0"); //$NON-NLS-1$
 
 			solenoidValveEightCheckBox.addActionListener(new ActionListener() {
 
@@ -237,7 +247,7 @@ public class OptionsDialog extends JDialog {
 
 	private JCheckBox getSolenoidValveSixteenCheckBox() {
 		if (solenoidValveSixteenCheckBox == null) {
-			solenoidValveSixteenCheckBox = new JCheckBox("16.0");
+			solenoidValveSixteenCheckBox = new JCheckBox("16.0"); //$NON-NLS-1$
 
 			solenoidValveSixteenCheckBox.addActionListener(new ActionListener() {
 
@@ -254,12 +264,20 @@ public class OptionsDialog extends JDialog {
 		return solenoidValveSixteenCheckBox;
 	}
 
+	private JTabbedPane getTabs() {
+		if (tabs == null) {
+			tabs = new JTabbedPane();
+			tabs.setTabPlacement(JTabbedPane.LEFT);
+		}
+		return tabs;
+	}
+
 	private void saveOptionsAndCloseDialog() {
 		Options.setShiftByOneHour(shiftByOneHourCheckBox.isSelected());
 
-		Options.setRecordReferenceChambers(recordReferenceChambersCheckbox.isSelected());
+		Options.setRecordReferenceChambers(recordReferenceValveCheckbox.isSelected());
 
-		Options.setRecordReferenceChambers(recordReferenceChambersCheckbox.isSelected());
+		Options.setRecordReferenceChambers(recordReferenceValveCheckbox.isSelected());
 
 		Options.setSampleRate(sampleRate);
 
@@ -273,42 +291,107 @@ public class OptionsDialog extends JDialog {
 		this.dispose();
 	}
 
+	private JPanel getFirstTab() {
+		if (firstTab == null) {
+			firstTab = new JPanel();
+			firstTab.setLayout(new BorderLayout());
+
+			FormLayout layout = new FormLayout("pref, 4dlu, pref, 4dlu,fill:pref:grow"); //$NON-NLS-1$
+			DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+			builder.setDefaultDialogBorder();
+
+			// solenoid valves of interest
+			builder.appendSeparator(Messages.getString("OptionsDialog.12")); //$NON-NLS-1$
+
+			builder.append(getAllSolenoidValveCheckBox(), 5);
+			builder.append(getSolenoidValveOneCheckBox());
+			builder.append(getSolenoidValveTwoCheckBox());
+			builder.append(getSolenoidValveFourCheckBox());
+			builder.append(getSolenoidValveEightCheckBox());
+			builder.append(getSolenoidValveSixteenCheckBox());
+
+			firstTab.add(builder.getPanel(), BorderLayout.CENTER);
+
+		}
+		return firstTab;
+	}
+
+	private JPanel getSecondTab() {
+		if (secondTab == null) {
+			secondTab = new JPanel();
+			secondTab.setLayout(new BorderLayout());
+
+			FormLayout layout = new FormLayout("fill:pref:grow"); //$NON-NLS-1$
+			DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+			builder.setDefaultDialogBorder();
+
+			builder.append("Options for CO2-Absolute Only Evalution"); //$NON-NLS-1$
+
+			secondTab.add(builder.getPanel(), BorderLayout.CENTER);
+
+		}
+
+		return secondTab;
+	}
+
+	private JPanel getThirdTab() {
+		if (thirdTab == null) {
+			thirdTab = new JPanel();
+			thirdTab.setLayout(new BorderLayout());
+
+			FormLayout layout = new FormLayout("pref, 4dlu, pref, 4dlu,fill:pref:grow"); //$NON-NLS-1$
+			DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+			builder.setDefaultDialogBorder();
+
+			builder.append(getShiftByOneHourCheckBox(), 5);
+			builder.append(getRecordReferenceChambersCheckbox(), 5);
+			builder.append(Messages.getString("OptionsDialog.3")); //$NON-NLS-1$
+			builder.append(getSampleSpinner(), 3);
+
+			thirdTab.add(builder.getPanel(), BorderLayout.CENTER);
+		}
+		return thirdTab;
+	}
+
+	private JPanel getFourthTab() {
+		if (fourthTab == null) {
+			fourthTab = new JPanel();
+			fourthTab.setLayout(new BorderLayout());
+
+			FormLayout layout = new FormLayout("fill:pref:grow"); //$NON-NLS-1$
+			DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+			builder.setDefaultDialogBorder();
+
+			builder.append("Options for Ingo's Evaluation"); //$NON-NLS-1$
+
+			fourthTab.add(builder.getPanel(), BorderLayout.CENTER);
+
+		}
+		return fourthTab;
+	}
+
 	private void initialize() {
 		setLayout(new BorderLayout());
 
-		FormLayout layout = new FormLayout("pref, 4dlu, pref, 4dlu,fill:pref:grow"); //$NON-NLS-1$
+		getTabs().addTab(Messages.getString("OptionsDialog.13"), getFirstTab()); //$NON-NLS-1$
+		getTabs().addTab(Messages.getString("OptionsDialog.14"), getSecondTab()); //$NON-NLS-1$
+		getTabs().addTab(Messages.getString("OptionsDialog.15"), getThirdTab()); //$NON-NLS-1$
+		getTabs().addTab(Messages.getString("OptionsDialog.9"), getFourthTab()); //$NON-NLS-1$
+
+		FormLayout layout = new FormLayout("fill:pref:grow"); //$NON-NLS-1$
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 		builder.setDefaultDialogBorder();
-
-		builder.append(getShiftByOneHourCheckBox(), 5);
-		builder.append(getRecordReferenceChambersCheckbox(), 5);
-		builder.append(Messages.getString("OptionsDialog.3")); //$NON-NLS-1$
-		builder.append(getSampleSpinner(), 3);
-
-		builder.nextLine();
-
-		// solenoid valves of interest
-		builder.appendSeparator("Solenoid Valves of Interest");
-
-		builder.append(getAllSolenoidValveCheckBox(), 5);
-		builder.append(getSolenoidValveOneCheckBox());
-		builder.append(getSolenoidValveTwoCheckBox());
-		builder.append(getSolenoidValveFourCheckBox());
-		builder.append(getSolenoidValveEightCheckBox());
-		builder.append(getSolenoidValveSixteenCheckBox());
-
-		builder.nextLine();
-		builder.append(ButtonBarFactory.buildOKCancelBar(getOkButton(), getCancelButton()), 5);
+		builder.append(getTabs());
+		builder.append(ButtonBarFactory.buildOKCancelBar(getOkButton(), getCancelButton()));
 
 		setPreferredSize(builder.getPanel().getPreferredSize());
-		Dimension prefSize = builder.getPanel().getPreferredSize();
 
-		prefSize.height = prefSize.height + 25;
+		Dimension prefSize = builder.getPanel().getPreferredSize();
+		prefSize.height = prefSize.height + 35;
 		prefSize.width = prefSize.width + 25;
 
 		setSize(prefSize);
 		add(builder.getPanel(), BorderLayout.CENTER);
-
 	}
 
 	private void selectAllCheckBox() {
@@ -364,7 +447,7 @@ public class OptionsDialog extends JDialog {
 					getSolenoidValveSixteenCheckBox().setSelected(true);
 			}
 		}
-		log.info("Count = " + count);
+		log.info(Messages.getString("OptionsDialog.17") + count); //$NON-NLS-1$
 		if (count >= allCount) {
 			getAllSolenoidValveCheckBox().setSelected(true);
 			selectAllCheckBox();
