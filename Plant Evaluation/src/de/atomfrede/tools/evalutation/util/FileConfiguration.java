@@ -31,10 +31,17 @@ public class FileConfiguration {
 	public static String OUTPUT_FOLDER = "folder.output";
 
 	public static String OPTION_SHIFT_BY_ONE_HOUR = "options.shift";
-	public static String OPTIONS_RECORD_REFERENCE_CHAMBERS = "options.recordReference";
+	public static String OPTIONS_RECORD_REFERENCE_VALVE = "options.recordReference";
 	public static String OPTIONS_SAMPLE_RATE = "options.sampleRate";
 
 	public static String OPTIONS_SOLENOID_VALVES_OF_INTEREST = "options.solenoidValves";
+
+	public static String OPTIONS_CO2_ABSOLUTE_IS_CO2_ABSOLUTE_AUTOSCALE = "options.co2absolute.autoscale.co2absolute";
+	public static String OPTIONS_CO2_ABSOLUTE_IS_DELTA_FIVE_MINUTES_AUTOSCALE = "options.co2absolute.autoscale.deltafiveminutes";
+	public static String OPTIONS_CO2_ABSOLUTE_SCALE_MINIMUM_CO2_ABSOLUTE = "options.co2absolute.scale.minimum.co2absolute";
+	public static String OPTIONS_CO2_ABSOLUTE_SCALE_MAXIMUM_CO2_ABSOLUTE = "options.co2absolute.scale.maximum.co2absolute";
+	public static String OPTIONS_CO2_ABSOLUTE_SCALE_MINIMUM_DELTA_FIVE_MINUTES = "options.co2absolute.scale.minimum.deltafiveminutes";
+	public static String OPTIONS_CO2_ABSOLUTE_SCALE_MAXIMUM_DELTA_FIVE_MINUTES = "options.co2absolute.scale.maximum.deltafiveminutes";
 
 	private static final Log log = LogFactory.getLog(FileConfiguration.class);
 

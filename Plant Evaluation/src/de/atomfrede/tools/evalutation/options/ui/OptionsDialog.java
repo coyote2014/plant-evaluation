@@ -57,6 +57,9 @@ public class OptionsDialog extends JDialog {
 	JCheckBox allSolenoidValvesCheckbox, solenoidValveOneCheckBox, solenoidValveTwoCheckBox, solenoidValveFourCheckBox, solenoidValveEightCheckBox,
 			solenoidValveSixteenCheckBox;
 
+	// CO2 Absolute only Evaluation
+	JCheckBox co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox, co2Absolute_isCo2AbsoluteAutoscaleCheckbox;
+
 	JTabbedPane tabs;
 	JPanel firstTab, secondTab, thirdTab, fourthTab;
 
@@ -126,6 +129,24 @@ public class OptionsDialog extends JDialog {
 			shiftByOneHourCheckBox.setSelected(Options.isShiftByOneHour());
 		}
 		return shiftByOneHourCheckBox;
+	}
+
+	private JCheckBox getCo2AbsoluteDeltaCheckBox() {
+		if (co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox == null) {
+			co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox = new JCheckBox();
+			co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox.setText("Enable Autoscale");
+			co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox.setSelected(Options.isAutoScaleDeltaFiveMinutes());
+		}
+		return co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox;
+	}
+
+	private JCheckBox getCo2AbsoluteCo2AbsoluteCheckBox() {
+		if (co2Absolute_isCo2AbsoluteAutoscaleCheckbox == null) {
+			co2Absolute_isCo2AbsoluteAutoscaleCheckbox = new JCheckBox();
+			co2Absolute_isCo2AbsoluteAutoscaleCheckbox.setText("Enable Autoscale");
+			co2Absolute_isCo2AbsoluteAutoscaleCheckbox.setSelected(Options.isAutoScaleCO2Absolute());
+		}
+		return co2Absolute_isCo2AbsoluteAutoscaleCheckbox;
 	}
 
 	private JButton getOkButton() {
@@ -283,6 +304,10 @@ public class OptionsDialog extends JDialog {
 
 		Options.setSolenoidValvesOfInterest(solenoidValvesOfInterest);
 
+		// CO2 Absolute Only Evaluation Options
+		Options.setAutoScaleCO2Absolute(co2Absolute_isCo2AbsoluteAutoscaleCheckbox.isSelected());
+		Options.setAutoScaleDeltaFiveMinutes(co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox.isSelected());
+
 		this.dispose();
 
 	}
@@ -321,10 +346,17 @@ public class OptionsDialog extends JDialog {
 			secondTab = new JPanel();
 			secondTab.setLayout(new BorderLayout());
 
-			FormLayout layout = new FormLayout("fill:pref:grow"); //$NON-NLS-1$
+			FormLayout layout = new FormLayout("left:pref, 4dlu, fill:pref:grow"); //$NON-NLS-1$
 			DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 			builder.setDefaultDialogBorder();
 
+			builder.appendSeparator("CO2 Absolute");
+			builder.append(getCo2AbsoluteCo2AbsoluteCheckBox(), 3);
+
+			builder.nextLine();
+
+			builder.appendSeparator("Delta 5 Minutes");
+			builder.append(getCo2AbsoluteDeltaCheckBox(), 3);
 			builder.append("Options for CO2-Absolute Only Evalution"); //$NON-NLS-1$
 
 			secondTab.add(builder.getPanel(), BorderLayout.CENTER);

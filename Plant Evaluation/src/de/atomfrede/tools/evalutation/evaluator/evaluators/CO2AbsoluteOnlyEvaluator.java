@@ -157,12 +157,19 @@ public class CO2AbsoluteOnlyEvaluator extends SingleInputFileEvaluator {
 
 	public class Plot extends TimePlot {
 
+		boolean autoScaleCO2Absolute, autoScaleDeltaFiveMinutes;
+
 		/**
 		 * @param inputFile
-		 * @param co2AbsoluteOnly
 		 */
 		public Plot(File inputFile) {
+			this(inputFile, true, true);
+		}
+
+		public Plot(File inputFile, boolean autoScaleCO2Absolute, boolean autoScaleDeltaFiveMinutes) {
 			super(inputFile);
+			this.autoScaleCO2Absolute = autoScaleCO2Absolute;
+			this.autoScaleDeltaFiveMinutes = autoScaleDeltaFiveMinutes;
 		}
 
 		@Override
@@ -198,12 +205,22 @@ public class CO2AbsoluteOnlyEvaluator extends SingleInputFileEvaluator {
 			int size = allLines.get(1).length - 1;
 			TimeDatasetWrapper wrapper = new TimeDatasetWrapper("CO2 Absolute", allLines, size, InputFileConstants.EPOCH_TIME);
 			wrapper.createDataset();
+			if (!autoScaleCO2Absolute) {
+				// if not autoscale is enabled set the user defined minimum and
+				// maximums
+
+			}
 			return wrapper;
 		}
 
 		XYDatasetWrapper createDeltaFiveMinutesDatasetWrapper(List<String[]> allLines) {
 			TimeDatasetWrapper wrapper = new TimeDatasetWrapper("Delta 5 Minutes", allLines, InputFileConstants.DELTA_5_MINUTES, InputFileConstants.EPOCH_TIME);
 			wrapper.createDataset();
+			if (!autoScaleDeltaFiveMinutes) {
+				// if not autoscale is enabled set the user defined minimum and
+				// maximums
+
+			}
 			wrapper.setSeriesColor(Color.GREEN);
 			return wrapper;
 		}
