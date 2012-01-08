@@ -32,7 +32,7 @@ import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.constants.CommonConstants;
 import de.atomfrede.tools.evalutation.constants.InputFileConstants;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
-import de.atomfrede.tools.evalutation.options.Options;
+import de.atomfrede.tools.evalutation.options.TypeAEvaluationOptions;
 import de.atomfrede.tools.evalutation.util.DialogUtil;
 import de.atomfrede.tools.evalutation.util.EntryComparator;
 import de.atomfrede.tools.evalutation.util.WriteUtils;
@@ -71,7 +71,7 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 
 					Date date2Write = dateFormat.parse(currentLine[CommonConstants.DATE] + " " + currentLine[CommonConstants.TIME]);
 
-					if (Options.isShiftByOneHour())
+					if (TypeAEvaluationOptions.isShiftByOneHour())
 						date2Write = new Date(date2Write.getTime() + CommonConstants.oneHour);
 
 					String solenoid2Write = currentLine[InputFileConstants.SOLENOID_VALVE_INPUT];
@@ -174,7 +174,7 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 		String time = lineToWrite[CommonConstants.TIME];
 		Date date2Write = dateFormat.parse(date + " " + time);
 
-		if (Options.isShiftByOneHour())
+		if (TypeAEvaluationOptions.isShiftByOneHour())
 			date2Write = new Date(date2Write.getTime() + CommonConstants.oneHour);
 
 		date = dateFormat.format(date2Write).split(" ")[0];
@@ -211,7 +211,7 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 		double startSolenoid = parseDoubleValue(startLine, InputFileConstants.SOLENOID_VALVE_INPUT);
 		if (startSolenoid != 1.0)
 			linesNeedForStandardDerivation.add(Integer.valueOf(startIndex));
-		else if (startSolenoid == 1.0 && Options.isRecordReferenceChambers())
+		else if (startSolenoid == 1.0 && TypeAEvaluationOptions.isRecordReferenceValve())
 			linesNeedForStandardDerivation.add(Integer.valueOf(startIndex));
 
 		StringBuilder dateBuilder = new StringBuilder();
@@ -236,10 +236,10 @@ public class MeanValueEvaluator extends SingleInputFileEvaluator {
 				break;
 			}
 			// save line for later computation of standard derivation
-			if (currentIndex % Options.getSampleRate() == 0 && startSolenoid != 1.0) {
+			if (currentIndex % TypeAEvaluationOptions.getSampleRate() == 0 && startSolenoid != 1.0) {
 				if (startSolenoid != 1.0)
 					linesNeedForStandardDerivation.add(currentIndex);
-				else if (startSolenoid == 1.0 && Options.isRecordReferenceChambers())
+				else if (startSolenoid == 1.0 && TypeAEvaluationOptions.isRecordReferenceValve())
 					linesNeedForStandardDerivation.add(currentIndex);
 			}
 

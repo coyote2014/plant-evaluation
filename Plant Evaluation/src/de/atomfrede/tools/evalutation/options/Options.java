@@ -40,12 +40,6 @@ public class Options {
 
 	private static final Log log = LogFactory.getLog(Options.class);
 
-	// shift every date by one hour to cope with summer and winter time
-	static boolean shiftByOneHour;
-	// should the reference chambers be recorded?
-	static boolean recordReferenceChambers;
-	// how many datasets should be recorded for SD computation?
-	static double sampleRate;
 	// standard input and output folders
 	static File inputFolder;
 	static File outputFolder;//$NON-NLS-1$
@@ -56,10 +50,6 @@ public class Options {
 	static List<Double> solenoidValvesOfInterest = new ArrayList<Double>();
 
 	static List<Double> allSolenoidValves = new ArrayList<Double>();
-
-	// COAbsolute Plots Options
-	static boolean cO2AbsoluteOnly_isAutoScaleCO2Absolute, co2AbsoluteOnly_isAutoScaleDeltaFiveMinutes;
-	static double co2AbsoluteOnly_co2AbsoluteDatasetMinimum, co2AbsoluteOnly_co2AbsoluteDatasetMaximum, co2AbsoluteOnly_deltaFiveMinutesMinimum, co2AbsoluteOnly_deltaFiveMinutesMaximum;
 
 	static PropertiesConfiguration configuration;
 
@@ -98,21 +88,27 @@ public class Options {
 			if (!temperatureInputFolder.exists())
 				temperatureInputFolder.mkdir();
 
-			shiftByOneHour = configuration.getBoolean(FileConfiguration.OPTION_SHIFT_BY_ONE_HOUR, false);
-			recordReferenceChambers = configuration.getBoolean(FileConfiguration.OPTIONS_RECORD_REFERENCE_VALVE, false);
-			sampleRate = configuration.getDouble(FileConfiguration.OPTIONS_SAMPLE_RATE, 10.0);
+			TypeAEvaluationOptions.shiftByOneHour = configuration.getBoolean(FileConfiguration.OPTION_SHIFT_BY_ONE_HOUR, false);
+			TypeAEvaluationOptions.recordReferenceValve = configuration.getBoolean(FileConfiguration.OPTIONS_RECORD_REFERENCE_VALVE, false);
+			TypeAEvaluationOptions.sampleRate = configuration.getDouble(FileConfiguration.OPTIONS_SAMPLE_RATE, 10.0);
 
 			solenoidValvesOfInterest = configuration.getList(FileConfiguration.OPTIONS_SOLENOID_VALVES_OF_INTEREST, solenoidValvesOfInterest);
 
 			checkSolenoidValves();
 
 			// options for co2 absolute only evaluation
-			cO2AbsoluteOnly_isAutoScaleCO2Absolute = configuration.getBoolean(FileConfiguration.OPTIONS_CO2_ABSOLUTE_IS_CO2_ABSOLUTE_AUTOSCALE, true);
-			co2AbsoluteOnly_isAutoScaleDeltaFiveMinutes = configuration.getBoolean(FileConfiguration.OPTIONS_CO2_ABSOLUTE_IS_DELTA_FIVE_MINUTES_AUTOSCALE, true);
-			co2AbsoluteOnly_co2AbsoluteDatasetMinimum = configuration.getDouble(FileConfiguration.OPTIONS_CO2_ABSOLUTE_SCALE_MINIMUM_CO2_ABSOLUTE, Integer.MIN_VALUE);
-			co2AbsoluteOnly_co2AbsoluteDatasetMaximum = configuration.getDouble(FileConfiguration.OPTIONS_CO2_ABSOLUTE_SCALE_MAXIMUM_CO2_ABSOLUTE, Integer.MAX_VALUE);
-			co2AbsoluteOnly_deltaFiveMinutesMinimum = configuration.getDouble(FileConfiguration.OPTIONS_CO2_ABSOLUTE_SCALE_MINIMUM_DELTA_FIVE_MINUTES, Integer.MIN_VALUE);
-			co2AbsoluteOnly_deltaFiveMinutesMaximum = configuration.getDouble(FileConfiguration.OPTIONS_CO2_ABSOLUTE_SCALE_MAXIMUM_DELTA_FIVE_MINUTES, Integer.MAX_VALUE);
+			CO2AbsoluteOnlyEvaluationOptions.isAutoScaleCO2Absolute = configuration.getBoolean(
+					FileConfiguration.OPTIONS_CO2_ABSOLUTE_IS_CO2_ABSOLUTE_AUTOSCALE, true);
+			CO2AbsoluteOnlyEvaluationOptions.isAutoScaleDeltaFiveMinutes = configuration.getBoolean(
+					FileConfiguration.OPTIONS_CO2_ABSOLUTE_IS_DELTA_FIVE_MINUTES_AUTOSCALE, true);
+			CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteDatasetMinimum = configuration.getDouble(FileConfiguration.OPTIONS_CO2_ABSOLUTE_SCALE_MINIMUM_CO2_ABSOLUTE,
+					Integer.MIN_VALUE);
+			CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteDatasetMaximum = configuration.getDouble(FileConfiguration.OPTIONS_CO2_ABSOLUTE_SCALE_MAXIMUM_CO2_ABSOLUTE,
+					Integer.MAX_VALUE);
+			CO2AbsoluteOnlyEvaluationOptions.deltaFiveMinutesMinimum = configuration.getDouble(FileConfiguration.OPTIONS_CO2_ABSOLUTE_SCALE_MINIMUM_DELTA_FIVE_MINUTES,
+					Integer.MIN_VALUE);
+			CO2AbsoluteOnlyEvaluationOptions.deltaFiveMinutesMaximum = configuration.getDouble(FileConfiguration.OPTIONS_CO2_ABSOLUTE_SCALE_MAXIMUM_DELTA_FIVE_MINUTES,
+					Integer.MAX_VALUE);
 		} catch (ConfigurationException ce) {
 			log.error("Could not update configuration.", ce);
 		}
@@ -139,24 +135,6 @@ public class Options {
 		}
 		obj = solenoidValvesOfInterest.get(0);
 		log.debug("obj is " + obj.getClass());
-	}
-
-	public static double getSampleRate() {
-		return sampleRate;
-	}
-
-	public static void setSampleRate(double count) {
-		sampleRate = count;
-		configuration.setProperty(FileConfiguration.OPTIONS_SAMPLE_RATE, count);
-	}
-
-	public static boolean isShiftByOneHour() {
-		return shiftByOneHour;
-	}
-
-	public static void setShiftByOneHour(boolean shiftByOneHour) {
-		Options.shiftByOneHour = shiftByOneHour;
-		configuration.setProperty(FileConfiguration.OPTION_SHIFT_BY_ONE_HOUR, shiftByOneHour);
 	}
 
 	public static File getInputFolder() {
@@ -186,15 +164,6 @@ public class Options {
 		configuration.setProperty(FileConfiguration.TEMPERATURE_FOLDER, temperatureInputFolder.getAbsolutePath());
 	}
 
-	public static boolean isRecordReferenceChambers() {
-		return recordReferenceChambers;
-	}
-
-	public static void setRecordReferenceChambers(boolean recordReferenceChambers) {
-		Options.recordReferenceChambers = recordReferenceChambers;
-		configuration.setProperty(FileConfiguration.OPTIONS_RECORD_REFERENCE_VALVE, recordReferenceChambers);
-	}
-
 	public static List<Double> getSolenoidValvesOfInterest() {
 		return solenoidValvesOfInterest;
 	}
@@ -210,61 +179,6 @@ public class Options {
 
 	public static void setAllSolenoidValves(List<Double> allSolenoidValves) {
 		Options.allSolenoidValves = allSolenoidValves;
-	}
-
-	// all options for co2absolute only evaluation
-	public static boolean isAutoScaleCO2Absolute() {
-		return cO2AbsoluteOnly_isAutoScaleCO2Absolute;
-	}
-
-	public static void setAutoScaleCO2Absolute(boolean autoScaleCO2Absolute) {
-		cO2AbsoluteOnly_isAutoScaleCO2Absolute = autoScaleCO2Absolute;
-		configuration.setProperty(FileConfiguration.OPTIONS_CO2_ABSOLUTE_IS_CO2_ABSOLUTE_AUTOSCALE, autoScaleCO2Absolute);
-	}
-
-	public static boolean isAutoScaleDeltaFiveMinutes() {
-		return co2AbsoluteOnly_isAutoScaleDeltaFiveMinutes;
-	}
-
-	public static void setAutoScaleDeltaFiveMinutes(boolean autoScaleDeltaFiveMinutes) {
-		co2AbsoluteOnly_isAutoScaleDeltaFiveMinutes = autoScaleDeltaFiveMinutes;
-		configuration.setProperty(FileConfiguration.OPTIONS_CO2_ABSOLUTE_IS_DELTA_FIVE_MINUTES_AUTOSCALE, autoScaleDeltaFiveMinutes);
-	}
-
-	public static double co2AbsoluteOnly_getCo2AbsoluteDatasetMinimum() {
-		return co2AbsoluteOnly_co2AbsoluteDatasetMinimum;
-	}
-
-	public static void co2AbsoluteOnly_setCo2AbsoluteDatasetMinimum(double value) {
-		co2AbsoluteOnly_co2AbsoluteDatasetMinimum = value;
-		configuration.setProperty(FileConfiguration.OPTIONS_CO2_ABSOLUTE_SCALE_MINIMUM_CO2_ABSOLUTE, value);
-	}
-
-	public static double co2AbsoluteOnly_getCo2AbsoluteDatasetMaximum() {
-		return co2AbsoluteOnly_co2AbsoluteDatasetMaximum;
-	}
-
-	public static void co2AbsoluteOnly_setCo2AbsoluteDatasetMaximum(double value) {
-		co2AbsoluteOnly_co2AbsoluteDatasetMaximum = value;
-		configuration.setProperty(FileConfiguration.OPTIONS_CO2_ABSOLUTE_SCALE_MAXIMUM_CO2_ABSOLUTE, value);
-	}
-
-	public static double co2AbsoluteOnly_getDeltaFiveMinutesMinimum() {
-		return co2AbsoluteOnly_deltaFiveMinutesMinimum;
-	}
-
-	public static void co2AbsoluteOnly_setDeltaFiveMinutesMinimum(double value) {
-		co2AbsoluteOnly_deltaFiveMinutesMinimum = value;
-		configuration.setProperty(FileConfiguration.OPTIONS_CO2_ABSOLUTE_SCALE_MINIMUM_DELTA_FIVE_MINUTES, value);
-	}
-
-	public static double co2AbsoluteOnly_getDeltaFiveMinutesMaximum() {
-		return co2AbsoluteOnly_deltaFiveMinutesMaximum;
-	}
-
-	public static void co2AbsoluteOnly_setDeltaFiveMinutesMaximum(double value) {
-		co2AbsoluteOnly_deltaFiveMinutesMaximum = value;
-		configuration.setProperty(FileConfiguration.OPTIONS_CO2_ABSOLUTE_SCALE_MAXIMUM_DELTA_FIVE_MINUTES, value);
 	}
 
 }

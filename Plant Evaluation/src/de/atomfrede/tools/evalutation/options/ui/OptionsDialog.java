@@ -37,7 +37,9 @@ import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.factories.ButtonBarFactory;
 import com.jgoodies.forms.layout.FormLayout;
 
+import de.atomfrede.tools.evalutation.options.CO2AbsoluteOnlyEvaluationOptions;
 import de.atomfrede.tools.evalutation.options.Options;
+import de.atomfrede.tools.evalutation.options.TypeAEvaluationOptions;
 import de.atomfrede.tools.evalutation.ui.res.Messages;
 
 public class OptionsDialog extends JDialog {
@@ -62,7 +64,7 @@ public class OptionsDialog extends JDialog {
 	JTabbedPane tabs;
 	JPanel firstTab, secondTab, thirdTab, fourthTab;
 
-	double sampleRate = Options.getSampleRate();
+	double sampleRate = TypeAEvaluationOptions.getSampleRate();
 
 	List<Double> solenoidValvesOfInterest = new ArrayList<Double>();
 	List<Double> allSolenoidValves = new ArrayList<Double>();
@@ -95,7 +97,7 @@ public class OptionsDialog extends JDialog {
 	private JSpinner getSampleSpinner() {
 		if (sampleSpinner == null) {
 			sampleSpinner = new JSpinner();
-			SpinnerNumberModel numberModel = new SpinnerNumberModel(Options.getSampleRate(), 1.0, 10.0, 1.0);
+			SpinnerNumberModel numberModel = new SpinnerNumberModel(TypeAEvaluationOptions.getSampleRate(), 1.0, 10.0, 1.0);
 			sampleSpinner.setModel(numberModel);
 
 			sampleSpinner.addChangeListener(new ChangeListener() {
@@ -116,7 +118,7 @@ public class OptionsDialog extends JDialog {
 		if (recordReferenceValveCheckbox == null) {
 			recordReferenceValveCheckbox = new JCheckBox();
 			recordReferenceValveCheckbox.setText(Messages.getString("OptionsDialog.2")); //$NON-NLS-1$
-			recordReferenceValveCheckbox.setSelected(Options.isRecordReferenceChambers());
+			recordReferenceValveCheckbox.setSelected(TypeAEvaluationOptions.isRecordReferenceValve());
 		}
 		return recordReferenceValveCheckbox;
 	}
@@ -125,7 +127,7 @@ public class OptionsDialog extends JDialog {
 		if (shiftByOneHourCheckBox == null) {
 			shiftByOneHourCheckBox = new JCheckBox();
 			shiftByOneHourCheckBox.setText(Messages.getString("OptionsDialog.1")); //$NON-NLS-1$
-			shiftByOneHourCheckBox.setSelected(Options.isShiftByOneHour());
+			shiftByOneHourCheckBox.setSelected(TypeAEvaluationOptions.isShiftByOneHour());
 		}
 		return shiftByOneHourCheckBox;
 	}
@@ -134,7 +136,7 @@ public class OptionsDialog extends JDialog {
 		if (co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox == null) {
 			co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox = new JCheckBox();
 			co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox.setText("Enable Autoscale");
-			co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox.setSelected(Options.isAutoScaleDeltaFiveMinutes());
+			co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox.setSelected(CO2AbsoluteOnlyEvaluationOptions.isAutoScaleDeltaFiveMinutes());
 
 			co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox.addActionListener(new ActionListener() {
 
@@ -153,7 +155,7 @@ public class OptionsDialog extends JDialog {
 		if (co2Absolute_isCo2AbsoluteAutoscaleCheckbox == null) {
 			co2Absolute_isCo2AbsoluteAutoscaleCheckbox = new JCheckBox();
 			co2Absolute_isCo2AbsoluteAutoscaleCheckbox.setText("Enable Autoscale");
-			co2Absolute_isCo2AbsoluteAutoscaleCheckbox.setSelected(Options.isAutoScaleCO2Absolute());
+			co2Absolute_isCo2AbsoluteAutoscaleCheckbox.setSelected(CO2AbsoluteOnlyEvaluationOptions.isAutoScaleCO2Absolute());
 
 			co2Absolute_isCo2AbsoluteAutoscaleCheckbox.addActionListener(new ActionListener() {
 
@@ -170,36 +172,36 @@ public class OptionsDialog extends JDialog {
 
 	private JSpinner getCo2Absolute_Co2AbsoluteMinimumSpinner() {
 		if (co2Absolute_co2AbsoluteMinimumSpinner == null) {
-			co2Absolute_co2AbsoluteMinimumSpinner = new JSpinner(new SpinnerNumberModel(Options.co2AbsoluteOnly_getCo2AbsoluteDatasetMinimum(), Integer.MIN_VALUE,
+			co2Absolute_co2AbsoluteMinimumSpinner = new JSpinner(new SpinnerNumberModel(CO2AbsoluteOnlyEvaluationOptions.getCo2AbsoluteDatasetMinimum(), Integer.MIN_VALUE,
 					Integer.MAX_VALUE, 10));
-			co2Absolute_co2AbsoluteMinimumSpinner.setEnabled(!Options.isAutoScaleCO2Absolute());
+			co2Absolute_co2AbsoluteMinimumSpinner.setEnabled(!CO2AbsoluteOnlyEvaluationOptions.isAutoScaleCO2Absolute());
 		}
 		return co2Absolute_co2AbsoluteMinimumSpinner;
 	}
 
 	private JSpinner getCo2Absolute_Co2AbsoluteMaximumSpinner() {
 		if (co2Absolute_co2AbsoluteMaximumSpinner == null) {
-			co2Absolute_co2AbsoluteMaximumSpinner = new JSpinner(new SpinnerNumberModel(Options.co2AbsoluteOnly_getCo2AbsoluteDatasetMaximum(), Integer.MIN_VALUE,
+			co2Absolute_co2AbsoluteMaximumSpinner = new JSpinner(new SpinnerNumberModel(CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteOnly_getCo2AbsoluteDatasetMaximum(), Integer.MIN_VALUE,
 					Integer.MAX_VALUE, 10));
-			co2Absolute_co2AbsoluteMaximumSpinner.setEnabled(!Options.isAutoScaleCO2Absolute());
+			co2Absolute_co2AbsoluteMaximumSpinner.setEnabled(!CO2AbsoluteOnlyEvaluationOptions.isAutoScaleCO2Absolute());
 		}
 		return co2Absolute_co2AbsoluteMaximumSpinner;
 	}
 
 	private JSpinner getCo2Absolute_deltaFiveMinutesMinimumSpinner() {
 		if (co2Absolute_deltaFiveMinutesMinimumSpinner == null) {
-			co2Absolute_deltaFiveMinutesMinimumSpinner = new JSpinner(new SpinnerNumberModel(Options.co2AbsoluteOnly_getDeltaFiveMinutesMinimum(), Integer.MIN_VALUE,
+			co2Absolute_deltaFiveMinutesMinimumSpinner = new JSpinner(new SpinnerNumberModel(CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteOnly_getDeltaFiveMinutesMinimum(), Integer.MIN_VALUE,
 					Integer.MAX_VALUE, 10));
-			co2Absolute_deltaFiveMinutesMinimumSpinner.setEnabled(!Options.isAutoScaleDeltaFiveMinutes());
+			co2Absolute_deltaFiveMinutesMinimumSpinner.setEnabled(!CO2AbsoluteOnlyEvaluationOptions.isAutoScaleDeltaFiveMinutes());
 		}
 		return co2Absolute_deltaFiveMinutesMinimumSpinner;
 	}
 
 	private JSpinner getCo2Absolute_deltaFiveMinutesMaximumSpinner() {
 		if (co2Absolute_deltaFiveMinutesMaximumSpinner == null) {
-			co2Absolute_deltaFiveMinutesMaximumSpinner = new JSpinner(new SpinnerNumberModel(Options.co2AbsoluteOnly_getDeltaFiveMinutesMaximum(), Integer.MIN_VALUE,
+			co2Absolute_deltaFiveMinutesMaximumSpinner = new JSpinner(new SpinnerNumberModel(CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteOnly_getDeltaFiveMinutesMaximum(), Integer.MIN_VALUE,
 					Integer.MAX_VALUE, 10));
-			co2Absolute_deltaFiveMinutesMaximumSpinner.setEnabled(!Options.isAutoScaleDeltaFiveMinutes());
+			co2Absolute_deltaFiveMinutesMaximumSpinner.setEnabled(!CO2AbsoluteOnlyEvaluationOptions.isAutoScaleDeltaFiveMinutes());
 		}
 		return co2Absolute_deltaFiveMinutesMaximumSpinner;
 	}
@@ -349,23 +351,23 @@ public class OptionsDialog extends JDialog {
 	}
 
 	private void saveOptionsAndCloseDialog() {
-		Options.setShiftByOneHour(shiftByOneHourCheckBox.isSelected());
+		TypeAEvaluationOptions.setShiftByOneHour(shiftByOneHourCheckBox.isSelected());
 
-		Options.setRecordReferenceChambers(recordReferenceValveCheckbox.isSelected());
+		TypeAEvaluationOptions.setRecordReferenceValve(recordReferenceValveCheckbox.isSelected());
 
-		Options.setRecordReferenceChambers(recordReferenceValveCheckbox.isSelected());
+		TypeAEvaluationOptions.setRecordReferenceValve(recordReferenceValveCheckbox.isSelected());
 
-		Options.setSampleRate(sampleRate);
+		TypeAEvaluationOptions.setSampleRate(sampleRate);
 
 		Options.setSolenoidValvesOfInterest(solenoidValvesOfInterest);
 
 		// CO2 Absolute Only Evaluation Options
-		Options.setAutoScaleCO2Absolute(co2Absolute_isCo2AbsoluteAutoscaleCheckbox.isSelected());
-		Options.setAutoScaleDeltaFiveMinutes(co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox.isSelected());
-		Options.co2AbsoluteOnly_setCo2AbsoluteDatasetMinimum(Double.valueOf(getCo2Absolute_Co2AbsoluteMinimumSpinner().getValue() + ""));
-		Options.co2AbsoluteOnly_setCo2AbsoluteDatasetMaximum(Double.valueOf(getCo2Absolute_Co2AbsoluteMaximumSpinner().getValue() + ""));
-		Options.co2AbsoluteOnly_setDeltaFiveMinutesMinimum(Double.valueOf(getCo2Absolute_deltaFiveMinutesMinimumSpinner().getValue() + ""));
-		Options.co2AbsoluteOnly_setDeltaFiveMinutesMaximum(Double.valueOf(getCo2Absolute_deltaFiveMinutesMaximumSpinner().getValue() + ""));
+		CO2AbsoluteOnlyEvaluationOptions.setAutoScaleCO2Absolute(co2Absolute_isCo2AbsoluteAutoscaleCheckbox.isSelected());
+		CO2AbsoluteOnlyEvaluationOptions.setAutoScaleDeltaFiveMinutes(co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox.isSelected());
+		CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteOnly_setCo2AbsoluteDatasetMinimum(Double.valueOf(getCo2Absolute_Co2AbsoluteMinimumSpinner().getValue() + ""));
+		CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteOnly_setCo2AbsoluteDatasetMaximum(Double.valueOf(getCo2Absolute_Co2AbsoluteMaximumSpinner().getValue() + ""));
+		CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteOnly_setDeltaFiveMinutesMinimum(Double.valueOf(getCo2Absolute_deltaFiveMinutesMinimumSpinner().getValue() + ""));
+		CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteOnly_setDeltaFiveMinutesMaximum(Double.valueOf(getCo2Absolute_deltaFiveMinutesMaximumSpinner().getValue() + ""));
 
 		this.dispose();
 

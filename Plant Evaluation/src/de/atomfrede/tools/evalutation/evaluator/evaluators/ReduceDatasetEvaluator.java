@@ -37,7 +37,7 @@ import com.lowagie.text.pdf.DefaultFontMapper;
 
 import de.atomfrede.tools.evalutation.constants.InputFileConstants;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
-import de.atomfrede.tools.evalutation.options.Options;
+import de.atomfrede.tools.evalutation.options.CO2AbsoluteOnlyEvaluationOptions;
 import de.atomfrede.tools.evalutation.tools.plot.TimeDatasetWrapper;
 import de.atomfrede.tools.evalutation.tools.plot.TimePlot;
 import de.atomfrede.tools.evalutation.tools.plot.XYDatasetWrapper;
@@ -230,8 +230,8 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 			if (!autoScaleCO2Absolute) {
 				// if not autoscale is enabled set the user defined minimum and
 				// maximum
-				wrapper.setMinimum(Options.co2AbsoluteOnly_getCo2AbsoluteDatasetMinimum());
-				wrapper.setMaximum(Options.co2AbsoluteOnly_getCo2AbsoluteDatasetMaximum());
+				wrapper.setMinimum(CO2AbsoluteOnlyEvaluationOptions.getCo2AbsoluteDatasetMinimum());
+				wrapper.setMaximum(CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteOnly_getCo2AbsoluteDatasetMaximum());
 
 			}
 			return wrapper;
@@ -243,8 +243,8 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 			if (!autoScaleDeltaFiveMinutes) {
 				// if not autoscale is enabled set the user defined minimum and
 				// maximum
-				wrapper.setMinimum(Options.co2AbsoluteOnly_getDeltaFiveMinutesMinimum());
-				wrapper.setMaximum(Options.co2AbsoluteOnly_getDeltaFiveMinutesMaximum());
+				wrapper.setMinimum(CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteOnly_getDeltaFiveMinutesMinimum());
+				wrapper.setMaximum(CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteOnly_getDeltaFiveMinutesMaximum());
 
 			}
 			wrapper.setSeriesColor(Color.GREEN);
