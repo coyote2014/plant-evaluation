@@ -27,6 +27,7 @@ import de.atomfrede.tools.evalutation.evaluator.evaluators.CO2AbsoluteOnlyEvalua
 import de.atomfrede.tools.evalutation.evaluator.evaluators.CopyEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.evaluators.PickDatasetEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.evaluators.ReduceDatasetEvaluator;
+import de.atomfrede.tools.evalutation.options.TypeBEvaluationOptions;
 
 /**
  * Type B evaluation, aka Ingo's evaluation
@@ -78,7 +79,8 @@ public class TypeBevaluation extends AbstractEvaluation {
 				}
 				if (evaluator instanceof ReduceDatasetEvaluator) {
 					ReduceDatasetEvaluator eva = (ReduceDatasetEvaluator) evaluator;
-					eva.new CO2AbsoluteDeltaRawPlot(eva.getOutputFile()).plot();
+					eva.new CO2AbsoluteDeltaRawPlot(eva.getOutputFile(), TypeBEvaluationOptions.isCo2AbsoluteAutoscale(),
+							TypeBEvaluationOptions.isDeltaRawAutoscale()).plot();
 					pickDatasetEvaluator.setInputFile(eva.getOutputFile());
 					i++;
 					continue;

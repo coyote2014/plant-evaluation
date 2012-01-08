@@ -18,7 +18,6 @@
  */
 package de.atomfrede.tools.evalutation.options;
 
-import de.atomfrede.tools.evalutation.util.FileConfiguration;
 
 public class CO2AbsoluteOnlyEvaluationOptions {
 
@@ -37,12 +36,12 @@ public class CO2AbsoluteOnlyEvaluationOptions {
 
 	public static void setAutoScaleCO2Absolute(boolean autoScaleCO2Absolute) {
 		isAutoScaleCO2Absolute = autoScaleCO2Absolute;
-		Options.configuration.setProperty(FileConfiguration.OPTIONS_CO2_ABSOLUTE_IS_CO2_ABSOLUTE_AUTOSCALE, autoScaleCO2Absolute);
+		Options.configuration.setProperty(CO2AbsoluteOnlyEvaluationOptions.OPTIONS_CO2_ABSOLUTE_IS_CO2_ABSOLUTE_AUTOSCALE, autoScaleCO2Absolute);
 	}
 
 	public static void co2AbsoluteOnly_setDeltaFiveMinutesMaximum(double value) {
 		deltaFiveMinutesMaximum = value;
-		Options.configuration.setProperty(FileConfiguration.OPTIONS_CO2_ABSOLUTE_SCALE_MAXIMUM_DELTA_FIVE_MINUTES, value);
+		Options.configuration.setProperty(CO2AbsoluteOnlyEvaluationOptions.OPTIONS_CO2_ABSOLUTE_SCALE_MAXIMUM_DELTA_FIVE_MINUTES, value);
 	}
 
 	public static double co2AbsoluteOnly_getDeltaFiveMinutesMaximum() {
@@ -51,7 +50,7 @@ public class CO2AbsoluteOnlyEvaluationOptions {
 
 	public static void co2AbsoluteOnly_setDeltaFiveMinutesMinimum(double value) {
 		deltaFiveMinutesMinimum = value;
-		Options.configuration.setProperty(FileConfiguration.OPTIONS_CO2_ABSOLUTE_SCALE_MINIMUM_DELTA_FIVE_MINUTES, value);
+		Options.configuration.setProperty(CO2AbsoluteOnlyEvaluationOptions.OPTIONS_CO2_ABSOLUTE_SCALE_MINIMUM_DELTA_FIVE_MINUTES, value);
 	}
 
 	public static double co2AbsoluteOnly_getDeltaFiveMinutesMinimum() {
@@ -60,7 +59,7 @@ public class CO2AbsoluteOnlyEvaluationOptions {
 
 	public static void co2AbsoluteOnly_setCo2AbsoluteDatasetMaximum(double value) {
 		co2AbsoluteDatasetMaximum = value;
-		Options.configuration.setProperty(FileConfiguration.OPTIONS_CO2_ABSOLUTE_SCALE_MAXIMUM_CO2_ABSOLUTE, value);
+		Options.configuration.setProperty(CO2AbsoluteOnlyEvaluationOptions.OPTIONS_CO2_ABSOLUTE_SCALE_MAXIMUM_CO2_ABSOLUTE, value);
 	}
 
 	public static double co2AbsoluteOnly_getCo2AbsoluteDatasetMaximum() {
@@ -69,7 +68,7 @@ public class CO2AbsoluteOnlyEvaluationOptions {
 
 	public static void co2AbsoluteOnly_setCo2AbsoluteDatasetMinimum(double value) {
 		co2AbsoluteDatasetMinimum = value;
-		Options.configuration.setProperty(FileConfiguration.OPTIONS_CO2_ABSOLUTE_SCALE_MINIMUM_CO2_ABSOLUTE, value);
+		Options.configuration.setProperty(CO2AbsoluteOnlyEvaluationOptions.OPTIONS_CO2_ABSOLUTE_SCALE_MINIMUM_CO2_ABSOLUTE, value);
 	}
 
 	public static double getCo2AbsoluteDatasetMinimum() {
@@ -82,7 +81,14 @@ public class CO2AbsoluteOnlyEvaluationOptions {
 
 	public static void setAutoScaleDeltaFiveMinutes(boolean autoScaleDeltaFiveMinutes) {
 		isAutoScaleDeltaFiveMinutes = autoScaleDeltaFiveMinutes;
-		Options.configuration.setProperty(FileConfiguration.OPTIONS_CO2_ABSOLUTE_IS_DELTA_FIVE_MINUTES_AUTOSCALE, autoScaleDeltaFiveMinutes);
+		Options.configuration.setProperty(CO2AbsoluteOnlyEvaluationOptions.OPTIONS_CO2_ABSOLUTE_IS_DELTA_FIVE_MINUTES_AUTOSCALE, autoScaleDeltaFiveMinutes);
 	}
+
+	public static String OPTIONS_CO2_ABSOLUTE_IS_CO2_ABSOLUTE_AUTOSCALE = "options.co2absolute.autoscale.co2absolute";
+	public static String OPTIONS_CO2_ABSOLUTE_IS_DELTA_FIVE_MINUTES_AUTOSCALE = "options.co2absolute.autoscale.deltafiveminutes";
+	public static String OPTIONS_CO2_ABSOLUTE_SCALE_MINIMUM_CO2_ABSOLUTE = "options.co2absolute.scale.minimum.co2absolute";
+	public static String OPTIONS_CO2_ABSOLUTE_SCALE_MAXIMUM_CO2_ABSOLUTE = "options.co2absolute.scale.maximum.co2absolute";
+	public static String OPTIONS_CO2_ABSOLUTE_SCALE_MINIMUM_DELTA_FIVE_MINUTES = "options.co2absolute.scale.minimum.deltafiveminutes";
+	public static String OPTIONS_CO2_ABSOLUTE_SCALE_MAXIMUM_DELTA_FIVE_MINUTES = "options.co2absolute.scale.maximum.deltafiveminutes";
 
 }

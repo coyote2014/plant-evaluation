@@ -20,6 +20,13 @@ package de.atomfrede.tools.evalutation.options;
 
 public class TypeBEvaluationOptions {
 
+	public static String OPTIONS_TYPE_B_IS_CO2_ABSOLUTE_AUTOSCALE = "options.type.b.autoscale.co2absolute";
+	public static String OPTIONS_TYPE_B_IS_DELTA_RAW_AUTOSCALE = "options.type.b.autoscale.deltaraw";
+	public static String OPTIONS_TYPE_B_CO2_ABSOLUTE_SCALE_MINIMUM = "options.type.b.scale.minimum.co2absolute";
+	public static String OPTIONS_TYPE_B_CO2_ABSOLUTE_SCALE_MAXIMUM = "options.type.b.scale.maximum.co2absolute";
+	public static String OPTIONS_TYPE_B_DELTA_RAW_SCALE_MINIMUM = "options.type.b.scale.minimum.deltaraw";
+	public static String OPTIONS_TYPE_B_DELTA_RAW_SCALE_MAXIMUM = "options.type.b.scale.maximum.deltaraw";
+
 	static boolean isCo2AbsoluteAutoscale;
 	static boolean isDeltaRawAutoscale;
 
@@ -34,6 +41,7 @@ public class TypeBEvaluationOptions {
 
 	public static void setCo2AbsoluteAutoscale(boolean isCo2AbsoluteAutoscale) {
 		TypeBEvaluationOptions.isCo2AbsoluteAutoscale = isCo2AbsoluteAutoscale;
+		Options.configuration.setProperty(TypeBEvaluationOptions.OPTIONS_TYPE_B_IS_CO2_ABSOLUTE_AUTOSCALE, TypeBEvaluationOptions.isCo2AbsoluteAutoscale);
 	}
 
 	public static boolean isDeltaRawAutoscale() {
@@ -42,6 +50,7 @@ public class TypeBEvaluationOptions {
 
 	public static void setDeltaRawAutoscale(boolean isDeltaRawAutoscale) {
 		TypeBEvaluationOptions.isDeltaRawAutoscale = isDeltaRawAutoscale;
+		Options.configuration.setProperty(TypeBEvaluationOptions.OPTIONS_TYPE_B_IS_DELTA_RAW_AUTOSCALE, TypeBEvaluationOptions.isDeltaRawAutoscale());
 	}
 
 	public static double getCo2AbsoluteDatasetMinimum() {
@@ -50,6 +59,7 @@ public class TypeBEvaluationOptions {
 
 	public static void setCo2AbsoluteDatasetMinimum(double co2AbsoluteDatasetMinimum) {
 		TypeBEvaluationOptions.co2AbsoluteDatasetMinimum = co2AbsoluteDatasetMinimum;
+		Options.configuration.setProperty(TypeBEvaluationOptions.OPTIONS_TYPE_B_CO2_ABSOLUTE_SCALE_MINIMUM, TypeBEvaluationOptions.co2AbsoluteDatasetMinimum);
 	}
 
 	public static double getCo2AbsoluteDatasetMaximum() {
@@ -58,6 +68,7 @@ public class TypeBEvaluationOptions {
 
 	public static void setCo2AbsoluteDatasetMaximum(double co2AbsoluteDatasetMaximum) {
 		TypeBEvaluationOptions.co2AbsoluteDatasetMaximum = co2AbsoluteDatasetMaximum;
+		Options.configuration.setProperty(TypeBEvaluationOptions.OPTIONS_TYPE_B_CO2_ABSOLUTE_SCALE_MAXIMUM, TypeBEvaluationOptions.co2AbsoluteDatasetMaximum);
 	}
 
 	public static double getDeltaRawDatasetMinimum() {
@@ -66,6 +77,7 @@ public class TypeBEvaluationOptions {
 
 	public static void setDeltaRawDatasetMinimum(double deltaRawDatasetMinimum) {
 		TypeBEvaluationOptions.deltaRawDatasetMinimum = deltaRawDatasetMinimum;
+		Options.configuration.setProperty(TypeBEvaluationOptions.OPTIONS_TYPE_B_DELTA_RAW_SCALE_MINIMUM, TypeBEvaluationOptions.deltaRawDatasetMinimum);
 	}
 
 	public static double getDeltaRawDatasetMaximum() {
@@ -74,6 +86,6 @@ public class TypeBEvaluationOptions {
 
 	public static void setDeltaRawDatasetMaximum(double deltaRawDatasetMaximum) {
 		TypeBEvaluationOptions.deltaRawDatasetMaximum = deltaRawDatasetMaximum;
+		Options.configuration.setProperty(TypeBEvaluationOptions.OPTIONS_TYPE_B_DELTA_RAW_SCALE_MAXIMUM, TypeBEvaluationOptions.deltaRawDatasetMaximum);
 	}
-
 }

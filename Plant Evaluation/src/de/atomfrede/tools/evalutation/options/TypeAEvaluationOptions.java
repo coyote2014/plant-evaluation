@@ -18,7 +18,6 @@
  */
 package de.atomfrede.tools.evalutation.options;
 
-import de.atomfrede.tools.evalutation.util.FileConfiguration;
 
 public class TypeAEvaluationOptions {
 
@@ -35,7 +34,7 @@ public class TypeAEvaluationOptions {
 
 	public static void setSampleRate(double count) {
 		sampleRate = count;
-		Options.configuration.setProperty(FileConfiguration.OPTIONS_SAMPLE_RATE, count);
+		Options.configuration.setProperty(TypeAEvaluationOptions.OPTIONS_SAMPLE_RATE, count);
 	}
 
 	public static boolean isShiftByOneHour() {
@@ -44,7 +43,7 @@ public class TypeAEvaluationOptions {
 
 	public static void setShiftByOneHour(boolean value) {
 		shiftByOneHour = value;
-		Options.configuration.setProperty(FileConfiguration.OPTION_SHIFT_BY_ONE_HOUR, value);
+		Options.configuration.setProperty(TypeAEvaluationOptions.OPTION_SHIFT_BY_ONE_HOUR, value);
 	}
 
 	public static boolean isRecordReferenceValve() {
@@ -53,7 +52,11 @@ public class TypeAEvaluationOptions {
 
 	public static void setRecordReferenceValve(boolean value) {
 		recordReferenceValve = value;
-		Options.configuration.setProperty(FileConfiguration.OPTIONS_RECORD_REFERENCE_VALVE, value);
+		Options.configuration.setProperty(TypeAEvaluationOptions.OPTIONS_RECORD_REFERENCE_VALVE, value);
 	}
+
+	public static String OPTIONS_RECORD_REFERENCE_VALVE = "options.recordReference";
+	public static String OPTIONS_SAMPLE_RATE = "options.sampleRate";
+	public static String OPTION_SHIFT_BY_ONE_HOUR = "options.shift";
 
 }

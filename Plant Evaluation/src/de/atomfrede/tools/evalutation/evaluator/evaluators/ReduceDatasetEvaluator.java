@@ -38,6 +38,7 @@ import com.lowagie.text.pdf.DefaultFontMapper;
 import de.atomfrede.tools.evalutation.constants.InputFileConstants;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
 import de.atomfrede.tools.evalutation.options.CO2AbsoluteOnlyEvaluationOptions;
+import de.atomfrede.tools.evalutation.options.TypeBEvaluationOptions;
 import de.atomfrede.tools.evalutation.tools.plot.TimeDatasetWrapper;
 import de.atomfrede.tools.evalutation.tools.plot.TimePlot;
 import de.atomfrede.tools.evalutation.tools.plot.XYDatasetWrapper;
@@ -255,11 +256,19 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 
 	public class CO2AbsoluteDeltaRawPlot extends TimePlot {
 
+		boolean isAutoScaleCO2Absolute, isAutoScaleDeltaRaw;
+
 		/**
 		 * @param inputFile
 		 */
 		public CO2AbsoluteDeltaRawPlot(File inputFile) {
 			super(inputFile);
+		}
+
+		public CO2AbsoluteDeltaRawPlot(File inputFile, boolean autoScaleCO2Absolute, boolean autoScaleDeltaRaw) {
+			super(inputFile);
+			this.isAutoScaleCO2Absolute = autoScaleCO2Absolute;
+			this.isAutoScaleDeltaRaw = autoScaleDeltaRaw;
 		}
 
 		@Override
@@ -293,6 +302,10 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 			int size = allLines.get(1).length - 1;
 			TimeDatasetWrapper wrapper = new TimeDatasetWrapper("CO2 Absolute", allLines, size, InputFileConstants.EPOCH_TIME);
 			wrapper.createDataset();
+			if (!isAutoScaleCO2Absolute) {
+				wrapper.setMinimum(TypeBEvaluationOptions.getCo2AbsoluteDatasetMinimum());
+				wrapper.setMaximum(TypeBEvaluationOptions.getCo2AbsoluteDatasetMaximum());
+			}
 			return wrapper;
 		}
 
@@ -300,6 +313,10 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 			TimeDatasetWrapper wrapper = new TimeDatasetWrapper("Delta Raw", allLines, InputFileConstants.DELTA_RAW, InputFileConstants.EPOCH_TIME);
 			wrapper.createDataset();
 			wrapper.setSeriesColor(Color.GREEN);
+			if (!isAutoScaleDeltaRaw) {
+				wrapper.setMinimum(TypeBEvaluationOptions.getDeltaRawDatasetMinimum());
+				wrapper.setMaximum(TypeBEvaluationOptions.getDeltaRawDatasetMaximum());
+			}
 			return wrapper;
 		}
 
