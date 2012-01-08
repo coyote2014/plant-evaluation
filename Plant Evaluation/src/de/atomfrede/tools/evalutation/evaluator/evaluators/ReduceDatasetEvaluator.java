@@ -37,6 +37,7 @@ import com.lowagie.text.pdf.DefaultFontMapper;
 
 import de.atomfrede.tools.evalutation.constants.InputFileConstants;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
+import de.atomfrede.tools.evalutation.options.Options;
 import de.atomfrede.tools.evalutation.tools.plot.TimeDatasetWrapper;
 import de.atomfrede.tools.evalutation.tools.plot.TimePlot;
 import de.atomfrede.tools.evalutation.tools.plot.XYDatasetWrapper;
@@ -178,11 +179,19 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 
 	public class CO2AbsoluteDeltaFiveMinutesPlot extends TimePlot {
 
+		boolean autoScaleCO2Absolute, autoScaleDeltaFiveMinutes;
+
 		/**
 		 * @param inputFile
 		 */
 		public CO2AbsoluteDeltaFiveMinutesPlot(File inputFile) {
+			this(inputFile, true, true);
+		}
+
+		public CO2AbsoluteDeltaFiveMinutesPlot(File inputFile, boolean autoScaleCO2Absolute, boolean autoScaleDeltaFiveMinutes) {
 			super(inputFile);
+			this.autoScaleCO2Absolute = autoScaleCO2Absolute;
+			this.autoScaleDeltaFiveMinutes = autoScaleDeltaFiveMinutes;
 		}
 
 		@Override
@@ -218,12 +227,26 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 			int size = allLines.get(1).length - 1;
 			TimeDatasetWrapper wrapper = new TimeDatasetWrapper("CO2 Absolute", allLines, size, InputFileConstants.EPOCH_TIME);
 			wrapper.createDataset();
+			if (!autoScaleCO2Absolute) {
+				// if not autoscale is enabled set the user defined minimum and
+				// maximum
+				wrapper.setMinimum(Options.co2AbsoluteOnly_getCo2AbsoluteDatasetMinimum());
+				wrapper.setMaximum(Options.co2AbsoluteOnly_getCo2AbsoluteDatasetMaximum());
+
+			}
 			return wrapper;
 		}
 
 		XYDatasetWrapper createDeltaFiveMinutesDatasetWrapper(List<String[]> allLines) {
 			TimeDatasetWrapper wrapper = new TimeDatasetWrapper("Delta 5 Minutes", allLines, InputFileConstants.DELTA_5_MINUTES, InputFileConstants.EPOCH_TIME);
 			wrapper.createDataset();
+			if (!autoScaleDeltaFiveMinutes) {
+				// if not autoscale is enabled set the user defined minimum and
+				// maximum
+				wrapper.setMinimum(Options.co2AbsoluteOnly_getDeltaFiveMinutesMinimum());
+				wrapper.setMaximum(Options.co2AbsoluteOnly_getDeltaFiveMinutesMaximum());
+
+			}
 			wrapper.setSeriesColor(Color.GREEN);
 			return wrapper;
 		}

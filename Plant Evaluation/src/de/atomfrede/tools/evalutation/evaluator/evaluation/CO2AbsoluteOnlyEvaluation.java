@@ -26,6 +26,7 @@ import de.atomfrede.tools.evalutation.evaluator.AbstractEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.evaluators.CO2AbsoluteOnlyEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.evaluators.CopyEvaluator;
 import de.atomfrede.tools.evalutation.evaluator.evaluators.ReduceDatasetEvaluator;
+import de.atomfrede.tools.evalutation.options.Options;
 
 public class CO2AbsoluteOnlyEvaluation extends AbstractEvaluation {
 
@@ -50,7 +51,7 @@ public class CO2AbsoluteOnlyEvaluation extends AbstractEvaluation {
 		int i = 0;
 		boolean done = true;
 		while (i < evaluators.size()) {
-			if (i == evaluators.size())
+			if (i >= evaluators.size())
 				break;
 			AbstractEvaluator evaluator = evaluators.get(i);
 			done = evaluator.evaluate();
@@ -73,7 +74,9 @@ public class CO2AbsoluteOnlyEvaluation extends AbstractEvaluation {
 
 				if (evaluator instanceof ReduceDatasetEvaluator) {
 					ReduceDatasetEvaluator eva = (ReduceDatasetEvaluator) evaluator;
-					eva.new CO2AbsoluteDeltaFiveMinutesPlot(eva.getOutputFile()).plot();
+					eva.new CO2AbsoluteDeltaFiveMinutesPlot(eva.getOutputFile(), Options.isAutoScaleCO2Absolute(), Options.isAutoScaleDeltaFiveMinutes())
+							.plot();
+					i++;
 
 				}
 			}

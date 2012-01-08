@@ -48,9 +48,6 @@ public class OptionsDialog extends JDialog {
 	JCheckBox shiftByOneHourCheckBox, recordReferenceValveCheckbox;
 	JSpinner sampleSpinner;
 
-	// CO2 Absolute Options
-	// TODO spinners for minimun and maximum of plots
-
 	JButton okButton, cancelButton;
 
 	// General Options (=Copy Evaluator)
@@ -59,6 +56,8 @@ public class OptionsDialog extends JDialog {
 
 	// CO2 Absolute only Evaluation
 	JCheckBox co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox, co2Absolute_isCo2AbsoluteAutoscaleCheckbox;
+	JSpinner co2Absolute_co2AbsoluteMinimumSpinner, co2Absolute_co2AbsoluteMaximumSpinner, co2Absolute_deltaFiveMinutesMinimumSpinner,
+			co2Absolute_deltaFiveMinutesMaximumSpinner;
 
 	JTabbedPane tabs;
 	JPanel firstTab, secondTab, thirdTab, fourthTab;
@@ -136,6 +135,16 @@ public class OptionsDialog extends JDialog {
 			co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox = new JCheckBox();
 			co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox.setText("Enable Autoscale");
 			co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox.setSelected(Options.isAutoScaleDeltaFiveMinutes());
+
+			co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// Autoscale is disabled enable minimum and maximum spinners
+					getCo2Absolute_deltaFiveMinutesMinimumSpinner().setEnabled(!co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox.isSelected());
+					getCo2Absolute_deltaFiveMinutesMaximumSpinner().setEnabled(!co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox.isSelected());
+				}
+			});
 		}
 		return co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox;
 	}
@@ -145,8 +154,54 @@ public class OptionsDialog extends JDialog {
 			co2Absolute_isCo2AbsoluteAutoscaleCheckbox = new JCheckBox();
 			co2Absolute_isCo2AbsoluteAutoscaleCheckbox.setText("Enable Autoscale");
 			co2Absolute_isCo2AbsoluteAutoscaleCheckbox.setSelected(Options.isAutoScaleCO2Absolute());
+
+			co2Absolute_isCo2AbsoluteAutoscaleCheckbox.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					// Autoscale is disabled enable minimum and maximum spinners
+					getCo2Absolute_Co2AbsoluteMinimumSpinner().setEnabled(!co2Absolute_isCo2AbsoluteAutoscaleCheckbox.isSelected());
+					getCo2Absolute_Co2AbsoluteMaximumSpinner().setEnabled(!co2Absolute_isCo2AbsoluteAutoscaleCheckbox.isSelected());
+				}
+			});
 		}
 		return co2Absolute_isCo2AbsoluteAutoscaleCheckbox;
+	}
+
+	private JSpinner getCo2Absolute_Co2AbsoluteMinimumSpinner() {
+		if (co2Absolute_co2AbsoluteMinimumSpinner == null) {
+			co2Absolute_co2AbsoluteMinimumSpinner = new JSpinner(new SpinnerNumberModel(Options.co2AbsoluteOnly_getCo2AbsoluteDatasetMinimum(), Integer.MIN_VALUE,
+					Integer.MAX_VALUE, 10));
+			co2Absolute_co2AbsoluteMinimumSpinner.setEnabled(!Options.isAutoScaleCO2Absolute());
+		}
+		return co2Absolute_co2AbsoluteMinimumSpinner;
+	}
+
+	private JSpinner getCo2Absolute_Co2AbsoluteMaximumSpinner() {
+		if (co2Absolute_co2AbsoluteMaximumSpinner == null) {
+			co2Absolute_co2AbsoluteMaximumSpinner = new JSpinner(new SpinnerNumberModel(Options.co2AbsoluteOnly_getCo2AbsoluteDatasetMaximum(), Integer.MIN_VALUE,
+					Integer.MAX_VALUE, 10));
+			co2Absolute_co2AbsoluteMaximumSpinner.setEnabled(!Options.isAutoScaleCO2Absolute());
+		}
+		return co2Absolute_co2AbsoluteMaximumSpinner;
+	}
+
+	private JSpinner getCo2Absolute_deltaFiveMinutesMinimumSpinner() {
+		if (co2Absolute_deltaFiveMinutesMinimumSpinner == null) {
+			co2Absolute_deltaFiveMinutesMinimumSpinner = new JSpinner(new SpinnerNumberModel(Options.co2AbsoluteOnly_getDeltaFiveMinutesMinimum(), Integer.MIN_VALUE,
+					Integer.MAX_VALUE, 10));
+			co2Absolute_deltaFiveMinutesMinimumSpinner.setEnabled(!Options.isAutoScaleDeltaFiveMinutes());
+		}
+		return co2Absolute_deltaFiveMinutesMinimumSpinner;
+	}
+
+	private JSpinner getCo2Absolute_deltaFiveMinutesMaximumSpinner() {
+		if (co2Absolute_deltaFiveMinutesMaximumSpinner == null) {
+			co2Absolute_deltaFiveMinutesMaximumSpinner = new JSpinner(new SpinnerNumberModel(Options.co2AbsoluteOnly_getDeltaFiveMinutesMaximum(), Integer.MIN_VALUE,
+					Integer.MAX_VALUE, 10));
+			co2Absolute_deltaFiveMinutesMaximumSpinner.setEnabled(!Options.isAutoScaleDeltaFiveMinutes());
+		}
+		return co2Absolute_deltaFiveMinutesMaximumSpinner;
 	}
 
 	private JButton getOkButton() {
@@ -307,6 +362,10 @@ public class OptionsDialog extends JDialog {
 		// CO2 Absolute Only Evaluation Options
 		Options.setAutoScaleCO2Absolute(co2Absolute_isCo2AbsoluteAutoscaleCheckbox.isSelected());
 		Options.setAutoScaleDeltaFiveMinutes(co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox.isSelected());
+		Options.co2AbsoluteOnly_setCo2AbsoluteDatasetMinimum(Double.valueOf(getCo2Absolute_Co2AbsoluteMinimumSpinner().getValue() + ""));
+		Options.co2AbsoluteOnly_setCo2AbsoluteDatasetMaximum(Double.valueOf(getCo2Absolute_Co2AbsoluteMaximumSpinner().getValue() + ""));
+		Options.co2AbsoluteOnly_setDeltaFiveMinutesMinimum(Double.valueOf(getCo2Absolute_deltaFiveMinutesMinimumSpinner().getValue() + ""));
+		Options.co2AbsoluteOnly_setDeltaFiveMinutesMaximum(Double.valueOf(getCo2Absolute_deltaFiveMinutesMaximumSpinner().getValue() + ""));
 
 		this.dispose();
 
@@ -350,14 +409,18 @@ public class OptionsDialog extends JDialog {
 			DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 			builder.setDefaultDialogBorder();
 
+			builder.appendSeparator("Plotting");
 			builder.appendSeparator("CO2 Absolute");
 			builder.append(getCo2AbsoluteCo2AbsoluteCheckBox(), 3);
-
+			builder.append("Minimum", getCo2Absolute_Co2AbsoluteMinimumSpinner());
+			builder.append("Maximum", getCo2Absolute_Co2AbsoluteMaximumSpinner());
 			builder.nextLine();
 
 			builder.appendSeparator("Delta 5 Minutes");
 			builder.append(getCo2AbsoluteDeltaCheckBox(), 3);
-			builder.append("Options for CO2-Absolute Only Evalution"); //$NON-NLS-1$
+			builder.append("Minimum", getCo2Absolute_deltaFiveMinutesMinimumSpinner());
+			builder.append("Maximum", getCo2Absolute_deltaFiveMinutesMaximumSpinner());
+			//builder.append("Options for CO2-Absolute Only Evalution"); //$NON-NLS-1$
 
 			secondTab.add(builder.getPanel(), BorderLayout.CENTER);
 

@@ -39,6 +39,7 @@ import de.atomfrede.tools.evalutation.constants.CommonConstants;
 import de.atomfrede.tools.evalutation.constants.InputFileConstants;
 import de.atomfrede.tools.evalutation.constants.OutputFileConstants;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
+import de.atomfrede.tools.evalutation.options.Options;
 import de.atomfrede.tools.evalutation.tools.plot.TimeDatasetWrapper;
 import de.atomfrede.tools.evalutation.tools.plot.TimePlot;
 import de.atomfrede.tools.evalutation.tools.plot.XYDatasetWrapper;
@@ -103,7 +104,7 @@ public class CO2AbsoluteOnlyEvaluator extends SingleInputFileEvaluator {
 			if (writer != null)
 				writer.close();
 		}
-		new Plot(outputFile).plot();
+		// new Plot(outputFile).plot();
 		log.info("CO2 Absolute Only Evaluator Done");
 		return true;
 	}
@@ -207,7 +208,9 @@ public class CO2AbsoluteOnlyEvaluator extends SingleInputFileEvaluator {
 			wrapper.createDataset();
 			if (!autoScaleCO2Absolute) {
 				// if not autoscale is enabled set the user defined minimum and
-				// maximums
+				// maximum
+				wrapper.setMinimum(Options.co2AbsoluteOnly_getCo2AbsoluteDatasetMinimum());
+				wrapper.setMaximum(Options.co2AbsoluteOnly_getCo2AbsoluteDatasetMaximum());
 
 			}
 			return wrapper;
@@ -218,7 +221,9 @@ public class CO2AbsoluteOnlyEvaluator extends SingleInputFileEvaluator {
 			wrapper.createDataset();
 			if (!autoScaleDeltaFiveMinutes) {
 				// if not autoscale is enabled set the user defined minimum and
-				// maximums
+				// maximum
+				wrapper.setMinimum(Options.co2AbsoluteOnly_getDeltaFiveMinutesMinimum());
+				wrapper.setMaximum(Options.co2AbsoluteOnly_getDeltaFiveMinutesMaximum());
 
 			}
 			wrapper.setSeriesColor(Color.GREEN);
