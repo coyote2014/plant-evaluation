@@ -29,6 +29,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Calendar;
 
 import javax.swing.*;
 
@@ -113,7 +114,8 @@ public class AboutPanel extends JPanel {
 
 	private JLabel getLblFrederikHahne() {
 		if (lblFrederikHahne == null) {
-			lblFrederikHahne = new JLabel(Messages.getString("AboutPanel.12")); //$NON-NLS-1$
+			int year = Calendar.getInstance().get(Calendar.YEAR);
+			lblFrederikHahne = new JLabel(Messages.getString("AboutPanel.12") + " - " + year); //$NON-NLS-1$
 		}
 		return lblFrederikHahne;
 	}
