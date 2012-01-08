@@ -98,7 +98,7 @@ public abstract class AbstractEvaluator {
 	public SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SS");
 
 	// 22.07.11 10:59:38
-	public SimpleDateFormat temperatureAndPlantDateFormat = new SimpleDateFormat("dd.MM.yy,HH:mm:ss");
+	public SimpleDateFormat temperatureAndPlantDateFormat = new SimpleDateFormat("dd.MM.yy HH:mm:ss");
 
 	/**
 	 * This method executes the concrete evaluation (read file, write file, do
