@@ -42,6 +42,7 @@ public class TypeAevaluation extends AbstractEvaluation {
 	TemperatureEvaluator temperature;
 	PlantDivider plantDivider;
 	PhotoSynthesisEvaluator psr;
+	@Deprecated
 	StandardDeviationEvaluator sd;
 
 	public TypeAevaluation() {
@@ -61,7 +62,7 @@ public class TypeAevaluation extends AbstractEvaluation {
 		evaluators.add(temperature);
 		evaluators.add(plantDivider);
 		evaluators.add(psr);
-		evaluators.add(sd);
+		// evaluators.add(sd);
 	}
 
 	@Override
