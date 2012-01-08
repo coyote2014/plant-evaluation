@@ -43,6 +43,13 @@ public class FileConfiguration {
 	public static String OPTIONS_CO2_ABSOLUTE_SCALE_MINIMUM_DELTA_FIVE_MINUTES = "options.co2absolute.scale.minimum.deltafiveminutes";
 	public static String OPTIONS_CO2_ABSOLUTE_SCALE_MAXIMUM_DELTA_FIVE_MINUTES = "options.co2absolute.scale.maximum.deltafiveminutes";
 
+	public static String OPTIONS_TYPE_B_IS_CO2_ABSOLUTE_AUTOSCALE = "options.type.b.autoscale.co2absolute";
+	public static String OPTIONS_TYPE_B_IS_DELTA_RAW_AUTOSCALE = "options.type.b.autoscale.deltaraw";
+	public static String OPTIONS_TYPE_B_CO2_ABSOLUTE_SCALE_MINIMUM = "options.type.b.scale.minimum.co2absolute";
+	public static String OPTIONS_TYPE_B_CO2_ABSOLUTE_SCALE_MAXIMUM = "options.type.b.scale.maximum.co2absolute";
+	public static String OPTIONS_TYPE_B_DELTA_RAW_SCALE_MINIMUM = "options.type.b.scale.minimum.deltaraw";
+	public static String OPTIONS_TYPE_B_DELTA_RAW_SCALE_MAXIMUM = "options.type.b.scale.maximum.deltaraw";
+
 	private static final Log log = LogFactory.getLog(FileConfiguration.class);
 
 	static File configurationFile;
