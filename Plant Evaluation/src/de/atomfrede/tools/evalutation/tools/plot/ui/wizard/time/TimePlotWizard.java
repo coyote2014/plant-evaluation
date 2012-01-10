@@ -29,6 +29,7 @@ import org.ciscavate.cjwizard.pagetemplates.TitledPageTemplate;
 import de.atomfrede.tools.evalutation.tools.plot.AbstractPlot.PlotType;
 import de.atomfrede.tools.evalutation.tools.plot.TimeDatasetWrapper;
 import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.PlotWizard;
+import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.pages.DatasetSelectionWizardPage;
 import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.pages.FileSelectionPage;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
@@ -36,10 +37,12 @@ import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 public class TimePlotWizard extends PlotWizard {
 
 	List<TimeDatasetWrapper> datasetWrappers;
+	List<WizardPage> pages;
 
 	public TimePlotWizard() {
 		super();
 		setType(PlotType.TIME);
+		getWizardPages();
 		datasetWrappers = new ArrayList<TimeDatasetWrapper>();
 		wizardContainer = new WizardContainer(new TimePlotPageFactory(this), new TitledPageTemplate(), new StackWizardSettings());
 
@@ -48,6 +51,15 @@ public class TimePlotWizard extends PlotWizard {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.getContentPane().add(wizardContainer);
 		this.pack();
+	}
+
+	public List<WizardPage> getWizardPages() {
+		if (pages == null) {
+			pages = new ArrayList<WizardPage>();
+			pages.add(new FileSelectionPage(this));
+			pages.add(new DatasetSelectionWizardPage(this, null));
+		}
+		return pages;
 	}
 
 	public List<TimeDatasetWrapper> getDatasetWrappers() {
@@ -82,7 +94,14 @@ public class TimePlotWizard extends PlotWizard {
 		private WizardPage buildPage(int pageCount, WizardSettings settings) {
 			switch (pageCount) {
 			case 0:
-				return new FileSelectionPage(parent);
+				return pages.get(0);
+			case 1: {
+				if (((FileSelectionPage) pages.get(0)).getDataFile() == null)
+					return null;
+				((DatasetSelectionWizardPage) pages.get(1)).setDatafile(((FileSelectionPage) pages.get(0)).getDataFile());
+				((DatasetSelectionWizardPage) pages.get(1)).addContent();
+				return pages.get(1);
+			}
 			default:
 				break;
 			}
