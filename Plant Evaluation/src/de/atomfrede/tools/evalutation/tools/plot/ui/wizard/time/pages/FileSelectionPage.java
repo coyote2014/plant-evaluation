@@ -23,7 +23,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -32,11 +31,11 @@ import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jidesoft.swing.JideBorderLayout;
 
-import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.pages.AbstractWizardPage;
+import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.TimePlotWizard;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
 @SuppressWarnings("serial")
-public class FileSelectionPage extends AbstractWizardPage {
+public class FileSelectionPage extends TimePlotWizardPage {
 
 	File dataFile;
 	JButton selectInputFileButton;
@@ -46,12 +45,12 @@ public class FileSelectionPage extends AbstractWizardPage {
 	 * @param title
 	 * @param description
 	 */
-	public FileSelectionPage(String title, String description, JDialog parent) {
+	public FileSelectionPage(String title, String description, TimePlotWizard parent) {
 		super(title, description, parent);
 		addContent();
 	}
 
-	public FileSelectionPage(JDialog parent) {
+	public FileSelectionPage(TimePlotWizard parent) {
 		this("Select Data File", "Select the file which contains the data you like to plot.", parent);
 	}
 
@@ -98,7 +97,9 @@ public class FileSelectionPage extends AbstractWizardPage {
 
 					if (returnValue == JFileChooser.APPROVE_OPTION) {
 						dataFile = fc.getSelectedFile();
-						getInputFileTextField().setText(dataFile.getAbsolutePath());
+						getInputFileTextField().setText(dataFile.getName());
+						// TODO check if that file contains a time column
+						timePlotWizard.setDataFile(dataFile);
 					}
 				}
 			});

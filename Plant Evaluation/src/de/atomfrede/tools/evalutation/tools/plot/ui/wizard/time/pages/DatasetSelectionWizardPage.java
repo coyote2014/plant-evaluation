@@ -20,34 +20,34 @@ package de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.pages;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.JDialog;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
+import com.jgoodies.forms.factories.ButtonBarFactory;
 import com.jgoodies.forms.layout.FormLayout;
 
-import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.pages.AbstractWizardPage;
+import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.TimePlotWizard;
+import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
 @SuppressWarnings("serial")
-public class DatasetSelectionWizardPage extends AbstractWizardPage {
+public class DatasetSelectionWizardPage extends TimePlotWizardPage {
 
 	File datafile;
+	List<DatasetInputPanel> datasetInputPanels;
+	JButton addDatasetButton;
 
-	public DatasetSelectionWizardPage(JDialog parent, File datafile) {
+	public DatasetSelectionWizardPage(TimePlotWizard parent, File datafile) {
 		this("Setup Datasets", "Setup and configure the desired datasets.", parent);
 		this.datafile = datafile;
-
-	}
-
-	public void addContent() {
-		setLayout(new BorderLayout());
-		FormLayout layout = new FormLayout("fill:pref:grow");
-		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
-		builder.setDefaultDialogBorder();
-		builder.append(new DatasetInputPanel(datafile, Color.ORANGE, false));
-		add(builder.getPanel(), BorderLayout.CENTER);
-
+		datasetInputPanels = new ArrayList<DatasetInputPanel>();
 	}
 
 	/**
@@ -55,8 +55,74 @@ public class DatasetSelectionWizardPage extends AbstractWizardPage {
 	 * @param description
 	 * @param parent
 	 */
-	public DatasetSelectionWizardPage(String title, String description, JDialog parent) {
+	public DatasetSelectionWizardPage(String title, String description, TimePlotWizard parent) {
 		super(title, description, parent);
+	}
+
+	public void addContent() {
+		setLayout(new BorderLayout());
+		FormLayout layout = new FormLayout("fill:pref:grow");
+		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+		builder.setDefaultDialogBorder();
+		datasetInputPanels.add(new DatasetInputPanel(timePlotWizard.getDataFile(), Color.ORANGE, false, this));
+		builder.append(datasetInputPanels.get(0));
+		add(new JScrollPane(builder.getPanel()), BorderLayout.CENTER);
+
+		add(getAddButtonBarPanel(), BorderLayout.SOUTH);
+	}
+
+	JPanel getAddButtonBarPanel() {
+		FormLayout layout = new FormLayout("fill:pref:grow");
+		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+		builder.setDefaultDialogBorder();
+		builder.append(ButtonBarFactory.buildRightAlignedBar(getAddButton()));
+
+		return builder.getPanel();
+	}
+
+	void updateContent() {
+
+		removeAll();
+
+		setLayout(new BorderLayout());
+		FormLayout layout = new FormLayout("fill:pref:grow");
+		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+		builder.setDefaultDialogBorder();
+		for (DatasetInputPanel inputPanel : datasetInputPanels) {
+			builder.append(inputPanel);
+		}
+		add(new JScrollPane(builder.getPanel()), BorderLayout.CENTER);
+
+		add(getAddButtonBarPanel(), BorderLayout.SOUTH);
+	}
+
+	public void removeDataset(DatasetInputPanel panelToRemove) {
+		datasetInputPanels.remove(panelToRemove);
+		updateContent();
+		this.revalidate();
+	}
+
+	public void addDataset() {
+		DatasetInputPanel panelToAdd = new DatasetInputPanel(timePlotWizard.getDataFile(), Color.ORANGE, true, this);
+		datasetInputPanels.add(panelToAdd);
+		updateContent();
+		this.revalidate();
+	}
+
+	JButton getAddButton() {
+		if (addDatasetButton == null) {
+			addDatasetButton = new JButton(Icons.IC_ADD_SMALL);
+			addDatasetButton.setText("Add Dataset");
+
+			addDatasetButton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					addDataset();
+				}
+			});
+		}
+		return addDatasetButton;
 	}
 
 	public File getDatafile() {

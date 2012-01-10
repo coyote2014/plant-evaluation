@@ -20,18 +20,30 @@ package de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.pages;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 import javax.swing.*;
 
+import org.apache.commons.lang3.ArrayUtils;
+
+import au.com.bytecode.opencsv.CSVReader;
+
 import com.jgoodies.forms.builder.DefaultFormBuilder;
+import com.jgoodies.forms.factories.ButtonBarFactory;
 import com.jgoodies.forms.layout.FormLayout;
 
+import de.atomfrede.tools.evalutation.constants.InputFileConstants;
+import de.atomfrede.tools.evalutation.constants.OutputFileConstants;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
 @SuppressWarnings("serial")
 public class DatasetInputPanel extends JPanel {
 
+	DatasetSelectionWizardPage wizardPage;
 	JLabel colorLabel;
 	JSpinner minimumSpinner, maximumSpinner;
 	JCheckBox enableAutoscaleCheckbox;
@@ -42,13 +54,40 @@ public class DatasetInputPanel extends JPanel {
 	Color graphColor;
 	boolean isDeleteAllowed;
 
-	public DatasetInputPanel(File dataFile, Color initialColor, boolean isDeleteAllowed) {
+	String[] possibleDatasetColumns;
+
+	public DatasetInputPanel(File dataFile, Color initialColor, boolean isDeleteAllowed, DatasetSelectionWizardPage wizardPage) {
 		super();
 		this.dataFile = dataFile;
 		this.graphColor = initialColor;
 		this.isDeleteAllowed = isDeleteAllowed;
+		this.wizardPage = wizardPage;
 
+		possibleDatasetColumns = getPossibleDatasetColumns();
 		addContent();
+	}
+
+	String[] getPossibleDatasetColumns() {
+		String[] datasets = new String[2];
+		CSVReader reader = null;
+		try {
+			reader = new CSVReader(new FileReader(dataFile));
+			String[] header = reader.readNext();
+			if (ArrayUtils.contains(header, InputFileConstants.HEADER_DELTA_RAW))
+				datasets[1] = InputFileConstants.HEADER_DELTA_RAW;
+			if (ArrayUtils.contains(header, OutputFileConstants.HEADER_CO2_ABSOLUTE))
+				datasets[0] = OutputFileConstants.HEADER_CO2_ABSOLUTE;
+		} catch (IOException ioe) {
+
+		} finally {
+			try {
+				if (reader != null)
+					reader.close();
+			} catch (Exception e) {
+
+			}
+		}
+		return datasets;
 	}
 
 	void addContent() {
@@ -57,6 +96,7 @@ public class DatasetInputPanel extends JPanel {
 		FormLayout layout = new FormLayout("left:pref, 4dlu, fill:pref:grow, 4dlu, pref");
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 
+		builder.appendSeparator("Dataset");
 		builder.append("Name", getDatasetNameTextField(), 3);
 		builder.nextLine();
 		builder.append("Dataset", getDatasetCombobox(), 3);
@@ -67,9 +107,12 @@ public class DatasetInputPanel extends JPanel {
 		builder.nextLine();
 
 		builder.appendSeparator("Scale");
-
+		builder.append(getEnableAutoscaleCheckbox(), 4);
+		builder.nextLine();
 		builder.append("Minimum", getMinimumSpinner(), 3);
 		builder.append("Maximim", getMaximumSpinner(), 3);
+
+		builder.append(ButtonBarFactory.buildRightAlignedBar(getDeleteDatasetButton()), 5);
 
 		add(builder.getPanel(), BorderLayout.CENTER);
 
@@ -115,6 +158,17 @@ public class DatasetInputPanel extends JPanel {
 		if (colorChooseButton == null) {
 			colorChooseButton = new JButton("Choose...");
 
+			colorChooseButton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					graphColor = JColorChooser.showDialog(null, "Select Graph Color", graphColor);
+					getColorLabel().setBackground(graphColor);
+					getColorLabel().setForeground(graphColor);
+					getColorLabel().repaint();
+				}
+			});
+
 		}
 		return colorChooseButton;
 	}
@@ -123,8 +177,21 @@ public class DatasetInputPanel extends JPanel {
 		if (deleteDatasetButton == null) {
 			deleteDatasetButton = new JButton(Icons.IC_DELETE_SMALL);
 			deleteDatasetButton.setText("Delete");
+			deleteDatasetButton.setEnabled(isDeleteAllowed);
+
+			deleteDatasetButton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					removeSelf();
+				}
+			});
 		}
 		return deleteDatasetButton;
+	}
+
+	private void removeSelf() {
+		wizardPage.removeDataset(this);
 	}
 
 	public JTextField getDatasetNameTextField() {
@@ -136,7 +203,8 @@ public class DatasetInputPanel extends JPanel {
 
 	public JComboBox getDatasetCombobox() {
 		if (datasetCombobox == null) {
-			datasetCombobox = new JComboBox();
+			datasetCombobox = new JComboBox(possibleDatasetColumns);
+
 		}
 		return datasetCombobox;
 	}

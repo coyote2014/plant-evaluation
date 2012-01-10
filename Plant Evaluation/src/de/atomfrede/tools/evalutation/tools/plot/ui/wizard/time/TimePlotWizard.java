@@ -18,10 +18,10 @@
  */
 package de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time;
 
+import java.awt.Dimension;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JDialog;
 
 import org.ciscavate.cjwizard.*;
 import org.ciscavate.cjwizard.pagetemplates.TitledPageTemplate;
@@ -39,17 +39,25 @@ public class TimePlotWizard extends PlotWizard {
 	List<TimeDatasetWrapper> datasetWrappers;
 	List<WizardPage> pages;
 
+	File dataFile;
+
 	public TimePlotWizard() {
 		super();
 		setType(PlotType.TIME);
 		getWizardPages();
 		datasetWrappers = new ArrayList<TimeDatasetWrapper>();
-		wizardContainer = new WizardContainer(new TimePlotPageFactory(this), new TitledPageTemplate(), new StackWizardSettings());
+		wizardContainer = new WizardContainer(new TimePlotPageFactory(), new TitledPageTemplate(), new StackWizardSettings());
+
+		wizardContainer.setNextEnabled(false);
 
 		this.setTitle("Timeplot Wizard");
 		this.setIconImage(Icons.IC_TOOL_PLOT_LARGE.getImage());
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.getContentPane().add(wizardContainer);
+		wizardContainer.setSize(800, 600);
+		this.add(wizardContainer);
+
+		this.setSize(800, 600);
+		setPreferredSize(new Dimension(800, 600));
 		this.pack();
 	}
 
@@ -70,13 +78,21 @@ public class TimePlotWizard extends PlotWizard {
 		this.datasetWrappers = datasetWrappers;
 	}
 
+	public File getDataFile() {
+		return dataFile;
+	}
+
+	public void setDataFile(File dataFile) {
+		this.dataFile = dataFile;
+		if (dataFile != null) {
+			wizardContainer.setNextEnabled(true);
+		}
+	}
+
 	private class TimePlotPageFactory implements PageFactory {
 
-		JDialog parent;
-
-		public TimePlotPageFactory(JDialog parent) {
+		public TimePlotPageFactory() {
 			super();
-			this.parent = parent;
 		}
 
 		/*
