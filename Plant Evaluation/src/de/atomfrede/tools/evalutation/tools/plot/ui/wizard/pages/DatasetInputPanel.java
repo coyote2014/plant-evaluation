@@ -22,6 +22,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +31,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.factories.ButtonBarFactory;
@@ -128,28 +132,37 @@ public class DatasetInputPanel extends JPanel {
 	void addContent() {
 		setLayout(new BorderLayout());
 
-		FormLayout layout = new FormLayout("left:pref, 4dlu, fill:pref:grow, 4dlu, pref");
+		// FormLayout layout = new
+		// FormLayout("left:pref, 4dlu, fill:pref:grow, 4dlu, pref");
+		// FormLayout layout = new
+		// FormLayout("left:pref, 4dlu, fill:pref:grow, 4dlu, left:pref, 4dlu, fill:pref:grow");
+		FormLayout layout = new FormLayout("left:pref, 4dlu, left:pref, 4dlu, fill:pref:grow, 4dlu, left:pref, 4dlu, fill:pref:grow");
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+		builder.setDefaultDialogBorder();
+		TitledBorder title;
+		Border raisedBevel = BorderFactory.createRaisedBevelBorder();
+		title = BorderFactory.createTitledBorder(raisedBevel, "Dataset");
 
-		builder.appendSeparator("Dataset");
+		// builder.appendSeparator("Dataset");
 		builder.append("Name", getDatasetNameTextField(), 3);
+		builder.append("Column", getDatasetCombobox());
 		builder.nextLine();
-		builder.append("Dataset", getDatasetCombobox(), 3);
 
-		builder.append("Color", getColorLabel());
+		builder.append("Color", getColorLabel(), 3);
 		builder.append(getColorChooseButton());
 
 		builder.nextLine();
 
-		builder.appendSeparator("Scale");
-		builder.append(getEnableAutoscaleCheckbox(), 4);
-		builder.nextLine();
-		builder.append("Minimum", getMinimumSpinner(), 3);
-		builder.append("Maximim", getMaximumSpinner(), 3);
+		// builder.appendSeparator("Scale");
+		builder.append(getEnableAutoscaleCheckbox());
+		builder.append("Minimum", getMinimumSpinner());
+		builder.append("Maximum", getMaximumSpinner());
 
-		builder.append(ButtonBarFactory.buildRightAlignedBar(getDeleteDatasetButton()), 5);
+		builder.append(ButtonBarFactory.buildRightAlignedBar(getDeleteDatasetButton()), 9);
 
+		// builder.getPanel().setBorder(title);
 		add(builder.getPanel(), BorderLayout.CENTER);
+		setBorder(title);
 
 	}
 
@@ -160,6 +173,14 @@ public class DatasetInputPanel extends JPanel {
 			colorLabel.setOpaque(true);
 			colorLabel.setBackground(graphColor);
 			colorLabel.setForeground(graphColor);
+
+			colorLabel.addMouseListener(new MouseAdapter() {
+
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					getColorChooseButton().doClick();
+				}
+			});
 		}
 		return colorLabel;
 	}
@@ -206,10 +227,12 @@ public class DatasetInputPanel extends JPanel {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					graphColor = JColorChooser.showDialog(null, "Select Graph Color", graphColor);
-					getColorLabel().setBackground(graphColor);
-					getColorLabel().setForeground(graphColor);
-					getColorLabel().repaint();
+					Color tempGraphColor = JColorChooser.showDialog(null, "Select Graph Color", graphColor);
+					if (tempGraphColor != null) {
+						getColorLabel().setBackground(graphColor);
+						getColorLabel().setForeground(graphColor);
+						getColorLabel().repaint();
+					}
 				}
 			});
 
