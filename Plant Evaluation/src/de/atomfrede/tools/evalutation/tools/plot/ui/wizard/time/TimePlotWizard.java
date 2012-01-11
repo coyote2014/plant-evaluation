@@ -224,7 +224,9 @@ public class TimePlotWizard extends PlotWizard {
 	 */
 	@Override
 	public void onPageChanged(WizardPage arg0, List<WizardPage> arg1) {
-		// TODO Auto-generated method stub
+		// TODO Change the Location according to the current size of the wizard
+		// setLocation(0, 0);
+
 	}
 
 }
