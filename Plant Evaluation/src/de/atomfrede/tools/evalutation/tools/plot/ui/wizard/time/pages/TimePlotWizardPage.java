@@ -1,5 +1,5 @@
 /**
- *  Copyright 2012 Frederik Hahne fred
+ *  Copyright 2012 Frederik Hahne 
  *
  * 	TimePlotWizardPage.java is part of Plant Evaluation.
  *
@@ -21,6 +21,7 @@ package de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.pages;
 import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.pages.AbstractWizardPage;
 import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.TimePlotWizard;
 
+@SuppressWarnings("serial")
 public class TimePlotWizardPage extends AbstractWizardPage {
 
 	TimePlotWizard timePlotWizard;

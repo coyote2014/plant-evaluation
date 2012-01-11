@@ -27,6 +27,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.atomfrede.tools.evalutation.tools.plot.AbstractPlot.PlotType;
+import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.simple.SimplePlotWizard;
 import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.TimePlotWizard;
 import de.atomfrede.tools.evalutation.ui.ExceptionDialog;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
@@ -90,6 +91,10 @@ public class DialogUtil {
 					log.debug("Plot " + selectedType + " should be created.");
 					switch (selectedType) {
 					case SIMPLE: {
+						SimplePlotWizard wizard = new SimplePlotWizard();
+						wizard.setSize(600, 800);
+						wizard.setLocationRelativeTo(frame);
+						showDialog(wizard);
 						break;
 					}
 					case TIME: {

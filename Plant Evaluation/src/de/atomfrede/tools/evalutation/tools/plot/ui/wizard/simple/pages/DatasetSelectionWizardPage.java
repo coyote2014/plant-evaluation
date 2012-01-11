@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Plant Evaluation.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.pages;
+package de.atomfrede.tools.evalutation.tools.plot.ui.wizard.simple.pages;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -36,19 +36,18 @@ import com.jgoodies.forms.layout.FormLayout;
 
 import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.pages.DatasetInputPanel;
 import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.pages.IDatasetSelectionWizardPage;
-import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.TimePlotWizard;
-import de.atomfrede.tools.evalutation.tools.plot.wrapper.TimeDatasetWrapper;
+import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.simple.SimplePlotWizard;
+import de.atomfrede.tools.evalutation.tools.plot.wrapper.XYDatasetWrapper;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
 @SuppressWarnings("serial")
-public class DatasetSelectionWizardPage extends TimePlotWizardPage implements IDatasetSelectionWizardPage {
+public class DatasetSelectionWizardPage extends SimplePlotWizardPage implements IDatasetSelectionWizardPage {
 
 	File datafile;
-	int timeColumn;
 	List<DatasetInputPanel> datasetInputPanels;
 	JButton addDatasetButton;
 
-	public DatasetSelectionWizardPage(TimePlotWizard parent, File datafile) {
+	public DatasetSelectionWizardPage(SimplePlotWizard parent, File datafile) {
 		this("Setup Datasets", "Setup and configure the desired datasets.", parent);
 		this.datafile = datafile;
 		datasetInputPanels = new ArrayList<DatasetInputPanel>();
@@ -59,8 +58,9 @@ public class DatasetSelectionWizardPage extends TimePlotWizardPage implements ID
 	 * @param description
 	 * @param parent
 	 */
-	public DatasetSelectionWizardPage(String title, String description, TimePlotWizard parent) {
+	public DatasetSelectionWizardPage(String title, String description, SimplePlotWizard parent) {
 		super(title, description, parent);
+		// TODO Auto-generated constructor stub
 	}
 
 	public void addContent() {
@@ -68,7 +68,7 @@ public class DatasetSelectionWizardPage extends TimePlotWizardPage implements ID
 		FormLayout layout = new FormLayout("fill:pref:grow");
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 		builder.setDefaultDialogBorder();
-		datasetInputPanels.add(new DatasetInputPanel(timePlotWizard.getDataFile(), Color.ORANGE, false, this));
+		datasetInputPanels.add(new DatasetInputPanel(simplePlotWizard.getDataFile(), Color.ORANGE, false, this));
 		builder.append(datasetInputPanels.get(0));
 		add(new JScrollPane(builder.getPanel()), BorderLayout.CENTER);
 
@@ -108,7 +108,7 @@ public class DatasetSelectionWizardPage extends TimePlotWizardPage implements ID
 	}
 
 	public void addDataset() {
-		DatasetInputPanel panelToAdd = new DatasetInputPanel(timePlotWizard.getDataFile(), Color.ORANGE, true, this);
+		DatasetInputPanel panelToAdd = new DatasetInputPanel(simplePlotWizard.getDataFile(), Color.ORANGE, true, this);
 		datasetInputPanels.add(panelToAdd);
 		updateContent();
 		this.revalidate();
@@ -138,20 +138,24 @@ public class DatasetSelectionWizardPage extends TimePlotWizardPage implements ID
 		this.datafile = datafile;
 	}
 
-	public int getTimeColumn() {
-		return timePlotWizard.getTimeColumn();
-	}
-
-	public void setTimeColumn(int timeColumn) {
-		this.timeColumn = timeColumn;
-	}
-
-	public List<TimeDatasetWrapper> getDatasetWrappers() {
-		List<TimeDatasetWrapper> wrappers = new ArrayList<TimeDatasetWrapper>();
+	public List<XYDatasetWrapper> getDatasetWrappers() {
+		List<XYDatasetWrapper> wrappers = new ArrayList<XYDatasetWrapper>();
 		for (DatasetInputPanel panel : datasetInputPanels) {
-			wrappers.add(panel.getTimeDatasetWrapper());
+			wrappers.add(panel.getSimpleDatasetWrapper());
 		}
 		return wrappers;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.atomfrede.tools.evalutation.tools.plot.ui.wizard.pages.
+	 * IDatasetSelectionWizardPage#getTimeColumn()
+	 */
+	@Override
+	public int getTimeColumn() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

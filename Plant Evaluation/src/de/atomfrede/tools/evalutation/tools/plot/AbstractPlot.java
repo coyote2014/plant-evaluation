@@ -23,6 +23,8 @@ import java.util.Date;
 
 import org.jfree.chart.JFreeChart;
 
+import de.atomfrede.tools.evalutation.tools.plot.wrapper.XYDatasetWrapper;
+
 public abstract class AbstractPlot {
 
 	public enum PlotType {
@@ -81,6 +83,6 @@ public abstract class AbstractPlot {
 		this.height = height;
 	}
 
-	abstract JFreeChart createChart(XYDatasetWrapper... datasetWrappers);
+	protected abstract JFreeChart createChart(XYDatasetWrapper... datasetWrappers);
 
 }

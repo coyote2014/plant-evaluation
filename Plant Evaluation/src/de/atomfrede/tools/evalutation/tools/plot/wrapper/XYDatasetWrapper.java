@@ -16,18 +16,25 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Plant Evaluation.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.atomfrede.tools.evalutation.tools.plot;
+package de.atomfrede.tools.evalutation.tools.plot.wrapper;
 
 import java.util.Date;
 import java.util.List;
 
 import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
-public abstract class XYDatasetWrapper extends AbstractDatasetWrapper {
+public class XYDatasetWrapper extends AbstractDatasetWrapper {
 
 	XYDataset dataset;
 	Double minimum, maximum;
 	int dataColumn;
+
+	public XYDatasetWrapper(String seriesName, List<String[]> allLines, int dataColum) {
+		this(seriesName, allLines);
+		this.dataColumn = dataColum;
+	}
 
 	public XYDatasetWrapper(String seriesName, List<String[]> allLines) {
 		super(seriesName, allLines);
@@ -35,7 +42,17 @@ public abstract class XYDatasetWrapper extends AbstractDatasetWrapper {
 		maximum = null;
 	}
 
-	public abstract void createDataset();
+	public void createDataset() {
+		XYSeries series = new XYSeries(seriesName);
+		dataset = new XYSeriesCollection();
+
+		for (int i = 1; i < allLines.size(); i++) {
+			double value = parseDoubleValue(allLines.get(i), dataColumn);
+			series.add(i, value);
+		}
+
+		((XYSeriesCollection) dataset).addSeries(series);
+	}
 
 	public XYDataset getDataset() {
 		return dataset;

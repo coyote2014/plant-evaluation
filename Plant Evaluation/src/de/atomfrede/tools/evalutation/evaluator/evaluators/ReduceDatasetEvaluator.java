@@ -39,10 +39,10 @@ import de.atomfrede.tools.evalutation.constants.InputFileConstants;
 import de.atomfrede.tools.evalutation.evaluator.SingleInputFileEvaluator;
 import de.atomfrede.tools.evalutation.options.CO2AbsoluteOnlyEvaluationOptions;
 import de.atomfrede.tools.evalutation.options.TypeBEvaluationOptions;
-import de.atomfrede.tools.evalutation.tools.plot.TimeDatasetWrapper;
 import de.atomfrede.tools.evalutation.tools.plot.TimePlot;
-import de.atomfrede.tools.evalutation.tools.plot.XYDatasetWrapper;
 import de.atomfrede.tools.evalutation.tools.plot.util.PlotUtil;
+import de.atomfrede.tools.evalutation.tools.plot.wrapper.TimeDatasetWrapper;
+import de.atomfrede.tools.evalutation.tools.plot.wrapper.XYDatasetWrapper;
 import de.atomfrede.tools.evalutation.util.DialogUtil;
 
 /**

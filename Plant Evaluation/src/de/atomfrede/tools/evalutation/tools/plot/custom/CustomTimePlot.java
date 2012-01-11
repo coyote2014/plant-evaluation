@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Plant Evaluation.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.atomfrede.tools.evalutation.tools.plot;
+package de.atomfrede.tools.evalutation.tools.plot.custom;
 
 import java.io.File;
 
@@ -25,7 +25,9 @@ import org.jfree.chart.JFreeChart;
 import com.lowagie.text.pdf.DefaultFontMapper;
 
 import de.atomfrede.tools.evalutation.options.Options;
+import de.atomfrede.tools.evalutation.tools.plot.TimePlot;
 import de.atomfrede.tools.evalutation.tools.plot.util.PlotUtil;
+import de.atomfrede.tools.evalutation.tools.plot.wrapper.TimeDatasetWrapper;
 
 public class CustomTimePlot extends TimePlot {
 

@@ -44,6 +44,7 @@ import com.lowagie.text.pdf.DefaultFontMapper;
 import de.atomfrede.tools.evalutation.constants.InputFileConstants;
 import de.atomfrede.tools.evalutation.options.Options;
 import de.atomfrede.tools.evalutation.tools.plot.util.PlotUtil;
+import de.atomfrede.tools.evalutation.tools.plot.wrapper.XYDatasetWrapper;
 
 public class SimplePlot extends AbstractPlot {
 
@@ -72,7 +73,7 @@ public class SimplePlot extends AbstractPlot {
 		PlotUtil.saveChartAsSVG(svgFile, chart, 400, 300);
 	}
 
-	JFreeChart createChart(XYDataset dataset, XYDataset dataset2) {
+	protected JFreeChart createChart(XYDataset dataset, XYDataset dataset2) {
 		// Simple plot withpout time x axis
 		JFreeChart chart = ChartFactory.createXYLineChart("CO2 Absolute",// chart
 																			// title
@@ -160,7 +161,7 @@ public class SimplePlot extends AbstractPlot {
 	 * .atomfrede.tools.evalutation.tools.plot.XYDatasetWrapper[])
 	 */
 	@Override
-	JFreeChart createChart(XYDatasetWrapper... datasetWrappers) {
+	protected JFreeChart createChart(XYDatasetWrapper... datasetWrappers) {
 		// TODO Auto-generated method stub
 		return null;
 	}

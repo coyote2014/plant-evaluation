@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Plant Evaluation.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.pages;
+package de.atomfrede.tools.evalutation.tools.plot.ui.wizard.pages;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -36,14 +36,15 @@ import com.jgoodies.forms.layout.FormLayout;
 
 import de.atomfrede.tools.evalutation.constants.InputFileConstants;
 import de.atomfrede.tools.evalutation.constants.OutputFileConstants;
-import de.atomfrede.tools.evalutation.tools.plot.TimeDatasetWrapper;
+import de.atomfrede.tools.evalutation.tools.plot.wrapper.TimeDatasetWrapper;
+import de.atomfrede.tools.evalutation.tools.plot.wrapper.XYDatasetWrapper;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 import de.atomfrede.tools.evalutation.util.CSVUtil;
 
 @SuppressWarnings("serial")
 public class DatasetInputPanel extends JPanel {
 
-	DatasetSelectionWizardPage wizardPage;
+	IDatasetSelectionWizardPage wizardPage;
 	JLabel colorLabel;
 	JSpinner minimumSpinner, maximumSpinner;
 	JCheckBox enableAutoscaleCheckbox;
@@ -58,7 +59,7 @@ public class DatasetInputPanel extends JPanel {
 
 	Map<String, Integer> headerToColumnNumber;
 
-	public DatasetInputPanel(File dataFile, Color initialColor, boolean isDeleteAllowed, DatasetSelectionWizardPage wizardPage) {
+	public DatasetInputPanel(File dataFile, Color initialColor, boolean isDeleteAllowed, IDatasetSelectionWizardPage wizardPage) {
 		super();
 		this.dataFile = dataFile;
 		this.graphColor = initialColor;
@@ -102,6 +103,18 @@ public class DatasetInputPanel extends JPanel {
 
 	public TimeDatasetWrapper getTimeDatasetWrapper() {
 		TimeDatasetWrapper wrapper = new TimeDatasetWrapper(getDatasetNameTextField().getText(), getAllDataLines(), getDataColumn(), wizardPage.getTimeColumn());
+		wrapper.createDataset();
+		wrapper.setSeriesColor(graphColor);
+		if (!getEnableAutoscaleCheckbox().isSelected()) {
+			// if autoscale is not enabled we must set custom minimum an maximum
+			wrapper.setMinimum(Double.valueOf(getMinimumSpinner().getValue() + ""));
+			wrapper.setMaximum(Double.valueOf(getMaximumSpinner().getValue() + ""));
+		}
+		return wrapper;
+	}
+
+	public XYDatasetWrapper getSimpleDatasetWrapper() {
+		XYDatasetWrapper wrapper = new XYDatasetWrapper(getDatasetNameTextField().getText(), getAllDataLines(), getDataColumn());
 		wrapper.createDataset();
 		wrapper.setSeriesColor(graphColor);
 		if (!getEnableAutoscaleCheckbox().isSelected()) {

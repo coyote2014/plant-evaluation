@@ -1,7 +1,7 @@
 /**
  *  Copyright 2012 Frederik Hahne 
  *
- * 	FilePropertiesPage.java is part of Plant Evaluation.
+ * 	SimplePlotWizardPage.java is part of Plant Evaluation.
  *
  *  Plant Evaluation is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,38 +16,32 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Plant Evaluation.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.pages;
+package de.atomfrede.tools.evalutation.tools.plot.ui.wizard.simple.pages;
 
-import javax.swing.JTextField;
+import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.pages.AbstractWizardPage;
+import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.simple.SimplePlotWizard;
 
-import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.TimePlotWizard;
+@SuppressWarnings("serial")
+public class SimplePlotWizardPage extends AbstractWizardPage {
 
-public class FilePropertiesPage extends TimePlotWizardPage {
-
-	JTextField widthInputField, heightInputField;
+	SimplePlotWizard simplePlotWizard;
 
 	/**
 	 * @param title
 	 * @param description
 	 * @param parent
 	 */
-	public FilePropertiesPage(String title, String description, TimePlotWizard parent) {
+	public SimplePlotWizardPage(String title, String description, SimplePlotWizard parent) {
 		super(title, description, parent);
-		// TODO Auto-generated constructor stub
+		simplePlotWizard = parent;
 	}
 
-	public JTextField getWidthInputField() {
-		if (widthInputField == null) {
-			widthInputField = new JTextField();
-		}
-		return widthInputField;
+	public SimplePlotWizard getSimplePlotWizard() {
+		return simplePlotWizard;
 	}
 
-	public JTextField getHeightInputField() {
-		if (heightInputField == null) {
-			heightInputField = new JTextField();
-		}
-		return heightInputField;
+	public void setSimplePlotWizard(SimplePlotWizard simplePlotWizard) {
+		this.simplePlotWizard = simplePlotWizard;
 	}
 
 }
