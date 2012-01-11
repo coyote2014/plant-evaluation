@@ -113,7 +113,8 @@ public class MainPanel extends JPanel {
 				}
 			});
 			addButton.setIcon(Icons.IC_ADD_SMALL);
-			addButton.setMaximumSize(addButton.getPreferredSize());
+			addButton.setText("Add Plant");
+			// addButton.setMaximumSize(addButton.getPreferredSize());
 		}
 		return addButton;
 	}
