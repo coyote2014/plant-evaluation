@@ -1,7 +1,7 @@
 /**
  *  Copyright 2012 Frederik Hahne 
  *
- * 	DatasetSelectionWizardPage.java is part of Plant Evaluation.
+ * 	AbstractDatasetSelectionWizardPage.java is part of Plant Evaluation.
  *
  *  Plant Evaluation is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Plant Evaluation.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.pages;
+package de.atomfrede.tools.evalutation.tools.plot.ui.wizard.pages;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -34,22 +34,21 @@ import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.factories.ButtonBarFactory;
 import com.jgoodies.forms.layout.FormLayout;
 
-import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.pages.DatasetInputPanel;
-import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.pages.IDatasetSelectionWizardPage;
-import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.TimePlotWizard;
+import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.PlotWizard;
 import de.atomfrede.tools.evalutation.tools.plot.wrapper.TimeDatasetWrapper;
+import de.atomfrede.tools.evalutation.tools.plot.wrapper.XYDatasetWrapper;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
 @SuppressWarnings("serial")
-public class DatasetSelectionWizardPage extends TimePlotWizardPage implements IDatasetSelectionWizardPage {
+public class DatasetSelectionWizardPage extends AbstractWizardPage implements IDatasetSelectionWizardPage {
 
-	File datafile;
-	int timeColumn;
-	List<DatasetInputPanel> datasetInputPanels;
-	JButton addDatasetButton;
+	protected File datafile;
+	protected List<DatasetInputPanel> datasetInputPanels;
+	protected JButton addDatasetButton;
+	protected PlotWizard plotWizard;
 
-	public DatasetSelectionWizardPage(TimePlotWizard parent, File datafile) {
-		this("Setup Datasets", "Setup and configure the desired datasets.", parent);
+	public DatasetSelectionWizardPage(PlotWizard plotWizard, File datafile) {
+		this("Setup Datasets", "Setup and configure the desired datasets.", plotWizard);
 		this.datafile = datafile;
 		datasetInputPanels = new ArrayList<DatasetInputPanel>();
 	}
@@ -59,8 +58,9 @@ public class DatasetSelectionWizardPage extends TimePlotWizardPage implements ID
 	 * @param description
 	 * @param parent
 	 */
-	public DatasetSelectionWizardPage(String title, String description, TimePlotWizard parent) {
+	public DatasetSelectionWizardPage(String title, String description, PlotWizard parent) {
 		super(title, description, parent);
+		this.plotWizard = parent;
 	}
 
 	public void addContent() {
@@ -68,7 +68,7 @@ public class DatasetSelectionWizardPage extends TimePlotWizardPage implements ID
 		FormLayout layout = new FormLayout("fill:pref:grow");
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 		builder.setDefaultDialogBorder();
-		datasetInputPanels.add(new DatasetInputPanel(timePlotWizard.getDataFile(), Color.ORANGE, false, this));
+		datasetInputPanels.add(new DatasetInputPanel(plotWizard.getDataFile(), Color.ORANGE, false, this));
 		builder.append(datasetInputPanels.get(0));
 		add(new JScrollPane(builder.getPanel()), BorderLayout.CENTER);
 
@@ -108,7 +108,7 @@ public class DatasetSelectionWizardPage extends TimePlotWizardPage implements ID
 	}
 
 	public void addDataset() {
-		DatasetInputPanel panelToAdd = new DatasetInputPanel(timePlotWizard.getDataFile(), Color.ORANGE, true, this);
+		DatasetInputPanel panelToAdd = new DatasetInputPanel(plotWizard.getDataFile(), Color.ORANGE, true, this);
 		datasetInputPanels.add(panelToAdd);
 		updateContent();
 		this.revalidate();
@@ -138,20 +138,32 @@ public class DatasetSelectionWizardPage extends TimePlotWizardPage implements ID
 		this.datafile = datafile;
 	}
 
-	public int getTimeColumn() {
-		return timePlotWizard.getTimeColumn();
+	public List<XYDatasetWrapper> getDatasetWrappers() {
+		List<XYDatasetWrapper> wrappers = new ArrayList<XYDatasetWrapper>();
+		for (DatasetInputPanel panel : datasetInputPanels) {
+			wrappers.add(panel.getSimpleDatasetWrapper());
+		}
+		return wrappers;
 	}
 
-	public void setTimeColumn(int timeColumn) {
-		this.timeColumn = timeColumn;
-	}
-
-	public List<TimeDatasetWrapper> getDatasetWrappers() {
+	public List<TimeDatasetWrapper> getTimeDatasetWrappers() {
 		List<TimeDatasetWrapper> wrappers = new ArrayList<TimeDatasetWrapper>();
 		for (DatasetInputPanel panel : datasetInputPanels) {
 			wrappers.add(panel.getTimeDatasetWrapper());
 		}
 		return wrappers;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.atomfrede.tools.evalutation.tools.plot.ui.wizard.pages.
+	 * IDatasetSelectionWizardPage#getTimeColumn()
+	 */
+	@Override
+	public int getTimeColumn() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

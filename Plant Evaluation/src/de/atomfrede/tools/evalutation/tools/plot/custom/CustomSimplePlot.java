@@ -50,6 +50,7 @@ public class CustomSimplePlot extends AbstractPlot {
 		this.height = height;
 		this.wrappers = wrappers;
 		this.fileName = fileName;
+		this.type = PlotType.SIMPLE;
 	}
 
 	public void plot() throws Exception {
@@ -76,10 +77,6 @@ public class CustomSimplePlot extends AbstractPlot {
 
 		JFreeChart chart = ChartFactory.createXYLineChart(mainDataset.getSeriesName(), "Index", mainDataset.getSeriesName(), mainDataset.getDataset(),
 				PlotOrientation.VERTICAL, true, false, false);
-		// JFreeChart chart =
-		// ChartFactory.createTimeSeriesChart(mainDataset.getSeriesName(),
-		// "Time", mainDataset.getSeriesName(), mainDataset.getDataset(), true,
-		// true, false);
 
 		XYPlot plot = (XYPlot) chart.getPlot();
 		// all adjustments for first/main dataset
@@ -115,12 +112,6 @@ public class CustomSimplePlot extends AbstractPlot {
 		plot.setDomainGridlinePaint(Color.LIGHT_GRAY);
 		plot.setRangeGridlinePaint(Color.LIGHT_GRAY);
 
-		// format the date axis
-		// DateAxis axis = (DateAxis) plot.getDomainAxis();
-
-		// axis.setDateFormatOverride(new SimpleDateFormat("dd.MM HH:mm"));
-		// axis.setTickUnit(new DateTickUnit(DateTickUnitType.HOUR, 1));
-		// axis.setVerticalTickLabels(true);
 		return chart;
 	}
 }

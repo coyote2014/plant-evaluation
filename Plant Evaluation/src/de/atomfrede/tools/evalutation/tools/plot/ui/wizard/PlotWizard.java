@@ -18,6 +18,8 @@
  */
 package de.atomfrede.tools.evalutation.tools.plot.ui.wizard;
 
+import java.io.File;
+
 import javax.swing.JDialog;
 
 import org.ciscavate.cjwizard.WizardContainer;
@@ -30,6 +32,7 @@ public abstract class PlotWizard extends JDialog implements WizardListener {
 
 	protected PlotType type;
 	protected WizardContainer wizardContainer;
+	protected File dataFile;
 
 	public PlotType getType() {
 		return type;
@@ -45,5 +48,16 @@ public abstract class PlotWizard extends JDialog implements WizardListener {
 
 	public void setWizardContainer(WizardContainer wizardContainer) {
 		this.wizardContainer = wizardContainer;
+	}
+
+	public File getDataFile() {
+		return dataFile;
+	}
+
+	public void setDataFile(File dataFile) {
+		this.dataFile = dataFile;
+		if (dataFile != null) {
+			wizardContainer.setNextEnabled(true);
+		}
 	}
 }

@@ -37,8 +37,8 @@ import de.atomfrede.tools.evalutation.options.Options;
 import de.atomfrede.tools.evalutation.tools.plot.AbstractPlot.PlotType;
 import de.atomfrede.tools.evalutation.tools.plot.custom.CustomSimplePlot;
 import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.PlotWizard;
-import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.simple.pages.DatasetSelectionWizardPage;
-import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.simple.pages.FileSelectionPage;
+import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.pages.DatasetSelectionWizardPage;
+import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.pages.FileSelectionWizardPage;
 import de.atomfrede.tools.evalutation.tools.plot.wrapper.XYDatasetWrapper;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
@@ -73,16 +73,18 @@ public class SimplePlotWizard extends PlotWizard {
 	public List<WizardPage> getWizardPages() {
 		if (pages == null) {
 			pages = new ArrayList<WizardPage>();
-			pages.add(new FileSelectionPage(this));
+			pages.add(new FileSelectionWizardPage(this));
 			pages.add(new DatasetSelectionWizardPage(this, null));
 		}
 		return pages;
 	}
 
+	@Override
 	public File getDataFile() {
 		return dataFile;
 	}
 
+	@Override
 	public void setDataFile(File dataFile) {
 		this.dataFile = dataFile;
 		if (dataFile != null) {
@@ -110,7 +112,7 @@ public class SimplePlotWizard extends PlotWizard {
 			case 1: {
 				// if (((FileSelectionPage) pages.get(0)).getDataFile() == null)
 				// return null;
-				((DatasetSelectionWizardPage) pages.get(1)).setDatafile(((FileSelectionPage) pages.get(0)).getDataFile());
+				((DatasetSelectionWizardPage) pages.get(1)).setDatafile(((FileSelectionWizardPage) pages.get(0)).getDataFile());
 				((DatasetSelectionWizardPage) pages.get(1)).addContent();
 				wizardContainer.setFinishEnabled(true);
 				wizardContainer.setNextEnabled(false);
@@ -153,8 +155,8 @@ public class SimplePlotWizard extends PlotWizard {
 				List<XYDatasetWrapper> wrappers = ((DatasetSelectionWizardPage) pages.get(1)).getDatasetWrappers();
 				XYDatasetWrapper[] wrappersArray = new XYDatasetWrapper[wrappers.size()];
 
-				int width = ((FileSelectionPage) pages.get(0)).getEnteredWidth();
-				int height = ((FileSelectionPage) pages.get(0)).getEnteredHeight();
+				int width = ((FileSelectionWizardPage) pages.get(0)).getEnteredWidth();
+				int height = ((FileSelectionWizardPage) pages.get(0)).getEnteredHeight();
 
 				int i = 0;
 				for (XYDatasetWrapper wrapper : wrappers) {

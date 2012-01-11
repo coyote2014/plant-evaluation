@@ -20,11 +20,11 @@ package de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.pages;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.FileReader;
 
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -35,33 +35,31 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jidesoft.swing.JideBorderLayout;
 
 import de.atomfrede.tools.evalutation.constants.InputFileConstants;
+import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.pages.FileSelectionWizardPage;
 import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.TimePlotWizard;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 import de.atomfrede.tools.evalutation.util.ColumnCheckUtil;
 
 @SuppressWarnings("serial")
-public class FileSelectionPage extends TimePlotWizardPage {
+public class TimeFileSelectionPage extends FileSelectionWizardPage {
 
-	File dataFile;
-	JButton selectInputFileButton;
-	JTextField fileNameTextField;
-	JSpinner widthSpinner, heightSpinner;
 	JLabel errorLabel, correctLabel;
 
 	/**
 	 * @param title
 	 * @param description
 	 */
-	public FileSelectionPage(String title, String description, TimePlotWizard parent) {
+	public TimeFileSelectionPage(String title, String description, TimePlotWizard parent) {
 		super(title, description, parent);
 		addContent();
 	}
 
-	public FileSelectionPage(TimePlotWizard parent) {
+	public TimeFileSelectionPage(TimePlotWizard parent) {
 		this("Select Data File", "Select the file which contains the data you like to plot. And the size of the generated PDF.", parent);
 	}
 
-	void addContent() {
+	@Override
+	protected void addContent() {
 		setLayout(new JideBorderLayout());
 
 		FormLayout layout = new FormLayout("left:pref, 4dlu, fill:pref:grow, 4dlu, pref");
@@ -77,33 +75,7 @@ public class FileSelectionPage extends TimePlotWizardPage {
 		add(builder.getPanel(), JideBorderLayout.CENTER);
 	}
 
-	public File getDataFile() {
-		return dataFile;
-	}
-
-	public JSpinner getWidthSpinner() {
-		if (widthSpinner == null) {
-			widthSpinner = new JSpinner(new SpinnerNumberModel(800, 100, Integer.MAX_VALUE, 10));
-		}
-		return widthSpinner;
-	}
-
-	public JSpinner getHeightSpinner() {
-		if (heightSpinner == null) {
-			heightSpinner = new JSpinner(new SpinnerNumberModel(800, 100, Integer.MAX_VALUE, 10));
-		}
-		return heightSpinner;
-	}
-
-	public JTextField getInputFileTextField() {
-		if (fileNameTextField == null) {
-			fileNameTextField = new JTextField();
-			fileNameTextField.setName("filename");
-			fileNameTextField.setEnabled(false);
-		}
-		return fileNameTextField;
-	}
-
+	@Override
 	public JButton getSelectInputFileButton() {
 		if (selectInputFileButton == null) {
 			selectInputFileButton = new JButton(Icons.IC_MIME_CSV_SMALL);
@@ -124,9 +96,9 @@ public class FileSelectionPage extends TimePlotWizardPage {
 						getInputFileTextField().setText(dataFile.getName());
 						// TODO check if that file contains a time column
 						if (checkFile()) {
-							timePlotWizard.setDataFile(dataFile);
+							plotWizard.setDataFile(dataFile);
 						} else {
-							timePlotWizard.setDataFile(null);
+							plotWizard.setDataFile(null);
 						}
 					}
 				}
@@ -144,7 +116,7 @@ public class FileSelectionPage extends TimePlotWizardPage {
 			if (ArrayUtils.contains(header, InputFileConstants.HEADER_EPOCH_TIME)) {
 				fileContainsTimeColumn = true;
 				ColumnCheckUtil.checkInputFileHeader(header);
-				timePlotWizard.setTimeColumn(InputFileConstants.EPOCH_TIME);
+				((TimePlotWizard) plotWizard).setTimeColumn(InputFileConstants.EPOCH_TIME);
 			}
 		} catch (Exception ioe) {
 
@@ -158,19 +130,4 @@ public class FileSelectionPage extends TimePlotWizardPage {
 		}
 		return fileContainsTimeColumn;
 	}
-
-	public JFileChooser getFileChooser() {
-		JFileChooser chooser = new JFileChooser();
-		chooser.setFileFilter(new FileNameExtensionFilter("CSV Files", "csv", "CSV"));
-		return chooser;
-	}
-
-	public int getEnteredWidth() {
-		return Integer.valueOf(widthSpinner.getValue() + "").intValue();
-	}
-
-	public int getEnteredHeight() {
-		return Integer.valueOf(heightSpinner.getValue() + "").intValue();
-	}
-
 }

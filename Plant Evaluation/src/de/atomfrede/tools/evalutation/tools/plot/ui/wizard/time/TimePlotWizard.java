@@ -35,11 +35,11 @@ import org.ciscavate.cjwizard.pagetemplates.TitledPageTemplate;
 
 import de.atomfrede.tools.evalutation.options.Options;
 import de.atomfrede.tools.evalutation.tools.plot.AbstractPlot.PlotType;
-import de.atomfrede.tools.evalutation.tools.plot.CustomTimePlot;
-import de.atomfrede.tools.evalutation.tools.plot.TimeDatasetWrapper;
+import de.atomfrede.tools.evalutation.tools.plot.custom.CustomTimePlot;
 import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.PlotWizard;
-import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.pages.DatasetSelectionWizardPage;
-import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.pages.FileSelectionPage;
+import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.pages.DatasetSelectionWizardPage;
+import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.pages.TimeFileSelectionPage;
+import de.atomfrede.tools.evalutation.tools.plot.wrapper.TimeDatasetWrapper;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
 @SuppressWarnings("serial")
@@ -50,7 +50,6 @@ public class TimePlotWizard extends PlotWizard {
 	List<TimeDatasetWrapper> datasetWrappers;
 	List<WizardPage> pages;
 
-	File dataFile;
 	int timeColumn;
 
 	public TimePlotWizard() {
@@ -74,8 +73,14 @@ public class TimePlotWizard extends PlotWizard {
 	public List<WizardPage> getWizardPages() {
 		if (pages == null) {
 			pages = new ArrayList<WizardPage>();
-			pages.add(new FileSelectionPage(this));
-			pages.add(new DatasetSelectionWizardPage(this, null));
+			pages.add(new TimeFileSelectionPage(this));
+			DatasetSelectionWizardPage datasetSelectionWizardPage = new DatasetSelectionWizardPage(this, null) {
+				@Override
+				public int getTimeColumn() {
+					return ((TimePlotWizard) plotWizard).timeColumn;
+				}
+			};
+			pages.add(datasetSelectionWizardPage);
 		}
 		return pages;
 	}
@@ -86,17 +91,6 @@ public class TimePlotWizard extends PlotWizard {
 
 	public void setDatasetWrappers(List<TimeDatasetWrapper> datasetWrappers) {
 		this.datasetWrappers = datasetWrappers;
-	}
-
-	public File getDataFile() {
-		return dataFile;
-	}
-
-	public void setDataFile(File dataFile) {
-		this.dataFile = dataFile;
-		if (dataFile != null) {
-			wizardContainer.setNextEnabled(true);
-		}
 	}
 
 	public int getTimeColumn() {
@@ -129,9 +123,9 @@ public class TimePlotWizard extends PlotWizard {
 			case 0:
 				return pages.get(0);
 			case 1: {
-				if (((FileSelectionPage) pages.get(0)).getDataFile() == null)
+				if (((TimeFileSelectionPage) pages.get(0)).getDataFile() == null)
 					return null;
-				((DatasetSelectionWizardPage) pages.get(1)).setDatafile(((FileSelectionPage) pages.get(0)).getDataFile());
+				((DatasetSelectionWizardPage) pages.get(1)).setDatafile(((TimeFileSelectionPage) pages.get(0)).getDataFile());
 				((DatasetSelectionWizardPage) pages.get(1)).addContent();
 				wizardContainer.setFinishEnabled(true);
 				wizardContainer.setNextEnabled(false);
@@ -171,11 +165,11 @@ public class TimePlotWizard extends PlotWizard {
 			protected Object doInBackground() throws Exception {
 				StringBuilder fileNameBuilder = new StringBuilder();
 				// first collect all datasets
-				List<TimeDatasetWrapper> wrappers = ((DatasetSelectionWizardPage) pages.get(1)).getDatasetWrappers();
+				List<TimeDatasetWrapper> wrappers = ((DatasetSelectionWizardPage) pages.get(1)).getTimeDatasetWrappers();
 				TimeDatasetWrapper[] wrappersArray = new TimeDatasetWrapper[wrappers.size()];
 
-				int width = ((FileSelectionPage) pages.get(0)).getEnteredWidth();
-				int height = ((FileSelectionPage) pages.get(0)).getEnteredHeight();
+				int width = ((TimeFileSelectionPage) pages.get(0)).getEnteredWidth();
+				int height = ((TimeFileSelectionPage) pages.get(0)).getEnteredHeight();
 
 				int i = 0;
 				for (TimeDatasetWrapper wrapper : wrappers) {
