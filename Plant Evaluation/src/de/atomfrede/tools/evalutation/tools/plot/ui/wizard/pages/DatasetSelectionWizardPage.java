@@ -70,7 +70,8 @@ public class DatasetSelectionWizardPage extends AbstractWizardPage implements ID
 		builder.setDefaultDialogBorder();
 		datasetInputPanels.add(new DatasetInputPanel(plotWizard.getDataFile(), Color.ORANGE, false, this));
 		builder.append(datasetInputPanels.get(0));
-		add(new JScrollPane(builder.getPanel()), BorderLayout.CENTER);
+		JScrollPane scroller = new JScrollPane(builder.getPanel());
+		add(scroller, BorderLayout.CENTER);
 
 		add(getAddButtonBarPanel(), BorderLayout.SOUTH);
 	}
@@ -95,7 +96,8 @@ public class DatasetSelectionWizardPage extends AbstractWizardPage implements ID
 		for (DatasetInputPanel inputPanel : datasetInputPanels) {
 			builder.append(inputPanel);
 		}
-		add(new JScrollPane(builder.getPanel()), BorderLayout.CENTER);
+		JScrollPane scroller = new JScrollPane(builder.getPanel());
+		add(scroller, BorderLayout.CENTER);
 
 		add(getAddButtonBarPanel(), BorderLayout.SOUTH);
 	}

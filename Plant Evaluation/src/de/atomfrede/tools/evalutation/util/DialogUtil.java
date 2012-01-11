@@ -92,15 +92,19 @@ public class DialogUtil {
 					switch (selectedType) {
 					case SIMPLE: {
 						SimplePlotWizard wizard = new SimplePlotWizard();
-						wizard.setSize(600, 800);
+						// wizard.setSize(600, 800);
+						wizard.setSize(wizard.getPreferredSize());
 						wizard.setLocationRelativeTo(frame);
+						wizard.setModal(true);
 						showDialog(wizard);
 						break;
 					}
 					case TIME: {
 						TimePlotWizard wizard = new TimePlotWizard();
-						wizard.setSize(600, 800);
+						// wizard.setSize(600, 800);
+						wizard.setSize(wizard.getPreferredSize());
 						wizard.setLocationRelativeTo(frame);
+						wizard.setModal(true);
 						showDialog(wizard);
 						break;
 					}

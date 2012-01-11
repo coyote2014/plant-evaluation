@@ -19,6 +19,7 @@
 package de.atomfrede.tools.evalutation.tools.plot.ui.wizard.simple;
 
 import java.awt.Desktop;
+import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -66,7 +67,10 @@ public class SimplePlotWizard extends PlotWizard {
 		this.setIconImage(Icons.IC_TOOL_PLOT_LARGE.getImage());
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.add(wizardContainer);
-		// setSize(wizardContainer.getSize());
+		Dimension dim0 = wizardContainer.getPreferredSize();
+		Dimension dim = pages.get(0).getPreferredSize();
+		Dimension size = new Dimension(dim0.width + 80, dim0.height + dim.height + 50);
+		setPreferredSize(size);
 		this.pack();
 	}
 

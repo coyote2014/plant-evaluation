@@ -18,6 +18,7 @@
  */
 package de.atomfrede.tools.evalutation.tools.plot.ui.wizard.pages;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -71,6 +72,10 @@ public class FileSelectionWizardPage extends AbstractWizardPage {
 		builder.append("Height", getHeightSpinner(), 3);
 
 		add(builder.getPanel(), JideBorderLayout.CENTER);
+		Dimension size = builder.getPanel().getSize();
+		Dimension prefSize = builder.getPanel().getPreferredSize();
+		setPreferredSize(builder.getPanel().getPreferredSize());
+		// setSize(builder.getPanel().getPreferredSize());
 	}
 
 	public JButton getSelectInputFileButton() {
