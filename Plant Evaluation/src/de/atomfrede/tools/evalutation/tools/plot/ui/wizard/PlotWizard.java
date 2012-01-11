@@ -21,11 +21,12 @@ package de.atomfrede.tools.evalutation.tools.plot.ui.wizard;
 import javax.swing.JDialog;
 
 import org.ciscavate.cjwizard.WizardContainer;
+import org.ciscavate.cjwizard.WizardListener;
 
 import de.atomfrede.tools.evalutation.tools.plot.AbstractPlot.PlotType;
 
 @SuppressWarnings("serial")
-public abstract class PlotWizard extends JDialog {
+public abstract class PlotWizard extends JDialog implements WizardListener {
 
 	protected PlotType type;
 	protected WizardContainer wizardContainer;

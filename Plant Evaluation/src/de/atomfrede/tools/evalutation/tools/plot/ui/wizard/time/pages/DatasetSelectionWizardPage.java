@@ -34,6 +34,7 @@ import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.factories.ButtonBarFactory;
 import com.jgoodies.forms.layout.FormLayout;
 
+import de.atomfrede.tools.evalutation.tools.plot.TimeDatasetWrapper;
 import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.TimePlotWizard;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
@@ -41,6 +42,7 @@ import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 public class DatasetSelectionWizardPage extends TimePlotWizardPage {
 
 	File datafile;
+	int timeColumn;
 	List<DatasetInputPanel> datasetInputPanels;
 	JButton addDatasetButton;
 
@@ -131,6 +133,22 @@ public class DatasetSelectionWizardPage extends TimePlotWizardPage {
 
 	public void setDatafile(File datafile) {
 		this.datafile = datafile;
+	}
+
+	public int getTimeColumn() {
+		return timePlotWizard.getTimeColumn();
+	}
+
+	public void setTimeColumn(int timeColumn) {
+		this.timeColumn = timeColumn;
+	}
+
+	public List<TimeDatasetWrapper> getDatasetWrappers() {
+		List<TimeDatasetWrapper> wrappers = new ArrayList<TimeDatasetWrapper>();
+		for (DatasetInputPanel panel : datasetInputPanels) {
+			wrappers.add(panel.getTimeDatasetWrapper());
+		}
+		return wrappers;
 	}
 
 }

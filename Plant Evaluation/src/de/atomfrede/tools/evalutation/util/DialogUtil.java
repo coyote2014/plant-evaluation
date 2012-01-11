@@ -94,7 +94,7 @@ public class DialogUtil {
 					}
 					case TIME: {
 						TimePlotWizard wizard = new TimePlotWizard();
-						wizard.setSize(400, 350);
+						wizard.setSize(600, 800);
 						wizard.setLocationRelativeTo(frame);
 						showDialog(wizard);
 						break;

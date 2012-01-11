@@ -21,18 +21,23 @@ package de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.pages;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileReader;
 
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import org.apache.commons.lang3.ArrayUtils;
+
+import au.com.bytecode.opencsv.CSVReader;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jidesoft.swing.JideBorderLayout;
 
+import de.atomfrede.tools.evalutation.constants.InputFileConstants;
 import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.TimePlotWizard;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
+import de.atomfrede.tools.evalutation.util.ColumnCheckUtil;
 
 @SuppressWarnings("serial")
 public class FileSelectionPage extends TimePlotWizardPage {
@@ -40,6 +45,8 @@ public class FileSelectionPage extends TimePlotWizardPage {
 	File dataFile;
 	JButton selectInputFileButton;
 	JTextField fileNameTextField;
+	JSpinner widthSpinner, heightSpinner;
+	JLabel errorLabel, correctLabel;
 
 	/**
 	 * @param title
@@ -51,24 +58,41 @@ public class FileSelectionPage extends TimePlotWizardPage {
 	}
 
 	public FileSelectionPage(TimePlotWizard parent) {
-		this("Select Data File", "Select the file which contains the data you like to plot.", parent);
+		this("Select Data File", "Select the file which contains the data you like to plot. And the size of the generated PDF.", parent);
 	}
 
 	void addContent() {
 		setLayout(new JideBorderLayout());
 
-		FormLayout layout = new FormLayout("fill:pref:grow, 4dlu, pref");
+		FormLayout layout = new FormLayout("left:pref, 4dlu, fill:pref:grow, 4dlu, pref");
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 		builder.setDefaultDialogBorder();
 
-		builder.append(getInputFileTextField());
+		builder.append("Input File", getInputFileTextField());
 		builder.append(getSelectInputFileButton());
+		builder.appendSeparator("Size of generated PDF");
+		builder.append("Width", getWidthSpinner(), 3);
+		builder.append("Height", getHeightSpinner(), 3);
 
 		add(builder.getPanel(), JideBorderLayout.CENTER);
 	}
 
 	public File getDataFile() {
 		return dataFile;
+	}
+
+	public JSpinner getWidthSpinner() {
+		if (widthSpinner == null) {
+			widthSpinner = new JSpinner(new SpinnerNumberModel(800, 100, Integer.MAX_VALUE, 10));
+		}
+		return widthSpinner;
+	}
+
+	public JSpinner getHeightSpinner() {
+		if (heightSpinner == null) {
+			heightSpinner = new JSpinner(new SpinnerNumberModel(800, 100, Integer.MAX_VALUE, 10));
+		}
+		return heightSpinner;
 	}
 
 	public JTextField getInputFileTextField() {
@@ -99,7 +123,11 @@ public class FileSelectionPage extends TimePlotWizardPage {
 						dataFile = fc.getSelectedFile();
 						getInputFileTextField().setText(dataFile.getName());
 						// TODO check if that file contains a time column
-						timePlotWizard.setDataFile(dataFile);
+						if (checkFile()) {
+							timePlotWizard.setDataFile(dataFile);
+						} else {
+							timePlotWizard.setDataFile(null);
+						}
 					}
 				}
 			});
@@ -107,10 +135,42 @@ public class FileSelectionPage extends TimePlotWizardPage {
 		return selectInputFileButton;
 	}
 
+	private boolean checkFile() {
+		boolean fileContainsTimeColumn = false;
+		CSVReader reader = null;
+		try {
+			reader = new CSVReader(new FileReader(dataFile));
+			String[] header = reader.readNext();
+			if (ArrayUtils.contains(header, InputFileConstants.HEADER_EPOCH_TIME)) {
+				fileContainsTimeColumn = true;
+				ColumnCheckUtil.checkInputFileHeader(header);
+				timePlotWizard.setTimeColumn(InputFileConstants.EPOCH_TIME);
+			}
+		} catch (Exception ioe) {
+
+		} finally {
+			try {
+				if (reader != null)
+					reader.close();
+			} catch (Exception e) {
+
+			}
+		}
+		return fileContainsTimeColumn;
+	}
+
 	public JFileChooser getFileChooser() {
 		JFileChooser chooser = new JFileChooser();
 		chooser.setFileFilter(new FileNameExtensionFilter("CSV Files", "csv", "CSV"));
 		return chooser;
+	}
+
+	public int getEnteredWidth() {
+		return Integer.valueOf(widthSpinner.getValue() + "").intValue();
+	}
+
+	public int getEnteredHeight() {
+		return Integer.valueOf(heightSpinner.getValue() + "").intValue();
 	}
 
 }

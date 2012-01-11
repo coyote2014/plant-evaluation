@@ -23,14 +23,12 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.*;
-
-import org.apache.commons.lang3.ArrayUtils;
-
-import au.com.bytecode.opencsv.CSVReader;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.factories.ButtonBarFactory;
@@ -38,7 +36,9 @@ import com.jgoodies.forms.layout.FormLayout;
 
 import de.atomfrede.tools.evalutation.constants.InputFileConstants;
 import de.atomfrede.tools.evalutation.constants.OutputFileConstants;
+import de.atomfrede.tools.evalutation.tools.plot.TimeDatasetWrapper;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
+import de.atomfrede.tools.evalutation.util.CSVUtil;
 
 @SuppressWarnings("serial")
 public class DatasetInputPanel extends JPanel {
@@ -54,7 +54,9 @@ public class DatasetInputPanel extends JPanel {
 	Color graphColor;
 	boolean isDeleteAllowed;
 
-	String[] possibleDatasetColumns;
+	List<String> possibleDatasetColumns;
+
+	Map<String, Integer> headerToColumnNumber;
 
 	public DatasetInputPanel(File dataFile, Color initialColor, boolean isDeleteAllowed, DatasetSelectionWizardPage wizardPage) {
 		super();
@@ -62,32 +64,52 @@ public class DatasetInputPanel extends JPanel {
 		this.graphColor = initialColor;
 		this.isDeleteAllowed = isDeleteAllowed;
 		this.wizardPage = wizardPage;
+		headerToColumnNumber = new HashMap<String, Integer>();
 
 		possibleDatasetColumns = getPossibleDatasetColumns();
 		addContent();
 	}
 
-	String[] getPossibleDatasetColumns() {
-		String[] datasets = new String[2];
-		CSVReader reader = null;
-		try {
-			reader = new CSVReader(new FileReader(dataFile));
-			String[] header = reader.readNext();
-			if (ArrayUtils.contains(header, InputFileConstants.HEADER_DELTA_RAW))
-				datasets[1] = InputFileConstants.HEADER_DELTA_RAW;
-			if (ArrayUtils.contains(header, OutputFileConstants.HEADER_CO2_ABSOLUTE))
-				datasets[0] = OutputFileConstants.HEADER_CO2_ABSOLUTE;
-		} catch (IOException ioe) {
+	List<String> getPossibleDatasetColumns() {
+		String[] header = CSVUtil.getHeader(dataFile);
 
-		} finally {
-			try {
-				if (reader != null)
-					reader.close();
-			} catch (Exception e) {
-
+		List<String> dataColumns = new ArrayList<String>();
+		// now read all possible headers that might contain interesting data
+		int i = 0;
+		for (String head : header) {
+			if (head.equals(InputFileConstants.HEADER_12_CO2) || head.equals(InputFileConstants.HEADER_12_CO2_DRY)
+					|| head.equals(InputFileConstants.HEADER_13_CO2) || head.equals(InputFileConstants.HEADER_13_CO2_DRY)
+					|| head.equals(InputFileConstants.HEADER_DELTA_5_MINUTES) || head.equals(InputFileConstants.HEADER_DELTA_RAW)
+					|| head.equals(InputFileConstants.HEADER_H2O) || head.equals(OutputFileConstants.HEADER_DELTA_13)
+					|| head.equals(OutputFileConstants.HEADER_CO2_ABSOLUTE)) {
+				// if any of that interesting columns is found use it
+				headerToColumnNumber.put(head, Integer.valueOf(i));
+				dataColumns.add(head);
 			}
+			i++;
 		}
-		return datasets;
+
+		return dataColumns;
+	}
+
+	List<String[]> getAllDataLines() {
+		return CSVUtil.getAllDataLines(dataFile);
+	}
+
+	int getDataColumn() {
+		return headerToColumnNumber.get(getDatasetCombobox().getSelectedItem());
+	}
+
+	public TimeDatasetWrapper getTimeDatasetWrapper() {
+		TimeDatasetWrapper wrapper = new TimeDatasetWrapper(getDatasetNameTextField().getText(), getAllDataLines(), getDataColumn(), wizardPage.getTimeColumn());
+		wrapper.createDataset();
+		wrapper.setSeriesColor(graphColor);
+		if (!getEnableAutoscaleCheckbox().isSelected()) {
+			// if autoscale is not enabled we must set custom minimum an maximum
+			wrapper.setMinimum(Double.valueOf(getMinimumSpinner().getValue() + ""));
+			wrapper.setMaximum(Double.valueOf(getMaximumSpinner().getValue() + ""));
+		}
+		return wrapper;
 	}
 
 	void addContent() {
@@ -203,7 +225,7 @@ public class DatasetInputPanel extends JPanel {
 
 	public JComboBox getDatasetCombobox() {
 		if (datasetCombobox == null) {
-			datasetCombobox = new JComboBox(possibleDatasetColumns);
+			datasetCombobox = new JComboBox(possibleDatasetColumns.toArray());
 
 		}
 		return datasetCombobox;
