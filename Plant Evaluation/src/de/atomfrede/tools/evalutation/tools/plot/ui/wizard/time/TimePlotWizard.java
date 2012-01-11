@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.SwingWorker;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.ciscavate.cjwizard.*;
@@ -65,7 +67,7 @@ public class TimePlotWizard extends PlotWizard {
 		this.setIconImage(Icons.IC_TOOL_PLOT_LARGE.getImage());
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.add(wizardContainer);
-
+		// setSize(wizardContainer.getSize());
 		this.pack();
 	}
 
@@ -119,7 +121,6 @@ public class TimePlotWizard extends PlotWizard {
 		 */
 		@Override
 		public WizardPage createPage(List<WizardPage> path, WizardSettings settings) {
-			// TODO Auto-generated method stub
 			return buildPage(path.size(), settings);
 		}
 
@@ -151,9 +152,7 @@ public class TimePlotWizard extends PlotWizard {
 	 */
 	@Override
 	public void onCanceled(List<WizardPage> arg0, WizardSettings arg1) {
-		// TODO Auto-generated method stub
 		dispose();
-
 	}
 
 	/*
@@ -164,44 +163,56 @@ public class TimePlotWizard extends PlotWizard {
 	 */
 	@Override
 	public void onFinished(List<WizardPage> arg0, WizardSettings arg1) {
-		log.info("Finished!");
 		this.setVisible(false);
 
-		StringBuilder fileNameBuilder = new StringBuilder();
-		// first collect all datasets
-		List<TimeDatasetWrapper> wrappers = ((DatasetSelectionWizardPage) pages.get(1)).getDatasetWrappers();
-		TimeDatasetWrapper[] wrappersArray = new TimeDatasetWrapper[wrappers.size()];
+		SwingWorker<Object, Object> worker = new SwingWorker<Object, Object>() {
 
-		int width = ((FileSelectionPage) pages.get(0)).getEnteredWidth();
-		int height = ((FileSelectionPage) pages.get(0)).getEnteredHeight();
+			@Override
+			protected Object doInBackground() throws Exception {
+				StringBuilder fileNameBuilder = new StringBuilder();
+				// first collect all datasets
+				List<TimeDatasetWrapper> wrappers = ((DatasetSelectionWizardPage) pages.get(1)).getDatasetWrappers();
+				TimeDatasetWrapper[] wrappersArray = new TimeDatasetWrapper[wrappers.size()];
 
-		int i = 0;
-		for (TimeDatasetWrapper wrapper : wrappers) {
-			wrappersArray[i] = wrapper;
-			if (i == 0)
-				fileNameBuilder.append(wrapper.getSeriesName());
-			else
-				fileNameBuilder.append("-" + wrapper.getSeriesName());
-			i++;
-		}
+				int width = ((FileSelectionPage) pages.get(0)).getEnteredWidth();
+				int height = ((FileSelectionPage) pages.get(0)).getEnteredHeight();
 
-		String date = DateFormat.getDateInstance().format(new Date());
+				int i = 0;
+				for (TimeDatasetWrapper wrapper : wrappers) {
+					wrappersArray[i] = wrapper;
+					if (i == 0)
+						fileNameBuilder.append(wrapper.getSeriesName());
+					else
+						fileNameBuilder.append("-" + wrapper.getSeriesName());
+					i++;
+				}
 
-		String fileName = date + "-" + fileNameBuilder.toString();
-		CustomTimePlot timePlot = new CustomTimePlot(dataFile, fileName, width, height, wrappersArray);
-		try {
-			timePlot.plot();
-		} catch (Exception e) {
+				String date = DateFormat.getDateInstance().format(new Date());
 
-		}
-		try {
-			Desktop.getDesktop().open(new File(Options.getOutputFolder(), fileName + ".pdf"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+				String fileName = date + "-" + fileNameBuilder.toString();
+				CustomTimePlot timePlot = new CustomTimePlot(dataFile, fileName, width, height, wrappersArray);
+				try {
+					timePlot.plot();
+				} catch (Exception e) {
+					log.error("The requested data could not be plotted", e);
+				}
+				try {
+					Desktop.getDesktop().open(new File(Options.getOutputFolder(), fileName + ".pdf"));
+				} catch (IOException e) {
+					log.error("Generated file could not be opened.", e);
+				}
 
-		dispose();
+				return null;
+			}
+
+			@Override
+			protected void done() {
+				dispose();
+			}
+
+		};
+
+		worker.execute();
 	}
 
 	/*
@@ -214,7 +225,6 @@ public class TimePlotWizard extends PlotWizard {
 	@Override
 	public void onPageChanged(WizardPage arg0, List<WizardPage> arg1) {
 		// TODO Auto-generated method stub
-
 	}
 
 }

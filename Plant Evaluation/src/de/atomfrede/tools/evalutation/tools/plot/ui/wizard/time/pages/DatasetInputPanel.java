@@ -172,6 +172,15 @@ public class DatasetInputPanel extends JPanel {
 			enableAutoscaleCheckbox = new JCheckBox("Autoscale");
 			enableAutoscaleCheckbox.setSelected(true);
 
+			enableAutoscaleCheckbox.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					getMaximumSpinner().setEnabled(!enableAutoscaleCheckbox.isSelected());
+					getMinimumSpinner().setEnabled(!enableAutoscaleCheckbox.isSelected());
+				}
+			});
+
 		}
 		return enableAutoscaleCheckbox;
 	}
@@ -226,7 +235,6 @@ public class DatasetInputPanel extends JPanel {
 	public JComboBox getDatasetCombobox() {
 		if (datasetCombobox == null) {
 			datasetCombobox = new JComboBox(possibleDatasetColumns.toArray());
-
 		}
 		return datasetCombobox;
 	}
@@ -242,5 +250,4 @@ public class DatasetInputPanel extends JPanel {
 	public boolean isDeleteAllowed() {
 		return isDeleteAllowed;
 	}
-
 }
