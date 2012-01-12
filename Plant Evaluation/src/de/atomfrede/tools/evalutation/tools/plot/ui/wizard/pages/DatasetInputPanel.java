@@ -229,6 +229,7 @@ public class DatasetInputPanel extends JPanel {
 				public void actionPerformed(ActionEvent arg0) {
 					Color tempGraphColor = JColorChooser.showDialog(null, "Select Graph Color", graphColor);
 					if (tempGraphColor != null) {
+						graphColor = tempGraphColor;
 						getColorLabel().setBackground(tempGraphColor);
 						getColorLabel().setForeground(tempGraphColor);
 						getColorLabel().repaint();
