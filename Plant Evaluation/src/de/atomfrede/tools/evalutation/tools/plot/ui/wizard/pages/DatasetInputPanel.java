@@ -106,7 +106,11 @@ public class DatasetInputPanel extends JPanel {
 	}
 
 	public TimeDatasetWrapper getTimeDatasetWrapper() {
-		TimeDatasetWrapper wrapper = new TimeDatasetWrapper(getDatasetNameTextField().getText(), getAllDataLines(), getDataColumn(), wizardPage.getTimeColumn());
+		String title = getDatasetNameTextField().getText();
+		if (title.trim().equals("") || title == null) {
+			title = getDatasetCombobox().getSelectedItem().toString();
+		}
+		TimeDatasetWrapper wrapper = new TimeDatasetWrapper(title, getAllDataLines(), getDataColumn(), wizardPage.getTimeColumn());
 		wrapper.createDataset();
 		wrapper.setSeriesColor(graphColor);
 		if (!getEnableAutoscaleCheckbox().isSelected()) {
@@ -118,7 +122,11 @@ public class DatasetInputPanel extends JPanel {
 	}
 
 	public XYDatasetWrapper getSimpleDatasetWrapper() {
-		XYDatasetWrapper wrapper = new XYDatasetWrapper(getDatasetNameTextField().getText(), getAllDataLines(), getDataColumn());
+		String title = getDatasetNameTextField().getText();
+		if (title.trim().equals("") || title == null) {
+			title = getDatasetCombobox().getSelectedItem().toString();
+		}
+		XYDatasetWrapper wrapper = new XYDatasetWrapper(title, getAllDataLines(), getDataColumn());
 		wrapper.createDataset();
 		wrapper.setSeriesColor(graphColor);
 		if (!getEnableAutoscaleCheckbox().isSelected()) {
@@ -132,10 +140,6 @@ public class DatasetInputPanel extends JPanel {
 	void addContent() {
 		setLayout(new BorderLayout());
 
-		// FormLayout layout = new
-		// FormLayout("left:pref, 4dlu, fill:pref:grow, 4dlu, pref");
-		// FormLayout layout = new
-		// FormLayout("left:pref, 4dlu, fill:pref:grow, 4dlu, left:pref, 4dlu, fill:pref:grow");
 		FormLayout layout = new FormLayout("left:pref, 4dlu, left:pref, 4dlu, fill:pref:grow, 4dlu, left:pref, 4dlu, fill:pref:grow");
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 		builder.setDefaultDialogBorder();
@@ -143,7 +147,6 @@ public class DatasetInputPanel extends JPanel {
 		Border raisedBevel = BorderFactory.createRaisedBevelBorder();
 		title = BorderFactory.createTitledBorder(raisedBevel, "Dataset");
 
-		// builder.appendSeparator("Dataset");
 		builder.append("Name", getDatasetNameTextField(), 3);
 		builder.append("Column", getDatasetCombobox());
 		builder.nextLine();
@@ -153,17 +156,16 @@ public class DatasetInputPanel extends JPanel {
 
 		builder.nextLine();
 
-		// builder.appendSeparator("Scale");
 		builder.append(getEnableAutoscaleCheckbox());
 		builder.append("Minimum", getMinimumSpinner());
 		builder.append("Maximum", getMaximumSpinner());
 
 		builder.append(ButtonBarFactory.buildRightAlignedBar(getDeleteDatasetButton()), 9);
 
-		// builder.getPanel().setBorder(title);
 		add(builder.getPanel(), BorderLayout.CENTER);
 		setBorder(title);
 
+		datasetNameTextField.setText(datasetCombobox.getSelectedItem().toString());
 	}
 
 	public JLabel getColorLabel() {
@@ -272,6 +274,14 @@ public class DatasetInputPanel extends JPanel {
 	public JComboBox getDatasetCombobox() {
 		if (datasetCombobox == null) {
 			datasetCombobox = new JComboBox(possibleDatasetColumns.toArray());
+
+			datasetCombobox.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					getDatasetNameTextField().setText(datasetCombobox.getSelectedItem().toString());
+				}
+			});
 		}
 		return datasetCombobox;
 	}

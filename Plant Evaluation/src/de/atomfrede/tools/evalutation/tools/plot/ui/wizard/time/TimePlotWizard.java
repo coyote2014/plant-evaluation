@@ -49,7 +49,6 @@ public class TimePlotWizard extends PlotWizard {
 	private final Log log = LogFactory.getLog(TimePlotWizard.class);
 
 	List<TimeDatasetWrapper> datasetWrappers;
-	List<WizardPage> pages;
 
 	int timeColumn;
 
@@ -212,19 +211,4 @@ public class TimePlotWizard extends PlotWizard {
 
 		worker.execute();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.ciscavate.cjwizard.WizardListener#onPageChanged(org.ciscavate.cjwizard
-	 * .WizardPage, java.util.List)
-	 */
-	@Override
-	public void onPageChanged(WizardPage arg0, List<WizardPage> arg1) {
-		// TODO Change the Location according to the current size of the wizard
-		// setLocation(0, 0);
-
-	}
-
 }

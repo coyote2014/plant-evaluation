@@ -49,9 +49,6 @@ public class SimplePlotWizard extends PlotWizard {
 	private final Log log = LogFactory.getLog(SimplePlotWizard.class);
 
 	List<XYDatasetWrapper> datasetWrappers;
-	List<WizardPage> pages;
-
-	File dataFile;
 
 	public SimplePlotWizard() {
 		super();
@@ -200,18 +197,4 @@ public class SimplePlotWizard extends PlotWizard {
 		worker.execute();
 
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.ciscavate.cjwizard.WizardListener#onPageChanged(org.ciscavate.cjwizard
-	 * .WizardPage, java.util.List)
-	 */
-	@Override
-	public void onPageChanged(WizardPage arg0, List<WizardPage> arg1) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

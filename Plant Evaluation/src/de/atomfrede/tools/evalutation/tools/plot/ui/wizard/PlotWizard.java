@@ -18,14 +18,20 @@
  */
 package de.atomfrede.tools.evalutation.tools.plot.ui.wizard;
 
+import java.awt.Dimension;
 import java.io.File;
+import java.util.List;
 
 import javax.swing.JDialog;
 
 import org.ciscavate.cjwizard.WizardContainer;
 import org.ciscavate.cjwizard.WizardListener;
+import org.ciscavate.cjwizard.WizardPage;
 
 import de.atomfrede.tools.evalutation.tools.plot.AbstractPlot.PlotType;
+import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.pages.DatasetSelectionWizardPage;
+import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.pages.FileSelectionWizardPage;
+import de.atomfrede.tools.evalutation.util.DialogUtil;
 
 @SuppressWarnings("serial")
 public abstract class PlotWizard extends JDialog implements WizardListener {
@@ -33,6 +39,9 @@ public abstract class PlotWizard extends JDialog implements WizardListener {
 	protected PlotType type;
 	protected WizardContainer wizardContainer;
 	protected File dataFile;
+	protected List<WizardPage> pages;
+
+	protected Dimension lastSize = null;
 
 	public PlotType getType() {
 		return type;
@@ -59,5 +68,29 @@ public abstract class PlotWizard extends JDialog implements WizardListener {
 		if (dataFile != null) {
 			wizardContainer.setNextEnabled(true);
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.ciscavate.cjwizard.WizardListener#onPageChanged(org.ciscavate.cjwizard
+	 * .WizardPage, java.util.List)
+	 */
+	@Override
+	public void onPageChanged(WizardPage page, List<WizardPage> pageList) {
+		if (page instanceof FileSelectionWizardPage) {
+			// put the wizard back to smaller scale
+			if (lastSize != null) {
+				setSize(lastSize);
+				setLocationRelativeTo(DialogUtil.getInstance().getFrame());
+			}
+		} else if (page instanceof DatasetSelectionWizardPage) {
+			lastSize = getSize();
+			// 800x600 looks to be a good size
+			setSize(800, 600);
+			setLocationRelativeTo(DialogUtil.getInstance().getFrame());
+		}
+
 	}
 }
