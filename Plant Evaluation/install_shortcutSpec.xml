@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<shortcuts>
+	<skipIfNotSupported />
+	<defaultCurrentUser />
+	<programGroup defaultName="Plant Evaluation" location="applications" />
+	<shortcut applications="yes" desktop="yes" initialState="noShow"
+		name="Plant Evaluation" programGroup="no" startMenu="no" startup="no"
+		target="$INSTALL_PATH/PlantEvaluation.jar" iconFile="$INSTALL_PATH/favicon.ico" />
+</shortcuts>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="libs/commons-io-2.1.jar"/>
+	<classpathentry kind="lib" path="libs/commons-math-2.2.jar"/>
+	<classpathentry kind="lib" path="libs/opencsv-2.3.jar"/>
+	<classpathentry kind="lib" path="libs/jgoodies-common-1.2.1.jar"/>
+	<classpathentry kind="lib" path="libs/jgoodies-forms-1.4.2.jar"/>
+	<classpathentry kind="lib" path="libs/swingx-core-1.6.2.jar"/>
+	<classpathentry kind="lib" path="libs/commons-configuration-1.7.jar"/>
+	<classpathentry kind="lib" path="libs/jide-oss-3.2.4.jar"/>
+	<classpathentry kind="lib" path="libs/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="libs/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="libs/jfreechart-1.0.14.jar"/>
+	<classpathentry kind="lib" path="libs/iText-2.1.5.jar"/>
+	<classpathentry kind="lib" path="libs/batik-awt-util.jar"/>
+	<classpathentry kind="lib" path="libs/batik-dom.jar"/>
+	<classpathentry kind="lib" path="libs/batik-svggen.jar"/>
+	<classpathentry kind="lib" path="libs/batik-util.jar"/>
+	<classpathentry kind="lib" path="libs/batik-svg-dom.jar"/>
+	<classpathentry kind="lib" path="libs/batik-css.jar"/>
+	<classpathentry kind="lib" path="libs/batik-ext.jar"/>
+	<classpathentry kind="lib" path="libs/batik-extension.jar"/>
+	<classpathentry kind="lib" path="libs/batik-parser.jar"/>
+	<classpathentry kind="lib" path="libs/batik-xml.jar"/>
+	<classpathentry kind="lib" path="libs/commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="libs/commons-collections-3.2.1.jar"/>
+	<classpathentry kind="lib" path="libs/commons-lang3-3.0.1.jar"/>
+	<classpathentry kind="lib" path="libs/jcommon-1.0.17.jar"/>
+	<classpathentry kind="lib" path="libs/CJWizards.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
