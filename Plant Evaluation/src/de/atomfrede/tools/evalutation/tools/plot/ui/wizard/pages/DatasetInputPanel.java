@@ -34,6 +34,8 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.factories.ButtonBarFactory;
 import com.jgoodies.forms.layout.FormLayout;
@@ -275,6 +277,7 @@ public class DatasetInputPanel extends JPanel {
 		if (datasetCombobox == null) {
 			datasetCombobox = new JComboBox(possibleDatasetColumns.toArray());
 
+			AutoCompleteDecorator.decorate(datasetCombobox);
 			datasetCombobox.addActionListener(new ActionListener() {
 
 				@Override
