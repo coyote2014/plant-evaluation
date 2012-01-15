@@ -57,6 +57,16 @@ public class DialogUtil {
 		return this.frame;
 	}
 
+	public void showStandardDialog(final JDialog dialogToShow) {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				dialogToShow.setVisible(true);
+			}
+		});
+	}
+
 	public void showError(final Exception ex) {
 		SwingUtilities.invokeLater(new Runnable() {
 
@@ -67,7 +77,7 @@ public class DialogUtil {
 		});
 	}
 
-	public void showDialog(final JDialog wizardDialog) {
+	public void showWizardDialog(final JDialog wizardDialog) {
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
@@ -96,7 +106,7 @@ public class DialogUtil {
 						wizard.setSize(wizard.getPreferredSize());
 						wizard.setLocationRelativeTo(frame);
 						wizard.setModal(true);
-						showDialog(wizard);
+						showWizardDialog(wizard);
 						break;
 					}
 					case TIME: {
@@ -105,7 +115,7 @@ public class DialogUtil {
 						wizard.setSize(wizard.getPreferredSize());
 						wizard.setLocationRelativeTo(frame);
 						wizard.setModal(true);
-						showDialog(wizard);
+						showWizardDialog(wizard);
 						break;
 					}
 					default:

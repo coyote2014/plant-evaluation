@@ -41,7 +41,9 @@ import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.PlotWizard;
 import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.pages.DatasetSelectionWizardPage;
 import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.time.pages.TimeFileSelectionPage;
 import de.atomfrede.tools.evalutation.tools.plot.wrapper.TimeDatasetWrapper;
+import de.atomfrede.tools.evalutation.ui.BusyDialog;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
+import de.atomfrede.tools.evalutation.util.DialogUtil;
 
 @SuppressWarnings("serial")
 public class TimePlotWizard extends PlotWizard {
@@ -162,6 +164,10 @@ public class TimePlotWizard extends PlotWizard {
 	public void onFinished(List<WizardPage> arg0, WizardSettings arg1) {
 		this.setVisible(false);
 
+		busyDialog = new BusyDialog("Please wait while plots are generated...");
+		busyDialog.setLocationRelativeTo(DialogUtil.getInstance().getFrame());
+		DialogUtil.getInstance().showStandardDialog(busyDialog);
+
 		SwingWorker<Object, Object> worker = new SwingWorker<Object, Object>() {
 
 			@Override
@@ -204,6 +210,7 @@ public class TimePlotWizard extends PlotWizard {
 
 			@Override
 			protected void done() {
+				busyDialog.dispose();
 				dispose();
 			}
 

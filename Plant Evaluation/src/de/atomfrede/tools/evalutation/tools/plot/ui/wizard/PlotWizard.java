@@ -31,6 +31,7 @@ import org.ciscavate.cjwizard.WizardPage;
 import de.atomfrede.tools.evalutation.tools.plot.AbstractPlot.PlotType;
 import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.pages.DatasetSelectionWizardPage;
 import de.atomfrede.tools.evalutation.tools.plot.ui.wizard.pages.FileSelectionWizardPage;
+import de.atomfrede.tools.evalutation.ui.BusyDialog;
 import de.atomfrede.tools.evalutation.util.DialogUtil;
 
 @SuppressWarnings("serial")
@@ -40,6 +41,7 @@ public abstract class PlotWizard extends JDialog implements WizardListener {
 	protected WizardContainer wizardContainer;
 	protected File dataFile;
 	protected List<WizardPage> pages;
+	protected BusyDialog busyDialog;
 
 	protected Dimension lastSize = null;
 
@@ -68,6 +70,14 @@ public abstract class PlotWizard extends JDialog implements WizardListener {
 		if (dataFile != null) {
 			wizardContainer.setNextEnabled(true);
 		}
+	}
+
+	public BusyDialog getBusyDialog() {
+		return busyDialog;
+	}
+
+	public void setBusyDialog(BusyDialog busyDialog) {
+		this.busyDialog = busyDialog;
 	}
 
 	/*
