@@ -28,6 +28,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URISyntaxException;
+import java.nio.channels.OverlappingFileLockException;
 
 import javax.swing.*;
 
@@ -44,6 +45,7 @@ import de.atomfrede.tools.evalutation.ui.res.Messages;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 import de.atomfrede.tools.evalutation.util.DialogUtil;
 import de.atomfrede.tools.evalutation.util.JarUtil;
+import de.atomfrede.tools.evalutation.util.SingleInstance;
 
 /**
  * The central frame that contains all ui elements and the main class that
@@ -61,14 +63,22 @@ public class AppWindow {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+
 		setLookAndFeel();
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				try {
 					JarUtil.startFileLogging();
+					SingleInstance.lock();
 					AppWindow window = new AppWindow();
 					window.frame.setVisible(true);
+				} catch (OverlappingFileLockException lock) {
+					DialogUtil
+							.getInstance()
+							.showErrorDialog("Lock Exception",
+									"<html><b>A lock is already set.</b><br>Make sure no other instance of Plant Evaluation is running and restart the application.</html>");
+					System.exit(0);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -115,6 +125,7 @@ public class AppWindow {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				if (reallyExit() == JOptionPane.YES_OPTION) {
+					SingleInstance.release();
 					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				}
 			}
