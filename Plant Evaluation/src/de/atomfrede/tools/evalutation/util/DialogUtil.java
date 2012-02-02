@@ -87,6 +87,11 @@ public class DialogUtil {
 		});
 	}
 
+	public int showErrorDialog(String title, String errorMessage) {
+		JOptionPane.showMessageDialog(frame, errorMessage, title, JOptionPane.ERROR_MESSAGE, Icons.IC_DIALOG_ERROR_LARGE);
+		return 0;
+	}
+
 	public void showPlotTypeSelection() {
 		SwingUtilities.invokeLater(new Runnable() {
 
