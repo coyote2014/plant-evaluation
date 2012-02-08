@@ -143,8 +143,7 @@ public class PlantListPanel extends JPanel {
 	}
 
 	/**
-	 * Updating the each plant with the data currently entered in the user
-	 * interface
+	 * Updating the each plant with the data currently entered in the user interface
 	 */
 	public void updatePlants() {
 		log.trace("Updating Plant List");

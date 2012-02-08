@@ -35,8 +35,7 @@ import de.atomfrede.tools.evalutation.ui.res.Messages;
 import de.atomfrede.tools.evalutation.ui.res.icons.Icons;
 
 /**
- * Panel that contains interface to select all necessary folders to run a
- * complete evaluation.
+ * Panel that contains interface to select all necessary folders to run a complete evaluation.
  */
 public class FolderSelectionPanel extends JPanel {
 

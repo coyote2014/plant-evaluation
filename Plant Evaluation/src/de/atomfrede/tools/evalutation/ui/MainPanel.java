@@ -231,8 +231,7 @@ public class MainPanel extends JPanel {
 	}
 
 	/**
-	 * Custom Renderer to display nice human readable strings for
-	 * {@link EvaluationType}s
+	 * Custom Renderer to display nice human readable strings for {@link EvaluationType}s
 	 */
 	@SuppressWarnings("serial")
 	private static class EvaluationTypeRender extends JLabel implements ListCellRenderer {

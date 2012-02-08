@@ -49,8 +49,7 @@ public class JarUtil {
 	}
 
 	/**
-	 * Start the file logging and puts the log file in the directoty where the
-	 * executable jar is located instad of using the user.home directory.
+	 * Start the file logging and puts the log file in the directoty where the executable jar is located instad of using the user.home directory.
 	 * 
 	 * @throws Exception
 	 */

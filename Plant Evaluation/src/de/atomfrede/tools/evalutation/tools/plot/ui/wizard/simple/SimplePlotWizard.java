@@ -100,8 +100,7 @@ public class SimplePlotWizard extends PlotWizard {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.ciscavate.cjwizard.PageFactory#createPage(java.util.List,
-		 * org.ciscavate.cjwizard.WizardSettings)
+		 * @see org.ciscavate.cjwizard.PageFactory#createPage(java.util.List, org.ciscavate.cjwizard.WizardSettings)
 		 */
 		@Override
 		public WizardPage createPage(List<WizardPage> path, WizardSettings settings) {
@@ -131,8 +130,7 @@ public class SimplePlotWizard extends PlotWizard {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.ciscavate.cjwizard.WizardListener#onCanceled(java.util.List,
-	 * org.ciscavate.cjwizard.WizardSettings)
+	 * @see org.ciscavate.cjwizard.WizardListener#onCanceled(java.util.List, org.ciscavate.cjwizard.WizardSettings)
 	 */
 	@Override
 	public void onCanceled(List<WizardPage> arg0, WizardSettings arg1) {
@@ -142,8 +140,7 @@ public class SimplePlotWizard extends PlotWizard {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.ciscavate.cjwizard.WizardListener#onFinished(java.util.List,
-	 * org.ciscavate.cjwizard.WizardSettings)
+	 * @see org.ciscavate.cjwizard.WizardListener#onFinished(java.util.List, org.ciscavate.cjwizard.WizardSettings)
 	 */
 	@Override
 	public void onFinished(List<WizardPage> arg0, WizardSettings arg1) {

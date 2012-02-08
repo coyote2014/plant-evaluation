@@ -30,8 +30,7 @@ import org.apache.commons.logging.LogFactory;
 import de.atomfrede.tools.evalutation.constants.CommonConstants;
 
 /**
- * Special comparator that compares two lines of a .csv file and compares them
- * by date and time
+ * Special comparator that compares two lines of a .csv file and compares them by date and time
  */
 public class EntryComparator implements Comparator<String[]> {
 

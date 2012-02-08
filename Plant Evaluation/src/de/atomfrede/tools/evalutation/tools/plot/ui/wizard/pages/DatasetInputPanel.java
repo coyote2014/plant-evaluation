@@ -84,10 +84,9 @@ public class DatasetInputPanel extends JPanel {
 		// now read all possible headers that might contain interesting data
 		int i = 0;
 		for (String head : header) {
-			if (head.equals(InputFileConstants.HEADER_12_CO2) || head.equals(InputFileConstants.HEADER_12_CO2_DRY)
-					|| head.equals(InputFileConstants.HEADER_13_CO2) || head.equals(InputFileConstants.HEADER_13_CO2_DRY)
-					|| head.equals(InputFileConstants.HEADER_DELTA_5_MINUTES) || head.equals(InputFileConstants.HEADER_DELTA_RAW)
-					|| head.equals(InputFileConstants.HEADER_H2O) || head.equals(OutputFileConstants.HEADER_DELTA_13)
+			if (head.equals(InputFileConstants.HEADER_12_CO2) || head.equals(InputFileConstants.HEADER_12_CO2_DRY) || head.equals(InputFileConstants.HEADER_13_CO2)
+					|| head.equals(InputFileConstants.HEADER_13_CO2_DRY) || head.equals(InputFileConstants.HEADER_DELTA_5_MINUTES)
+					|| head.equals(InputFileConstants.HEADER_DELTA_RAW) || head.equals(InputFileConstants.HEADER_H2O) || head.equals(OutputFileConstants.HEADER_DELTA_13)
 					|| head.equals(OutputFileConstants.HEADER_CO2_ABSOLUTE)) {
 				// if any of that interesting columns is found use it
 				headerToColumnNumber.put(head, Integer.valueOf(i));

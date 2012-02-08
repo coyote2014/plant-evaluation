@@ -159,8 +159,7 @@ public class DatasetSelectionWizardPage extends AbstractWizardPage implements ID
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see de.atomfrede.tools.evalutation.tools.plot.ui.wizard.pages.
-	 * IDatasetSelectionWizardPage#getTimeColumn()
+	 * @see de.atomfrede.tools.evalutation.tools.plot.ui.wizard.pages. IDatasetSelectionWizardPage#getTimeColumn()
 	 */
 	@Override
 	public int getTimeColumn() {

@@ -23,21 +23,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
+import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.tools.evalutation.constants.CommonConstants;
 import de.atomfrede.tools.evalutation.constants.InputFileConstants;
 import de.atomfrede.tools.evalutation.constants.OutputFileConstants;
-
-import au.com.bytecode.opencsv.CSVWriter;
 
 public class WriteUtils {
 
 	static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SS");
 
 	public static void writeHeader(CSVWriter writer) {
-		String[] header = { CommonConstants.DATE_HEADER, CommonConstants.TIME_HEADER, OutputFileConstants.HEADER_12_CO2_DRY,
-				OutputFileConstants.HEADER_13_CO2_DRY, OutputFileConstants.HEADER_DELTA_5_MINUTES, OutputFileConstants.HEADER_H2O,
-				OutputFileConstants.HEADER_SOLENOID_VALVE, OutputFileConstants.HEADER_CO2_ABSOLUTE, OutputFileConstants.HEADER_DATE_AND_TIME,
-				OutputFileConstants.HEADER_CO2_DIFFERENCE, OutputFileConstants.HEADER_DELTA_13, OutputFileConstants.HEADER_TEMPERATURE,
+		String[] header = { CommonConstants.DATE_HEADER, CommonConstants.TIME_HEADER, OutputFileConstants.HEADER_12_CO2_DRY, OutputFileConstants.HEADER_13_CO2_DRY,
+				OutputFileConstants.HEADER_DELTA_5_MINUTES, OutputFileConstants.HEADER_H2O, OutputFileConstants.HEADER_SOLENOID_VALVE, OutputFileConstants.HEADER_CO2_ABSOLUTE,
+				OutputFileConstants.HEADER_DATE_AND_TIME, OutputFileConstants.HEADER_CO2_DIFFERENCE, OutputFileConstants.HEADER_DELTA_13, OutputFileConstants.HEADER_TEMPERATURE,
 				OutputFileConstants.HEADER_PHOTO_SYNTHESIS_RATE, OutputFileConstants.HEADER_PHOTO_SYNTHESIS_RATE_STANDARD_DEVIVATION,
 				OutputFileConstants.HEADER_DELTA_13_STANDARD_DEVIVATION };
 		writer.writeNext(header);

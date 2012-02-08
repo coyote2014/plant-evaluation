@@ -67,16 +67,14 @@ public class CustomSimplePlot extends AbstractPlot {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * de.atomfrede.tools.evalutation.tools.plot.AbstractPlot#createChart(de
-	 * .atomfrede.tools.evalutation.tools.plot.XYDatasetWrapper[])
+	 * @see de.atomfrede.tools.evalutation.tools.plot.AbstractPlot#createChart(de .atomfrede.tools.evalutation.tools.plot.XYDatasetWrapper[])
 	 */
 	@Override
 	protected JFreeChart createChart(XYDatasetWrapper... datasetWrappers) {
 		XYDatasetWrapper mainDataset = datasetWrappers[0];
 
-		JFreeChart chart = ChartFactory.createXYLineChart(mainDataset.getSeriesName(), "Index", mainDataset.getSeriesName(), mainDataset.getDataset(),
-				PlotOrientation.VERTICAL, true, false, false);
+		JFreeChart chart = ChartFactory.createXYLineChart(mainDataset.getSeriesName(), "Index", mainDataset.getSeriesName(), mainDataset.getDataset(), PlotOrientation.VERTICAL,
+				true, false, false);
 
 		XYPlot plot = (XYPlot) chart.getPlot();
 		// all adjustments for first/main dataset

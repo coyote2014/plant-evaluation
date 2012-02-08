@@ -25,17 +25,15 @@ import de.atomfrede.tools.evalutation.constants.InputFileConstants;
 import de.atomfrede.tools.evalutation.constants.OutputFileConstants;
 
 /**
- * Checks if the current header still fits to the expected column numbers. If
- * not it changes the the column numbers according to the current file format.
+ * Checks if the current header still fits to the expected column numbers. If not it changes the the column numbers according to the current file format.
  */
 public class ColumnCheckUtil {
 
 	private static final Log log = LogFactory.getLog(ColumnCheckUtil.class);
 
 	/**
-	 * Checks if the order of columns in the inputfiles (from picarro device)
-	 * has changed. If thats the case the constants are changed accordingly, so
-	 * the program "learns" the correct file formats and adapts accordingly
+	 * Checks if the order of columns in the inputfiles (from picarro device) has changed. If thats the case the constants are changed accordingly, so the program "learns" the
+	 * correct file formats and adapts accordingly
 	 * 
 	 * @param inputFileheader
 	 */
@@ -79,10 +77,8 @@ public class ColumnCheckUtil {
 	}
 
 	/**
-	 * Checks the given outputfile header for changes in the column order. So
-	 * the outputformat can be changed dynamically. Each time a single evaluator
-	 * is started this method must be called in order to use the correct
-	 * columns.
+	 * Checks the given outputfile header for changes in the column order. So the outputformat can be changed dynamically. Each time a single evaluator is started this method must
+	 * be called in order to use the correct columns.
 	 * 
 	 * @param header
 	 */
