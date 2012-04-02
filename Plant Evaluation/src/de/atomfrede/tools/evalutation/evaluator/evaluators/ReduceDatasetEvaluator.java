@@ -46,11 +46,8 @@ import de.atomfrede.tools.evalutation.tools.plot.wrapper.XYDatasetWrapper;
 import de.atomfrede.tools.evalutation.util.DialogUtil;
 
 /**
- * Evaluator that reduces the whole dataset by taking 60 lines, computing the
- * means for neccessary columns and writing the resulting line into the
- * outputfile. <br>
- * Instead of having datasets for every second, we now have datasets for about
- * each minute (with means).<br>
+ * Evaluator that reduces the whole dataset by taking 60 lines, computing the means for neccessary columns and writing the resulting line into the outputfile. <br>
+ * Instead of having datasets for every second, we now have datasets for about each minute (with means).<br>
  * <br>
  * Neccessary Values are:<br>
  * 
@@ -65,9 +62,19 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 
 	private final Log log = LogFactory.getLog(ReduceDatasetEvaluator.class);
 
-	public ReduceDatasetEvaluator(File inputFile) {
+	/**
+	 * "Density" for reducing: Means: take every density lines and reduce them to one line
+	 */
+	private int density;
+
+	public ReduceDatasetEvaluator(File inputFile, int density) {
 		super("Reduced Datasets", inputFile, null);
 		this.name = "Reducing Dataset";
+		this.density = density;
+	}
+
+	public ReduceDatasetEvaluator(File inputFile) {
+		this(inputFile, 60);
 	}
 
 	@Override
@@ -89,12 +96,12 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 				// the endindex is always the minimum of startIndex + 60 (so 60
 				// lines) and the size of all lines to avoid
 				// out of bounce exceptions
-				int endIndex = Math.min(i + 60, allLines.size());
+				int endIndex = Math.min(i + density, allLines.size());
 				List<String[]> meanLines = getLinesForMeanComputation(i, endIndex, allLines);
 				// compute the means for all necessary values
 				String[] meanLine = computeMeanLine(meanLines);
 				writer.writeNext(meanLine);
-				i = Math.min(i + 60 + 1, allLines.size());
+				i = Math.min(i + density + 1, allLines.size());
 				progressBar.setValue((int) ((i * 1.0 / allLines.size()) * 100.0));
 			}
 
@@ -114,9 +121,7 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 	}
 
 	/**
-	 * Collects all values, computes their means and writes them into a new data
-	 * line for the csv file. Besides the computed means the line stays
-	 * unchanged.
+	 * Collects all values, computes their means and writes them into a new data line for the csv file. Besides the computed means the line stays unchanged.
 	 * 
 	 * @param meanLines
 	 * @return
@@ -176,6 +181,14 @@ public class ReduceDatasetEvaluator extends SingleInputFileEvaluator {
 			lines.add(allLines.get(i));
 		}
 		return lines;
+	}
+
+	public int getDensity() {
+		return density;
+	}
+
+	public void setDensity(int density) {
+		this.density = density;
 	}
 
 	public class CO2AbsoluteDeltaFiveMinutesPlot extends TimePlot {

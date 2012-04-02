@@ -44,7 +44,7 @@ public class TypeBevaluation extends AbstractEvaluation {
 	public TypeBevaluation() {
 		copyEvaluator = new CopyEvaluator();
 		co2absEvaluator = new CO2AbsoluteOnlyEvaluator(copyEvaluator.getOutputFile());
-		reduceDatasetEvalutor = new ReduceDatasetEvaluator(co2absEvaluator.getOutputFile());
+		reduceDatasetEvalutor = new ReduceDatasetEvaluator(co2absEvaluator.getOutputFile(), TypeBEvaluationOptions.getDensity());
 		pickDatasetEvaluator = new PickDatasetEvaluator(reduceDatasetEvalutor.getOutputFile());
 		evaluators.add(copyEvaluator);
 		evaluators.add(co2absEvaluator);
@@ -79,8 +79,7 @@ public class TypeBevaluation extends AbstractEvaluation {
 				}
 				if (evaluator instanceof ReduceDatasetEvaluator) {
 					ReduceDatasetEvaluator eva = (ReduceDatasetEvaluator) evaluator;
-					eva.new CO2AbsoluteDeltaRawPlot(eva.getOutputFile(), TypeBEvaluationOptions.isCo2AbsoluteAutoscale(),
-							TypeBEvaluationOptions.isDeltaRawAutoscale()).plot();
+					eva.new CO2AbsoluteDeltaRawPlot(eva.getOutputFile(), TypeBEvaluationOptions.isCo2AbsoluteAutoscale(), TypeBEvaluationOptions.isDeltaRawAutoscale()).plot();
 					pickDatasetEvaluator.setInputFile(eva.getOutputFile());
 					i++;
 					continue;

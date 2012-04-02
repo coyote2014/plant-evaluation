@@ -54,17 +54,15 @@ public class OptionsDialog extends JDialog {
 	JButton okButton, cancelButton;
 
 	// General Options (=Copy Evaluator)
-	JCheckBox allSolenoidValvesCheckbox, solenoidValveOneCheckBox, solenoidValveTwoCheckBox, solenoidValveFourCheckBox, solenoidValveEightCheckBox,
-			solenoidValveSixteenCheckBox;
+	JCheckBox allSolenoidValvesCheckbox, solenoidValveOneCheckBox, solenoidValveTwoCheckBox, solenoidValveFourCheckBox, solenoidValveEightCheckBox, solenoidValveSixteenCheckBox;
 
 	// CO2 Absolute only Evaluation
 	JCheckBox co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox, co2Absolute_isCo2AbsoluteAutoscaleCheckbox;
-	JSpinner co2Absolute_co2AbsoluteMinimumSpinner, co2Absolute_co2AbsoluteMaximumSpinner, co2Absolute_deltaFiveMinutesMinimumSpinner,
-			co2Absolute_deltaFiveMinutesMaximumSpinner;
+	JSpinner co2Absolute_co2AbsoluteMinimumSpinner, co2Absolute_co2AbsoluteMaximumSpinner, co2Absolute_deltaFiveMinutesMinimumSpinner, co2Absolute_deltaFiveMinutesMaximumSpinner;
 
 	// Type B (== Ingo's Evaluation Options)
 	JCheckBox typeB_isCO2AbsoluteAutoscaleCheckbox, typeB_isDeltaRawAutoscaleCheckbox;
-	JSpinner typeB_co2AbsoluteMinimumSpinner, typeB_co2AbsoluteMaximumSpinner, typeB_deltaRawMinimumSpinner, typeB_deltaRawMaximumSpinner;
+	JSpinner typeB_densitySpinner, typeB_co2AbsoluteMinimumSpinner, typeB_co2AbsoluteMaximumSpinner, typeB_deltaRawMinimumSpinner, typeB_deltaRawMaximumSpinner;
 
 	JTabbedPane tabs;
 	JPanel firstTab, secondTab, thirdTab, fourthTab;
@@ -213,10 +211,16 @@ public class OptionsDialog extends JDialog {
 		return co2Absolute_isCo2AbsoluteAutoscaleCheckbox;
 	}
 
+	private JSpinner getTypeB_DensitySpinner() {
+		if (typeB_densitySpinner == null) {
+			typeB_densitySpinner = new JSpinner(new SpinnerNumberModel(TypeBEvaluationOptions.getDensity(), 0, 300, 10));
+		}
+		return typeB_densitySpinner;
+	}
+
 	private JSpinner getTypeB_CO2AbsoluteMinimumSpinner() {
 		if (typeB_co2AbsoluteMinimumSpinner == null) {
-			typeB_co2AbsoluteMinimumSpinner = new JSpinner(new SpinnerNumberModel(TypeBEvaluationOptions.getCo2AbsoluteDatasetMinimum(), Integer.MIN_VALUE,
-					Integer.MAX_VALUE, 10));
+			typeB_co2AbsoluteMinimumSpinner = new JSpinner(new SpinnerNumberModel(TypeBEvaluationOptions.getCo2AbsoluteDatasetMinimum(), Integer.MIN_VALUE, Integer.MAX_VALUE, 10));
 			typeB_co2AbsoluteMinimumSpinner.setEnabled(!TypeBEvaluationOptions.isCo2AbsoluteAutoscale());
 		}
 
@@ -225,8 +229,7 @@ public class OptionsDialog extends JDialog {
 
 	private JSpinner getTypeB_CO2AbsoluteMaximumSpinner() {
 		if (typeB_co2AbsoluteMaximumSpinner == null) {
-			typeB_co2AbsoluteMaximumSpinner = new JSpinner(new SpinnerNumberModel(TypeBEvaluationOptions.getCo2AbsoluteDatasetMaximum(), Integer.MIN_VALUE,
-					Integer.MAX_VALUE, 10));
+			typeB_co2AbsoluteMaximumSpinner = new JSpinner(new SpinnerNumberModel(TypeBEvaluationOptions.getCo2AbsoluteDatasetMaximum(), Integer.MIN_VALUE, Integer.MAX_VALUE, 10));
 			typeB_co2AbsoluteMaximumSpinner.setEnabled(!TypeBEvaluationOptions.isCo2AbsoluteAutoscale());
 		}
 
@@ -235,8 +238,7 @@ public class OptionsDialog extends JDialog {
 
 	private JSpinner getTypeB_deltaRawMaximumSpinner() {
 		if (typeB_deltaRawMaximumSpinner == null) {
-			typeB_deltaRawMaximumSpinner = new JSpinner(new SpinnerNumberModel(TypeBEvaluationOptions.getDeltaRawDatasetMaximum(), Integer.MIN_VALUE,
-					Integer.MAX_VALUE, 10));
+			typeB_deltaRawMaximumSpinner = new JSpinner(new SpinnerNumberModel(TypeBEvaluationOptions.getDeltaRawDatasetMaximum(), Integer.MIN_VALUE, Integer.MAX_VALUE, 10));
 			typeB_deltaRawMaximumSpinner.setEnabled(!TypeBEvaluationOptions.isDeltaRawAutoscale());
 		}
 
@@ -245,8 +247,7 @@ public class OptionsDialog extends JDialog {
 
 	private JSpinner getTypeB_deltaRawMinimumSpinner() {
 		if (typeB_deltaRawMinimumSpinner == null) {
-			typeB_deltaRawMinimumSpinner = new JSpinner(new SpinnerNumberModel(TypeBEvaluationOptions.getDeltaRawDatasetMinimum(), Integer.MIN_VALUE,
-					Integer.MAX_VALUE, 10));
+			typeB_deltaRawMinimumSpinner = new JSpinner(new SpinnerNumberModel(TypeBEvaluationOptions.getDeltaRawDatasetMinimum(), Integer.MIN_VALUE, Integer.MAX_VALUE, 10));
 			typeB_deltaRawMinimumSpinner.setEnabled(!TypeBEvaluationOptions.isDeltaRawAutoscale());
 		}
 
@@ -255,8 +256,8 @@ public class OptionsDialog extends JDialog {
 
 	private JSpinner getCo2Absolute_Co2AbsoluteMinimumSpinner() {
 		if (co2Absolute_co2AbsoluteMinimumSpinner == null) {
-			co2Absolute_co2AbsoluteMinimumSpinner = new JSpinner(new SpinnerNumberModel(CO2AbsoluteOnlyEvaluationOptions.getCo2AbsoluteDatasetMinimum(),
-					Integer.MIN_VALUE, Integer.MAX_VALUE, 10));
+			co2Absolute_co2AbsoluteMinimumSpinner = new JSpinner(new SpinnerNumberModel(CO2AbsoluteOnlyEvaluationOptions.getCo2AbsoluteDatasetMinimum(), Integer.MIN_VALUE,
+					Integer.MAX_VALUE, 10));
 			co2Absolute_co2AbsoluteMinimumSpinner.setEnabled(!CO2AbsoluteOnlyEvaluationOptions.isAutoScaleCO2Absolute());
 		}
 		return co2Absolute_co2AbsoluteMinimumSpinner;
@@ -264,8 +265,8 @@ public class OptionsDialog extends JDialog {
 
 	private JSpinner getCo2Absolute_Co2AbsoluteMaximumSpinner() {
 		if (co2Absolute_co2AbsoluteMaximumSpinner == null) {
-			co2Absolute_co2AbsoluteMaximumSpinner = new JSpinner(new SpinnerNumberModel(
-					CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteOnly_getCo2AbsoluteDatasetMaximum(), Integer.MIN_VALUE, Integer.MAX_VALUE, 10));
+			co2Absolute_co2AbsoluteMaximumSpinner = new JSpinner(new SpinnerNumberModel(CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteOnly_getCo2AbsoluteDatasetMaximum(),
+					Integer.MIN_VALUE, Integer.MAX_VALUE, 10));
 			co2Absolute_co2AbsoluteMaximumSpinner.setEnabled(!CO2AbsoluteOnlyEvaluationOptions.isAutoScaleCO2Absolute());
 		}
 		return co2Absolute_co2AbsoluteMaximumSpinner;
@@ -273,8 +274,8 @@ public class OptionsDialog extends JDialog {
 
 	private JSpinner getCo2Absolute_deltaFiveMinutesMinimumSpinner() {
 		if (co2Absolute_deltaFiveMinutesMinimumSpinner == null) {
-			co2Absolute_deltaFiveMinutesMinimumSpinner = new JSpinner(new SpinnerNumberModel(
-					CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteOnly_getDeltaFiveMinutesMinimum(), Integer.MIN_VALUE, Integer.MAX_VALUE, 10));
+			co2Absolute_deltaFiveMinutesMinimumSpinner = new JSpinner(new SpinnerNumberModel(CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteOnly_getDeltaFiveMinutesMinimum(),
+					Integer.MIN_VALUE, Integer.MAX_VALUE, 10));
 			co2Absolute_deltaFiveMinutesMinimumSpinner.setEnabled(!CO2AbsoluteOnlyEvaluationOptions.isAutoScaleDeltaFiveMinutes());
 		}
 		return co2Absolute_deltaFiveMinutesMinimumSpinner;
@@ -282,8 +283,8 @@ public class OptionsDialog extends JDialog {
 
 	private JSpinner getCo2Absolute_deltaFiveMinutesMaximumSpinner() {
 		if (co2Absolute_deltaFiveMinutesMaximumSpinner == null) {
-			co2Absolute_deltaFiveMinutesMaximumSpinner = new JSpinner(new SpinnerNumberModel(
-					CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteOnly_getDeltaFiveMinutesMaximum(), Integer.MIN_VALUE, Integer.MAX_VALUE, 10));
+			co2Absolute_deltaFiveMinutesMaximumSpinner = new JSpinner(new SpinnerNumberModel(CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteOnly_getDeltaFiveMinutesMaximum(),
+					Integer.MIN_VALUE, Integer.MAX_VALUE, 10));
 			co2Absolute_deltaFiveMinutesMaximumSpinner.setEnabled(!CO2AbsoluteOnlyEvaluationOptions.isAutoScaleDeltaFiveMinutes());
 		}
 		return co2Absolute_deltaFiveMinutesMaximumSpinner;
@@ -447,16 +448,13 @@ public class OptionsDialog extends JDialog {
 		// CO2 Absolute Only Evaluation Options
 		CO2AbsoluteOnlyEvaluationOptions.setAutoScaleCO2Absolute(co2Absolute_isCo2AbsoluteAutoscaleCheckbox.isSelected());
 		CO2AbsoluteOnlyEvaluationOptions.setAutoScaleDeltaFiveMinutes(co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox.isSelected());
-		CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteOnly_setCo2AbsoluteDatasetMinimum(Double
-				.valueOf(getCo2Absolute_Co2AbsoluteMinimumSpinner().getValue() + ""));
-		CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteOnly_setCo2AbsoluteDatasetMaximum(Double
-				.valueOf(getCo2Absolute_Co2AbsoluteMaximumSpinner().getValue() + ""));
-		CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteOnly_setDeltaFiveMinutesMinimum(Double.valueOf(getCo2Absolute_deltaFiveMinutesMinimumSpinner().getValue()
-				+ ""));
-		CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteOnly_setDeltaFiveMinutesMaximum(Double.valueOf(getCo2Absolute_deltaFiveMinutesMaximumSpinner().getValue()
-				+ ""));
+		CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteOnly_setCo2AbsoluteDatasetMinimum(Double.valueOf(getCo2Absolute_Co2AbsoluteMinimumSpinner().getValue() + ""));
+		CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteOnly_setCo2AbsoluteDatasetMaximum(Double.valueOf(getCo2Absolute_Co2AbsoluteMaximumSpinner().getValue() + ""));
+		CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteOnly_setDeltaFiveMinutesMinimum(Double.valueOf(getCo2Absolute_deltaFiveMinutesMinimumSpinner().getValue() + ""));
+		CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteOnly_setDeltaFiveMinutesMaximum(Double.valueOf(getCo2Absolute_deltaFiveMinutesMaximumSpinner().getValue() + ""));
 
 		// Type B (Ingo's Options)
+		TypeBEvaluationOptions.setDensity(Integer.valueOf(typeB_densitySpinner.getValue() + ""));
 		TypeBEvaluationOptions.setCo2AbsoluteAutoscale(typeB_isCO2AbsoluteAutoscaleCheckbox.isSelected());
 		TypeBEvaluationOptions.setDeltaRawAutoscale(typeB_isDeltaRawAutoscaleCheckbox.isSelected());
 		TypeBEvaluationOptions.setCo2AbsoluteDatasetMaximum(Double.valueOf(getTypeB_CO2AbsoluteMaximumSpinner().getValue() + ""));
@@ -554,6 +552,9 @@ public class OptionsDialog extends JDialog {
 			DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 			builder.setDefaultDialogBorder();
 
+			builder.appendSeparator("Reduce Datasets");
+			builder.append("Density", getTypeB_DensitySpinner());
+
 			builder.appendSeparator("Plotting");
 
 			builder.appendSeparator("CO2 Absolute");
@@ -625,8 +626,7 @@ public class OptionsDialog extends JDialog {
 	}
 
 	/**
-	 * Selecting the solenoid valves corresponding to the currently selected
-	 * ones in the properties file
+	 * Selecting the solenoid valves corresponding to the currently selected ones in the properties file
 	 */
 	private void selectSolenoidValves() {
 		int allCount = 5;

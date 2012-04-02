@@ -96,30 +96,27 @@ public class Options {
 			checkSolenoidValves();
 
 			// options for co2 absolute only evaluation
-			CO2AbsoluteOnlyEvaluationOptions.isAutoScaleCO2Absolute = configuration.getBoolean(
-					CO2AbsoluteOnlyEvaluationOptions.OPTIONS_CO2_ABSOLUTE_IS_CO2_ABSOLUTE_AUTOSCALE, true);
+			CO2AbsoluteOnlyEvaluationOptions.isAutoScaleCO2Absolute = configuration.getBoolean(CO2AbsoluteOnlyEvaluationOptions.OPTIONS_CO2_ABSOLUTE_IS_CO2_ABSOLUTE_AUTOSCALE,
+					true);
 			CO2AbsoluteOnlyEvaluationOptions.isAutoScaleDeltaFiveMinutes = configuration.getBoolean(
 					CO2AbsoluteOnlyEvaluationOptions.OPTIONS_CO2_ABSOLUTE_IS_DELTA_FIVE_MINUTES_AUTOSCALE, true);
-			CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteDatasetMinimum = configuration.getDouble(
-					CO2AbsoluteOnlyEvaluationOptions.OPTIONS_CO2_ABSOLUTE_SCALE_MINIMUM_CO2_ABSOLUTE, Integer.MIN_VALUE);
-			CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteDatasetMaximum = configuration.getDouble(
-					CO2AbsoluteOnlyEvaluationOptions.OPTIONS_CO2_ABSOLUTE_SCALE_MAXIMUM_CO2_ABSOLUTE, Integer.MAX_VALUE);
+			CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteDatasetMinimum = configuration.getDouble(CO2AbsoluteOnlyEvaluationOptions.OPTIONS_CO2_ABSOLUTE_SCALE_MINIMUM_CO2_ABSOLUTE,
+					Integer.MIN_VALUE);
+			CO2AbsoluteOnlyEvaluationOptions.co2AbsoluteDatasetMaximum = configuration.getDouble(CO2AbsoluteOnlyEvaluationOptions.OPTIONS_CO2_ABSOLUTE_SCALE_MAXIMUM_CO2_ABSOLUTE,
+					Integer.MAX_VALUE);
 			CO2AbsoluteOnlyEvaluationOptions.deltaFiveMinutesMinimum = configuration.getDouble(
 					CO2AbsoluteOnlyEvaluationOptions.OPTIONS_CO2_ABSOLUTE_SCALE_MINIMUM_DELTA_FIVE_MINUTES, Integer.MIN_VALUE);
 			CO2AbsoluteOnlyEvaluationOptions.deltaFiveMinutesMaximum = configuration.getDouble(
 					CO2AbsoluteOnlyEvaluationOptions.OPTIONS_CO2_ABSOLUTE_SCALE_MAXIMUM_DELTA_FIVE_MINUTES, Integer.MAX_VALUE);
 
 			// options for type B (= Ingo's evaluation)
+			TypeBEvaluationOptions.density = configuration.getInt(TypeBEvaluationOptions.OPTIONS_TYPE_B_DENSITY, 60);
 			TypeBEvaluationOptions.isCo2AbsoluteAutoscale = configuration.getBoolean(TypeBEvaluationOptions.OPTIONS_TYPE_B_IS_CO2_ABSOLUTE_AUTOSCALE, true);
 			TypeBEvaluationOptions.isDeltaRawAutoscale = configuration.getBoolean(TypeBEvaluationOptions.OPTIONS_TYPE_B_IS_DELTA_RAW_AUTOSCALE, true);
-			TypeBEvaluationOptions.co2AbsoluteDatasetMinimum = configuration.getDouble(TypeBEvaluationOptions.OPTIONS_TYPE_B_CO2_ABSOLUTE_SCALE_MINIMUM,
-					Integer.MIN_VALUE);
-			TypeBEvaluationOptions.co2AbsoluteDatasetMaximum = configuration.getDouble(TypeBEvaluationOptions.OPTIONS_TYPE_B_CO2_ABSOLUTE_SCALE_MAXIMUM,
-					Integer.MAX_VALUE);
-			TypeBEvaluationOptions.deltaRawDatasetMinimum = configuration
-					.getDouble(TypeBEvaluationOptions.OPTIONS_TYPE_B_DELTA_RAW_SCALE_MINIMUM, Integer.MIN_VALUE);
-			TypeBEvaluationOptions.deltaRawDatasetMaximum = configuration
-					.getDouble(TypeBEvaluationOptions.OPTIONS_TYPE_B_DELTA_RAW_SCALE_MAXIMUM, Integer.MAX_VALUE);
+			TypeBEvaluationOptions.co2AbsoluteDatasetMinimum = configuration.getDouble(TypeBEvaluationOptions.OPTIONS_TYPE_B_CO2_ABSOLUTE_SCALE_MINIMUM, Integer.MIN_VALUE);
+			TypeBEvaluationOptions.co2AbsoluteDatasetMaximum = configuration.getDouble(TypeBEvaluationOptions.OPTIONS_TYPE_B_CO2_ABSOLUTE_SCALE_MAXIMUM, Integer.MAX_VALUE);
+			TypeBEvaluationOptions.deltaRawDatasetMinimum = configuration.getDouble(TypeBEvaluationOptions.OPTIONS_TYPE_B_DELTA_RAW_SCALE_MINIMUM, Integer.MIN_VALUE);
+			TypeBEvaluationOptions.deltaRawDatasetMaximum = configuration.getDouble(TypeBEvaluationOptions.OPTIONS_TYPE_B_DELTA_RAW_SCALE_MAXIMUM, Integer.MAX_VALUE);
 		} catch (ConfigurationException ce) {
 			log.error("Could not update configuration.", ce);
 		}

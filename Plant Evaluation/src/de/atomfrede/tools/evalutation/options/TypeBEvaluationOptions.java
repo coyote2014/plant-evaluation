@@ -26,6 +26,7 @@ public class TypeBEvaluationOptions {
 	public static String OPTIONS_TYPE_B_CO2_ABSOLUTE_SCALE_MAXIMUM = "options.type.b.scale.maximum.co2absolute";
 	public static String OPTIONS_TYPE_B_DELTA_RAW_SCALE_MINIMUM = "options.type.b.scale.minimum.deltaraw";
 	public static String OPTIONS_TYPE_B_DELTA_RAW_SCALE_MAXIMUM = "options.type.b.scale.maximum.deltaraw";
+	public static String OPTIONS_TYPE_B_DENSITY = "options.type.b.density";
 
 	static boolean isCo2AbsoluteAutoscale;
 	static boolean isDeltaRawAutoscale;
@@ -34,6 +35,8 @@ public class TypeBEvaluationOptions {
 	static double co2AbsoluteDatasetMaximum;
 	static double deltaRawDatasetMinimum;
 	static double deltaRawDatasetMaximum;
+
+	static int density;
 
 	public static boolean isCo2AbsoluteAutoscale() {
 		return isCo2AbsoluteAutoscale;
@@ -87,5 +90,14 @@ public class TypeBEvaluationOptions {
 	public static void setDeltaRawDatasetMaximum(double deltaRawDatasetMaximum) {
 		TypeBEvaluationOptions.deltaRawDatasetMaximum = deltaRawDatasetMaximum;
 		Options.configuration.setProperty(TypeBEvaluationOptions.OPTIONS_TYPE_B_DELTA_RAW_SCALE_MAXIMUM, TypeBEvaluationOptions.deltaRawDatasetMaximum);
+	}
+
+	public static void setDensity(int density) {
+		TypeBEvaluationOptions.density = density;
+		Options.configuration.setProperty(TypeBEvaluationOptions.OPTIONS_TYPE_B_DENSITY, TypeBEvaluationOptions.density);
+	}
+
+	public static int getDensity() {
+		return density;
 	}
 }
