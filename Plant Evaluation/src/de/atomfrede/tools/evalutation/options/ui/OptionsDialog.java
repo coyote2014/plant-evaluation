@@ -54,7 +54,8 @@ public class OptionsDialog extends JDialog {
 	JButton okButton, cancelButton;
 
 	// General Options (=Copy Evaluator)
-	JCheckBox allSolenoidValvesCheckbox, solenoidValveOneCheckBox, solenoidValveTwoCheckBox, solenoidValveFourCheckBox, solenoidValveEightCheckBox, solenoidValveSixteenCheckBox;
+	JCheckBox allSolenoidValvesCheckbox, solenoidValveZeroCheckbox, solenoidValveOneCheckBox, solenoidValveTwoCheckBox, solenoidValveFourCheckBox, solenoidValveEightCheckBox,
+			solenoidValveSixteenCheckBox;
 
 	// CO2 Absolute only Evaluation
 	JCheckBox co2Absolute_isDeltaFiveMinutesAutoscaleCheckbox, co2Absolute_isCo2AbsoluteAutoscaleCheckbox;
@@ -335,6 +336,25 @@ public class OptionsDialog extends JDialog {
 		return allSolenoidValvesCheckbox;
 	}
 
+	private JCheckBox getSolenoidValveZeroCheckBox() {
+		if (solenoidValveZeroCheckbox == null) {
+			solenoidValveZeroCheckbox = new JCheckBox("0.0");
+
+			solenoidValveZeroCheckbox.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (solenoidValveZeroCheckbox.isSelected())
+						solenoidValvesOfInterest.add(Double.valueOf(0.0));
+					else
+						solenoidValvesOfInterest.remove(Double.valueOf(0.0));
+				}
+			});
+
+		}
+		return solenoidValveZeroCheckbox;
+	}
+
 	private JCheckBox getSolenoidValveOneCheckBox() {
 		if (solenoidValveOneCheckBox == null) {
 			solenoidValveOneCheckBox = new JCheckBox("1.0"); //$NON-NLS-1$
@@ -483,6 +503,7 @@ public class OptionsDialog extends JDialog {
 			builder.appendSeparator(Messages.getString("OptionsDialog.12")); //$NON-NLS-1$
 
 			builder.append(getAllSolenoidValveCheckBox(), 5);
+			builder.append(getSolenoidValveZeroCheckBox());
 			builder.append(getSolenoidValveOneCheckBox());
 			builder.append(getSolenoidValveTwoCheckBox());
 			builder.append(getSolenoidValveFourCheckBox());
@@ -601,12 +622,14 @@ public class OptionsDialog extends JDialog {
 
 	private void selectAllCheckBox() {
 		if (allSolenoidValvesCheckbox.isSelected()) {
+			getSolenoidValveZeroCheckBox().setEnabled(false);
 			getSolenoidValveOneCheckBox().setEnabled(false);
 			getSolenoidValveTwoCheckBox().setEnabled(false);
 			getSolenoidValveFourCheckBox().setEnabled(false);
 			getSolenoidValveEightCheckBox().setEnabled(false);
 			getSolenoidValveSixteenCheckBox().setEnabled(false);
 
+			getSolenoidValveZeroCheckBox().setSelected(true);
 			getSolenoidValveOneCheckBox().setSelected(true);
 			getSolenoidValveTwoCheckBox().setSelected(true);
 			getSolenoidValveFourCheckBox().setSelected(true);
@@ -617,6 +640,7 @@ public class OptionsDialog extends JDialog {
 			solenoidValvesOfInterest.addAll(allSolenoidValves);
 
 		} else {
+			getSolenoidValveZeroCheckBox().setEnabled(true);
 			getSolenoidValveOneCheckBox().setEnabled(true);
 			getSolenoidValveTwoCheckBox().setEnabled(true);
 			getSolenoidValveFourCheckBox().setEnabled(true);
@@ -639,6 +663,8 @@ public class OptionsDialog extends JDialog {
 		} else {
 			for (Double valve : solenoidValvesOfInterest) {
 				count++;
+				if (valve.doubleValue() == 0.0)
+					getSolenoidValveZeroCheckBox().setSelected(true);
 				if (valve.doubleValue() == 1.0)
 					getSolenoidValveOneCheckBox().setSelected(true);
 				if (valve.doubleValue() == 2.0)

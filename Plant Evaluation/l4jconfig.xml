@@ -1,8 +1,8 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>dist/Plant Evaluation-1.7.0-install.jar</jar>
-  <outfile>dist/Plant Evaluation-1.7.0-install.exe</outfile>
+  <jar>dist/Plant Evaluation-1.7.1-install.jar</jar>
+  <outfile>dist/Plant Evaluation-1.7.1-install.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir></chdir>

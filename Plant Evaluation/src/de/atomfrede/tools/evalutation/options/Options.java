@@ -54,12 +54,14 @@ public class Options {
 
 	static {
 		try {
+			solenoidValvesOfInterest.add(Double.valueOf(0.0));
 			solenoidValvesOfInterest.add(Double.valueOf(1.0));
 			solenoidValvesOfInterest.add(Double.valueOf(2.0));
 			solenoidValvesOfInterest.add(Double.valueOf(4.0));
 			solenoidValvesOfInterest.add(Double.valueOf(8.0));
 			solenoidValvesOfInterest.add(Double.valueOf(16.0));
 
+			allSolenoidValves.add(Double.valueOf(0.0));
 			allSolenoidValves.add(Double.valueOf(1.0));
 			allSolenoidValves.add(Double.valueOf(2.0));
 			allSolenoidValves.add(Double.valueOf(4.0));

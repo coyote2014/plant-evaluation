@@ -54,11 +54,20 @@ public class PickDatasetEvaluator extends SingleInputFileEvaluator {
 			writer.writeNext(allLines.get(0));
 
 			int i = 1;
-			while (i < allLines.size()) {
-				int index = getSwitchIndex(i, allLines);
-				writer.writeNext(allLines.get(index - 1));
-				i = index;
-				progressBar.setValue((int) ((i * 1.0 / allLines.size()) * 100.0));
+			// if the first (and only) switch index is equal to the lenght of the input file we just copy the file, otherwise we will get only one line
+			if (getSwitchIndex(i, allLines) == allLines.size()) {
+				// write the content write by line
+				for (int j = 1; j < allLines.size(); j++) {
+					writer.writeNext(allLines.get(j));
+					progressBar.setValue((int) ((j * 1.0 / allLines.size()) * 100.0));
+				}
+			} else {
+				while (i < allLines.size()) {
+					int index = getSwitchIndex(i, allLines);
+					writer.writeNext(allLines.get(index - 1));
+					i = index;
+					progressBar.setValue((int) ((i * 1.0 / allLines.size()) * 100.0));
+				}
 			}
 
 			progressBar.setValue(100);
